@@ -1,0 +1,78 @@
+/*
+ * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-License-Identifier: LicenseRef-LGE-Proprietary
+ */
+
+@import "../../core-tokens/css/color-primitive.css";
+
+/* ----------------------------------------
+Semantic Color Tokens
+------------------------------------------- */
+
+:root {
+    /* background */
+    --semantic-color-background-main: var(--primitive-color-mist-gray-95);
+    --semantic-color-background-sub: var(--primitive-color-white);
+    
+    /* surface */
+    --semantic-color-surface-default: var(--primitive-color-white);
+    --semantic-color-surface-default-hover: var(--primitive-color-blue-gray-95);
+    --semantic-color-surface-default-pressed: var(--primitive-color-blue-gray-90);
+    --semantic-color-surface-default-notification: var(--primitive-color-blue-green-40);
+    --semantic-color-surface-accent: var(--primitive-color-blue-green-40);
+    --semantic-color-surface-white: var(--primitive-color-white);
+    --semantic-color-surface-black: var(--primitive-color-blue-gray-10);
+    --semantic-color-surface-notification-card: var(--primitive-color-blue-gray-90);
+    --semantic-color-surface-button-primary: var(--primitive-color-blue-green-40);
+    --semantic-color-surface-button-primary-hover: var(--primitive-color-blue-green-30);
+    --semantic-color-surface-button-primary-pressed: var(--primitive-color-blue-green-20);
+    --semantic-color-surface-button-secondary: var(--primitive-color-blue-gray-90);
+    --semantic-color-surface-button-secondary-hover: var(--primitive-color-blue-gray-80);
+    --semantic-color-surface-button-secondary-pressed: var(--primitive-color-blue-gray-70);
+    --semantic-color-surface-button-tertiary: var(--primitive-color-white);
+    --semantic-color-button-tertiary-hover: var(--primitive-color-white);
+    --semantic-color-button-tertiary-pressed: var(--primitive-color-blue-gray-90);
+    --semantic-color-button-icon: var(--primitive-color-blue-gray-90);
+    --semantic-color-button-icon-pressed: var(--primitive-color-blue-gray-70);
+    --semantic-color-chip: var(--primitive-color-white);
+    --semantic-color-chip-selected: var(--primitive-color-navy-40);
+    --semantic-color-badge-light: var(--primitive-color-blue-gray-90);
+    --semantic-color-badge-dark: var(--primitive-color-blue-gray-10);
+    --semantic-color-selection-inactive: var(--primitive-color-mist-gray-70);
+    --semantic-color-selection-active: var(--primitive-color-blue-green-50);
+    --semantic-color-track: var(--primitive-color-blue-gray-80);
+    --semantic-color-indicator: var(--primitive-color-navy-40);
+    --semantic-color-handle: var(--primitive-color-blue-gray-80);
+    --semantic-color-toast: var(--primitive-color-blue-gray-10);
+    --semantic-color-textfield-disabled: var(--primitive-color-blue-gray-90);
+    --semantic-color-placeholder: var(--primitive-color-mist-gray-80);
+    
+    /* onBackground */
+    --semantic-color-on-background-default: var(--primitive-color-mist-gray-10);
+    
+    /* onSurface */
+    --semantic-color-on-surface-main: var(--primitive-color-mist-gray-10);
+    --semantic-color-on-surface-main-selected: var(--primitive-color-white);
+    --semantic-color-on-surface-sub: var(--primitive-color-mist-gray-50);
+    --semantic-color-on-surface-accent: var(--primitive-color-blue-green-50);
+    --semantic-color-on-surface-white: var(--primitive-color-white);
+    --semantic-color-on-surface-black: var(--primitive-color-mist-gray-10);
+    --semantic-color-on-surface-button: var(--primitive-color-mist-gray-30);
+    --semantic-color-on-surface-success: var(--primitive-color-green-55);
+    --semantic-color-on-surface-error: var(--primitive-color-active-red-60);
+
+    /* stroke */
+    --semantic-color-stroke-main: var(--primitive-color-blue-gray-80);
+    --semantic-color-stroke-main-focused: var(--primitive-color-navy-40);
+    --semantic-color-stroke-sub: var(--primitive-color-blue-gray-80);
+    --semantic-color-stroke-accent: var(--primitive-color-blue-green-50);
+    --semantic-color-stroke-success: var(--primitive-color-green-60);
+    --semantic-color-stroke-error: var(--primitive-color-active-red-60);
+    --semantic-color-stroke-selection-inactive: var(--primitive-color-mist-gray-70);
+    --semantic-color-stroke-selection-active: var(--primitive-color-navy-40);
+    --semantic-color-stroke-button: var(--primitive-color-blue-gray-80);
+    --semantic-color-stroke-tab: var(--primitive-color-mist-gray-10);
+
+    /* scrim */
+    --semantic-color-scrim-default: var(--primitive-color-white);
+}
