@@ -38,7 +38,7 @@
                     "sub-selected": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-50"},
                     "accent": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-55"},
                     "highlight-yellow": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/yellow-80"},
-                    "hightlight-green": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mint-green-50"},
+                    "highlight-green": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mint-green-50"},
                     "rec": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-55"},
                     "white": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                     "black": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
