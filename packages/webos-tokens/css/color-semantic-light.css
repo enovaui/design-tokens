@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: LicenseRef-LGE-Proprietary
  */
 
- @import "../../core-tokens/css/color-primitive.css";
+@import "../../core-tokens/css/color-primitive.css";
 
- /* ----------------------------------------
- Semantic Color Tokens
- ------------------------------------------- */
+/* ----------------------------------------
+Semantic Color Tokens
+------------------------------------------- */
  
- :root {
+:root {
 	/* background */
 	--semantic-color-background-full-default: var(--primitive-color-neutral-gray-95);
 	--semantic-color-background-overlay-default: var(--primitive-color-cool-gray-90);
@@ -100,4 +100,4 @@
  
 	/* scrim */
 	--semantic-color-scrim-default: var(--primitive-color-black);
- }
+}
