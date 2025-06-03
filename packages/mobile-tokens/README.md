@@ -2,22 +2,34 @@
 
 Design tokens for mobile platforms.
 
-## Introduction
+## Overview
 
-This package contains design tokens for mobile applications. These tokens are the design decisions that make up the LG Electronics Mobile design system, including colors, typography, spacing, and more.
+This package contains design tokens that define visual attributes for mobile applications. Design tokens help maintain consistency and enable theming across the ecosystem.
+
+### What are Semantic Tokens?
+
+Semantic tokens are design tokens that define the intended meaning or purpose of a design element, rather than its raw value. By abstracting the design intent, semantic tokens enable consistent styling across different components.
 
 ## Installation
+
+To install the package, use your preferred package manager:
 
 ```bash
 npm install @enovaui/mobile-tokens
 ```
 
-## Usage
+or
 
-The package provides tokens in multiple formats:
+```bash
+yarn add @enovaui/mobile-tokens
+```
 
-- `css/`: CSS variables and styles for mobile web applications
-- `json/`: JSON format tokens for integration with design tools
+### How to Use
+
+To incorporate these design tokens into your project, follow these simple steps:
+
+1. Import the desired token values from this repository.
+2. Apply the imported tokens to your components and styles.
 
 
 ## Copyright and License Information
