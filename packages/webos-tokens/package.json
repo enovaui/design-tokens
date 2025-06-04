@@ -8,5 +8,8 @@
     "design",
     "tokens",
     "webOS"
-  ]
+  ],
+  "dependencies": {
+    "@enovaui/core-tokens": "^0.5.0"
+  }
 }

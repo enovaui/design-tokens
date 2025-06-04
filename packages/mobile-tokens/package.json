@@ -8,5 +8,8 @@
     "design",
     "tokens",
     "mobile"
-  ]
+  ],
+  "dependencies": {
+    "@enovaui/core-tokens": "^0.5.0"
+  }
 }

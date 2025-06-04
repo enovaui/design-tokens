@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LicenseRef-LGE-Proprietary
  */
 
-@import "../../core-tokens/css/color-primitive.css";
+@import "~@enovaui/core-tokens/css/color-primitive.css";
 
 /* ----------------------------------------
 Semantic Color Tokens
