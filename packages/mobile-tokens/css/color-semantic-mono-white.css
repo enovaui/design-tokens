@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LicenseRef-LGE-Proprietary
  */
 
-@import "~@enovaui/core-tokens/css/color-primitive.css";
+@import "@enovaui/core-tokens/css/color-primitive.css";
 
 /* ----------------------------------------
 Semantic Color Tokens
@@ -12,10 +12,10 @@ Semantic Color Tokens
 :root {
 	/* background */
 	--semantic-color-background-default: var(--primitive-color-mist-gray-95);
-	
+
 	/* onBackground */
 	--semantic-color-on-background-default: var(--primitive-color-mist-gray-10);
-	
+
 	/* surface */
 	--semantic-color-surface-default: var(--primitive-color-white);
 	--semantic-color-surface-default-hover: var(--primitive-color-mist-gray-99);
@@ -52,7 +52,7 @@ Semantic Color Tokens
 	--semantic-color-surface-toast: var(--primitive-color-mist-gray-10);
 	--semantic-color-surface-white: var(--primitive-color-white);
 	--semantic-color-surface-black: var(--primitive-color-mist-gray-10);
-	
+
 	/* onSurface */
 	--semantic-color-on-surface-default-error: var(--primitive-color-active-red-50);
 	--semantic-color-on-surface-default-success: var(--primitive-color-green-55);
@@ -63,7 +63,7 @@ Semantic Color Tokens
 	--semantic-color-on-surface-button: var(--primitive-color-mist-gray-30);
 	--semantic-color-on-surface-white: var(--primitive-color-white);
 	--semantic-color-on-surface-black: var(--primitive-color-mist-gray-10);
-	
+
 	/* stroke */
 	--semantic-color-stroke-default-error: var(--primitive-color-active-red-60);
 	--semantic-color-stroke-default-success: var(--primitive-color-green-60);
