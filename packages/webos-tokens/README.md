@@ -1,13 +1,19 @@
 # @enovaui/webos-tokens
-A design tokens for webOS.
+
+Semantic design tokens for webOS applications in the LG UI Kit design system.
 
 ## Overview
 
-This package contains design tokens that define visual attributes for webOS applications. Design tokens help maintain consistency and enable theming across the ecosystem.
+This package contains semantic design tokens specifically crafted for webOS applications. These tokens map primitive values from `@enovaui/core-tokens` to meaningful, context-specific design properties.
 
 ### What are Semantic Tokens?
 
-Semantic tokens are design tokens that define the intended meaning or purpose of a design element, rather than its raw value. By abstracting the design intent, semantic tokens enable consistent styling across different components.
+Semantic tokens translate primitive values into purpose-driven design tokens. They provide:
+
+* **Meaningful Names**: Tokens are named by their purpose (e.g., `on-background-main`) rather than their value
+* **Context-Aware Values**: Values are appropriate for specific UI contexts in webOS
+* **Consistent Theming**: A standardized token structure for webOS theming
+* **Platform Optimization**: Values are optimized for webOS displays
 
 ## Installation
 
@@ -23,13 +29,10 @@ or
 yarn add @enovaui/webos-tokens
 ```
 
-### How to Use
+### Token Categories
 
-To incorporate these design tokens into your project, follow these simple steps:
-
-1. Import the desired token values from this repository.
-2. Apply the imported tokens to your components and styles.
-
+* `color-semantic`: Semantic color mappings
+* `radius-semantic`: Component-specific border radius values
 
 ## Copyright and License Information
 

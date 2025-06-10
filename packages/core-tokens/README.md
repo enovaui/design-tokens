@@ -1,12 +1,19 @@
 # @enovaui/core-tokens
 
+Core design tokens package for the LG UI Kit design system.
+
 ## Overview
 
-This package provides the foundational design tokens used across the `enovaui` ecosystem.
+This package provides the foundational, primitive design tokens used across the `enovaui` ecosystem. These tokens serve as the building blocks for all visual attributes in the LG UI Kit.
 
 ### What are Primitive Tokens?
 
-Primitive tokens are the raw values that defines visual attributes such as colors, typography, spacing, and more. They serve as the foundational building blocks of a design system and can be referenced by other tokens to ensure consistency and scalability.
+Primitive tokens represent the most basic visual values in our design system:
+
+* **Colors**: Base color palette
+* **Typography**: Font sizes, weights, and line heights
+* **Spacing**: Standard spacing and layout measurements
+* **Radius**: Border radius values for consistent component shapes
 
 ## Installation
 
@@ -22,13 +29,14 @@ or
 yarn add @enovaui/core-tokens
 ```
 
-### How to Use
+### Token Structure
 
-To incorporate these design tokens into your project, follow these simple steps:
+The tokens are organized in the following categories:
 
-1. Import the desired token values from this repository.
-2. Apply the imported tokens to your components and styles.
-
+* `color-primitive`: Base color values
+* `typography-primitive`: Typography-related values
+* `spacing-primitive`: Spacing and sizing values
+* `radius-primitive`: Border radius values
 
 ## Copyright and License Information
 

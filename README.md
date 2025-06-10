@@ -1,22 +1,54 @@
 # @enovaui/design-tokens
-A centralized repository of design tokens for LGE.
+
+A centralized repository of design tokens for LG Electronics' UI Kit.
 
 ## Overview
 
-This repository contains design tokens that define visual attributes for LGE applications. Design tokens help maintain consistency and enable theming across the ecosystem.
+This repository contains design tokens that define visual attributes for LG applications, specifically for the [**LG UI Kit design system**](https://www.figma.com/design/kyEcjPzoJPyP6CVcu0jQkH/-LGDS--LG-UI-Kit). Design tokens help maintain consistency and enable theming across the ecosystem.
 
 ### What are Design Tokens?
 
 Design tokens are essential building blocks that define the visual attributes of a project. They include colors, typography, spacing, and more. By using design tokens, you can ensure consistency and maintainability across your UI.
 
+### Token Hierarchy
+
+Our design tokens are organized in a three-level hierarchy:
+
+![Token Hierarchy](./assets/token-hierarchy.svg)
+
+1. **Component Tokens** (Top Layer)
+   - Purpose: Define component-specific design properties
+   - Example: `header-label-sub-color`
+   - Always reference semantic tokens, never primitive tokens directly
+   - Located in component-specific packages
+
+2. **Semantic Tokens** (Middle Layer)
+   - Purpose: Provide context-aware design values
+   - Example: `on-background-sub`
+   - Reference primitive tokens to maintain consistency
+   - Located in `webos-tokens` package
+
+3. **Primitive Tokens** (Bottom Layer)
+   - Purpose: Define raw design values
+   - Example: `neutral-gray-70` with value `#b3b3b3`
+   - Contain actual CSS values (hex colors, pixel values, etc.)
+   - Located in `core-tokens` package
+
+### Monorepo Structure
+
+This repository is structured as a monorepo, containing multiple packages:
+
+* **core-tokens**: Provides the foundational, primitive design tokens used across all Enovaui projects. These tokens define the raw values for colors, typography, spacing, and other visual attributes.
+* **webos-tokens**: Contains semantic design tokens specific to the webOS platform. These tokens map the primitive tokens to specific use cases within the platform's applications, ensuring a consistent look and feel.
+
 ### How to Use
 
-To incorporate these design tokens into your project, follow these simple steps:
+Documentation and developer samples are coming soon. In the meantime, you can:
 
-1. Import the desired token values from this repository.
-2. Apply the imported tokens to your components and styles.
-
-Feel free to explore the different token categories and values available in this repository. If you have any questions or suggestions, we encourage you to open an issue or submit a pull request.
+1. Browse through the token definitions in each package
+2. Explore the JSON and CSS implementations
+3. Check out our Figma design system for visual reference
+4. Use the tokens in your projects by importing them from the respective packages
 
 ## Copyright and License Information
 
