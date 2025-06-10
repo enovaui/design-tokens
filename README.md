@@ -14,7 +14,7 @@ Design tokens are essential building blocks that define the visual attributes of
 
 Our design tokens are organized in a three-level hierarchy:
 
-![Token Hierarchy](./assets/token-hierarchy.svg)
+![Token Hierarchy](https://github.com/user-attachments/assets/bdb0a867-b0fa-43a9-8102-fecb0b6093a3)
 
 1. **Component Tokens** (Top Layer)
    - Purpose: Define component-specific design properties
