@@ -1,14 +1,20 @@
-# Web Tokens
+# @enovaui/web-tokens
+[![npm (scoped)](https://img.shields.io/npm/v/%40enovaui%2Fweb-tokens)](https://www.npmjs.com/package/@enovaui/web-tokens) [![license](https://img.shields.io/github/license/enovaui/design-tokens)](http://www.apache.org/licenses/LICENSE-2.0)
 
-Design tokens for web platforms.
+Semantic design tokens for web applications in the LG UI Kit design system.
 
 ## Overview
 
-This package contains design tokens that define visual attributes for web applications. Design tokens help maintain consistency and enable theming across the ecosystem.
+This package contains semantic design tokens specifically crafted for web applications. These tokens map primitive values from `@enovaui/core-tokens` to meaningful, context-specific design properties.
 
 ### What are Semantic Tokens?
 
-Semantic tokens are design tokens that define the intended meaning or purpose of a design element, rather than its raw value. By abstracting the design intent, semantic tokens enable consistent styling across different components.
+Semantic tokens translate primitive values into purpose-driven design tokens. They provide:
+
+* **Meaningful Names**: Tokens are named by their purpose (e.g., `on-background-main`) rather than their value
+* **Context-Aware Values**: Values are appropriate for specific UI contexts in web applications
+* **Consistent Theming**: A standardized token structure for web theming
+* **Platform Optimization**: Values are optimized for web browsers and responsive layouts
 
 ## Installation
 
@@ -31,6 +37,13 @@ To incorporate these design tokens into your project, follow these simple steps:
 1. Import the desired token values from this repository.
 2. Apply the imported tokens to your components and styles.
 
+### Token Categories
+
+* `color-semantic-lg-brand`: Semantic color tokens optimized for LG brand identity, featuring warm grays and accent reds
+* `color-semantic-mobile`: Mobile-specific color tokens with cobalt blue as the primary accent color
+* `color-semantic-mono-black`: Dark theme color tokens with mist gray variations for a monochromatic look
+* `color-semantic-mono-white`: Light theme color tokens with a clean, minimalist white-based design
+* `color-semantic-web`: Web-specific color tokens using blue-gray and blue-green combinations for a modern web interface
 
 ## Copyright and License Information
 

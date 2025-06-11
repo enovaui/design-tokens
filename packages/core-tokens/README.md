@@ -1,4 +1,5 @@
 # @enovaui/core-tokens
+[![npm (scoped)](https://img.shields.io/npm/v/%40enovaui%2Fcore-tokens)](https://www.npmjs.com/package/@enovaui/core-tokens) [![license](https://img.shields.io/github/license/enovaui/design-tokens)](http://www.apache.org/licenses/LICENSE-2.0)
 
 Core design tokens package for the LG UI Kit design system.
 
@@ -33,10 +34,16 @@ yarn add @enovaui/core-tokens
 
 The tokens are organized in the following categories:
 
-* `color-primitive`: Base color values
-* `typography-primitive`: Typography-related values
-* `spacing-primitive`: Spacing and sizing values
-* `radius-primitive`: Border radius values
+* `color-primitive`: Base color values including:
+  - Gray scales (neutral, mist, cool, blue, warm)
+  - Brand colors (active red)
+  - Accent colors (orange, yellow, green, blue variants)
+  - Each color has a range from 5 to 99 for precise theming control
+* `typography-primitive`: Typography-related values including:
+  - Font sizes from 10px to 180px
+  - Font weights from thin (100) to black (900)
+* `spacing-primitive`: Spacing and sizing values from 2px to 156px for consistent layouts
+* `radius-primitive`: Border radius values from 0 to 999px for component shapes
 
 ## Copyright and License Information
 
