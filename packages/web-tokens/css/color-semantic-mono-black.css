@@ -18,14 +18,15 @@
 	--semantic-color-on-background-default: var(--primitive-color-mist-gray-99);
 
 	/* surface */
-	--semantic-color-surface-default: var(--primitive-color-mist-gray-30);
-	--semantic-color-surface-default-hover: var(--primitive-color-mist-gray-95);
-	--semantic-color-surface-default-pressed: var(--primitive-color-mist-gray-90);
 	--semantic-color-surface-default-handle: var(--primitive-color-mist-gray-60);
 	--semantic-color-surface-default-indicator: var(--primitive-color-mist-gray-90);
 	--semantic-color-surface-default-notification: var(--primitive-color-red-orange-60);
 	--semantic-color-surface-default-placeholder: var(--primitive-color-mist-gray-60);
 	--semantic-color-surface-default-track: var(--primitive-color-mist-gray-40);
+	--semantic-color-surface-main: var(--primitive-color-mist-gray-30);
+	--semantic-color-surface-main-hover: var(--primitive-color-mist-gray-95);
+	--semantic-color-surface-main-pressed: var(--primitive-color-mist-gray-90);
+	--semantic-color-surface-sub: var(--primitive-color-mist-gray-90);
 	--semantic-color-surface-accent: var(--primitive-color-mist-gray-50);
 	--semantic-color-surface-badge-dark: var(--primitive-color-mist-gray-60);
 	--semantic-color-surface-badge-light: var(--primitive-color-mist-gray-40);

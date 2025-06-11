@@ -22,14 +22,15 @@
                 }
             },
             "surface": {
-                "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
-                "default-hover": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-85"},
-                "default-pressed": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-75"},
                 "default-handle": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
                 "default-indicator": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/pink-40"},
                 "default-notification": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-50"},
                 "default-placeholder": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-60"},
                 "default-track": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-75"},
+                "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                "main-hover": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-85"},
+                "main-pressed": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-75"},
+                "sub": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-75"},
                 "accent": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-50"},
                 "badge-dark": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-10"},
                 "badge-light": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-75"},
