@@ -1,4 +1,5 @@
 # @enovaui/design-tokens
+[![npm (scoped)](https://img.shields.io/npm/v/%40enovaui%2Fcore-tokens)](https://www.npmjs.com/package/@enovaui/core-tokens) [![license](https://img.shields.io/github/license/enovaui/design-tokens)](http://www.apache.org/licenses/LICENSE-2.0)
 
 A centralized repository of design tokens for LG Electronics' UI Kit.
 
