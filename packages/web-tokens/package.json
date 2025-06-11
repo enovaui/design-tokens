@@ -1,13 +1,13 @@
 {
-  "name": "@enovaui/webos-tokens",
+  "name": "@enovaui/web-tokens",
   "version": "0.6.0",
-  "description": "Theme design tokens for webOS",
+  "description": "Theme design tokens for web",
   "main": "index.js",
   "license": "Apache-2.0",
   "keywords": [
     "design",
     "tokens",
-    "webOS"
+    "web"
   ],
   "dependencies": {
     "@enovaui/core-tokens": "^0.6.0"

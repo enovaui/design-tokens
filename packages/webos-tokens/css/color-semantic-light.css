@@ -1,0 +1,103 @@
+/*
+ * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-License-Identifier: LicenseRef-LGE-Proprietary
+ */
+
+@import "@enovaui/core-tokens/css/color-primitive.css";
+
+/* ----------------------------------------
+Semantic Color Tokens
+------------------------------------------- */
+
+:root {
+	/* background */
+	--semantic-color-background-full-default: var(--primitive-color-neutral-gray-95);
+	--semantic-color-background-overlay-default: var(--primitive-color-cool-gray-90);
+	--semantic-color-background-popup-default: var(--primitive-color-neutral-gray-90);
+
+	/* onBackground */
+	--semantic-color-on-background-default-error: var(--primitive-color-deep-orange-50);
+	--semantic-color-on-background-main: var(--primitive-color-neutral-gray-10);
+	--semantic-color-on-background-sub: var(--primitive-color-neutral-gray-35);
+	--semantic-color-on-background-accent: var(--primitive-color-active-red-55);
+	--semantic-color-on-background-highlight-green: var(--primitive-color-mint-green-50);
+	--semantic-color-on-background-highlight-yellow: var(--primitive-color-yellow-80);
+	--semantic-color-on-background-actionguide: var(--primitive-color-neutral-gray-50);
+	--semantic-color-on-background-heading: var(--primitive-color-neutral-gray-50);
+	--semantic-color-on-background-white: var(--primitive-color-white);
+	--semantic-color-on-background-black: var(--primitive-color-black);
+	--semantic-color-on-background-popup-main: var(--primitive-color-neutral-gray-10);
+	--semantic-color-on-background-popup-sub: var(--primitive-color-neutral-gray-35);
+
+	/* surface */
+	--semantic-color-surface-default: var(--primitive-color-cool-gray-55);
+	--semantic-color-surface-default-focused: var(--primitive-color-white);
+	--semantic-color-surface-default-selected: var(--primitive-color-cool-gray-40);
+	--semantic-color-surface-default-disabled-focused: var(--primitive-color-cool-gray-80);
+	--semantic-color-surface-default-group: var(--primitive-color-neutral-gray-50);
+	--semantic-color-surface-default-handle: var(--primitive-color-active-red-70);
+	--semantic-color-surface-default-indicator: var(--primitive-color-neutral-gray-10);
+	--semantic-color-surface-default-notification: var(--primitive-color-deep-orange-50);
+	--semantic-color-surface-default-placeholder: var(--primitive-color-cool-gray-15);
+	--semantic-color-surface-default-track: var(--primitive-color-cool-gray-55);
+	--semantic-color-surface-default-translucent: var(--primitive-color-neutral-gray-50);
+	--semantic-color-surface-sub-notification: var(--primitive-color-mint-green-40);
+	--semantic-color-surface-accent: var(--primitive-color-active-red-55);
+	--semantic-color-surface-context-group: var(--primitive-color-cool-gray-80);
+	--semantic-color-surface-input-field: var(--primitive-color-neutral-gray-80);
+	--semantic-color-surface-input-field-success: var(--primitive-color-neutral-gray-90);
+	--semantic-color-surface-scroll-handle: var(--primitive-color-cool-gray-60);
+	--semantic-color-surface-toggle: var(--primitive-color-neutral-gray-45);
+	--semantic-color-surface-toggle-active: var(--primitive-color-mint-green-50);
+	--semantic-color-surface-toggle-handle: var(--primitive-color-neutral-gray-70);
+	--semantic-color-surface-white: var(--primitive-color-white);
+	--semantic-color-surface-black: var(--primitive-color-black);
+	--semantic-color-surface-overlay-default: var(--primitive-color-cool-gray-90);
+	--semantic-color-surface-popup-default: var(--primitive-color-cool-gray-55);
+	--semantic-color-surface-popup-default-selected: var(--primitive-color-cool-gray-40);
+	--semantic-color-surface-popup-default-disabled-focused: var(--primitive-color-cool-gray-80);
+	--semantic-color-surface-popup-default-group: var(--primitive-color-neutral-gray-50);
+	--semantic-color-surface-popup-default-track: var(--primitive-color-cool-gray-50);
+	--semantic-color-surface-popup-input-field: var(--primitive-color-neutral-gray-80);
+	--semantic-color-surface-popup-input-field-success: var(--primitive-color-neutral-gray-90);
+	--semantic-color-surface-popup-scroll-handle: var(--primitive-color-cool-gray-60);
+	--semantic-color-surface-popup-toast: var(--primitive-color-neutral-gray-90);
+
+	/* onSurface */
+	--semantic-color-on-surface-default-rec: var(--primitive-color-active-red-55);
+	--semantic-color-on-surface-main: var(--primitive-color-white);
+	--semantic-color-on-surface-main-focused: var(--primitive-color-neutral-gray-10);
+	--semantic-color-on-surface-main-selected: var(--primitive-color-white);
+	--semantic-color-on-surface-sub: var(--primitive-color-neutral-gray-70);
+	--semantic-color-on-surface-sub-focused: var(--primitive-color-cool-gray-30);
+	--semantic-color-on-surface-sub-selected: var(--primitive-color-white);
+	--semantic-color-on-surface-accent: var(--primitive-color-active-red-55);
+	--semantic-color-on-surface-highlight-green: var(--primitive-color-mint-green-50);
+	--semantic-color-on-surface-highlight-yellow: var(--primitive-color-yellow-80);
+	--semantic-color-on-surface-input-field: var(--primitive-color-neutral-gray-10);
+	--semantic-color-on-surface-white: var(--primitive-color-white);
+	--semantic-color-on-surface-black: var(--primitive-color-black);
+	--semantic-color-on-surface-overlay-main: var(--primitive-color-neutral-gray-10);
+	--semantic-color-on-surface-overlay-sub: var(--primitive-color-neutral-gray-35);
+	--semantic-color-on-surface-popup-default: var(--primitive-color-neutral-gray-10);
+	--semantic-color-on-surface-popup-input-field: var(--primitive-color-neutral-gray-10);
+
+	/* stroke */
+	--semantic-color-stroke-main: var(--primitive-color-neutral-gray-50);
+	--semantic-color-stroke-main-focused: var(--primitive-color-white);
+	--semantic-color-stroke-main-selected: var(--primitive-color-cool-gray-40);
+	--semantic-color-stroke-main-disabled-focused: var(--primitive-color-cool-gray-80);
+	--semantic-color-stroke-sub: var(--primitive-color-neutral-gray-35);
+	--semantic-color-stroke-accent: var(--primitive-color-active-red-55);
+	--semantic-color-stroke-highlight: var(--primitive-color-neutral-gray-10);
+	--semantic-color-stroke-button-outline: var(--primitive-color-white);
+	--semantic-color-stroke-selection-inactive: var(--primitive-color-neutral-gray-10);
+	--semantic-color-stroke-selection-inactive-focused: var(--primitive-color-neutral-gray-10);
+	--semantic-color-stroke-white: var(--primitive-color-white);
+	--semantic-color-stroke-black: var(--primitive-color-black);
+	--semantic-color-stroke-overlay-default: var(--primitive-color-cool-gray-70);
+	--semantic-color-stroke-popup-selection-inactive: var(--primitive-color-neutral-gray-10);
+
+	/* scrim */
+	--semantic-color-scrim-default: var(--primitive-color-black);
+}

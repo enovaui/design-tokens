@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: LicenseRef-LGE-Proprietary
  */
 
-@import "../../core-tokens/css/radius-primitive.css";
+@import "@enovaui/core-tokens/css/radius-primitive.css";
 
 /* ----------------------------------------
 Semantic Radius Tokens

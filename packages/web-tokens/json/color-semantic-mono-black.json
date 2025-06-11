@@ -1,0 +1,75 @@
+{
+    "semantic": {
+        "color": {
+            "background": {
+                "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
+                "sub": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-30"}
+            },
+            "on": {
+                "background": {
+                    "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-99"}
+                },
+                "surface": {
+                    "default-error": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-60"},
+                    "default-success": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/green-70"},
+                    "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-99"},
+                    "main-selected": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-30"},
+                    "sub": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-60"},
+                    "accent": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-90"},
+                    "button": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                    "white": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                    "black": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-10"}
+                }
+            },
+            "surface": {
+                "default-handle": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-60"},
+                "default-indicator": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-90"},
+                "default-notification": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/red-orange-60"},
+                "default-placeholder": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-60"},
+                "default-track": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-40"},
+                "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-30"},
+                "main-hover": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-95"},
+                "main-pressed": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-90"},
+                "sub": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-90"},
+                "accent": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-50"},
+                "badge-dark": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-60"},
+                "badge-light": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-40"},
+                "button-primary": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-50"},
+                "button-primary-hover": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-90"},
+                "button-primary-pressed": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-30"},
+                "button-secondary": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-50"},
+                "button-secondary-hover": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-90"},
+                "button-secondary-pressed": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-30"},
+                "button-tertiary": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-50"},
+                "button-tertiary-hover": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-90"},
+                "button-tertiary-pressed": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-30"},
+                "button-icon": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-40"},
+                "button-icon-pressed": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-50"},
+                "chip": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-40"},
+                "chip-selected": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-90"},
+                "notification-card": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-40"},
+                "selection-active": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/green-60"},
+                "selection-inactive": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-50"},
+                "text-field-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-40"},
+                "toast": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-60"},
+                "white": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                "black": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-10"}
+            },
+            "stroke": {
+                "default-error": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-60"},
+                "default-success": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/green-70"},
+                "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-50"},
+                "main-focused": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                "sub": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-50"},
+                "accent": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                "button": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-95"},
+                "selection-active": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/green-60"},
+                "selection-inactive": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                "tab": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-99"}
+            },
+            "scrim": {
+                "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"}
+            }
+        }
+    }
+}
