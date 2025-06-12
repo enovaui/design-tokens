@@ -5,7 +5,7 @@ A centralized repository of design tokens for LG Electronics' UI Kit.
 
 ## Overview
 
-This repository contains design tokens that define visual attributes for LG applications, specifically for the [**LG UI Kit design system**](https://www.figma.com/design/kyEcjPzoJPyP6CVcu0jQkH/-LGDS--LG-UI-Kit). Design tokens help maintain consistency and enable theming across the ecosystem.
+This repository contains design tokens that define visual attributes for LG applications, specifically for the LG UI Kit design system. Design tokens help maintain consistency and enable theming across the ecosystem.
 
 ### What are Design Tokens?
 
