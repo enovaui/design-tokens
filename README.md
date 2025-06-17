@@ -27,7 +27,8 @@ Our design tokens are organized in a three-level hierarchy:
    - Purpose: Provide context-aware design values
    - Example: `on-background-sub`
    - Reference primitive tokens to maintain consistency
-   - Located in `webos-tokens` package
+   - Located in platform-specific packages (e.g., `webos-tokens`, `web-tokens`, `mobile-tokens`)
+   - Acts as a bridge between primitive and component tokens
 
 3. **Primitive Tokens** (Bottom Layer)
    - Purpose: Define raw design values
@@ -40,7 +41,9 @@ Our design tokens are organized in a three-level hierarchy:
 This repository is structured as a monorepo, containing multiple packages:
 
 * **core-tokens**: Provides the foundational, primitive design tokens used across all Enovaui projects. These tokens define the raw values for colors, typography, spacing, and other visual attributes.
-* **webos-tokens**: Contains semantic design tokens specific to the webOS platform. These tokens map the primitive tokens to specific use cases within the platform's applications, ensuring a consistent look and feel.
+* **webos-tokens**: Contains semantic design tokens specific to the webOS platform. These tokens map the primitive tokens to specific use cases within the platform's applications.
+* **web-tokens**: Contains semantic design tokens specific to web applications. These tokens provide consistent theming across web interfaces.
+* **mobile-tokens**: Contains semantic design tokens specific to mobile applications. These tokens are optimized for mobile displays.
 
 ### How to Use
 
@@ -48,8 +51,7 @@ Documentation and developer samples are coming soon. In the meantime, you can:
 
 1. Browse through the token definitions in each package
 2. Explore the JSON and CSS implementations
-3. Check out our Figma design system for visual reference
-4. Use the tokens in your projects by importing them from the respective packages
+3. Use the tokens in your projects by importing them from the respective packages
 
 ## Copyright and License Information
 
