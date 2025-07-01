@@ -1,6 +1,6 @@
 /*
  * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
- * SPDX-License-Identifier: LicenseRef-LGE-Proprietary
+ * SPDX-License-Identifier: Apache-2.0
  */
 
 import 'package:flutter/material.dart' show Color;
