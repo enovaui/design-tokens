@@ -347,8 +347,8 @@ class ColorPrimitive {
   /// active-red-50 - #ea1917
   late final Color activeRed50 = const Color.fromRGBO(234, 25, 23, 1.0);
 
-  /// active-red-55 - #f93430
-  late final Color activeRed55 = const Color.fromRGBO(249, 52, 48, 1.0);
+  /// active-red-55 - #fd312e
+  late final Color activeRed55 = const Color.fromRGBO(253, 49, 46, 1.0);
 
   /// active-red-60 - #ff5449
   late final Color activeRed60 = const Color.fromRGBO(255, 84, 73, 1.0);
@@ -1217,65 +1217,65 @@ class ColorPrimitive {
   /// purple-99 - #fefbff
   late final Color purple99 = const Color.fromRGBO(254, 251, 255, 1.0);
 
-  /// pink-5 - #20000c
-  late final Color pink5 = const Color.fromRGBO(32, 0, 12, 1.0);
+  /// heritage-red-5 - #20000c
+  late final Color heritageRed5 = const Color.fromRGBO(32, 0, 12, 1.0);
 
-  /// pink-10 - #400017
-  late final Color pink10 = const Color.fromRGBO(64, 0, 23, 1.0);
+  /// heritage-red-10 - #400017
+  late final Color heritageRed10 = const Color.fromRGBO(64, 0, 23, 1.0);
 
-  /// pink-15 - #530021
-  late final Color pink15 = const Color.fromRGBO(83, 0, 33, 1.0);
+  /// heritage-red-15 - #530021
+  late final Color heritageRed15 = const Color.fromRGBO(83, 0, 33, 1.0);
 
-  /// pink-20 - #66002a
-  late final Color pink20 = const Color.fromRGBO(102, 0, 42, 1.0);
+  /// heritage-red-20 - #66002a
+  late final Color heritageRed20 = const Color.fromRGBO(102, 0, 42, 1.0);
 
-  /// pink-25 - #780034
-  late final Color pink25 = const Color.fromRGBO(120, 0, 52, 1.0);
+  /// heritage-red-25 - #780034
+  late final Color heritageRed25 = const Color.fromRGBO(120, 0, 52, 1.0);
 
-  /// pink-30 - #8f003e
-  late final Color pink30 = const Color.fromRGBO(143, 0, 62, 1.0);
+  /// heritage-red-30 - #8f003e
+  late final Color heritageRed30 = const Color.fromRGBO(143, 0, 62, 1.0);
 
-  /// pink-35 - #a30244
-  late final Color pink35 = const Color.fromRGBO(163, 2, 68, 1.0);
+  /// heritage-red-35 - #a50034
+  late final Color heritageRed35 = const Color.fromRGBO(165, 0, 52, 1.0);
 
-  /// pink-40 - #c60449
-  late final Color pink40 = const Color.fromRGBO(198, 4, 73, 1.0);
+  /// heritage-red-40 - #c60449
+  late final Color heritageRed40 = const Color.fromRGBO(198, 4, 73, 1.0);
 
-  /// pink-45 - #d91757
-  late final Color pink45 = const Color.fromRGBO(217, 23, 87, 1.0);
+  /// heritage-red-45 - #d91757
+  late final Color heritageRed45 = const Color.fromRGBO(217, 23, 87, 1.0);
 
-  /// pink-50 - #db3265
-  late final Color pink50 = const Color.fromRGBO(219, 50, 101, 1.0);
+  /// heritage-red-50 - #db3265
+  late final Color heritageRed50 = const Color.fromRGBO(219, 50, 101, 1.0);
 
-  /// pink-55 - #ed3f76
-  late final Color pink55 = const Color.fromRGBO(237, 63, 118, 1.0);
+  /// heritage-red-55 - #ed3f76
+  late final Color heritageRed55 = const Color.fromRGBO(237, 63, 118, 1.0);
 
-  /// pink-60 - #fe4e87
-  late final Color pink60 = const Color.fromRGBO(254, 78, 135, 1.0);
+  /// heritage-red-60 - #fe4e87
+  late final Color heritageRed60 = const Color.fromRGBO(254, 78, 135, 1.0);
 
-  /// pink-65 - #ff6997
-  late final Color pink65 = const Color.fromRGBO(255, 105, 151, 1.0);
+  /// heritage-red-65 - #ff6997
+  late final Color heritageRed65 = const Color.fromRGBO(255, 105, 151, 1.0);
 
-  /// pink-70 - #ff84a6
-  late final Color pink70 = const Color.fromRGBO(255, 132, 166, 1.0);
+  /// heritage-red-70 - #ff84a6
+  late final Color heritageRed70 = const Color.fromRGBO(255, 132, 166, 1.0);
 
-  /// pink-75 - #ffa0b5
-  late final Color pink75 = const Color.fromRGBO(255, 160, 181, 1.0);
+  /// heritage-red-75 - #ffa0b5
+  late final Color heritageRed75 = const Color.fromRGBO(255, 160, 181, 1.0);
 
-  /// pink-80 - #ffb1c3
-  late final Color pink80 = const Color.fromRGBO(255, 177, 195, 1.0);
+  /// heritage-red-80 - #ffb1c3
+  late final Color heritageRed80 = const Color.fromRGBO(255, 177, 195, 1.0);
 
-  /// pink-85 - #ffc5d2
-  late final Color pink85 = const Color.fromRGBO(255, 197, 210, 1.0);
+  /// heritage-red-85 - #ffc5d2
+  late final Color heritageRed85 = const Color.fromRGBO(255, 197, 210, 1.0);
 
-  /// pink-90 - #ffd9e1
-  late final Color pink90 = const Color.fromRGBO(255, 217, 225, 1.0);
+  /// heritage-red-90 - #ffd9e1
+  late final Color heritageRed90 = const Color.fromRGBO(255, 217, 225, 1.0);
 
-  /// pink-95 - #ffecef
-  late final Color pink95 = const Color.fromRGBO(255, 236, 239, 1.0);
+  /// heritage-red-95 - #ffecef
+  late final Color heritageRed95 = const Color.fromRGBO(255, 236, 239, 1.0);
 
-  /// pink-99 - #fffbfe
-  late final Color pink99 = const Color.fromRGBO(255, 251, 254, 1.0);
+  /// heritage-red-99 - #fffbfe
+  late final Color heritageRed99 = const Color.fromRGBO(255, 251, 254, 1.0);
 
   /// red-brown-5 - #200001
   late final Color redBrown5 = const Color.fromRGBO(32, 0, 1, 1.0);

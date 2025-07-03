@@ -23,7 +23,7 @@ Semantic Color Tokens
 	--semantic-color-surface-default-pressed: var(--primitive-color-warm-gray-75);
 	--semantic-color-surface-default-selected: var(--primitive-color-warm-gray-75);
 	--semantic-color-surface-default-handle: var(--primitive-color-black);
-	--semantic-color-surface-default-indicator: var(--primitive-color-pink-40);
+	--semantic-color-surface-default-indicator: var(--primitive-color-heritage-red-40);
 	--semantic-color-surface-default-notification: var(--primitive-color-active-red-50);
 	--semantic-color-surface-default-placeholder: var(--primitive-color-warm-gray-60);
 	--semantic-color-surface-default-track: var(--primitive-color-warm-gray-75);

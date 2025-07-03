@@ -23,7 +23,7 @@
             },
             "surface": {
                 "default-handle": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
-                "default-indicator": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/pink-40"},
+                "default-indicator": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/heritage-red-40"},
                 "default-notification": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-50"},
                 "default-placeholder": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-60"},
                 "default-track": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-75"},

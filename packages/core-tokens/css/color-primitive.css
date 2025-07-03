@@ -142,7 +142,7 @@ Primitive Color Tokens
 	--primitive-color-active-red-40: #c00011;
 	--primitive-color-active-red-45: #d40b14;
 	--primitive-color-active-red-50: #ea1917;
-	--primitive-color-active-red-55: #f93430;
+	--primitive-color-active-red-55: #fd312e;
 	--primitive-color-active-red-60: #ff5449;
 	--primitive-color-active-red-65: #ff6b63;
 	--primitive-color-active-red-70: #ff897d;
@@ -475,28 +475,28 @@ Primitive Color Tokens
 	--primitive-color-purple-95: #feeafe;
 	--primitive-color-purple-99: #fefbff;
 
-	/* Pink
+	/* Heritage-red
 	--------------------------------------- */
-	--primitive-color-pink-5: #20000c;
-	--primitive-color-pink-10: #400017;
-	--primitive-color-pink-15: #530021;
-	--primitive-color-pink-20: #66002a;
-	--primitive-color-pink-25: #780034;
-	--primitive-color-pink-30: #8f003e;
-	--primitive-color-pink-35: #a30244;
-	--primitive-color-pink-40: #c60449;
-	--primitive-color-pink-45: #d91757;
-	--primitive-color-pink-50: #db3265;
-	--primitive-color-pink-55: #ed3f76;
-	--primitive-color-pink-60: #fe4e87;
-	--primitive-color-pink-65: #ff6997;
-	--primitive-color-pink-70: #ff84a6;
-	--primitive-color-pink-75: #ffa0b5;
-	--primitive-color-pink-80: #ffb1c3;
-	--primitive-color-pink-85: #ffc5d2;
-	--primitive-color-pink-90: #ffd9e1;
-	--primitive-color-pink-95: #ffecef;
-	--primitive-color-pink-99: #fffbfe;
+	--primitive-color-heritage-red-5: #20000c;
+	--primitive-color-heritage-red-10: #400017;
+	--primitive-color-heritage-red-15: #530021;
+	--primitive-color-heritage-red-20: #66002a;
+	--primitive-color-heritage-red-25: #780034;
+	--primitive-color-heritage-red-30: #8f003e;
+	--primitive-color-heritage-red-35: #a50034;
+	--primitive-color-heritage-red-40: #c60449;
+	--primitive-color-heritage-red-45: #d91757;
+	--primitive-color-heritage-red-50: #db3265;
+	--primitive-color-heritage-red-55: #ed3f76;
+	--primitive-color-heritage-red-60: #fe4e87;
+	--primitive-color-heritage-red-65: #ff6997;
+	--primitive-color-heritage-red-70: #ff84a6;
+	--primitive-color-heritage-red-75: #ffa0b5;
+	--primitive-color-heritage-red-80: #ffb1c3;
+	--primitive-color-heritage-red-85: #ffc5d2;
+	--primitive-color-heritage-red-90: #ffd9e1;
+	--primitive-color-heritage-red-95: #ffecef;
+	--primitive-color-heritage-red-99: #fffbfe;
 
 	/* Red Brown
 	--------------------------------------- */

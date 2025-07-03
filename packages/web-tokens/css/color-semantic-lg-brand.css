@@ -19,7 +19,7 @@ Semantic Color Tokens
 
 	/* surface */
 	--semantic-color-surface-default-handle: var(--primitive-color-black);
-	--semantic-color-surface-default-indicator: var(--primitive-color-pink-40);
+	--semantic-color-surface-default-indicator: var(--primitive-color-heritage-red-40);
 	--semantic-color-surface-default-notification: var(--primitive-color-active-red-50);
 	--semantic-color-surface-default-placeholder: var(--primitive-color-warm-gray-60);
 	--semantic-color-surface-default-track: var(--primitive-color-warm-gray-75);
