@@ -1,6 +1,6 @@
 {
   "name": "@enovaui/mobile-tokens",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Theme design tokens for mobile",
   "main": "index.js",
   "license": "Apache-2.0",
@@ -10,6 +10,6 @@
     "mobile"
   ],
   "dependencies": {
-    "@enovaui/core-tokens": "^0.6.0"
+    "@enovaui/core-tokens": "^0.7.0"
   }
 }

@@ -1,6 +1,6 @@
 name: design_tokens
 description: Package containing design token files
-version: 0.6.0
+version: 0.7.0
 
 environment:
   sdk: ">=3.0.5 <4.0.0"
