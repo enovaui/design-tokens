@@ -5,9 +5,11 @@
  * Reads Variables from Figma design files, compares with local tokens, and detects changes.
  */
 
+// Load environment variables from .env file
+require('dotenv').config();
+
 const fs = require('fs-extra');
 const path = require('path');
-const fetch = require('node-fetch');
 
 class FigmaAPIClient {
   constructor(accessToken, fileKey) {
@@ -20,6 +22,7 @@ class FigmaAPIClient {
    * Make a Figma API request
    */
   async makeRequest(endpoint) {
+    const { default: fetch } = await import('node-fetch');
     const url = `${this.baseUrl}${endpoint}`;
     
     try {

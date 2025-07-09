@@ -21,10 +21,13 @@
     "clean": "rm -rf packages/*/dist/*"
   },
   "devDependencies": {
-    "node-fetch": "^3.3.2",
-    "fs-extra": "^11.2.0"
+    "fs-extra": "^11.2.0",
+    "node-fetch": "^3.3.2"
   },
   "engines": {
     "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.1.0"
   }
 }

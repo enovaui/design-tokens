@@ -17,6 +17,7 @@ bundle.js
 
 # Testing
 .eslintcache
+.env
 
 # Temporary sync files
 figma-changes.json

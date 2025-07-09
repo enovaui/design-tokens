@@ -5,6 +5,8 @@
  * Transforms Figma Variables to platform-specific token formats.
  */
 
+console.log('🔧 Token transformer script started');
+
 const fs = require('fs-extra');
 const path = require('path');
 
@@ -74,7 +76,7 @@ class TokenTransformer {
   flattenTokens(tokens, prefix = '', result = {}) {
     Object.entries(tokens).forEach(([key, value]) => {
       const newKey = prefix ? `${prefix}-${key}` : key;
-      
+
       if (typeof value === 'object' && value !== null && !value.$ref) {
         this.flattenTokens(value, newKey, result);
       } else {
@@ -110,15 +112,15 @@ class TokenTransformer {
         // $ref format: "core-tokens/json/color-primitive.json#/primitive/color/black"
         const refPath = value.$ref;
         const [filePath, jsonPath] = refPath.split('#');
-        
+
         // Extract package and file name from file path
         const pathParts = filePath.split('/');
         const packageName = pathParts[0];
         const fileName = pathParts[2].replace('.json', '');
-        
+
         // Parse JSON path
         const pathSegments = jsonPath.split('/').filter(s => s);
-        
+
         // Find referenced value
         let referencedValue = allTokens[packageName]?.[fileName];
         for (const segment of pathSegments) {
@@ -128,10 +130,10 @@ class TokenTransformer {
             break;
           }
         }
-        
+
         return referencedValue || value.$ref; // Return original if resolution fails
       }
-      
+
       if (typeof value === 'object' && value !== null) {
         const result = {};
         Object.entries(value).forEach(([k, v]) => {
@@ -139,7 +141,7 @@ class TokenTransformer {
         });
         return result;
       }
-      
+
       return value;
     };
 
@@ -181,16 +183,55 @@ class TokenTransformer {
    */
   async generateCSSFile(tokens, outputPath) {
     let cssContent = `:root {\n`;
-    
+
     const flattened = this.flattenTokens(tokens);
     Object.entries(flattened).forEach(([key, value]) => {
       if (typeof value === 'string' || typeof value === 'number') {
         cssContent += `  --${key}: ${value};\n`;
       }
     });
-    
+
     cssContent += `}\n`;
-    
+
+    await fs.writeFile(outputPath, cssContent, 'utf8');
+  }
+
+  /**
+   * Update specific CSS variables in existing file
+   */
+  async updateCSSFile(tokens, outputPath) {
+    await fs.ensureDir(path.dirname(outputPath));
+
+    // Check if CSS file exists
+    if (!await fs.pathExists(outputPath)) {
+      // If file doesn't exist, create new one
+      await this.generateCSSFile(tokens, outputPath);
+      return;
+    }
+
+    // Read existing CSS content
+    let cssContent = await fs.readFile(outputPath, 'utf8');
+
+    // Flatten tokens to get CSS variables
+    const flattened = this.flattenTokens(tokens);
+
+    // Update each CSS variable
+    Object.entries(flattened).forEach(([key, value]) => {
+      if (typeof value === 'string' || typeof value === 'number') {
+        const cssVar = `--${key}`;
+        const regex = new RegExp(`(\\s*${cssVar.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')}\\s*:\\s*)[^;]+;`, 'g');
+
+        if (cssContent.match(regex)) {
+          // Update existing variable
+          cssContent = cssContent.replace(regex, `$1${value};`);
+          console.log(`   📝 Updated CSS variable: ${cssVar} = ${value}`);
+        } else {
+          console.log(`   ⚠️  CSS variable not found in file: ${cssVar}`);
+        }
+      }
+    });
+
+    // Write updated content back to file
     await fs.writeFile(outputPath, cssContent, 'utf8');
   }
 
@@ -201,23 +242,28 @@ class TokenTransformer {
     const updatedFiles = [];
 
     // Handle added tokens
-    for (const [path, tokens] of Object.entries(changes.added)) {
+    for (const [path, changeData] of Object.entries(changes.added)) {
       const filePath = this.resolveOutputPath(path, outputDir);
-      await this.updateTokenFile(filePath, tokens, 'add');
+      await this.updateTokenFile(filePath, changeData.after || changeData, 'add');
       updatedFiles.push(filePath);
     }
 
     // Handle modified tokens
-    for (const [path, tokens] of Object.entries(changes.modified)) {
+    for (const [path, changeData] of Object.entries(changes.modified)) {
       const filePath = this.resolveOutputPath(path, outputDir);
-      await this.updateTokenFile(filePath, tokens, 'modify');
+      await this.mergeTokenFile(filePath, changeData.after);
       updatedFiles.push(filePath);
+
+      // Also update CSS file (only changed values)
+      const cssPath = filePath.replace('/json/', '/css/').replace('.json', '.css');
+      await this.updateCSSFile(changeData.after, cssPath);
+      updatedFiles.push(cssPath);
     }
 
     // Handle removed tokens
-    for (const [path] of Object.entries(changes.removed)) {
+    for (const [path, changeData] of Object.entries(changes.removed)) {
       const filePath = this.resolveOutputPath(path, outputDir);
-      await this.updateTokenFile(filePath, null, 'remove');
+      await this.removeTokensFromFile(filePath, changeData.before);
       updatedFiles.push(filePath);
     }
 
@@ -234,14 +280,87 @@ class TokenTransformer {
   }
 
   /**
+   * Merge tokens into existing file (deep merge)
+   */
+  async mergeTokenFile(filePath, newTokens) {
+    await fs.ensureDir(path.dirname(filePath));
+
+    let existingTokens = {};
+    if (await fs.pathExists(filePath)) {
+      existingTokens = await fs.readJson(filePath);
+    }
+
+    // Deep merge the tokens
+    const mergedTokens = this.deepMerge(existingTokens, newTokens);
+
+    await fs.writeJson(filePath, mergedTokens, { spaces: 4 });
+  }
+
+  /**
+   * Deep merge two objects
+   */
+  deepMerge(target, source) {
+    const result = { ...target };
+
+    for (const key in source) {
+      if (source.hasOwnProperty(key)) {
+        if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+          result[key] = this.deepMerge(result[key] || {}, source[key]);
+        } else {
+          result[key] = source[key];
+        }
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Remove specific tokens from file
+   */
+  async removeTokensFromFile(filePath, tokensToRemove) {
+    if (await fs.pathExists(filePath)) {
+      const existingTokens = await fs.readJson(filePath);
+      const updatedTokens = this.removeTokensRecursive(existingTokens, tokensToRemove);
+      await fs.writeJson(filePath, updatedTokens, { spaces: 4 });
+    }
+  }
+
+  /**
+   * Recursively remove tokens
+   */
+  removeTokensRecursive(target, toRemove) {
+    const result = { ...target };
+
+    for (const key in toRemove) {
+      if (toRemove.hasOwnProperty(key)) {
+        if (toRemove[key] && typeof toRemove[key] === 'object' && !Array.isArray(toRemove[key])) {
+          if (result[key] && typeof result[key] === 'object') {
+            result[key] = this.removeTokensRecursive(result[key], toRemove[key]);
+            // Remove empty objects
+            if (Object.keys(result[key]).length === 0) {
+              delete result[key];
+            }
+          }
+        } else {
+          delete result[key];
+        }
+      }
+    }
+
+    return result;
+  }
+
+  /**
    * Update token file
    */
   async updateTokenFile(filePath, tokens, operation) {
     switch (operation) {
       case 'add':
+        await this.mergeTokenFile(filePath, tokens);
+        break;
       case 'modify':
-        await fs.ensureDir(path.dirname(filePath));
-        await fs.writeJson(filePath, tokens, { spaces: 4 });
+        await this.mergeTokenFile(filePath, tokens);
         break;
       case 'remove':
         if (await fs.pathExists(filePath)) {
@@ -319,60 +438,78 @@ function getDefaultMappingConfig() {
  */
 async function main() {
   try {
-    const configPath = path.join(__dirname, 'config', 'mapping.json');
+    console.log('🚀 Starting token transformer...');
+
+    const configPath = path.join(__dirname, '..', 'config', 'mapping.json');
+    console.log('📁 Config path:', configPath);
+
     const mappingConfig = await loadMappingConfig(configPath);
-    
+    console.log('⚙️  Mapping config loaded');
+
     const transformer = new TokenTransformer(mappingConfig);
-    
+
     // Read input file (generated by figma-sync.js)
     const changesPath = path.join(__dirname, '..', 'figma-changes.json');
-    
+    console.log('📄 Changes path:', changesPath);
+
     if (!await fs.pathExists(changesPath)) {
-      console.log('No changes file found. Please run figma-sync.js first.');
+      console.log('❌ No changes file found. Please run figma-sync.js first.');
       return;
     }
 
+    console.log('📖 Reading changes file...');
     const changesData = await fs.readJson(changesPath);
+    console.log('📊 Changes data loaded:', Object.keys(changesData));
     const { figmaTokens, changes } = changesData;
 
     console.log('🔄 Starting token transformation...');
+    console.log('📝 Changes found:', changes);
 
-    // Transform for each platform
-    const platforms = ['web', 'webos', 'mobile'];
-    const allUpdatedFiles = [];
+    // Apply changes to token files
+    if (changes && Object.keys(changes).length > 0) {
+      console.log('📝 Applying token changes...');
 
-    for (const platform of platforms) {
-      console.log(`📱 Transforming tokens for ${platform} platform...`);
-      
-      const transformedTokens = transformer.transformTokens(figmaTokens, platform);
       const outputDir = path.join(__dirname, '..');
-      
-      const updatedFiles = await transformer.generateOutputFiles(transformedTokens, outputDir);
-      allUpdatedFiles.push(...updatedFiles);
-      
-      console.log(`✅ ${platform} platform completed (${updatedFiles.length} files)`);
+      console.log('📁 Output directory:', outputDir);
+
+      const updatedFiles = await transformer.applyChanges(changes, outputDir);
+
+      console.log(`✅ Applied changes to ${updatedFiles.length} files:`);
+      updatedFiles.forEach(file => console.log(`   - ${path.relative(outputDir, file)}`));
+
+      // Save updated files list
+      const manifestPath = path.join(__dirname, '..', 'token-update-manifest.json');
+      await fs.writeJson(manifestPath, {
+        timestamp: new Date().toISOString(),
+        updatedFiles: updatedFiles.map(file => path.relative(outputDir, file)),
+        changesApplied: {
+          added: Object.keys(changes.added || {}).length,
+          modified: Object.keys(changes.modified || {}).length,
+          removed: Object.keys(changes.removed || {}).length
+        }
+      }, { spaces: 2 });
+
+      console.log('📋 Update manifest saved to token-update-manifest.json');
+    } else {
+      console.log('ℹ️  No changes detected in figma-changes.json');
     }
 
-    console.log('🎉 All platform token transformations completed!');
-    console.log(`Total ${allUpdatedFiles.length} files updated.`);
-
-    // Save updated files list
-    const manifestPath = path.join(__dirname, '..', 'token-update-manifest.json');
-    await fs.writeJson(manifestPath, {
-      timestamp: new Date().toISOString(),
-      updatedFiles: allUpdatedFiles,
-      platforms
-    }, { spaces: 2 });
+    console.log('🎉 Token transformation completed!');
 
   } catch (error) {
     console.error('❌ Token transformation failed:', error);
+    console.error('Stack trace:', error.stack);
     process.exit(1);
   }
 }
 
 // Call main function only when script is executed directly
 if (require.main === module) {
-  main();
+  console.log('🔧 Token transformer starting...');
+  main().catch(error => {
+    console.error('❌ Fatal error:', error);
+    process.exit(1);
+  });
 }
 
 module.exports = {

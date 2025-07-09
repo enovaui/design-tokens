@@ -13,7 +13,7 @@ on:
 jobs:
   sync-figma-tokens:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -47,7 +47,7 @@ jobs:
         run: |
           echo "🎨 Checking Figma Variables..."
           node scripts/figma-sync.js
-          
+
           # Check if there are changes
           if [ -f "figma-changes.json" ]; then
             CHANGES=$(node -e "
@@ -57,7 +57,7 @@ jobs:
             ")
             echo "Changes: $CHANGES"
             echo "has_changes=$CHANGES" >> $GITHUB_OUTPUT
-            
+
             if [ "$CHANGES" -gt "0" ] || [ "${{ inputs.force_sync }}" = "true" ]; then
               echo "proceed=true" >> $GITHUB_OUTPUT
             else
@@ -78,7 +78,7 @@ jobs:
         if: steps.figma-check.outputs.proceed == 'true'
         run: |
           echo "✅ Validating tokens..."
-          
+
           # Validate JSON file syntax
           find packages -name "*.json" -type f | while read file; do
             if ! node -e "JSON.parse(require('fs').readFileSync('$file', 'utf8'))"; then
@@ -86,32 +86,32 @@ jobs:
               exit 1
             fi
           done
-          
+
           # Validate CSS files (basic syntax check)
           find packages -name "*.css" -type f | while read file; do
             if ! grep -q ":root" "$file"; then
               echo "⚠️ CSS file missing :root selector: $file"
             fi
           done
-          
+
           echo "✅ All token files are valid."
 
       - name: Run Tests
         if: steps.figma-check.outputs.proceed == 'true'
         run: |
           echo "🧪 Running token tests..."
-          
+
           # Check token reference integrity
           node -e "
             const fs = require('fs');
             const path = require('path');
-            
+
             function checkReferences(dir) {
               const files = fs.readdirSync(dir, { withFileTypes: true });
-              
+
               for (const file of files) {
                 const fullPath = path.join(dir, file.name);
-                
+
                 if (file.isDirectory()) {
                   checkReferences(fullPath);
                 } else if (file.name.endsWith('.json')) {
@@ -126,7 +126,7 @@ jobs:
                 }
               }
             }
-            
+
             checkReferences('./packages');
           "
 
@@ -154,16 +154,21 @@ jobs:
             MESSAGE="No changed tokens found in Figma."
             STATUS_ICON="ℹ️"
           fi
-          
+
           echo "$STATUS: $MESSAGE"
-          
+
           # Microsoft Teams notification via Teams Workflows (optional)
           if [ -n "$TEAMS_WORKFLOW_WEBHOOK_URL" ]; then
             REPO_URL="https://github.com/${{ github.repository }}"
             RUN_URL="$REPO_URL/actions/runs/${{ github.run_id }}"
             COMMIT_URL="$REPO_URL/commit/${{ github.sha }}"
 
+            echo "📨 Attempting to send Teams notification..."
+
+            # Try to send notification, but don't fail if it doesn't work
             curl -X POST -H 'Content-Type: application/json' \
+              --connect-timeout 10 \
+              --max-time 30 \
               --data "{
                 \"status_icon\": \"$STATUS_ICON\",
                 \"status\": \"$STATUS\",
@@ -178,7 +183,10 @@ jobs:
                 \"event\": \"${{ github.event_name }}\",
                 \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
               }" \
-              "$TEAMS_WORKFLOW_WEBHOOK_URL"
+              "$TEAMS_WORKFLOW_WEBHOOK_URL" && echo "✅ Teams notification sent successfully!" || echo "⚠️ Teams notification failed, but continuing..."
+          else
+            echo "ℹ️ Teams webhook not configured, skipping notification"
+          fi
           fi
 
       - name: Cleanup
@@ -186,6 +194,6 @@ jobs:
         run: |
           # Clean up temporary files
           rm -f figma-changes.json token-update-manifest.json pr-result.json
-          
+
           # Return to main branch if a branch was created
           git checkout main 2>/dev/null || true
