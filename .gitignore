@@ -18,5 +18,10 @@ bundle.js
 # Testing
 .eslintcache
 
+# Temporary sync files
+figma-changes.json
+token-update-manifest.json
+pr-result.json
+
 # Mac
 .DS_Store
