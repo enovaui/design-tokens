@@ -3,20 +3,20 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
- @import "@enovaui/core-tokens/css/color-primitive.css";
+@import "@enovaui/core-tokens/css/color-primitive.css";
 
- /* ----------------------------------------
- Semantic Color Tokens
- ------------------------------------------- */
+/* ----------------------------------------
+Semantic Color Tokens
+------------------------------------------- */
 
 :root {
-    /* background */
-    --semantic-color-background-full-default: var(--primitive-color-black);
-    --semantic-color-background-overlay-default: var(--primitive-color-black);
-    --semantic-color-background-popup-default: var(--primitive-color-black);
+	/* background */
+	--semantic-color-background-full-default: var(--primitive-color-black);
+	--semantic-color-background-overlay-default: var(--primitive-color-black);
+	--semantic-color-background-popup-default: var(--primitive-color-black);
 
-    /* onBackground */
-    --semantic-color-on-background-default-error: var(--primitive-color-deep-orange-50);
+	/* onBackground */
+	--semantic-color-on-background-default-error: var(--primitive-color-deep-orange-50);
 	--semantic-color-on-background-main: var(--primitive-color-white);
 	--semantic-color-on-background-sub: var(--primitive-color-neutral-gray-70);
 	--semantic-color-on-background-accent: var(--primitive-color-active-red-55);
@@ -29,7 +29,7 @@
 	--semantic-color-on-background-popup-main: var(--primitive-color-white);
 	--semantic-color-on-background-popup-sub: var(--primitive-color-neutral-gray-70);
 
-    /* surface */
+	/* surface */
 	--semantic-color-surface-default: var(--primitive-color-cool-gray-30);
 	--semantic-color-surface-default-focused: var(--primitive-color-white);
 	--semantic-color-surface-default-selected: var(--primitive-color-cool-gray-10);
@@ -63,7 +63,7 @@
 	--semantic-color-surface-popup-scroll-handle: var(--primitive-color-netural-gray-50);
 	--semantic-color-surface-popup-toast: var(--primitive-color-black);
 
-    /* onSurface */
+	/* onSurface */
 	--semantic-color-on-surface-default-rec: var(--primitive-color-active-red-55);
 	--semantic-color-on-surface-main: var(--primitive-color-white);
 	--semantic-color-on-surface-main-focused: var(--primitive-color-neutral-gray-10);
@@ -82,7 +82,7 @@
 	--semantic-color-on-surface-popup-default: var(--primitive-color-white);
 	--semantic-color-on-surface-popup-input-field: var(--primitive-color-white);
 
-    /* stroke */
+	/* stroke */
 	--semantic-color-stroke-main: var(--primitive-color-neutral-gray-35);
 	--semantic-color-stroke-main-focused: var(--primitive-color-white);
 	--semantic-color-stroke-main-selected: var(--primitive-color-cool-gray-40);
@@ -98,6 +98,6 @@
 	--semantic-color-stroke-overlay-default: var(--primitive-color-neutral-gray-35);
 	--semantic-color-stroke-popup-selection-inactive: var(--primitive-color-white);
 
-    /* scrim */
+	/* scrim */
 	--semantic-color-scrim-default: var(--primitive-color-black);
 }
