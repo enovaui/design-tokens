@@ -2,6 +2,12 @@
 
 The following is a curated list of changes in the design tokens module, newest changes on the top.
 
+## [unreleased]
+
+#### Changed
+
+- Reorganized Dart files to match CSS/JSON structure
+
 ## [0.7.0] - 2025-07-04
 
 ### core-tokens
