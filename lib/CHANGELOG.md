@@ -10,6 +10,7 @@ The following is a curated list of changes in the flutter tokens module, newest 
 - `color_semantic_high_contrast` tokens
 
 ### Changed
+
 - `primitive_color_deep_orange_30` value to `#b43e1a`
 - `primitive_color_deep_orange_35` value to `#cd4b1e`
 - `primitive_color_deep_orange_40` value to `#ea561e`
