@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 /* color-primitive.css */
 
 /* ----------------------------------------
@@ -183,10 +183,10 @@ Primitive Color Tokens
 	--primitive-color-deep-orange-15: #4a2114;
 	--primitive-color-deep-orange-20: #662c1a;
 	--primitive-color-deep-orange-25: #80361f;
-	--primitive-color-deep-orange-30: #994227;
-	--primitive-color-deep-orange-35: #b24d2c;
-	--primitive-color-deep-orange-40: #cc5834;
-	--primitive-color-deep-orange-45: #e8623b;
+	--primitive-color-deep-orange-30: #b43e1a;
+	--primitive-color-deep-orange-35: #cd4b1e;
+	--primitive-color-deep-orange-40: #ea561e;
+	--primitive-color-deep-orange-45: #ff6224;
 	--primitive-color-deep-orange-50: #ff6e42;
 	--primitive-color-deep-orange-55: #ff7f54;
 	--primitive-color-deep-orange-60: #ff8b67;

@@ -2,6 +2,19 @@
 
 The following is a curated list of changes in the core tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Changed
+
+- `primitive-color-deep-orange-30` value to `#b43e1a`
+- `primitive-color-deep-orange-35` value to `#cd4b1e`
+- `primitive-color-deep-orange-40` value to `#ea561e`
+- `primitive-color-deep-orange-45` value to `#ff6224`
+
+### Added
+
+- `primitive-radius-54` value
+
 ## [0.7.0] - 2025-07-04
 
 ### Changed
