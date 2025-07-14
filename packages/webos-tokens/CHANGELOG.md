@@ -2,6 +2,12 @@
 
 The following is a curated list of changes in the webos tokens module, newest changes on the top.
 
+## [0.8.0] - 2025-07-14
+
+### Added
+
+- `color-semantic-high-contrast` tokens
+
 ## [0.7.0] - 2025-07-04
 
 - No significant changes

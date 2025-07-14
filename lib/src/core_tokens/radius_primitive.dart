@@ -26,6 +26,7 @@ class RadiusPrimitive {
   late final Radius radius40 = const Radius.circular(40);
   late final Radius radius44 = const Radius.circular(44);
   late final Radius radius48 = const Radius.circular(48);
+  late final Radius radius54 = const Radius.circular(54);
   late final Radius radius60 = const Radius.circular(60);
   late final Radius radius999 = const Radius.circular(999);
 }
