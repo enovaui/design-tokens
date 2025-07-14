@@ -2,6 +2,35 @@
 
 The following is a curated list of changes in the design tokens module, newest changes on the top.
 
+### [0.8.0] - 2025-07-14
+
+### core-tokens
+
+#### Changed
+
+- `primitive-color-deep-orange-30` value to `#b43e1a`
+- `primitive-color-deep-orange-35` value to `#cd4b1e`
+- `primitive-color-deep-orange-40` value to `#ea561e`
+- `primitive-color-deep-orange-45` value to `#ff6224`
+
+#### Added
+
+- `primitive-radius-54` value
+
+### mobile-tokens
+
+- No significant changes
+
+### web-tokens
+
+- No significant changes
+
+### webos-tokens
+
+#### Added
+
+- `color-semantic-high-contrast` tokens
+
 ## [0.7.0] - 2025-07-04
 
 ### core-tokens
@@ -47,7 +76,6 @@ The following is a curated list of changes in the design tokens module, newest c
 #### Added
 
 - `color-semantic-light` tokens
-
 
 ## [0.5.0] - 2025-05-30
 
