@@ -9,6 +9,6 @@ export 'src/core_tokens/spacing_primitive.dart';
 export 'src/core_tokens/typography_primitive.dart';
 export 'src/webos_tokens/color_semantic.dart';
 export 'src/webos_tokens/dark/color/color_semantic_dark.dart';
-export 'src/webos_tokens/light/color/color_semantic_light.dart';
 export 'src/webos_tokens/high_contrast/color/color_semantic_high_contrast.dart';
+export 'src/webos_tokens/light/color/color_semantic_light.dart';
 export 'src/webos_tokens/radius_semantic.dart';

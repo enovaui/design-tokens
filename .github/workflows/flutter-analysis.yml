@@ -1,0 +1,34 @@
+name: Flutter Analysis
+
+on:
+  pull_request:
+    branches: [ master, develop ]
+    paths:
+      - '**.dart'
+      - 'pubspec.yaml'
+      - '.github/workflows/flutter-analysis.yml'
+
+jobs:
+  analyze:
+    name: Run Flutter Analyze
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'  # This will use the latest stable version
+          cache: true
+
+      - name: Show Flutter version
+        run: flutter --version
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Analyze Dart files
+        run: flutter analyze lib/design_tokens.dart
+        # This will fail if there are any analysis issues
