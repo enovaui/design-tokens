@@ -20,7 +20,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.13.0'
+          flutter-version: '3.x.x'  # Matches any Flutter 3.x version
           channel: 'stable'
           cache: true
 
