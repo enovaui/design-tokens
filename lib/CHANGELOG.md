@@ -2,6 +2,16 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Changed
+
+Dark theme color tokens: Updated incorrect color mappings in dark semantic color tokens
+
+- onSurface.inputField: neutral-gray-10 → white
+- onSurface.subFocused: cool-gray-30 → neutral-gray-40
+- onSurface.subSelected: white → neutral-gray-50
+
 ## [0.8.0] - 2025-07-14
 
 ### Added
