@@ -2,6 +2,18 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
+## [0.8.1] - 2025-07-21
+
+### Changed
+
+- `semantic_color_on_surface_input_field` value to `white` in dark semantic color
+- `semantic_color_on_surface_sub_focused` value to `neutral-gray-40` in dark semantic color
+- `semantic_color_on_surface_sub_selected` value to `neutral-gray-50` in dark semantic color
+- `semantic_color_on_surface_overlay_main` value to `white` in dark semantic color
+- `semantic_color_on_surface_overlay_sub` value to `neutral-gray-70` in dark semantic color
+- `semantic_color_surface_overlay_default` value to `cool-gray-15` in dark semantic color
+- `semantic_color_surface_overlay_default` value to `cool-gray-90` in light semantic color
+
 ## [0.8.0] - 2025-07-14
 
 ### Added
