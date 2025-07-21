@@ -6,8 +6,6 @@ The following is a curated list of changes in the flutter tokens module, newest 
 
 ### Changed
 
-Dark theme color tokens: Updated incorrect color mappings in dark semantic color tokens
-
 - `semantic_color_on_surface_input_field` value to `white` in dark semantic color
 - `semantic_color_on_surface_sub_focused` value to `neutral-gray-40` in dark semantic color
 - `semantic_color_on_surface_sub_selected` value to `neutral-gray-50` in dark semantic color
