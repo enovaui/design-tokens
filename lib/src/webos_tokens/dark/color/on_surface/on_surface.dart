@@ -28,9 +28,9 @@ class OnSurface extends OnSurfaceBase {
   @override
   Color get sub => ColorPrimitive.instance.neutralGray70;
   @override
-  Color get subFocused => ColorPrimitive.instance.coolGray30;
+  Color get subFocused => ColorPrimitive.instance.neutralGray40;
   @override
-  Color get subSelected => ColorPrimitive.instance.white;
+  Color get subSelected => ColorPrimitive.instance.neutralGray50;
   @override
   Color get accent => ColorPrimitive.instance.activeRed55;
   @override
@@ -38,7 +38,7 @@ class OnSurface extends OnSurfaceBase {
   @override
   Color get highlightYellow => ColorPrimitive.instance.yellow80;
   @override
-  Color get inputField => ColorPrimitive.instance.neutralGray10;
+  Color get inputField => ColorPrimitive.instance.white;
   @override
   Color get white => ColorPrimitive.instance.white;
   @override

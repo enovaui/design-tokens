@@ -12,7 +12,7 @@ class Overlay extends OverlayBase {
   const Overlay();
 
   @override
-  Color get main => ColorPrimitive.instance.neutralGray10;
+  Color get main => ColorPrimitive.instance.white;
   @override
-  Color get sub => ColorPrimitive.instance.neutralGray35;
+  Color get sub => ColorPrimitive.instance.neutralGray70;
 }
