@@ -1,6 +1,6 @@
 {
   "name": "@enovaui/design-tokens",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Monorepo for Design Tokens for LGE",
   "private": true,
   "repository": {
