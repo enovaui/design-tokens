@@ -452,17 +452,17 @@ class ColorPrimitive {
   /// deep-orange-25 - #80361f
   late final Color deepOrange25 = const Color.fromRGBO(128, 54, 31, 1.0);
 
-  /// deep-orange-30 - #994227
-  late final Color deepOrange30 = const Color.fromRGBO(153, 66, 39, 1.0);
+  /// deep-orange-30 - #b43e1a
+  late final Color deepOrange30 = const Color.fromRGBO(180, 62, 26, 1.0);
 
-  /// deep-orange-35 - #b24d2c
-  late final Color deepOrange35 = const Color.fromRGBO(178, 77, 44, 1.0);
+  /// deep-orange-35 - #cd4b1e
+  late final Color deepOrange35 = const Color.fromRGBO(205, 75, 30, 1.0);
 
-  /// deep-orange-40 - #cc5834
-  late final Color deepOrange40 = const Color.fromRGBO(204, 88, 52, 1.0);
+  /// deep-orange-40 - #ea561e
+  late final Color deepOrange40 = const Color.fromRGBO(234, 86, 30, 1.0);
 
-  /// deep-orange-45 - #e8623b
-  late final Color deepOrange45 = const Color.fromRGBO(232, 98, 59, 1.0);
+  /// deep-orange-45 - #ff6224
+  late final Color deepOrange45 = const Color.fromRGBO(255, 98, 36, 1.0);
 
   /// deep-orange-50 - #ff6e42
   late final Color deepOrange50 = const Color.fromRGBO(255, 110, 66, 1.0);

@@ -6,11 +6,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core_tokens/color_primitive.dart';
-import '../../../../base/color/surface/overlay/overlay_base.dart';
+import '../../../../base/color/background/full/full_base.dart';
 
-class Overlay extends OverlayBase {
-  const Overlay();
+class Full extends FullBase {
+  const Full();
 
   @override
-  Color get defaultColor => ColorPrimitive.instance.coolGray15;
+  Color get defaultColor => ColorPrimitive.instance.black;
 }

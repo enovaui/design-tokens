@@ -6,10 +6,10 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core_tokens/color_primitive.dart';
-import '../../../../base/color/on_surface/overlay/overlay_base.dart';
+import '../../../../base/color/on_background/popup/popup_base.dart';
 
-class Overlay extends OverlayBase {
-  const Overlay();
+class Popup extends PopupBase {
+  const Popup();
 
   @override
   Color get main => ColorPrimitive.instance.white;
