@@ -165,7 +165,7 @@ class TokenTransformer {
 				const jsonDir = path.join(packageDir, 'json');
 				await fs.ensureDir(jsonDir);
 				const jsonPath = path.join(jsonDir, `${fileName}.json`);
-				await fs.writeJson(jsonPath, tokens, { spaces: 4 });
+				await this.saveTokensToFile(jsonPath, tokens);
 				outputs.push(jsonPath);
 
 				// Generate CSS file
@@ -358,7 +358,7 @@ class TokenTransformer {
 		}
 
 		// Write updated file
-		await fs.writeJson(filePath, existingTokens, { spaces: 4 });
+		await this.saveTokensToFile(filePath, existingTokens);
 	}
 
 	/**
@@ -471,7 +471,7 @@ ${titleCase} Tokens
 		// Sort tokens if they are spacing or radius tokens
 		const sortedTokens = this.sortTokens(mergedTokens);
 
-		await fs.writeJson(filePath, sortedTokens, { spaces: 4 });
+		await this.saveTokensToFile(filePath, sortedTokens);
 	}
 
 	/**
@@ -692,7 +692,7 @@ ${titleCase} Tokens
 				}
 
 				if (hasChanges) {
-					await fs.writeJson(filePath, tokens, { spaces: 4 });
+					await this.saveTokensToFile(filePath, tokens);
 					updatedFiles.push(filePath);
 
 					// Update corresponding CSS file
@@ -706,7 +706,41 @@ ${titleCase} Tokens
 		return updatedFiles;
 	}
 
-	// ...existing code...
+	/**
+     * Write JSON with compact $ref objects and 4-space indentation (for color-semantic tokens)
+     */
+    async writeColorSemanticJSON(filePath, data) {
+        function replacer(key, value) {
+            if (
+                value &&
+                typeof value === 'object' &&
+                !Array.isArray(value) &&
+                Object.keys(value).length === 1 &&
+                value.$ref
+            ) {
+                value.__compact = true;
+                return value;
+            }
+            return value;
+        }
+        let json = JSON.stringify(data, replacer, 4);
+        json = json.replace(/\n(\s+){\n(\s+)("\$ref": [^\n]+)\n\1}/g, (match, indent, innerIndent, refLine) => {
+            return `\n${indent}{ ${refLine.trim()} }`;
+        });
+        json = json.replace(/,?\s*"__compact": true/g, '');
+        await fs.writeFile(filePath, json + '\n');
+    }
+
+	/**
+     * Save tokens to JSON file, using compact $ref style for color-semantic files
+     */
+    async saveTokensToFile(filePath, data) {
+        if (filePath.includes('color-semantic')) {
+            await this.writeColorSemanticJSON(filePath, data);
+        } else {
+            await fs.writeJson(filePath, data, { spaces: 4 });
+        }
+    }
 }
 
 /**

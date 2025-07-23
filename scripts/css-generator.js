@@ -86,44 +86,51 @@ class CSSGenerator {
      * Generate CSS content from JSON tokens with proper formatting
      */
     async generateCSSFromJSON(jsonPath, cssPath, options = {}) {
+        const fs = require('fs-extra');
+        const path = require('path');
         if (!await fs.pathExists(jsonPath)) {
             console.log(`❌ JSON file not found: ${jsonPath}`);
             return false;
         }
-
         console.log(`📖 Reading JSON file: ${path.basename(jsonPath)}`);
         let jsonTokens = await fs.readJson(jsonPath);
-
-        // Sort tokens if needed
-        if (options.sort !== false) {
-            jsonTokens = this.sortTokens(jsonTokens);
-        }
-
         // Determine token type from filename
         const fileName = path.basename(jsonPath, '.json');
-        const tokenType = fileName.replace('-primitive', '');
-
-        // Generate CSS content based on token type
+        const tokenType = fileName.replace('-primitive', '').replace('-semantic', '');
+        // Generate CSS content based on token type and structure
         let cssContent = '';
-
-        if (tokenType === 'color') {
-            cssContent = await this.generateColorCSS(jsonTokens, options);
-        } else if (tokenType === 'typography') {
-            cssContent = await this.generateTypographyCSS(jsonTokens, options);
+        // Check if this is a semantic token file
+        if (jsonTokens.semantic) {
+            if (fileName.includes('color-semantic')) {
+                cssContent = await this.generateSemanticColorCSS(jsonTokens, options);
+            } else {
+                cssContent = await this.generateSemanticGenericCSS(jsonTokens, tokenType, options);
+            }
         } else {
-            cssContent = await this.generateGenericCSS(jsonTokens, tokenType, options);
+            if (options.sort !== false) {
+                jsonTokens = this.sortTokens(jsonTokens);
+            }
+            if (tokenType === 'color') {
+                cssContent = await this.generateColorCSS(jsonTokens, options);
+            } else if (tokenType === 'typography') {
+                cssContent = await this.generateTypographyCSS(jsonTokens, options);
+            } else {
+                cssContent = await this.generateGenericCSS(jsonTokens, tokenType, options);
+            }
         }
-
         // Write CSS file
         await fs.writeFile(cssPath, cssContent);
         console.log(`✅ Generated CSS file: ${path.basename(cssPath)}`);
-
-        // Also update JSON file with sorted tokens
-        if (options.sort !== false) {
+        // Also update JSON file with sorted tokens if primitive
+        if (!jsonTokens.semantic && options.sort !== false) {
             await fs.writeJson(jsonPath, jsonTokens, { spaces: 4 });
             console.log(`📝 Sorted JSON file: ${path.basename(jsonPath)}`);
         }
-
+        // For color-semantic files, use compact writer
+        if (jsonTokens.semantic && fileName.includes('color-semantic')) {
+            await this.writeColorSemanticJSON(jsonPath, jsonTokens);
+            console.log(`📝 Rewritten (compact) JSON file: ${path.basename(jsonPath)}`);
+        }
         return true;
     }
 
@@ -501,6 +508,312 @@ Primitive ${tokenType.charAt(0).toUpperCase() + tokenType.slice(1)} Tokens
         }
 
         console.log('✅ All token files sorted successfully');
+    }
+
+    /**
+     * Resolve $ref references to actual values
+     */
+    async resolveReference(ref, allTokens) {
+        try {
+            // Parse the reference: "core-tokens/json/color-primitive.json#/primitive/color/white"
+            const [filePart, pathPart] = ref.split('#');
+
+            if (!filePart || !pathPart) {
+                return null;
+            }
+
+            // Extract package and file from the file part
+            const pathSegments = filePart.split('/');
+            if (pathSegments.length < 3) {
+                return null;
+            }
+
+            const packageName = pathSegments[0];
+            const fileName = pathSegments[2].replace('.json', '');
+
+            // Get the package data
+            const packageData = allTokens[packageName];
+            if (!packageData || !packageData[fileName]) {
+                return null;
+            }
+
+            // Navigate through the path: "/primitive/color/white" -> ["primitive", "color", "white"]
+            const pathKeys = pathPart.substring(1).split('/'); // Remove leading '/'
+
+            let current = packageData[fileName];
+            for (const key of pathKeys) {
+                if (current && typeof current === 'object' && current.hasOwnProperty(key)) {
+                    current = current[key];
+                } else {
+                    return null;
+                }
+            }
+
+            // If we found a direct value, return it
+            if (typeof current === 'string') {
+                return current;
+            }
+
+            // If we found another $ref, resolve it recursively (but prevent infinite loops)
+            if (typeof current === 'object' && current.$ref) {
+                return await this.resolveReference(current.$ref, allTokens);
+            }
+
+            return null;
+        } catch (error) {
+            console.warn(`Failed to resolve reference: ${ref}`, error);
+            return null;
+        }
+    }
+
+    /**
+     * Load all token files for reference resolution
+     */
+    async loadAllTokens() {
+        const allTokens = {};
+        const packageDirs = ['core-tokens', 'web-tokens', 'mobile-tokens', 'webos-tokens'];
+
+        for (const packageName of packageDirs) {
+            const packageDir = path.join(this.packagesDir, packageName, 'json');
+
+            if (!await fs.pathExists(packageDir)) {
+                continue;
+            }
+
+            allTokens[packageName] = {};
+            const jsonFiles = await fs.readdir(packageDir);
+
+            for (const fileName of jsonFiles) {
+                if (!fileName.endsWith('.json')) {
+                    continue;
+                }
+
+                const filePath = path.join(packageDir, fileName);
+                const fileNameWithoutExt = fileName.replace('.json', '');
+
+                try {
+                    allTokens[packageName][fileNameWithoutExt] = await fs.readJson(filePath);
+                } catch (error) {
+                    console.warn(`Failed to load ${filePath}:`, error);
+                }
+            }
+        }
+
+        return allTokens;
+    }
+
+    /**
+     * Resolve all $ref references in a token object
+     */
+    async resolveAllReferences(tokens, allTokens) {
+        const resolveValue = async (value) => {
+            if (typeof value === 'object' && value !== null) {
+                if (value.$ref) {
+                    const resolved = await this.resolveReference(value.$ref, allTokens);
+                    return resolved !== null ? resolved : value.$ref;
+                } else {
+                    const result = {};
+                    for (const [k, v] of Object.entries(value)) {
+                        result[k] = await resolveValue(v);
+                    }
+                    return result;
+                }
+            }
+            return value;
+        };
+
+        return await resolveValue(tokens);
+    }
+
+    /**
+     * Generate semantic color CSS (preserve primitive references)
+     */
+    async generateSemanticColorCSS(jsonTokens, options = {}) {
+        // Load all tokens for reference resolution
+        const allTokens = await this.loadAllTokens();
+        // We'll need the original (unresolved) semantic tokens for $ref detection
+        const semanticTokensRaw = jsonTokens.semantic?.color || {};
+
+        // Helper to extract primitive variable name from $ref
+        function getPrimitiveVarFromRef(ref) {
+            // Example ref: core-tokens/json/color-primitive.json#/primitive/color/mist-gray-95
+            const match = ref.match(/color-primitive\.json#\/primitive\/color\/([\w-]+)/);
+            if (match) {
+                return `var(--primitive-color-${match[1]})`;
+            }
+            return null;
+        }
+
+        // Flatten semantic tokens and generate CSS variables, preserving $ref as var() when possible
+        const flattenTokens = (objRaw, objResolved, prefix = 'semantic-color') => {
+            const flattened = [];
+            const flatten = (currentRaw, currentResolved, currentPrefix) => {
+                for (const key of Object.keys(currentResolved)) {
+                    const valueResolved = currentResolved[key];
+                    const valueRaw = currentRaw ? currentRaw[key] : undefined;
+                    const newPrefix = `${currentPrefix}-${key}`;
+                    if (
+                        typeof valueResolved === 'string' ||
+                        (typeof valueResolved === 'object' && valueResolved !== null && valueResolved.value)
+                    ) {
+                        // If original was a $ref, output var(--primitive-color-xxx)
+                        let cssValue;
+                        if (valueRaw && valueRaw.$ref) {
+                            const varRef = getPrimitiveVarFromRef(valueRaw.$ref);
+                            cssValue = varRef || valueResolved;
+                        } else {
+                            cssValue = valueResolved;
+                        }
+                        flattened.push([newPrefix, cssValue]);
+                    } else if (typeof valueResolved === 'object' && valueResolved !== null) {
+                        flatten(valueRaw, valueResolved, newPrefix);
+                    }
+                }
+            };
+            flatten(objRaw, objResolved, prefix);
+            return flattened;
+        };
+
+        // Resolve all $ref references (for fallback/other cases)
+        const resolvedTokens = await this.resolveAllReferences(jsonTokens, allTokens);
+        const semanticTokensResolved = resolvedTokens.semantic?.color || {};
+        const flatTokens = flattenTokens(semanticTokensRaw, semanticTokensResolved);
+
+        // Generate CSS header
+        let cssContent = `/*\n * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.\n * SPDX-License-Identifier: Apache-2.0\n */\n\n@import \"@enovaui/core-tokens/css/color-primitive.css\";\n\n/* ----------------------------------------\nSemantic Color Tokens\n------------------------------------------- */\n\n:root {\n`;
+
+        // Group tokens by category for better organization
+        const categories = {
+            background: [],
+            'on-background': [],
+            surface: [],
+            'on-surface': [],
+            stroke: [],
+            scrim: [],
+            other: []
+        };
+        for (const [varName, value] of flatTokens) {
+            let category = 'other';
+            if (varName.includes('-background-')) {
+                category = varName.includes('-on-background-') ? 'on-background' : 'background';
+            } else if (varName.includes('-surface-')) {
+                category = varName.includes('-on-surface-') ? 'on-surface' : 'surface';
+            } else if (varName.includes('-stroke-')) {
+                category = 'stroke';
+            } else if (varName.includes('-scrim-')) {
+                category = 'scrim';
+            }
+            categories[category].push([varName, value]);
+        }
+        for (const [categoryName, tokens] of Object.entries(categories)) {
+            if (tokens.length === 0) continue;
+            const categoryComment = categoryName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+            cssContent += `\n\t/* ${categoryComment} */\n`;
+            for (const [varName, value] of tokens) {
+                cssContent += `\t--${varName}: ${value};\n`;
+            }
+        }
+        cssContent += '}\n';
+        return cssContent;
+    }
+
+    /**
+     * Generate semantic CSS for non-color tokens (radius, spacing, etc.)
+     */
+    async generateSemanticGenericCSS(jsonTokens, tokenType, options = {}) {
+        // Load all tokens for reference resolution
+        const allTokens = await this.loadAllTokens();
+
+        // Resolve all $ref references
+        const resolvedTokens = await this.resolveAllReferences(jsonTokens, allTokens);
+
+        const semanticTokens = resolvedTokens.semantic || {};
+
+        // Generate CSS header
+        const headerType = tokenType.charAt(0).toUpperCase() + tokenType.slice(1);
+        let cssContent = `/*
+ * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@import "@enovaui/core-tokens/css/${tokenType}-primitive.css";
+
+/* ----------------------------------------
+Semantic ${headerType} Tokens
+------------------------------------------- */
+
+:root {
+`;
+
+        // Flatten semantic tokens and generate CSS variables
+        const flattenTokens = (obj, prefix = `semantic-${tokenType}`) => {
+            const flattened = [];
+
+            const flatten = (current, currentPrefix) => {
+                for (const [key, value] of Object.entries(current)) {
+                    const newPrefix = `${currentPrefix}-${key}`;
+
+                    if (typeof value === 'string' || typeof value === 'number') {
+                        // Direct value - convert to CSS variable reference if it looks like a primitive reference
+                        let cssValue = value;
+                        if (String(value).includes(`primitive-${tokenType}`)) {
+                            // Already a CSS variable
+                            cssValue = `var(--${value})`;
+                        } else {
+                            // Convert primitive reference to CSS variable
+                            cssValue = `var(--primitive-${tokenType}-${value})`;
+                        }
+                        flattened.push([newPrefix, cssValue]);
+                    } else if (typeof value === 'object' && value !== null) {
+                        flatten(value, newPrefix);
+                    }
+                }
+            };
+
+            flatten(obj, prefix);
+            return flattened;
+        };
+
+        const flatTokens = flattenTokens(semanticTokens);
+
+        // Output CSS variables
+        for (const [varName, value] of flatTokens) {
+            cssContent += `\t--${varName}: ${value};\n`;
+        }
+
+        cssContent += '}\n';
+        return cssContent;
+    }
+
+    /**
+     * Write JSON with compact $ref objects and correct indentation for color-semantic tokens
+     * (e.g. {"default": {"$ref": ...}} should be on one line, with 4-space indentation everywhere)
+     */
+    async writeColorSemanticJSON(filePath, data) {
+        // Custom replacer to keep $ref objects compact
+        function replacer(key, value) {
+            if (
+                value &&
+                typeof value === 'object' &&
+                !Array.isArray(value) &&
+                Object.keys(value).length === 1 &&
+                value.$ref
+            ) {
+                // Mark for compaction
+                value.__compact = true;
+                return value;
+            }
+            return value;
+        }
+        // Stringify with 4 spaces
+        let json = JSON.stringify(data, replacer, 4);
+        // Post-process: compact $ref objects to one line, preserving 4-space indentation
+        json = json.replace(/\n(\s+){\n(\s+)("\$ref": [^\n]+)\n\1}/g, (match, indent, innerIndent, refLine) => {
+            return `\n${indent}{ ${refLine.trim()} }`;
+        });
+        // Remove __compact marker if present
+        json = json.replace(/,?\s*"__compact": true/g, '');
+        await require('fs-extra').writeFile(filePath, json + '\n');
     }
 }
 
