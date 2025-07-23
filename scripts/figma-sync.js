@@ -11,6 +11,66 @@ require('dotenv').config();
 const fs = require('fs-extra');
 const path = require('path');
 
+/**
+ * Resolve a $ref to its actual value from the token structure
+ * @param {string} ref - The $ref string (e.g., "core-tokens/json/color-primitive.json#/primitive/color/white")
+ * @param {object} localTokens - The loaded local token structure
+ * @returns {string|null} - The resolved value or null if not found
+ */
+function resolveReference(ref, localTokens) {
+	try {
+		// Parse the reference: "core-tokens/json/color-primitive.json#/primitive/color/white"
+		const [filePart, pathPart] = ref.split('#');
+
+		if (!filePart || !pathPart) {
+			return null;
+		}
+
+		// Extract package and file from the file part
+		// "core-tokens/json/color-primitive.json" -> package: "core-tokens", file: "color-primitive"
+		const pathSegments = filePart.split('/');
+		if (pathSegments.length < 3) {
+			return null;
+		}
+
+		const packageName = pathSegments[0];
+		const fileName = pathSegments[2].replace('.json', '');
+
+		// Get the package data
+		const packageData = localTokens[packageName];
+		if (!packageData || !packageData[fileName]) {
+			return null;
+		}
+
+		// Navigate through the path: "/primitive/color/white" -> ["primitive", "color", "white"]
+		const pathKeys = pathPart.substring(1).split('/'); // Remove leading '/'
+
+		let current = packageData[fileName];
+		for (const key of pathKeys) {
+			if (current && typeof current === 'object' && current.hasOwnProperty(key)) {
+				current = current[key];
+			} else {
+				return null;
+			}
+		}
+
+		// If we found a direct value, return it
+		if (typeof current === 'string') {
+			return current;
+		}
+
+		// If we found another $ref, resolve it recursively (but prevent infinite loops)
+		if (typeof current === 'object' && current.$ref) {
+			return resolveReference(current.$ref, localTokens);
+		}
+
+		return null;
+	} catch (error) {
+		console.warn(`Failed to resolve reference: ${ref}`, error);
+		return null;
+	}
+}
+
 class FigmaAPIClient {
 	constructor(accessToken, fileKey) {
 		this.accessToken = accessToken;
@@ -338,19 +398,19 @@ function analyzeChanges(figmaTokens, localTokens) {
 			// For lg.webOS.color.semantic.dark, compare with color-semantic-dark.json
 			const localSemanticTokens = localPackage['color-semantic-dark'];
 			if (localSemanticTokens && localSemanticTokens.semantic && localSemanticTokens.semantic.color) {
-				compareSemanticColorTokens(figmaCollection, localSemanticTokens.semantic.color, collectionName, packageName, changes);
+				compareSemanticColorTokens(figmaCollection, localSemanticTokens.semantic.color, collectionName, packageName, changes, localTokens);
 			}
 		} else if (collectionName === 'lg.webOS.color.semantic.light') {
 			// For lg.webOS.color.semantic.light, compare with color-semantic-light.json
 			const localSemanticTokens = localPackage['color-semantic-light'];
 			if (localSemanticTokens && localSemanticTokens.semantic && localSemanticTokens.semantic.color) {
-				compareSemanticColorTokens(figmaCollection, localSemanticTokens.semantic.color, collectionName, packageName, changes);
+				compareSemanticColorTokens(figmaCollection, localSemanticTokens.semantic.color, collectionName, packageName, changes, localTokens);
 			}
 		} else if (collectionName === 'lg.webOS.color.semantic.high-contrast') {
 			// For lg.webOS.color.semantic.high-contrast, compare with color-semantic-high-contrast.json
 			const localSemanticTokens = localPackage['color-semantic-high-contrast'];
 			if (localSemanticTokens && localSemanticTokens.semantic && localSemanticTokens.semantic.color) {
-				compareSemanticColorTokens(figmaCollection, localSemanticTokens.semantic.color, collectionName, packageName, changes);
+				compareSemanticColorTokens(figmaCollection, localSemanticTokens.semantic.color, collectionName, packageName, changes, localTokens);
 			}
 		} else if (collectionName === 'lg.webOS.color.semantic') {
 			// Skip the base collection since we handle the mode-specific ones above
@@ -367,7 +427,7 @@ function analyzeChanges(figmaTokens, localTokens) {
 			const fileName = getSemanticColorFileName(mode);
 			const localSemanticTokens = localPackage[fileName];
 			if (localSemanticTokens && localSemanticTokens.semantic && localSemanticTokens.semantic.color) {
-				compareSemanticColorTokens(figmaCollection, localSemanticTokens.semantic.color, collectionName, packageName, changes);
+				compareSemanticColorTokens(figmaCollection, localSemanticTokens.semantic.color, collectionName, packageName, changes, localTokens);
 			}
 		} else if (collectionName.startsWith('lg.mobile.color.semantic.')) {
 			// Handle mobile semantic color modes
@@ -375,13 +435,13 @@ function analyzeChanges(figmaTokens, localTokens) {
 			const fileName = getSemanticColorFileName(mode);
 			const localSemanticTokens = localPackage[fileName];
 			if (localSemanticTokens && localSemanticTokens.semantic && localSemanticTokens.semantic.color) {
-				compareSemanticColorTokens(figmaCollection, localSemanticTokens.semantic.color, collectionName, packageName, changes);
+				compareSemanticColorTokens(figmaCollection, localSemanticTokens.semantic.color, collectionName, packageName, changes, localTokens);
 			}
 		} else if (collectionName === 'lg.webOS.radius.semantic') {
 			// For lg.webOS.radius.semantic, compare with radius-semantic.json
 			const localRadiusSemanticTokens = localPackage['radius-semantic'];
 			if (localRadiusSemanticTokens && localRadiusSemanticTokens.semantic && localRadiusSemanticTokens.semantic.radius) {
-				compareSemanticRadiusTokens(figmaCollection, localRadiusSemanticTokens.semantic.radius, collectionName, packageName, changes);
+				compareSemanticRadiusTokens(figmaCollection, localRadiusSemanticTokens.semantic.radius, collectionName, packageName, changes, localTokens);
 			}
 		} else {
 			// For other collections, use general comparison
@@ -468,6 +528,12 @@ function compareTypographyTokens(figmaCollection, localPrimitiveTokens, collecti
 		} else if (category === 'fontweight' && typeof figmaValues === 'object') {
 			// Map fontweight: figma.fontweight.regular → local.font-weight.regular
 			Object.entries(figmaValues).forEach(([weight, figmaValue]) => {
+				// Skip oblique fontweight variations
+				if (weight.toLowerCase().includes('oblique')) {
+					console.log(`⏭️ Skipping oblique fontweight: ${weight}`);
+					return;
+				}
+
 				const localValue = localPrimitiveTokens['font-weight'] && localPrimitiveTokens['font-weight'][weight];
 				const pathString = `${collectionName}/fontweight-${weight}`;
 
@@ -651,7 +717,7 @@ function comparePrimitiveTokens(figmaCollection, localPrimitiveTokens, collectio
 /**
  * Compare semantic color tokens (webOS Dark mode)
  */
-function compareSemanticColorTokens(figmaCollection, localSemanticColorTokens, collectionName, packageName, changes) {
+function compareSemanticColorTokens(figmaCollection, localSemanticColorTokens, collectionName, packageName, changes, localTokens) {
 	// Compare recursively - Figma and local structures should match
 	// Figma: background.full.default = "#000000"
 	// Local: background.full.default = {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"}
@@ -749,14 +815,34 @@ function compareSemanticColorTokens(figmaCollection, localSemanticColorTokens, c
 					console.log(`Found new semantic token: ${pathString} = ${figmaValue}`);
 				} else if (typeof localValue === 'object' && localValue.$ref) {
 					// Local has $ref, need to resolve and compare
-					// For now, mark as unchanged since resolving $ref is complex
-					changes.unchanged[pathString] = {
-						collection: collectionName,
-						package: packageName,
-						path: fullPath,
-						value: figmaValue
-					};
-					console.log(`Semantic token with $ref unchanged: ${pathString}`);
+					const resolvedValue = resolveReference(localValue.$ref, localTokens);
+					if (resolvedValue !== null && String(resolvedValue) !== String(figmaValue)) {
+						// Values are different
+						const mappedChange = mapToLocalStructure(collectionName, packageName, fullPath, localValue, figmaValue);
+						if (mappedChange) {
+							changes.modified[pathString] = mappedChange;
+							console.log(`Found modified semantic token: ${pathString}`);
+							console.log(`  Local $ref resolved: ${resolvedValue} → Figma: ${figmaValue}`);
+						}
+					} else if (resolvedValue !== null) {
+						// Values are the same
+						changes.unchanged[pathString] = {
+							collection: collectionName,
+							package: packageName,
+							path: fullPath,
+							value: figmaValue
+						};
+						console.log(`Semantic token unchanged: ${pathString} ($ref resolved: ${resolvedValue})`);
+					} else {
+						// Could not resolve $ref, mark as unchanged for safety
+						changes.unchanged[pathString] = {
+							collection: collectionName,
+							package: packageName,
+							path: fullPath,
+							value: figmaValue
+						};
+						console.log(`Semantic token with unresolvable $ref unchanged: ${pathString}`);
+					}
 				} else if (String(localValue) !== String(figmaValue)) {
 					// Direct value comparison
 					const mappedChange = mapToLocalStructure(collectionName, packageName, fullPath, localValue, figmaValue);
@@ -785,7 +871,7 @@ function compareSemanticColorTokens(figmaCollection, localSemanticColorTokens, c
 /**
  * Compare semantic radius tokens (webOS)
  */
-function compareSemanticRadiusTokens(figmaCollection, localSemanticRadiusTokens, collectionName, packageName, changes) {
+function compareSemanticRadiusTokens(figmaCollection, localSemanticRadiusTokens, collectionName, packageName, changes, localTokens) {
 	// Handle the specific structure of lg.webOS.radius.semantic
 	// Figma: { radius: { full: 999, button: 24, ... } }
 	// Local: { full: {"$ref": "..."}, button: {"$ref": "..."}, ... }
@@ -808,15 +894,42 @@ function compareSemanticRadiusTokens(figmaCollection, localSemanticRadiusTokens,
 				};
 				console.log(`Found new semantic radius token: ${pathString} = ${figmaValue}`);
 			} else if (typeof localValue === 'object' && localValue.$ref) {
-				// Local has $ref, need to resolve and compare
-				// For now, mark as unchanged since resolving $ref is complex
-				changes.unchanged[pathString] = {
-					collection: collectionName,
-					package: packageName,
-					path: ['radius', tokenName],
-					value: figmaValue
-				};
-				console.log(`Semantic radius token with $ref unchanged: ${pathString} (${figmaValue})`);
+				// Local has $ref, resolve and compare with Figma value
+				const resolvedValue = resolveReference(localValue.$ref, localTokens);
+				if (resolvedValue !== null) {
+					// Convert values to comparable format
+					const figmaStr = String(figmaValue).replace('px', '');
+					const localStr = String(resolvedValue).replace('px', '');
+
+					if (figmaStr !== localStr) {
+						// Values are different
+						const mappedChange = mapToLocalStructure(collectionName, packageName, ['radius', tokenName], localValue, figmaValue);
+						if (mappedChange) {
+							changes.modified[`${packageName}/radius-semantic/radius-${tokenName}`] = mappedChange;
+							console.log(`Found modified semantic radius token: ${pathString}`);
+							console.log(`  Local $ref resolved: ${resolvedValue} → Figma: ${figmaValue}`);
+						}
+					} else {
+						// Values are the same
+						changes.unchanged[pathString] = {
+							collection: collectionName,
+							package: packageName,
+							path: ['radius', tokenName],
+							value: figmaValue
+						};
+						console.log(`Semantic radius token unchanged: ${pathString} ($ref resolved: ${resolvedValue})`);
+					}
+				} else {
+					// Failed to resolve $ref, treat as potential change
+					console.warn(`Failed to resolve $ref: ${localValue.$ref} for ${pathString}`);
+					changes.unchanged[pathString] = {
+						collection: collectionName,
+						package: packageName,
+						path: ['radius', tokenName],
+						value: figmaValue
+					};
+					console.log(`Semantic radius token with unresolved $ref: ${pathString} (${figmaValue})`);
+				}
 			} else if (String(localValue) !== String(figmaValue)) {
 				// Direct value comparison
 				const mappedChange = mapToLocalStructure(collectionName, packageName, ['radius', tokenName], localValue, figmaValue);
