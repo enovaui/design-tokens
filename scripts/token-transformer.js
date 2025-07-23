@@ -468,10 +468,69 @@ ${titleCase} Tokens
 		// Deep merge the tokens
 		const mergedTokens = this.deepMerge(existingTokens, newTokens);
 
-		// Sort tokens if they are spacing or radius tokens
-		const sortedTokens = this.sortTokens(mergedTokens);
+		let out = mergedTokens;
 
+		if (filePath.includes('color-semantic')) {
+			let primitiveColors = {};
+			try {
+				const primitivePath = path.resolve(__dirname, '../packages/core-tokens/json/color-primitive.json');
+				primitiveColors = fs.readJsonSync(primitivePath).primitive.color;
+			} catch (e) {}
+			const primitiveColorLookup = this.buildPrimitiveColorLookup(primitiveColors);
+			out = this.refSemanticColorsWithPrimitives(out, primitiveColorLookup);
+		}
+		const sortedTokens = this.sortTokens(out);
 		await this.saveTokensToFile(filePath, sortedTokens);
+	}
+
+	/**
+	 * Recursively replace hex color values in semantic tokens with $ref to primitives
+	 * @param {object} tokens - The semantic color tokens object
+	 * @param {object} primitiveColorLookup - Map of hex to primitive token path array
+	 * @returns {object} - New tokens object with $ref replacements
+	 */
+	refSemanticColorsWithPrimitives(tokens, primitiveColorLookup) {
+		if (Array.isArray(tokens)) {
+			return tokens.map(t => this.refSemanticColorsWithPrimitives(t, primitiveColorLookup));
+		}
+		if (typeof tokens !== 'object' || tokens === null) {
+			// Only process string hex values
+			if (typeof tokens === 'string' && tokens.startsWith('#')) {
+				const hex = tokens.toLowerCase();
+				if (primitiveColorLookup[hex]) {
+					// Build $ref string
+					const refPath = primitiveColorLookup[hex].join('/');
+					return { $ref: `core-tokens/json/color-primitive.json#/${refPath}` };
+				}
+			}
+			return tokens;
+		}
+		// If already a $ref, leave as is
+		if (tokens.$ref) return tokens;
+		// Recurse into object
+		const out = Array.isArray(tokens) ? [] : {};
+		for (const [k, v] of Object.entries(tokens)) {
+			out[k] = this.refSemanticColorsWithPrimitives(v, primitiveColorLookup);
+		}
+		return out;
+	}
+
+	/**
+	 * Build a lookup of primitive color values to their token paths
+	 */
+	buildPrimitiveColorLookup(primitiveColors) {
+		const lookup = {};
+		function walk(obj, path) {
+			Object.entries(obj).forEach(([key, value]) => {
+				if (typeof value === 'object' && value !== null) {
+					walk(value, path.concat(key));
+				} else if (typeof value === 'string' && value.startsWith('#')) {
+					lookup[value.toLowerCase()] = path.concat(key);
+				}
+			});
+		}
+		walk(primitiveColors, ['primitive', 'color']);
+		return lookup;
 	}
 
 	/**
