@@ -9,10 +9,12 @@ console.log('🔧 Token transformer script started');
 
 const fs = require('fs-extra');
 const path = require('path');
+const CSSGenerator = require('./css-generator');
 
 class TokenTransformer {
 	constructor(mappingConfig) {
 		this.mappingConfig = mappingConfig;
+		this.cssGenerator = new CSSGenerator();
 	}
 
 	/**
@@ -185,9 +187,30 @@ class TokenTransformer {
 		let cssContent = `:root {\n`;
 
 		const flattened = this.flattenTokens(tokens);
-		Object.entries(flattened).forEach(([key, value]) => {
+
+		// Sort entries by numerical value for spacing and radius tokens
+		const sortedEntries = Object.entries(flattened).sort(([keyA], [keyB]) => {
+			// Extract numerical value from key (e.g., "primitive-spacing-66" -> 66)
+			const getNumericValue = (key) => {
+				const match = key.match(/(\d+)$/);
+				return match ? parseInt(match[1], 10) : 0;
+			};
+
+			// Only sort if both keys are spacing or radius tokens
+			if ((keyA.includes('spacing') || keyA.includes('radius')) &&
+				(keyB.includes('spacing') || keyB.includes('radius'))) {
+				return getNumericValue(keyA) - getNumericValue(keyB);
+			}
+
+			// For other tokens, maintain original order
+			return 0;
+		});
+
+		sortedEntries.forEach(([key, value]) => {
 			if (typeof value === 'string' || typeof value === 'number') {
-				cssContent += `  --${key}: ${value};\n`;
+				// Add px unit for spacing and radius tokens if value is a number
+				const formattedValue = this.formatCSSValue(key, value);
+				cssContent += `  --${key}: ${formattedValue};\n`;
 			}
 		});
 
@@ -219,12 +242,13 @@ class TokenTransformer {
 		Object.entries(flattened).forEach(([key, value]) => {
 			if (typeof value === 'string' || typeof value === 'number') {
 				const cssVar = `--${key}`;
+				const formattedValue = this.formatCSSValue(key, value);
 				const regex = new RegExp(`(\\s*${cssVar.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')}\\s*:\\s*)[^;]+;`, 'g');
 
 				if (cssContent.match(regex)) {
 					// Update existing variable
-					cssContent = cssContent.replace(regex, `$1${value};`);
-					console.log(`   📝 Updated CSS variable: ${cssVar} = ${value}`);
+					cssContent = cssContent.replace(regex, `$1${formattedValue};`);
+					console.log(`   📝 Updated CSS variable: ${cssVar} = ${formattedValue}`);
 				} else {
 					console.log(`   ⚠️  CSS variable not found in file: ${cssVar}`);
 				}
@@ -241,42 +265,193 @@ class TokenTransformer {
 	async applyChanges(changes, outputDir) {
 		const updatedFiles = [];
 
-		// Handle added tokens
-		for (const [path, changeData] of Object.entries(changes.added)) {
-			const filePath = this.resolveOutputPath(path, outputDir);
-			await this.updateTokenFile(filePath, changeData.after || changeData, 'add');
+		// Handle added tokens - group by collection/file
+		const addedTokensByFile = {};
+		for (const [tokenPath, changeData] of Object.entries(changes.added || {})) {
+			const filePath = this.resolveOutputPath(tokenPath, changeData, outputDir);
+
+			if (!addedTokensByFile[filePath]) {
+				addedTokensByFile[filePath] = [];
+			}
+			addedTokensByFile[filePath].push({ tokenPath, changeData });
+		}
+
+		// Process added tokens by file
+		for (const [filePath, tokens] of Object.entries(addedTokensByFile)) {
+			await this.addTokensToFile(filePath, tokens);
+			console.log(`   ✅ Added ${tokens.length} tokens to ${path.relative(outputDir, filePath)}`);
 			updatedFiles.push(filePath);
+
+			// Update corresponding CSS file
+			const cssPath = filePath.replace('/json/', '/css/').replace('.json', '.css');
+			await this.updateCSSFromJSON(filePath, cssPath);
+			console.log(`   🎨 Updated CSS file ${path.relative(outputDir, cssPath)}`);
+			updatedFiles.push(cssPath);
 		}
 
 		// Handle modified tokens
-		for (const [path, changeData] of Object.entries(changes.modified)) {
-			const filePath = this.resolveOutputPath(path, outputDir);
+		for (const [tokenPath, changeData] of Object.entries(changes.modified || {})) {
+			const filePath = this.resolveOutputPath(tokenPath, changeData, outputDir);
 			await this.mergeTokenFile(filePath, changeData.after);
+			console.log(`   📝 Modified tokens in ${path.relative(outputDir, filePath)}`);
 			updatedFiles.push(filePath);
 
-			// Also update CSS file (only changed values)
+			// Update corresponding CSS file
 			const cssPath = filePath.replace('/json/', '/css/').replace('.json', '.css');
-			await this.updateCSSFile(changeData.after, cssPath);
+			await this.updateCSSFromJSON(filePath, cssPath);
+			console.log(`   🎨 Updated CSS file ${path.relative(outputDir, cssPath)}`);
 			updatedFiles.push(cssPath);
 		}
 
 		// Handle removed tokens
-		for (const [path, changeData] of Object.entries(changes.removed)) {
-			const filePath = this.resolveOutputPath(path, outputDir);
-			await this.removeTokensFromFile(filePath, changeData.before);
+		for (const [tokenPath, changeData] of Object.entries(changes.removed || {})) {
+			const filePath = this.resolveOutputPath(tokenPath, changeData, outputDir);
+
+			// Create token structure to remove
+			const tokenToRemove = this.convertTokenDataToFormat(changeData);
+			await this.removeTokensFromFile(filePath, tokenToRemove);
+			console.log(`   🗑️  Removed tokens from ${path.relative(outputDir, filePath)}`);
 			updatedFiles.push(filePath);
+
+			// Update corresponding CSS file
+			const cssPath = filePath.replace('/json/', '/css/').replace('.json', '.css');
+			await this.updateCSSFromJSON(filePath, cssPath);
+			console.log(`   🎨 Updated CSS file ${path.relative(outputDir, cssPath)}`);
+			updatedFiles.push(cssPath);
 		}
 
 		return [...new Set(updatedFiles)]; // Remove duplicates
 	}
 
 	/**
-	 * Resolve output path
+	 * Add new tokens to existing file
 	 */
-	resolveOutputPath(tokenPath, outputDir) {
-		// tokenPath format: "package-name/file-name"
-		const [packageName, fileName] = tokenPath.split('/');
-		return path.join(outputDir, 'packages', packageName, 'json', `${fileName}.json`);
+	async addTokensToFile(filePath, tokens) {
+		await fs.ensureDir(path.dirname(filePath));
+
+		// Read existing file
+		let existingTokens = { primitive: {} };
+		if (await fs.pathExists(filePath)) {
+			existingTokens = await fs.readJson(filePath);
+		}
+
+		// Add new tokens
+		for (const { tokenPath, changeData } of tokens) {
+			const { path: tokenPathArray, value } = changeData;
+
+			// Build token key (e.g., "spacing-66")
+			const tokenKey = tokenPathArray.length > 1
+				? `${tokenPathArray[0]}-${tokenPathArray[tokenPathArray.length - 1]}`
+				: tokenPathArray[0];
+
+			// Format value based on token type
+			let formattedValue = value;
+			if (tokenPathArray[0] === 'spacing' || tokenPathArray[0] === 'radius') {
+				formattedValue = value === 0 ? '0' : `${value}px`;
+			} else if (tokenPathArray[0].startsWith('font-size') && typeof value === 'number') {
+				formattedValue = `${value}px`;
+			}
+
+			// Add to primitive object
+			existingTokens.primitive[tokenKey] = formattedValue;
+			console.log(`     + Added ${tokenKey}: ${formattedValue}`);
+		}
+
+		// Write updated file
+		await fs.writeJson(filePath, existingTokens, { spaces: 4 });
+	}
+
+	/**
+	 * Update CSS file based on JSON file content
+	 */
+	async updateCSSFromJSON(jsonPath, cssPath) {
+		return await this.cssGenerator.generateCSSFromJSON(jsonPath, cssPath);
+	}
+
+	/**
+	 * Get default CSS header with comments
+	 */
+	getDefaultCSSHeader(cssPath) {
+		const fileName = path.basename(cssPath, '.css');
+		const titleCase = fileName.split('-').map(word =>
+			word.charAt(0).toUpperCase() + word.slice(1)
+		).join(' ');
+
+		return `/*
+ * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/* ${fileName}.css */
+
+/* ----------------------------------------
+${titleCase} Tokens
+------------------------------------------- */
+
+`;
+	}
+
+	/**
+	 * Resolve output path using collection and package information
+	 */
+	resolveOutputPath(tokenPath, changeData, outputDir) {
+		// Extract collection name and determine appropriate file mapping
+		const collection = changeData.collection || '';
+		const packageName = changeData.package;
+
+		// If no package is specified, try to extract from filePath (for modified tokens)
+		let finalPackageName = packageName;
+		if (!finalPackageName && changeData.filePath) {
+			// filePath format: "package-name/file-name"
+			const pathParts = changeData.filePath.split('/');
+			finalPackageName = pathParts[0];
+		}
+
+		// If still no package, default to core-tokens
+		if (!finalPackageName) {
+			finalPackageName = 'core-tokens';
+		}
+
+		// Determine the appropriate file name based on collection type or filePath
+		let fileName;
+		if (collection && collection.includes('color')) {
+			fileName = 'color-primitive';
+		} else if (collection && collection.includes('spacing')) {
+			fileName = 'spacing-primitive';
+		} else if (collection && collection.includes('typography')) {
+			fileName = 'typography-primitive';
+		} else if (collection && collection.includes('radius')) {
+			fileName = 'radius-primitive';
+		} else if (changeData.filePath) {
+			// Extract filename from filePath
+			const pathParts = changeData.filePath.split('/');
+			if (pathParts.length > 1) {
+				fileName = pathParts[1];
+			} else {
+				fileName = 'tokens'; // generic fallback
+			}
+		} else {
+			// Fallback: extract from token path
+			const pathParts = tokenPath.split('/');
+			if (pathParts.length > 1) {
+				const tokenName = pathParts[1];
+				if (tokenName.includes('spacing')) {
+					fileName = 'spacing-primitive';
+				} else if (tokenName.includes('color')) {
+					fileName = 'color-primitive';
+				} else if (tokenName.includes('typography') || tokenName.includes('fontsize')) {
+					fileName = 'typography-primitive';
+				} else if (tokenName.includes('radius')) {
+					fileName = 'radius-primitive';
+				} else {
+					fileName = 'tokens'; // generic fallback
+				}
+			} else {
+				fileName = 'tokens'; // generic fallback
+			}
+		}
+
+		return path.join(outputDir, 'packages', finalPackageName, 'json', `${fileName}.json`);
 	}
 
 	/**
@@ -293,7 +468,10 @@ class TokenTransformer {
 		// Deep merge the tokens
 		const mergedTokens = this.deepMerge(existingTokens, newTokens);
 
-		await fs.writeJson(filePath, mergedTokens, { spaces: 4 });
+		// Sort tokens if they are spacing or radius tokens
+		const sortedTokens = this.sortTokens(mergedTokens);
+
+		await fs.writeJson(filePath, sortedTokens, { spaces: 4 });
 	}
 
 	/**
@@ -369,6 +547,166 @@ class TokenTransformer {
 				break;
 		}
 	}
+
+	/**
+	 * Sort tokens numerically for spacing and radius tokens
+	 */
+	sortTokens(tokens) {
+		if (!tokens || !tokens.primitive) {
+			return tokens;
+		}
+
+		const primitive = tokens.primitive;
+		const sortedPrimitive = {};
+
+		// Get all keys and sort them
+		const keys = Object.keys(primitive).sort((a, b) => {
+			// Extract numerical value from key (e.g., "spacing-66" -> 66)
+			const getNumericValue = (key) => {
+				const match = key.match(/(\d+)$/);
+				return match ? parseInt(match[1], 10) : 0;
+			};
+
+			// Only sort if both keys are spacing or radius tokens
+			if ((a.includes('spacing') || a.includes('radius')) &&
+				(b.includes('spacing') || b.includes('radius'))) {
+				return getNumericValue(a) - getNumericValue(b);
+			}
+
+			// For other tokens, maintain original order
+			return 0;
+		});
+
+		// Rebuild the object with sorted keys
+		keys.forEach(key => {
+			sortedPrimitive[key] = primitive[key];
+		});
+
+		return {
+			...tokens,
+			primitive: sortedPrimitive
+		};
+	}
+
+	/**
+	 * Format CSS value - add px unit for spacing and radius tokens
+	 */
+	formatCSSValue(key, value) {
+		// Check if this is a spacing or radius token and value is a number
+		if ((key.includes('spacing') || key.includes('radius')) &&
+			typeof value === 'number' &&
+			value !== 0) {
+			return `${value}px`;
+		}
+
+		// For radius-0, keep it as just "0"
+		if (key.includes('radius') && value === 0) {
+			return '0';
+		}
+
+		return value;
+	}
+
+	/**
+	 * Convert individual token data to proper nested format for removal
+	 */
+	convertTokenDataToFormat(changeData) {
+		const { path: tokenPath, value } = changeData;
+		const result = {};
+
+		// Always start with "primitive" as the top level
+		result.primitive = {};
+		let current = result.primitive;
+
+		// For removed tokens, build simple key-value structure
+		const finalKey = tokenPath[tokenPath.length - 1];
+
+		// Apply proper formatting based on token type
+		if (finalKey.includes('spacing') || finalKey.includes('radius')) {
+			current[finalKey] = typeof value === 'number' ? `${value}px` : value;
+		} else if (finalKey.includes('fontsize') && typeof value === 'number') {
+			current[finalKey] = `${value}px`;
+		} else {
+			current[finalKey] = value;
+		}
+
+		return result;
+	}
+
+	/**
+	 * Normalize existing token files to ensure consistent formatting
+	 */
+	async normalizeExistingTokenFiles(outputDir) {
+		const packageDirs = ['core-tokens', 'web-tokens', 'mobile-tokens', 'webos-tokens'];
+		const updatedFiles = [];
+
+		for (const packageName of packageDirs) {
+			const packageDir = path.join(outputDir, 'packages', packageName, 'json');
+
+			if (!await fs.pathExists(packageDir)) {
+				continue;
+			}
+
+			const jsonFiles = await fs.readdir(packageDir);
+
+			for (const fileName of jsonFiles) {
+				if (!fileName.endsWith('.json')) {
+					continue;
+				}
+
+				const filePath = path.join(packageDir, fileName);
+				let hasChanges = false;
+				const tokens = await fs.readJson(filePath);
+
+				// Normalize typography tokens
+				if (fileName.includes('typography') && tokens.primitive) {
+					for (const [key, value] of Object.entries(tokens.primitive)) {
+						if (key.startsWith('font-size-') && typeof value === 'number') {
+							tokens.primitive[key] = `${value}px`;
+							hasChanges = true;
+							console.log(`   🔧 Normalized ${key}: ${value} → ${value}px`);
+						}
+					}
+				}
+
+				// Normalize spacing tokens
+				if (fileName.includes('spacing') && tokens.primitive) {
+					for (const [key, value] of Object.entries(tokens.primitive)) {
+						if (key.startsWith('spacing-') && typeof value === 'number') {
+							tokens.primitive[key] = value === 0 ? '0' : `${value}px`;
+							hasChanges = true;
+							console.log(`   🔧 Normalized ${key}: ${value} → ${value === 0 ? '0' : value + 'px'}`);
+						}
+					}
+				}
+
+				// Normalize radius tokens
+				if (fileName.includes('radius') && tokens.primitive) {
+					for (const [key, value] of Object.entries(tokens.primitive)) {
+						if (key.startsWith('radius-') && typeof value === 'number') {
+							tokens.primitive[key] = value === 0 ? '0' : `${value}px`;
+							hasChanges = true;
+							console.log(`   🔧 Normalized ${key}: ${value} → ${value === 0 ? '0' : value + 'px'}`);
+						}
+					}
+				}
+
+				if (hasChanges) {
+					await fs.writeJson(filePath, tokens, { spaces: 4 });
+					updatedFiles.push(filePath);
+
+					// Update corresponding CSS file
+					const cssPath = filePath.replace('/json/', '/css/').replace('.json', '.css');
+					await this.updateCSSFromJSON(filePath, cssPath);
+					updatedFiles.push(cssPath);
+				}
+			}
+		}
+
+		return updatedFiles;
+	}
+
+	// ...existing code...
 }
 
 /**
@@ -465,11 +803,19 @@ async function main() {
 		console.log('🔄 Starting token transformation...');
 		console.log('📝 Changes found:', changes);
 
+		// First, normalize existing token files to ensure consistent formatting
+		console.log('🔧 Normalizing existing token files...');
+		const outputDir = path.join(__dirname, '..');
+		const normalizedFiles = await transformer.normalizeExistingTokenFiles(outputDir);
+		if (normalizedFiles.length > 0) {
+			console.log(`✅ Normalized ${normalizedFiles.length} files:`);
+			normalizedFiles.forEach(file => console.log(`   - ${path.relative(outputDir, file)}`));
+		}
+
 		// Apply changes to token files
 		if (changes && Object.keys(changes).length > 0) {
 			console.log('📝 Applying token changes...');
 
-			const outputDir = path.join(__dirname, '..');
 			console.log('📁 Output directory:', outputDir);
 
 			const updatedFiles = await transformer.applyChanges(changes, outputDir);
@@ -487,7 +833,7 @@ async function main() {
 					modified: Object.keys(changes.modified || {}).length,
 					removed: Object.keys(changes.removed || {}).length
 				}
-			}, { spaces: 2 });
+			}, { spaces: 4 });
 
 			console.log('📋 Update manifest saved to token-update-manifest.json');
 		} else {

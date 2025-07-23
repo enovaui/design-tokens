@@ -1430,7 +1430,7 @@ async function main() {
 				figmaTokens,
 				localTokens,
 				changes
-			}, { spaces: 2 });
+			}, { spaces: 4 });
 			console.log(`📝 Changes saved to ${outputPath}`);
 		}
 	} catch (error) {
