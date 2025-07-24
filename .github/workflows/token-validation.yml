@@ -16,7 +16,7 @@ on:
 jobs:
   validate-tokens:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -33,9 +33,9 @@ jobs:
       - name: Validate JSON Syntax
         run: |
           echo "🔍 Validating JSON file syntax..."
-          
+
           INVALID_FILES=()
-          
+
           find packages -name "*.json" -type f | while read file; do
             echo "Checking: $file"
             if ! node -e "
@@ -50,40 +50,40 @@ jobs:
               INVALID_FILES+=("$file")
             fi
           done
-          
+
           if [ ${#INVALID_FILES[@]} -gt 0 ]; then
             echo "❌ Files with JSON syntax errors:"
             printf '%s\n' "${INVALID_FILES[@]}"
             exit 1
           fi
-          
+
           echo "✅ All JSON files are valid."
 
       - name: Validate Token Structure
         run: |
           echo "🏗️ Validating token structure..."
-          
+
           node -e "
             const fs = require('fs');
             const path = require('path');
-            
+
             const requiredStructure = {
               'core-tokens': ['color-primitive', 'spacing-primitive', 'radius-primitive', 'typography-primitive'],
-              'web-tokens': ['color-semantic-light', 'color-semantic-dark'],
+              'web-tokens': ['color-semantic-lg-brand', 'color-semantic-mobile', ''color-semantic-mono-black', 'color-semantic-mono-white', 'color-semantic-web'],
               'webos-tokens': ['color-semantic-light', 'color-semantic-dark', 'radius-semantic'],
-              'mobile-tokens': ['color-semantic-light', 'color-semantic-dark']
+              'mobile-tokens': ['color-semantic-lg-brand', 'color-semantic-mobile', ''color-semantic-mono-black', 'color-semantic-mono-white', 'color-semantic-web']
             };
-            
+
             let errors = [];
-            
+
             for (const [packageName, requiredFiles] of Object.entries(requiredStructure)) {
               const packagePath = path.join('packages', packageName, 'json');
-              
+
               if (!fs.existsSync(packagePath)) {
                 errors.push(\`Package directory missing: \${packagePath}\`);
                 continue;
               }
-              
+
               for (const requiredFile of requiredFiles) {
                 const filePath = path.join(packagePath, \`\${requiredFile}.json\`);
                 if (!fs.existsSync(filePath)) {
@@ -91,36 +91,36 @@ jobs:
                 }
               }
             }
-            
+
             if (errors.length > 0) {
               console.error('❌ Structure validation failed:');
               errors.forEach(error => console.error('  -', error));
               process.exit(1);
             }
-            
+
             console.log('✅ Token structure is correct.');
           "
 
       - name: Validate Token References
         run: |
           echo "🔗 Validating token references..."
-          
+
           node -e "
             const fs = require('fs');
             const path = require('path');
-            
+
             function loadAllTokens() {
               const tokens = {};
               const packagesDir = 'packages';
-              
+
               const packages = fs.readdirSync(packagesDir);
-              
+
               for (const pkg of packages) {
                 const jsonDir = path.join(packagesDir, pkg, 'json');
                 if (fs.existsSync(jsonDir)) {
                   tokens[pkg] = {};
                   const jsonFiles = fs.readdirSync(jsonDir);
-                  
+
                   for (const file of jsonFiles.filter(f => f.endsWith('.json'))) {
                     const filePath = path.join(jsonDir, file);
                     const content = JSON.parse(fs.readFileSync(filePath, 'utf8'));
@@ -129,10 +129,10 @@ jobs:
                   }
                 }
               }
-              
+
               return tokens;
             }
-            
+
             function findReferences(obj, refs = []) {
               if (typeof obj === 'object' && obj !== null) {
                 if (obj.\$ref) {
@@ -143,21 +143,21 @@ jobs:
               }
               return refs;
             }
-            
+
             function validateReference(ref, allTokens) {
               // \$ref format: 'core-tokens/json/color-primitive.json#/primitive/color/black'
               const [filePath, jsonPath] = ref.split('#');
               const pathParts = filePath.split('/');
               const packageName = pathParts[0];
               const fileName = pathParts[2].replace('.json', '');
-              
+
               if (!allTokens[packageName] || !allTokens[packageName][fileName]) {
                 return false;
               }
-              
+
               const pathSegments = jsonPath.split('/').filter(s => s);
               let current = allTokens[packageName][fileName];
-              
+
               for (const segment of pathSegments) {
                 if (current && typeof current === 'object') {
                   current = current[segment];
@@ -165,17 +165,17 @@ jobs:
                   return false;
                 }
               }
-              
+
               return current !== undefined;
             }
-            
+
             const allTokens = loadAllTokens();
             let invalidRefs = [];
-            
+
             for (const [packageName, files] of Object.entries(allTokens)) {
               for (const [fileName, content] of Object.entries(files)) {
                 const refs = findReferences(content);
-                
+
                 for (const ref of refs) {
                   if (!validateReference(ref, allTokens)) {
                     invalidRefs.push({
@@ -186,7 +186,7 @@ jobs:
                 }
               }
             }
-            
+
             if (invalidRefs.length > 0) {
               console.error('❌ Invalid token references found:');
               invalidRefs.forEach(invalid => {
@@ -194,44 +194,44 @@ jobs:
               });
               process.exit(1);
             }
-            
+
             console.log('✅ All token references are valid.');
           "
 
       - name: Validate CSS Output
         run: |
           echo "🎨 Validating CSS output..."
-          
+
           find packages -name "*.css" -type f | while read file; do
             echo "Checking: $file"
-            
+
             # Check if CSS file has :root selector
             if ! grep -q ":root" "$file"; then
               echo "⚠️ CSS file missing :root selector: $file"
             fi
-            
+
             # Check CSS variable format (should start with --)
             if grep -q "^\s*[^-].*:" "$file"; then
               echo "⚠️ Non-CSS variable properties found: $file"
             fi
           done
-          
+
           echo "✅ CSS output validation completed"
 
       - name: Check Package Versions
         run: |
           echo "📦 Validating package version consistency..."
-          
+
           node -e "
             const fs = require('fs');
             const path = require('path');
-            
+
             const mainPackage = JSON.parse(fs.readFileSync('package.json', 'utf8'));
             const mainVersion = mainPackage.version;
-            
+
             const packages = ['core-tokens', 'web-tokens', 'webos-tokens', 'mobile-tokens'];
             let versionMismatches = [];
-            
+
             for (const pkg of packages) {
               const pkgPath = path.join('packages', pkg, 'package.json');
               if (fs.existsSync(pkgPath)) {
@@ -241,13 +241,13 @@ jobs:
                 }
               }
             }
-            
+
             if (versionMismatches.length > 0) {
               console.error('❌ Version mismatches:');
               versionMismatches.forEach(mismatch => console.error('  -', mismatch));
               process.exit(1);
             }
-            
+
             console.log('✅ All package versions match.');
           "
 
@@ -255,43 +255,43 @@ jobs:
         if: always()
         run: |
           echo "📋 Generating validation report..."
-          
+
           REPORT_FILE="validation-report.md"
-          
+
           cat > $REPORT_FILE << EOF
           # 🎨 Design Tokens Validation Report
-          
+
           **Validation Time**: $(date)
           **Branch**: ${{ github.ref_name }}
           **Commit**: ${{ github.sha }}
-          
+
           ## 📊 Validation Results
-          
+
           - ✅ JSON syntax validation
-          - ✅ Token structure validation  
+          - ✅ Token structure validation
           - ✅ Token reference validation
           - ✅ CSS output validation
           - ✅ Package version validation
-          
+
           ## 📁 Checked Files
-          
+
           EOF
-          
+
           echo "### JSON Files" >> $REPORT_FILE
           find packages -name "*.json" -type f | while read file; do
             echo "- \`$file\`" >> $REPORT_FILE
           done
-          
+
           echo "" >> $REPORT_FILE
           echo "### CSS Files" >> $REPORT_FILE
           find packages -name "*.css" -type f | while read file; do
             echo "- \`$file\`" >> $REPORT_FILE
           done
-          
+
           echo "" >> $REPORT_FILE
           echo "---" >> $REPORT_FILE
           echo "🤖 Auto-generated report." >> $REPORT_FILE
-          
+
           cat $REPORT_FILE
 
       - name: Upload Validation Report
