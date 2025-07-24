@@ -470,6 +470,7 @@ ${titleCase} Tokens
 
 		let out = mergedTokens;
 
+		// color-semantic: hex → $ref
 		if (filePath.includes('color-semantic')) {
 			let primitiveColors = {};
 			try {
@@ -478,6 +479,23 @@ ${titleCase} Tokens
 			} catch (e) {}
 			const primitiveColorLookup = this.buildPrimitiveColorLookup(primitiveColors);
 			out = this.refSemanticColorsWithPrimitives(out, primitiveColorLookup);
+		}
+		// radius-semantic: px string → $ref
+		if (filePath.includes('radius-semantic')) {
+			let primitiveRadius = {};
+			try {
+				const primitivePath = path.resolve(__dirname, '../packages/core-tokens/json/radius-primitive.json');
+				const radiusJson = fs.readJsonSync(primitivePath);
+				if (radiusJson && radiusJson.primitive) {
+					primitiveRadius = radiusJson.primitive;
+				} else {
+					primitiveRadius = {};
+				}
+			} catch (e) {
+				primitiveRadius = {};
+			}
+			const primitiveRadiusLookup = this.buildPrimitiveRadiusLookup(primitiveRadius);
+			out = this.refSemanticRadiusWithPrimitives(out, primitiveRadiusLookup);
 		}
 		const sortedTokens = this.sortTokens(out);
 		await this.saveTokensToFile(filePath, sortedTokens);
@@ -531,6 +549,50 @@ ${titleCase} Tokens
 		}
 		walk(primitiveColors, ['primitive', 'color']);
 		return lookup;
+	}
+
+	// Build a lookup of primitive radius values to their token paths
+	buildPrimitiveRadiusLookup(primitiveRadius) {
+		const lookup = {};
+		if (!primitiveRadius || typeof primitiveRadius !== 'object') return lookup;
+		function walk(obj, path) {
+			if (!obj || typeof obj !== 'object') return;
+			Object.entries(obj).forEach(([key, value]) => {
+				if (typeof value === 'object' && value !== null) {
+					walk(value, path.concat(key));
+				} else if (typeof value === 'string' && value.endsWith('px')) {
+					lookup[value] = path.concat(key);
+				}
+			});
+		}
+		walk(primitiveRadius, ['primitive']);
+		return lookup;
+	}
+
+	// Recursively replace px string values in semantic radius tokens with $ref to primitives
+	refSemanticRadiusWithPrimitives(tokens, primitiveRadiusLookup) {
+		if (Array.isArray(tokens)) {
+			return tokens.map(t => this.refSemanticRadiusWithPrimitives(t, primitiveRadiusLookup));
+		}
+		if (tokens === null || tokens === undefined) return tokens;
+		// fix: allow number as well as string (e.g. 50 → 50px)
+		let pxString = null;
+		if (typeof tokens === 'string' && tokens.endsWith('px')) {
+			pxString = tokens;
+		} else if (typeof tokens === 'number' || (typeof tokens === 'string' && /^\d+$/.test(tokens))) {
+			pxString = tokens.toString() + 'px';
+		}
+		if (pxString && primitiveRadiusLookup[pxString]) {
+			const refPath = primitiveRadiusLookup[pxString].join('/');
+			return { $ref: `core-tokens/json/radius-primitive.json#/${refPath}` };
+		}
+		if (typeof tokens !== 'object') return tokens;
+		if (tokens.$ref) return tokens;
+		const out = Array.isArray(tokens) ? [] : {};
+		for (const [k, v] of Object.entries(tokens)) {
+			out[k] = this.refSemanticRadiusWithPrimitives(v, primitiveRadiusLookup);
+		}
+		return out;
 	}
 
 	/**
