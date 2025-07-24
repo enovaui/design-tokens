@@ -7,12 +7,6 @@ on:
       - 'packages/*/css/*.css'
     types: [opened, synchronize, reopened]
 
-  push:
-    branches: [main]
-    paths:
-      - 'packages/*/json/*.json'
-      - 'packages/*/css/*.css'
-
 jobs:
   validate-tokens:
     runs-on: ubuntu-latest
