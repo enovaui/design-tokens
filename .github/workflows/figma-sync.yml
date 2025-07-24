@@ -17,6 +17,9 @@ on:
 jobs:
   sync-figma-tokens:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Allow creating PRs
+      pull-requests: write  # Allow updating PRs
 
     steps:
       - name: Checkout repository
@@ -24,6 +27,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
+          persist-credentials: false # Ensure token is not reused for write
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
