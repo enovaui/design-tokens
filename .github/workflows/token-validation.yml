@@ -69,9 +69,9 @@ jobs:
 
             const requiredStructure = {
               'core-tokens': ['color-primitive', 'spacing-primitive', 'radius-primitive', 'typography-primitive'],
-              'web-tokens': ['color-semantic-lg-brand', 'color-semantic-mobile', ''color-semantic-mono-black', 'color-semantic-mono-white', 'color-semantic-web'],
+              'web-tokens': ['color-semantic-lg-brand', 'color-semantic-mobile', 'color-semantic-mono-black', 'color-semantic-mono-white', 'color-semantic-web'],
               'webos-tokens': ['color-semantic-light', 'color-semantic-dark', 'radius-semantic'],
-              'mobile-tokens': ['color-semantic-lg-brand', 'color-semantic-mobile', ''color-semantic-mono-black', 'color-semantic-mono-white', 'color-semantic-web']
+              'mobile-tokens': ['color-semantic-lg-brand', 'color-semantic-mobile', 'color-semantic-mono-black', 'color-semantic-mono-white', 'color-semantic-web']
             };
 
             let errors = [];
