@@ -43,46 +43,6 @@ class CSSGenerator {
     }
 
     /**
-     * Sort tokens numerically for spacing, radius, and font-size tokens
-     */
-    sortTokens(tokens) {
-        if (!tokens || !tokens.primitive) {
-            return tokens;
-        }
-
-        const primitive = tokens.primitive;
-        const sortedPrimitive = {};
-
-        // Get all keys and sort them
-        const keys = Object.keys(primitive).sort((a, b) => {
-            // Extract numerical value from key (e.g., "spacing-66" -> 66)
-            const getNumericValue = (key) => {
-                const match = key.match(/(\d+)$/);
-                return match ? parseInt(match[1], 10) : 0;
-            };
-
-            // Only sort if both keys are spacing, radius, or font-size tokens
-            if ((a.includes('spacing') || a.includes('radius') || a.includes('font-size')) &&
-                (b.includes('spacing') || b.includes('radius') || b.includes('font-size'))) {
-                return getNumericValue(a) - getNumericValue(b);
-            }
-
-            // For other tokens, maintain alphabetical order
-            return a.localeCompare(b);
-        });
-
-        // Rebuild the primitive object with sorted keys
-        keys.forEach(key => {
-            sortedPrimitive[key] = primitive[key];
-        });
-
-        return {
-            ...tokens,
-            primitive: sortedPrimitive
-        };
-    }
-
-    /**
      * Generate CSS content from JSON tokens with proper formatting
      */
     async generateCSSFromJSON(jsonPath, cssPath, options = {}) {
@@ -107,9 +67,6 @@ class CSSGenerator {
                 cssContent = await this.generateSemanticGenericCSS(jsonTokens, tokenType, options);
             }
         } else {
-            if (options.sort !== false) {
-                jsonTokens = this.sortTokens(jsonTokens);
-            }
             if (tokenType === 'color') {
                 cssContent = await this.generateColorCSS(jsonTokens, options);
             } else if (tokenType === 'typography') {
@@ -121,16 +78,6 @@ class CSSGenerator {
         // Write CSS file
         await fs.writeFile(cssPath, cssContent);
         console.log(`✅ Generated CSS file: ${path.basename(cssPath)}`);
-        // Also update JSON file with sorted tokens if primitive
-        if (!jsonTokens.semantic && options.sort !== false) {
-            await fs.writeJson(jsonPath, jsonTokens, { spaces: 4 });
-            console.log(`📝 Sorted JSON file: ${path.basename(jsonPath)}`);
-        }
-        // For color-semantic files, use compact writer
-        if (jsonTokens.semantic && fileName.includes('color-semantic')) {
-            await this.writeColorSemanticJSON(jsonPath, jsonTokens);
-            console.log(`📝 Rewritten (compact) JSON file: ${path.basename(jsonPath)}`);
-        }
         return true;
     }
 
@@ -477,40 +424,6 @@ Primitive ${tokenType.charAt(0).toUpperCase() + tokenType.slice(1)} Tokens
     }
 
     /**
-     * Sort all token files
-     */
-    async sortAllTokens(packageName = 'core-tokens') {
-        const packageDir = path.join(this.packagesDir, packageName);
-        const jsonDir = path.join(packageDir, 'json');
-
-        if (!await fs.pathExists(jsonDir)) {
-            console.log(`❌ JSON directory not found: ${jsonDir}`);
-            return;
-        }
-
-        console.log(`📋 Sorting all token files for package: ${packageName}`);
-
-        const jsonFiles = await fs.readdir(jsonDir);
-        const primitiveFiles = jsonFiles.filter(file =>
-            file.endsWith('-primitive.json')
-        );
-
-        for (const jsonFile of primitiveFiles) {
-            const jsonPath = path.join(jsonDir, jsonFile);
-
-            if (await fs.pathExists(jsonPath)) {
-                console.log(`📋 Sorting: ${jsonFile}`);
-                let jsonTokens = await fs.readJson(jsonPath);
-                jsonTokens = this.sortTokens(jsonTokens);
-                await fs.writeJson(jsonPath, jsonTokens, { spaces: 4 });
-                console.log(`✅ Sorted: ${jsonFile}`);
-            }
-        }
-
-        console.log('✅ All token files sorted successfully');
-    }
-
-    /**
      * Resolve $ref references to actual values
      */
     async resolveReference(ref, allTokens) {
@@ -784,37 +697,6 @@ Semantic ${headerType} Tokens
         cssContent += '}\n';
         return cssContent;
     }
-
-    /**
-     * Write JSON with compact $ref objects and correct indentation for color-semantic tokens
-     * (e.g. {"default": {"$ref": ...}} should be on one line, with 4-space indentation everywhere)
-     */
-    async writeColorSemanticJSON(filePath, data) {
-        // Custom replacer to keep $ref objects compact
-        function replacer(key, value) {
-            if (
-                value &&
-                typeof value === 'object' &&
-                !Array.isArray(value) &&
-                Object.keys(value).length === 1 &&
-                value.$ref
-            ) {
-                // Mark for compaction
-                value.__compact = true;
-                return value;
-            }
-            return value;
-        }
-        // Stringify with 4 spaces
-        let json = JSON.stringify(data, replacer, 4);
-        // Post-process: compact $ref objects to one line, preserving 4-space indentation
-        json = json.replace(/\n(\s+){\n(\s+)("\$ref": [^\n]+)\n\1}/g, (match, indent, innerIndent, refLine) => {
-            return `\n${indent}{ ${refLine.trim()} }`;
-        });
-        // Remove __compact marker if present
-        json = json.replace(/,?\s*"__compact": true/g, '');
-        await require('fs-extra').writeFile(filePath, json + '\n');
-    }
 }
 
 // CLI functionality
@@ -827,10 +709,6 @@ async function main() {
         switch (command) {
             case 'update-all':
                 await generator.updateAllCSS(args[1]);
-                break;
-
-            case 'sort-all':
-                await generator.sortAllTokens(args[1]);
                 break;
 
             case 'update-css':
@@ -848,13 +726,11 @@ CSS Generator - Unified CSS generation for design tokens
 
 Usage:
   node css-generator.js update-all [packageName]    Update all CSS files from JSON
-  node css-generator.js sort-all [packageName]      Sort all token files
   node css-generator.js update-css <json> <css>     Update specific CSS file
   node css-generator.js help                        Show this help
 
 Examples:
   node css-generator.js update-all core-tokens
-  node css-generator.js sort-all
   node css-generator.js update-css ./json/spacing-primitive.json ./css/spacing-primitive.css
 `);
                 break;

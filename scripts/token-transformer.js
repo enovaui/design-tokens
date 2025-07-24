@@ -18,248 +18,6 @@ class TokenTransformer {
 	}
 
 	/**
-	 * Transform Figma tokens to platform-specific tokens
-	 */
-	transformTokens(figmaTokens, platform = 'web') {
-		const mapping = this.mappingConfig[platform];
-		if (!mapping) {
-			throw new Error(`Unsupported platform: ${platform}`);
-		}
-
-		const transformedTokens = {};
-
-		Object.entries(figmaTokens).forEach(([collectionName, tokens]) => {
-			const platformMapping = mapping.collections[collectionName];
-			if (!platformMapping) {
-				console.warn(`No mapping found for collection ${collectionName} on platform ${platform}.`);
-				return;
-			}
-
-			const packageName = platformMapping.package;
-			const fileName = platformMapping.fileName;
-
-			if (!transformedTokens[packageName]) {
-				transformedTokens[packageName] = {};
-			}
-
-			if (!transformedTokens[packageName][fileName]) {
-				transformedTokens[packageName][fileName] = {};
-			}
-
-			// Transform token structure
-			transformedTokens[packageName][fileName] = this.transformTokenStructure(
-				tokens,
-				platformMapping.structure || 'flat'
-			);
-		});
-
-		return transformedTokens;
-	}
-
-	/**
-	 * Transform token structure (nested vs flat)
-	 */
-	transformTokenStructure(tokens, structureType) {
-		switch (structureType) {
-			case 'flat':
-				return this.flattenTokens(tokens);
-			case 'nested':
-				return tokens;
-			case 'css-custom-properties':
-				return this.toCSSCustomProperties(tokens);
-			default:
-				return tokens;
-		}
-	}
-
-	/**
-	 * Flatten nested tokens
-	 */
-	flattenTokens(tokens, prefix = '', result = {}) {
-		Object.entries(tokens).forEach(([key, value]) => {
-			const newKey = prefix ? `${prefix}-${key}` : key;
-
-			if (typeof value === 'object' && value !== null && !value.$ref) {
-				this.flattenTokens(value, newKey, result);
-			} else {
-				result[newKey] = value;
-			}
-		});
-
-		return result;
-	}
-
-	/**
-	 * Convert to CSS Custom Properties format
-	 */
-	toCSSCustomProperties(tokens) {
-		const cssVars = {};
-		const flattened = this.flattenTokens(tokens);
-
-		Object.entries(flattened).forEach(([key, value]) => {
-			cssVars[`--${key}`] = value;
-		});
-
-		return cssVars;
-	}
-
-	/**
-	 * Resolve token references
-	 */
-	resolveReferences(tokens, allTokens) {
-		const resolved = JSON.parse(JSON.stringify(tokens));
-
-		const resolveValue = (value) => {
-			if (typeof value === 'object' && value.$ref) {
-			// $ref format: "core-tokens/json/color-primitive.json#/primitive/color/black"
-			const refPath = value.$ref;
-			const [filePath, jsonPath] = refPath.split('#');
-
-			// Extract package and file name from file path
-			const pathParts = filePath.split('/');
-			const packageName = pathParts[0];
-			const fileName = pathParts[2].replace('.json', '');
-
-			// Parse JSON path
-			const pathSegments = jsonPath.split('/').filter(s => s);
-
-			// Find referenced value
-			let referencedValue = allTokens[packageName]?.[fileName];
-			for (const segment of pathSegments) {
-				if (referencedValue && typeof referencedValue === 'object') {
-					referencedValue = referencedValue[segment];
-				} else {
-					break;
-				}
-			}
-
-				return referencedValue || value.$ref; // Return original if resolution fails
-			}
-
-			if (typeof value === 'object' && value !== null) {
-				const result = {};
-				Object.entries(value).forEach(([k, v]) => {
-					result[k] = resolveValue(v);
-				});
-				return result;
-			}
-
-			return value;
-		};
-
-		return resolveValue(resolved);
-	}
-
-	/**
-	 * Generate platform-specific output files
-	 */
-	async generateOutputFiles(transformedTokens, outputDir) {
-		const outputs = [];
-
-		for (const [packageName, files] of Object.entries(transformedTokens)) {
-			const packageDir = path.join(outputDir, 'packages', packageName);
-			await fs.ensureDir(packageDir);
-
-			for (const [fileName, tokens] of Object.entries(files)) {
-				// Generate JSON file
-				const jsonDir = path.join(packageDir, 'json');
-				await fs.ensureDir(jsonDir);
-				const jsonPath = path.join(jsonDir, `${fileName}.json`);
-				await this.saveTokensToFile(jsonPath, tokens);
-				outputs.push(jsonPath);
-
-				// Generate CSS file
-				const cssDir = path.join(packageDir, 'css');
-				await fs.ensureDir(cssDir);
-				const cssPath = path.join(cssDir, `${fileName}.css`);
-				await this.generateCSSFile(tokens, cssPath);
-				outputs.push(cssPath);
-			}
-		}
-
-		return outputs;
-	}
-
-	/**
-	 * Generate CSS file
-	 */
-	async generateCSSFile(tokens, outputPath) {
-		let cssContent = `:root {\n`;
-
-		const flattened = this.flattenTokens(tokens);
-
-		// Sort entries by numerical value for spacing and radius tokens
-		const sortedEntries = Object.entries(flattened).sort(([keyA], [keyB]) => {
-			// Extract numerical value from key (e.g., "primitive-spacing-66" -> 66)
-			const getNumericValue = (key) => {
-				const match = key.match(/(\d+)$/);
-				return match ? parseInt(match[1], 10) : 0;
-			};
-
-			// Only sort if both keys are spacing or radius tokens
-			if ((keyA.includes('spacing') || keyA.includes('radius')) &&
-				(keyB.includes('spacing') || keyB.includes('radius'))) {
-				return getNumericValue(keyA) - getNumericValue(keyB);
-			}
-
-			// For other tokens, maintain original order
-			return 0;
-		});
-
-		sortedEntries.forEach(([key, value]) => {
-			if (typeof value === 'string' || typeof value === 'number') {
-				// Add px unit for spacing and radius tokens if value is a number
-				const formattedValue = this.formatCSSValue(key, value);
-				cssContent += `  --${key}: ${formattedValue};\n`;
-			}
-		});
-
-		cssContent += `}\n`;
-
-		await fs.writeFile(outputPath, cssContent, 'utf8');
-	}
-
-	/**
-	 * Update specific CSS variables in existing file
-	 */
-	async updateCSSFile(tokens, outputPath) {
-		await fs.ensureDir(path.dirname(outputPath));
-
-		// Check if CSS file exists
-		if (!await fs.pathExists(outputPath)) {
-			// If file doesn't exist, create new one
-			await this.generateCSSFile(tokens, outputPath);
-			return;
-		}
-
-		// Read existing CSS content
-		let cssContent = await fs.readFile(outputPath, 'utf8');
-
-		// Flatten tokens to get CSS variables
-		const flattened = this.flattenTokens(tokens);
-
-		// Update each CSS variable
-		Object.entries(flattened).forEach(([key, value]) => {
-			if (typeof value === 'string' || typeof value === 'number') {
-				const cssVar = `--${key}`;
-				const formattedValue = this.formatCSSValue(key, value);
-				const regex = new RegExp(`(\\s*${cssVar.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')}\\s*:\\s*)[^;]+;`, 'g');
-
-				if (cssContent.match(regex)) {
-					// Update existing variable
-					cssContent = cssContent.replace(regex, `$1${formattedValue};`);
-					console.log(`   📝 Updated CSS variable: ${cssVar} = ${formattedValue}`);
-				} else {
-					console.log(`   ⚠️  CSS variable not found in file: ${cssVar}`);
-				}
-			}
-		});
-
-		// Write updated content back to file
-		await fs.writeFile(outputPath, cssContent, 'utf8');
-	}
-
-	/**
 	 * Apply incremental updates based on changes
 	 */
 	async applyChanges(changes, outputDir) {
@@ -357,8 +115,9 @@ class TokenTransformer {
 			console.log(`     + Added ${tokenKey}: ${formattedValue}`);
 		}
 
+		const sortedTokens = this.sortTokens(existingTokens);
 		// Write updated file
-		await this.saveTokensToFile(filePath, existingTokens);
+		await this.saveTokensToFile(filePath, sortedTokens);
 	}
 
 	/**
@@ -366,29 +125,6 @@ class TokenTransformer {
 	 */
 	async updateCSSFromJSON(jsonPath, cssPath) {
 		return await this.cssGenerator.generateCSSFromJSON(jsonPath, cssPath);
-	}
-
-	/**
-	 * Get default CSS header with comments
-	 */
-	getDefaultCSSHeader(cssPath) {
-		const fileName = path.basename(cssPath, '.css');
-		const titleCase = fileName.split('-').map(word =>
-			word.charAt(0).toUpperCase() + word.slice(1)
-		).join(' ');
-
-		return `/*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
- * SPDX-License-Identifier: Apache-2.0
- */
-
-/* ${fileName}.css */
-
-/* ----------------------------------------
-${titleCase} Tokens
-------------------------------------------- */
-
-`;
 	}
 
 	/**
@@ -651,82 +387,44 @@ ${titleCase} Tokens
 	}
 
 	/**
-	 * Update token file
-	 */
-	async updateTokenFile(filePath, tokens, operation) {
-		switch (operation) {
-			case 'add':
-				await this.mergeTokenFile(filePath, tokens);
-				break;
-			case 'modify':
-				await this.mergeTokenFile(filePath, tokens);
-				break;
-			case 'remove':
-				if (await fs.pathExists(filePath)) {
-					await fs.remove(filePath);
-				}
-				break;
-		}
-	}
+     * Sort tokens numerically for spacing, radius, and font-size tokens
+     */
+    sortTokens(tokens) {
+        if (!tokens || !tokens.primitive) {
+            return tokens;
+        }
 
-	/**
-	 * Sort tokens numerically for spacing and radius tokens
-	 */
-	sortTokens(tokens) {
-		if (!tokens || !tokens.primitive) {
-			return tokens;
-		}
+        const primitive = tokens.primitive;
+        const sortedPrimitive = {};
 
-		const primitive = tokens.primitive;
-		const sortedPrimitive = {};
+        // Get all keys and sort them
+        const keys = Object.keys(primitive).sort((a, b) => {
+            // Extract numerical value from key (e.g., "spacing-66" -> 66)
+            const getNumericValue = (key) => {
+                const match = key.match(/(\d+)$/);
+                return match ? parseInt(match[1], 10) : 0;
+            };
 
-		// Get all keys and sort them
-		const keys = Object.keys(primitive).sort((a, b) => {
-			// Extract numerical value from key (e.g., "spacing-66" -> 66)
-			const getNumericValue = (key) => {
-				const match = key.match(/(\d+)$/);
-				return match ? parseInt(match[1], 10) : 0;
-			};
+            // Only sort if both keys are spacing, radius, or font-size tokens
+            if ((a.includes('spacing') || a.includes('radius') || a.includes('font-size')) &&
+                (b.includes('spacing') || b.includes('radius') || b.includes('font-size'))) {
+                return getNumericValue(a) - getNumericValue(b);
+            }
 
-			// Only sort if both keys are spacing or radius tokens
-			if ((a.includes('spacing') || a.includes('radius')) &&
-				(b.includes('spacing') || b.includes('radius'))) {
-				return getNumericValue(a) - getNumericValue(b);
-			}
+            // For other tokens, maintain alphabetical order
+            return a.localeCompare(b);
+        });
 
-			// For other tokens, maintain original order
-			return 0;
-		});
+        // Rebuild the primitive object with sorted keys
+        keys.forEach(key => {
+            sortedPrimitive[key] = primitive[key];
+        });
 
-		// Rebuild the object with sorted keys
-		keys.forEach(key => {
-			sortedPrimitive[key] = primitive[key];
-		});
-
-		return {
-			...tokens,
-			primitive: sortedPrimitive
-		};
-	}
-
-	/**
-	 * Format CSS value - add px unit for spacing and radius tokens
-	 */
-	formatCSSValue(key, value) {
-		// Check if this is a spacing or radius token and value is a number
-		if ((key.includes('spacing') || key.includes('radius')) &&
-			typeof value === 'number' &&
-			value !== 0) {
-			return `${value}px`;
-		}
-
-		// For radius-0, keep it as just "0"
-		if (key.includes('radius') && value === 0) {
-			return '0';
-		}
-
-		return value;
-	}
+        return {
+            ...tokens,
+            primitive: sortedPrimitive
+        };
+    }
 
 	/**
 	 * Convert individual token data to proper nested format for removal
