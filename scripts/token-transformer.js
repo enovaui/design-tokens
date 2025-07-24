@@ -87,36 +87,68 @@ class TokenTransformer {
 	async addTokensToFile(filePath, tokens) {
 		await fs.ensureDir(path.dirname(filePath));
 
-		// Read existing file
-		let existingTokens = { primitive: {} };
+		let existingTokens = {};
 		if (await fs.pathExists(filePath)) {
 			existingTokens = await fs.readJson(filePath);
 		}
 
-		// Add new tokens
-		for (const { tokenPath, changeData } of tokens) {
-			const { path: tokenPathArray, value } = changeData;
+		const isColorSemantic = /color-semantic/.test(filePath);
+		const isRadiusSemantic = /radius-semantic/.test(filePath);
 
-			// Build token key (e.g., "spacing-66")
+		if (isColorSemantic) {
+			// Build primitive color lookup
+			let primitiveColors = {};
+			try {
+				const primitivePath = path.resolve(__dirname, '../packages/core-tokens/json/color-primitive.json');
+				primitiveColors = fs.readJsonSync(primitivePath).primitive.color;
+			} catch (e) {}
+			const primitiveColorLookup = this.buildPrimitiveColorLookup(primitiveColors);
+
+			for (const { changeData } of tokens) {
+				const { path: tokenPathArray, value } = changeData;
+				console.log("changeData:", changeData);
+				// semantic.color.[...path]
+				let target = existingTokens;
+				if (!target.semantic) target.semantic = {};
+				target = target.semantic;
+				if (!target.color) target.color = {};
+				target = target.color;
+				for (let i = 0; i < tokenPathArray.length - 1; i++) {
+					if (!target[tokenPathArray[i]]) target[tokenPathArray[i]] = {};
+					target = target[tokenPathArray[i]];
+				}
+				let val = value;
+				if (typeof value === 'string' && value.startsWith('#')) {
+					const hex = value.toLowerCase();
+					if (primitiveColorLookup[hex]) {
+						const refPath = primitiveColorLookup[hex].join('/');
+						val = { $ref: `core-tokens/json/color-primitive.json#/${refPath}` };
+					}
+				}
+				target[tokenPathArray[tokenPathArray.length - 1]] = val;
+			}
+			existingTokens = this.refSemanticColorsWithPrimitives(existingTokens, primitiveColorLookup);
+			const sortedTokens = this.sortTokens(existingTokens);
+			await this.saveTokensToFile(filePath, sortedTokens);
+			return;
+		}
+
+		if (!existingTokens.primitive) existingTokens.primitive = {};
+		for (const { changeData } of tokens) {
+			const { path: tokenPathArray, value } = changeData;
 			const tokenKey = tokenPathArray.length > 1
 				? `${tokenPathArray[0]}-${tokenPathArray[tokenPathArray.length - 1]}`
 				: tokenPathArray[0];
-
-			// Format value based on token type
 			let formattedValue = value;
 			if (tokenPathArray[0] === 'spacing' || tokenPathArray[0] === 'radius') {
 				formattedValue = value === 0 ? '0' : `${value}px`;
 			} else if (tokenPathArray[0].startsWith('font-size') && typeof value === 'number') {
 				formattedValue = `${value}px`;
 			}
-
-			// Add to primitive object
 			existingTokens.primitive[tokenKey] = formattedValue;
 			console.log(`     + Added ${tokenKey}: ${formattedValue}`);
 		}
-
 		const sortedTokens = this.sortTokens(existingTokens);
-		// Write updated file
 		await this.saveTokensToFile(filePath, sortedTokens);
 	}
 
@@ -150,7 +182,16 @@ class TokenTransformer {
 
 		// Determine the appropriate file name based on collection type or filePath
 		let fileName;
-		if (collection && collection.includes('color')) {
+
+		if (collection && /color[.-]semantic/i.test(collection)) {
+			// Try to extract the dark/light part
+			const match = collection.match(/color[.-]semantic[.-](\w+)$/i);
+			if (match) {
+				fileName = `color-semantic-${match[1]}`;
+			} else {
+				fileName = 'color-semantic';
+			}
+		} else if (collection && collection.includes('color')) {
 			fileName = 'color-primitive';
 		} else if (collection && collection.includes('spacing')) {
 			fileName = 'spacing-primitive';
