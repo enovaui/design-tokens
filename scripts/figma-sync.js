@@ -234,37 +234,37 @@ class FigmaAPIClient {
 	}
 }
 
-	/**
-	 * Load current local tokens
-	 */
-	async function loadLocalTokens() {
-		const tokens = {};
-		const packagesDir = path.join(__dirname, '..', 'packages');
+/**
+ * Load current local tokens
+ */
+async function loadLocalTokens() {
+	const tokens = {};
+	const packagesDir = path.join(__dirname, '..', 'packages');
 
-		try {
-			const packages = await fs.readdir(packagesDir);
+	try {
+		const packages = await fs.readdir(packagesDir);
 
-			for (const pkg of packages) {
-				const jsonDir = path.join(packagesDir, pkg, 'json');
-				if (await fs.pathExists(jsonDir)) {
-					const jsonFiles = await fs.readdir(jsonDir);
-					tokens[pkg] = {};
+		for (const pkg of packages) {
+			const jsonDir = path.join(packagesDir, pkg, 'json');
+			if (await fs.pathExists(jsonDir)) {
+				const jsonFiles = await fs.readdir(jsonDir);
+				tokens[pkg] = {};
 
-					for (const file of jsonFiles.filter(f => f.endsWith('.json'))) {
-						const filePath = path.join(jsonDir, file);
-						const content = await fs.readJson(filePath);
-						const baseName = path.basename(file, '.json');
-						tokens[pkg][baseName] = content;
-					}
+				for (const file of jsonFiles.filter(f => f.endsWith('.json'))) {
+					const filePath = path.join(jsonDir, file);
+					const content = await fs.readJson(filePath);
+					const baseName = path.basename(file, '.json');
+					tokens[pkg][baseName] = content;
 				}
 			}
-
-			return tokens;
-		} catch (error) {
-			console.error('Failed to load local tokens:', error);
-			throw error;
 		}
+
+		return tokens;
+	} catch (error) {
+		console.error('Failed to load local tokens:', error);
+		throw error;
 	}
+}
 
 /**
  * Get semantic color file name based on mode
@@ -333,10 +333,12 @@ function analyzeChanges(figmaTokens, localTokens) {
 		'lg.web.color.component': 'web-tokens',
 		'lg.webOS.color.component': 'webos-tokens',
 		'lg.mobile.color.component': 'mobile-tokens'
-	};		console.log('🔍 Figma collections found:', Object.keys(figmaTokens));
+	};
 
-		// Compare each Figma collection with corresponding local package
-		Object.entries(figmaTokens).forEach(([collectionName, figmaCollection]) => {
+	console.log('🔍 Figma collections found:', Object.keys(figmaTokens));
+
+	// Compare each Figma collection with corresponding local package
+	Object.entries(figmaTokens).forEach(([collectionName, figmaCollection]) => {
 		// Skip component collections - they don't need change detection
 		if (collectionName.includes('.component')) {
 			console.log(`⏭️ Skipping component collection: ${collectionName}`);
