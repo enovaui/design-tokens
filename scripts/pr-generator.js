@@ -10,10 +10,11 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 class PRGenerator {
-		constructor(options = {}) {
-		this.owner = options.owner || 'enovaui-bot';
-		this.repo = options.repo || 'design-tokens';
-		this.baseBranch = options.baseBranch || 'develop';
+	constructor(options = {}) {
+		const repoInfo = process.env.GITHUB_REPOSITORY ? process.env.GITHUB_REPOSITORY.split('/') : [];
+		this.owner = options.owner || repoInfo[0] || 'enovaui';
+		this.repo = options.repo || repoInfo[1] || 'design-tokens';
+		this.baseBranch = options.baseBranch || process.env.GITHUB_BASE_REF || 'develop';
 		this.token = process.env.GITHUB_TOKEN;
 
 		if (!this.token) {
