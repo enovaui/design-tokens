@@ -145,6 +145,9 @@ jobs:
           FIGMA_FILE_URL: ${{ secrets.FIGMA_FILE_URL }}
           PR_REVIEWERS: ${{ secrets.PR_REVIEWERS }}
         run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           echo "🚀 Creating Pull Request..."
           node scripts/pr-generator.js
 
