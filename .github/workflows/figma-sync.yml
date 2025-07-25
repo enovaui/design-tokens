@@ -149,6 +149,7 @@ jobs:
           git config --global user.name "enovaui-bot"
           git remote set-url origin https://x-access-token:${{ secrets.ENOVA_BOT_PAT }}@github.com/${{ github.repository }}
           echo "🚀 Creating Pull Request..."
+          node scripts/pr-generator.js
 
       - name: Notify Results
         if: always()
@@ -172,10 +173,17 @@ jobs:
             REPO_URL="https://github.com/${{ github.repository }}"
             RUN_URL="$REPO_URL/actions/runs/${{ github.run_id }}"
             COMMIT_URL="$REPO_URL/commit/${{ github.sha }}"
+            # Find PR URL from pr-result.json if it exists
+            if [ -f pr-result.json ]; then
+              PR_URL=$(node -e "try{const d=require('./pr-result.json');console.log(d.html_url||'')}catch(e){console.log('')}")
+            fi
+            if [ -z "$PR_URL" ]; then
+              PR_URL="$RUN_URL"
+            fi
 
             echo "📨 Attempting to send Teams notification..."
 
-            PAYLOAD="{\"@type\": \"MessageCard\", \"@context\": \"http://schema.org/extensions\", \"summary\": \"Figma token sync result\", \"themeColor\": \"0076D7\", \"title\": \"$STATUS\", \"text\": \"$MESSAGE\", \"sections\": [{\"facts\": [{\"name\": \"Repository\", \"value\": \"${{ github.repository }}\"}, {\"name\": \"Branch\", \"value\": \"${{ github.ref_name }}\"}, {\"name\": \"Actor\", \"value\": \"${{ github.actor }}\"}, {\"name\": \"Workflow\", \"value\": \"${{ github.workflow }}\"}, {\"name\": \"Event\", \"value\": \"${{ github.event_name }}\"}, {\"name\": \"Run\", \"value\": \"[View Run]($RUN_URL)\"}, {\"name\": \"Commit\", \"value\": \"[${{ github.sha }}]($COMMIT_URL)\"}]}], \"potentialAction\": [{\"@type\": \"OpenUri\", \"name\": \"View Workflow Run\", \"targets\": [{\"os\": \"default\", \"uri\": \"$RUN_URL\"}]}]}"
+            PAYLOAD="{\"@type\": \"MessageCard\", \"@context\": \"http://schema.org/extensions\", \"summary\": \"Figma token sync result\", \"themeColor\": \"0076D7\", \"title\": \"$STATUS\", \"text\": \"$MESSAGE\", \"sections\": [{\"facts\": [{\"name\": \"Repository\", \"value\": \"${{ github.repository }}\"}, {\"name\": \"Workflow\", \"value\": \"${{ github.workflow }}\"}, {\"name\": \"Run\", \"value\": \"[View Run]($RUN_URL)\"}]}], \"potentialAction\": [{\"@type\": \"OpenUri\", \"name\": \"View Github PR\", \"targets\": [{\"os\": \"default\", \"uri\": \"$PR_URL\"}]}]}"
 
             curl -X POST -H 'Content-Type: application/json' \
               --connect-timeout 10 \
