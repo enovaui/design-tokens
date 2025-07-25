@@ -91,18 +91,14 @@ class PRGenerator {
 	/**
 	 * Generate PR body
 	 */
-	generatePRBody(changes, figmaFileUrl = '') {
+	generatePRBody(changes) {
 		const added = Object.keys(changes.added).length;
 		const modified = Object.keys(changes.modified).length;
 		const removed = Object.keys(changes.removed).length;
 
 		let body = `## 🎨 Figma Variables Auto Sync\n\n`;
 
-		if (figmaFileUrl) {
-			body += `📁 **Figma File**: [Link](${figmaFileUrl})\n`;
-		}
-
-		body += `🕐 **Sync Time**: ${new Date().toLocaleString('en-US')}\n\n`;
+		body += `🕐 **Sync Time**: ${new Date().toLocaleString('ko-KR')} (KST)\n\n`;
 
 		body += `### 📊 Change Summary\n\n`;
 		body += `| Type | Count |\n`;
@@ -317,7 +313,7 @@ async function main() {
 		// Generate branch name and PR content
 		const branchName = prGenerator.generateBranchName(changes);
 		const title = prGenerator.generatePRTitle(changes);
-		const body = prGenerator.generatePRBody(changes, process.env.FIGMA_FILE_URL);
+		const body = prGenerator.generatePRBody(changes);
 
 		console.log(`📋 PR Information:`);
 		console.log(`- Branch: ${branchName}`);
