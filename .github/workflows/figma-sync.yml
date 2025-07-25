@@ -193,7 +193,7 @@ jobs:
             curl -X POST -H 'Content-Type: application/json' \
               --connect-timeout 10 \
               --max-time 30 \
-              --data "$PAYLOAD" "$TEAMS_WORKFLOW_WEBHOOK_URL"
+              --data "$PAYLOAD" "$TEAMS_WORKFLOW_WEBHOOK_URL" || true
 
             if [ $? -eq 0 ]; then
               echo "✅ Teams notification sent successfully!"

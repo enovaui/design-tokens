@@ -98,7 +98,7 @@ class PRGenerator {
 
 		let body = `## 🎨 Figma Variables Auto Sync\n\n`;
 
-		body += `🕐 **Sync Time**: ${new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })} (KST)\n\n`;
+		body += `🕐 **Sync Time**: ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' })} (KST)\n\n`;
 
 		body += `### 📊 Change Summary\n\n`;
 		body += `| Type | Count |\n`;
