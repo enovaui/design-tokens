@@ -179,20 +179,39 @@ jobs:
             curl -X POST -H 'Content-Type: application/json' \
               --connect-timeout 10 \
               --max-time 30 \
-              --data "{
-                \"status_icon\": \"$STATUS_ICON\",
-                \"status\": \"$STATUS\",
-                \"text\": \"$MESSAGE\",
-                \"repository\": \"${{ github.repository }}\",
-                \"branch\": \"${{ github.ref_name }}\",
-                \"actor\": \"${{ github.actor }}\",
-                \"run_url\": \"$RUN_URL\",
-                \"commit_url\": \"$COMMIT_URL\",
-                \"commit_sha\": \"${{ github.sha }}\",
-                \"workflow\": \"${{ github.workflow }}\",
-                \"event\": \"${{ github.event_name }}\",
-                \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
-              }" \
+              --data "$(cat <<EOF
+{
+  \"@type\": \"MessageCard\",
+  \"@context\": \"http://schema.org/extensions\",
+  \"summary\": \"Figma token sync result\",
+  \"themeColor\": \"0076D7\",
+  \"title\": \"$STATUS\",
+  \"text\": \"$MESSAGE\",
+  \"sections\": [
+    {
+      \"facts\": [
+        { \"name\": \"Repository\", \"value\": \"${{ github.repository }}\" },
+        { \"name\": \"Branch\", \"value\": \"${{ github.ref_name }}\" },
+        { \"name\": \"Actor\", \"value\": \"${{ github.actor }}\" },
+        { \"name\": \"Workflow\", \"value\": \"${{ github.workflow }}\" },
+        { \"name\": \"Event\", \"value\": \"${{ github.event_name }}\" },
+        { \"name\": \"Run\", \"value\": \"[View Run]($RUN_URL)\" },
+        { \"name\": \"Commit\", \"value\": \"[${{ github.sha }}]($COMMIT_URL)\" }
+      ]
+    }
+  ],
+  \"potentialAction\": [
+    {
+      \"@type\": \"OpenUri\",
+      \"name\": \"View Workflow Run\",
+      \"targets\": [
+        { \"os\": \"default\", \"uri\": \"$RUN_URL\" }
+      ]
+    }
+  ]
+}
+EOF
+)" \
               "$TEAMS_WORKFLOW_WEBHOOK_URL" && echo "✅ Teams notification sent successfully!" || echo "⚠️ Teams notification failed, but continuing..."
           else
             echo "ℹ️ Teams webhook not configured, skipping notification"
