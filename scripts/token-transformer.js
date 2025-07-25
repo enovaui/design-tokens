@@ -568,27 +568,35 @@ class TokenTransformer {
 
 	/**
      * Write JSON with compact $ref objects and 4-space indentation (for color-semantic tokens)
+     * This version ensures {"$ref": "..."} is always on one line.
      */
     async writeColorSemanticJSON(filePath, data) {
-        function replacer(key, value) {
-            if (
-                value &&
-                typeof value === 'object' &&
-                !Array.isArray(value) &&
-                Object.keys(value).length === 1 &&
-                value.$ref
-            ) {
-                value.__compact = true;
-                return value;
+        function customStringify(obj, indent = 0) {
+            const pad = ' '.repeat(indent);
+            if (Array.isArray(obj)) {
+                if (obj.length === 0) return '[]';
+                const items = obj.map(item => customStringify(item, indent + 4));
+                return '[\n' + items.map(i => pad + '    ' + i).join(',\n') + '\n' + pad + ']';
+            } else if (obj && typeof obj === 'object') {
+                const keys = Object.keys(obj);
+                // Compact single $ref object
+                if (keys.length === 1 && keys[0] === '$ref') {
+                    return `{"$ref": ${JSON.stringify(obj['$ref'])}}`;
+                }
+                if (keys.length === 0) return '{}';
+                let out = '{\n';
+                out += keys.map((k, idx) => {
+                    const v = obj[k];
+                    return pad + '    ' + JSON.stringify(k) + ': ' + customStringify(v, indent + 4);
+                }).join(',\n');
+                out += '\n' + pad + '}';
+                return out;
+            } else {
+                return JSON.stringify(obj);
             }
-            return value;
         }
-        let json = JSON.stringify(data, replacer, 4);
-        json = json.replace(/\n(\s+){\n(\s+)("\$ref": [^\n]+)\n\1}/g, (match, indent, innerIndent, refLine) => {
-            return `\n${indent}{ ${refLine.trim()} }`;
-        });
-        json = json.replace(/,?\s*"__compact": true/g, '');
-        await fs.writeFile(filePath, json + '\n');
+        const json = customStringify(data, 0) + '\n';
+        await fs.writeFile(filePath, json);
     }
 
 	/**
