@@ -184,6 +184,13 @@ jobs:
                 \"status\": \"$STATUS\",
                 \"text\": \"$MESSAGE\",
                 \"repository\": \"${{ github.repository }}\",
+                \"branch\": \"${{ github.ref_name }}\",
+                \"actor\": \"${{ github.actor }}\",
+                \"run_url\": \"$RUN_URL\",
+                \"commit_url\": \"$COMMIT_URL\",
+                \"commit_sha\": \"${{ github.sha }}\",
+                \"workflow\": \"${{ github.workflow }}\",
+                \"event\": \"${{ github.event_name }}\",
                 \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
               }" \
               "$TEAMS_WORKFLOW_WEBHOOK_URL" && echo "✅ Teams notification sent successfully!" || echo "⚠️ Teams notification failed, but continuing..."
