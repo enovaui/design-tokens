@@ -173,9 +173,14 @@ jobs:
             REPO_URL="https://github.com/${{ github.repository }}"
             RUN_URL="$REPO_URL/actions/runs/${{ github.run_id }}"
             COMMIT_URL="$REPO_URL/commit/${{ github.sha }}"
-            # Find PR URL from pr-result.json if it exists
+            # Find PR URL from pr-result.json if it exists and is not empty
+            PR_URL=""
             if [ -f pr-result.json ]; then
-              PR_URL=$(node -e "try{const d=require('./pr-result.json');console.log(d.html_url||'')}catch(e){console.log('')}")
+              PR_URL=$(node -e "try{const d=require('./pr-result.json');if(d && d.pullRequest && d.pullRequest.url)console.log(d.pullRequest.url);else console.log('')}catch(e){console.log('')}")
+            fi
+            if [ -z "$PR_URL" ]; then
+              # Try to get the latest PR URL from GitHub CLI as a fallback
+              PR_URL=$(gh pr list --state open --json url --jq '.[0].url' 2>/dev/null)
             fi
             if [ -z "$PR_URL" ]; then
               PR_URL="$RUN_URL"
