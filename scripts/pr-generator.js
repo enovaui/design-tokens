@@ -11,7 +11,7 @@ const { execSync } = require('child_process');
 
 class PRGenerator {
 		constructor(options = {}) {
-		this.owner = options.owner || 'enovaui';
+		this.owner = options.owner || 'enovaui-bot';
 		this.repo = options.repo || 'design-tokens';
 		this.baseBranch = options.baseBranch || 'develop';
 		this.token = process.env.GITHUB_TOKEN;
@@ -68,7 +68,7 @@ class PRGenerator {
 		if (Object.keys(changes.removed).length > 0) changeTypes.push('remove');
 
 		const suffix = changeTypes.join('-') || 'sync';
-		return `figma-tokens/${suffix}-${timestamp}`;
+		return `figma-sync/${suffix}-${timestamp}`;
 	}
 
 	/**

@@ -25,7 +25,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.ENOVA_BOT_PAT }}
           fetch-depth: 0
           persist-credentials: false # Ensure token is not reused for write
 
@@ -141,13 +141,13 @@ jobs:
       - name: Create Pull Request
         if: steps.figma-check.outputs.proceed == 'true'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ENOVA_BOT_PAT }}
           FIGMA_FILE_URL: ${{ secrets.FIGMA_FILE_URL }}
           PR_REVIEWERS: ${{ secrets.PR_REVIEWERS }}
         run: |
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git config --global user.email "enovaui-bot@github.com"
+          git config --global user.name "enovaui-bot"
+          git remote set-url origin https://x-access-token:${{ secrets.ENOVA_BOT_PAT }}@github.com/${{ github.repository }}
           echo "🚀 Creating Pull Request..."
           node scripts/pr-generator.js
 
@@ -198,7 +198,6 @@ jobs:
           else
             echo "ℹ️ Teams webhook not configured, skipping notification"
           fi
-          fi
 
       - name: Cleanup
         if: always()
@@ -206,5 +205,5 @@ jobs:
           # Clean up temporary files
           rm -f figma-changes.json token-update-manifest.json pr-result.json
 
-          # Return to main branch if a branch was created
-          git checkout main 2>/dev/null || true
+          # Return to develop branch if a branch was created
+          git checkout develop 2>/dev/null || true
