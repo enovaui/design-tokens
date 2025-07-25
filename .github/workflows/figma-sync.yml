@@ -1,4 +1,4 @@
-name: Figma Variables Sync
+name: Design Token Sync
 
 on:
   # Manual execution possible
@@ -9,7 +9,7 @@ on:
         required: false
         default: 'false'
         type: boolean
-  # Test
+  # Temporal trigger for testing
   pull_request:
     branches:
       - develop

@@ -1,4 +1,4 @@
-name: Token Validation
+name: Design Token Validation
 
 on:
   pull_request:
