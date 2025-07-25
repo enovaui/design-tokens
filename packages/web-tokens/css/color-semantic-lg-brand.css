@@ -10,14 +10,15 @@ Semantic Color Tokens
 ------------------------------------------- */
 
 :root {
-	/* background */
+
+	/* Background */
 	--semantic-color-background-main: var(--primitive-color-warm-gray-99);
 	--semantic-color-background-sub: var(--primitive-color-white);
 
-	/* onBackground */
+	/* On Background */
 	--semantic-color-on-background-default: var(--primitive-color-mist-gray-10);
 
-	/* surface */
+	/* Surface */
 	--semantic-color-surface-default-handle: var(--primitive-color-black);
 	--semantic-color-surface-default-indicator: var(--primitive-color-heritage-red-40);
 	--semantic-color-surface-default-notification: var(--primitive-color-active-red-50);
@@ -51,7 +52,7 @@ Semantic Color Tokens
 	--semantic-color-surface-white: var(--primitive-color-white);
 	--semantic-color-surface-black: var(--primitive-color-warm-gray-10);
 
-	/* onSurface */
+	/* On Surface */
 	--semantic-color-on-surface-default-error: var(--primitive-color-active-red-60);
 	--semantic-color-on-surface-default-success: var(--primitive-color-green-55);
 	--semantic-color-on-surface-main: var(--primitive-color-mist-gray-10);
@@ -62,7 +63,7 @@ Semantic Color Tokens
 	--semantic-color-on-surface-white: var(--primitive-color-white);
 	--semantic-color-on-surface-black: var(--primitive-color-mist-gray-10);
 
-	/* stroke */
+	/* Stroke */
 	--semantic-color-stroke-default-error: var(--primitive-color-red-orange-60);
 	--semantic-color-stroke-default-success: var(--primitive-color-green-60);
 	--semantic-color-stroke-main: var(--primitive-color-warm-gray-75);
@@ -74,6 +75,6 @@ Semantic Color Tokens
 	--semantic-color-stroke-selection-inactive: var(--primitive-color-warm-gray-60);
 	--semantic-color-stroke-tab: var(--primitive-color-mist-gray-10);
 
-	/* scrim */
+	/* Scrim */
 	--semantic-color-scrim-default: var(--primitive-color-black);
 }
