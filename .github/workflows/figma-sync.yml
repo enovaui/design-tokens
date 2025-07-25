@@ -145,7 +145,7 @@ jobs:
           FIGMA_FILE_URL: ${{ secrets.FIGMA_FILE_URL }}
           PR_REVIEWERS: ${{ secrets.PR_REVIEWERS }}
         run: |
-          git config --global user.email "enovaui-bot@github.com"
+          git config --global user.email "enovaui@lge.com"
           git config --global user.name "enovaui-bot"
           git remote set-url origin https://x-access-token:${{ secrets.ENOVA_BOT_PAT }}@github.com/${{ github.repository }}
           echo "🚀 Creating Pull Request..."
@@ -182,15 +182,8 @@ jobs:
               --data "{
                 \"status_icon\": \"$STATUS_ICON\",
                 \"status\": \"$STATUS\",
-                \"message\": \"$MESSAGE\",
+                \"text\": \"$MESSAGE\",
                 \"repository\": \"${{ github.repository }}\",
-                \"branch\": \"${{ github.ref_name }}\",
-                \"actor\": \"${{ github.actor }}\",
-                \"run_url\": \"$RUN_URL\",
-                \"commit_url\": \"$COMMIT_URL\",
-                \"commit_sha\": \"${{ github.sha }}\",
-                \"workflow\": \"${{ github.workflow }}\",
-                \"event\": \"${{ github.event_name }}\",
                 \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
               }" \
               "$TEAMS_WORKFLOW_WEBHOOK_URL" && echo "✅ Teams notification sent successfully!" || echo "⚠️ Teams notification failed, but continuing..."
