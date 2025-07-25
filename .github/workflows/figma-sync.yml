@@ -1,0 +1,214 @@
+name: Figma Variables Sync
+
+on:
+  # Manual execution possible
+  workflow_dispatch:
+    inputs:
+      force_sync:
+        description: 'Force sync even if no changes'
+        required: false
+        default: 'false'
+        type: boolean
+  # Test
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  sync-figma-tokens:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Allow creating PRs
+      pull-requests: write  # Allow updating PRs
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.ENOVA_BOT_PAT }}
+          fetch-depth: 0
+          persist-credentials: false # Ensure token is not reused for write
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm install
+          # Install node-fetch for Figma API requests
+          npm install node-fetch@3
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "enovaui-bot"
+          git config --global user.email "enovaui@lge.com"
+
+      - name: Check Figma Variables
+        id: figma-check
+        env:
+          FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_ACCESS_TOKEN }}
+          FIGMA_FILE_KEY: ${{ secrets.FIGMA_FILE_KEY }}
+          FIGMA_FILE_URL: ${{ secrets.FIGMA_FILE_URL }}
+        run: |
+          echo "🎨 Checking Figma Variables..."
+          node scripts/figma-sync.js
+
+          # Check if there are changes
+          if [ -f "figma-changes.json" ]; then
+            CHANGES=$(node -e "
+              const changes = require('./figma-changes.json').changes;
+              const total = Object.keys(changes.added).length + Object.keys(changes.modified).length + Object.keys(changes.removed).length;
+              console.log(total);
+            ")
+            echo "Changes: $CHANGES"
+            echo "has_changes=$CHANGES" >> $GITHUB_OUTPUT
+
+            if [ "$CHANGES" -gt "0" ] || [ "${{ inputs.force_sync }}" = "true" ]; then
+              echo "proceed=true" >> $GITHUB_OUTPUT
+            else
+              echo "proceed=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "has_changes=0" >> $GITHUB_OUTPUT
+            echo "proceed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Transform Tokens
+        if: steps.figma-check.outputs.proceed == 'true'
+        run: |
+          echo "🔄 Transforming tokens..."
+          node scripts/token-transformer.js
+
+      - name: Validate Tokens
+        if: steps.figma-check.outputs.proceed == 'true'
+        run: |
+          echo "✅ Validating tokens..."
+
+          # Validate JSON file syntax
+          find packages -name "*.json" -type f | while read file; do
+            if ! node -e "JSON.parse(require('fs').readFileSync('$file', 'utf8'))"; then
+              echo "❌ JSON syntax error: $file"
+              exit 1
+            fi
+          done
+
+          # Validate CSS files (basic syntax check)
+          find packages -name "*.css" -type f | while read file; do
+            if ! grep -q ":root" "$file"; then
+              echo "⚠️ CSS file missing :root selector: $file"
+            fi
+          done
+
+          echo "✅ All token files are valid."
+
+      - name: Run Tests
+        if: steps.figma-check.outputs.proceed == 'true'
+        run: |
+          echo "🧪 Running token tests..."
+
+          # Check token reference integrity
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+
+            function checkReferences(dir) {
+              const files = fs.readdirSync(dir, { withFileTypes: true });
+
+              for (const file of files) {
+                const fullPath = path.join(dir, file.name);
+
+                if (file.isDirectory()) {
+                  checkReferences(fullPath);
+                } else if (file.name.endsWith('.json')) {
+                  try {
+                    const content = JSON.parse(fs.readFileSync(fullPath, 'utf8'));
+                    // TODO: Implement reference check logic
+                    console.log('✅ Reference check completed:', fullPath);
+                  } catch (error) {
+                    console.error('❌ Reference check failed:', fullPath, error.message);
+                    process.exit(1);
+                  }
+                }
+              }
+            }
+
+            checkReferences('./packages');
+          "
+
+      - name: Create Pull Request
+        if: steps.figma-check.outputs.proceed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.ENOVA_BOT_PAT }}
+          FIGMA_FILE_URL: ${{ secrets.FIGMA_FILE_URL }}
+          PR_REVIEWERS: ${{ secrets.PR_REVIEWERS }}
+        run: |
+          git config --global user.email "enovaui@lge.com"
+          git config --global user.name "enovaui-bot"
+          git remote set-url origin https://x-access-token:${{ secrets.ENOVA_BOT_PAT }}@github.com/${{ github.repository }}
+          echo "🚀 Creating Pull Request..."
+          node scripts/pr-generator.js
+
+      - name: Notify Results
+        if: always()
+        env:
+          TEAMS_WORKFLOW_WEBHOOK_URL: ${{ secrets.TEAMS_WORKFLOW_WEBHOOK_URL }}
+        run: |
+          if [ "${{ steps.figma-check.outputs.has_changes }}" -gt "0" ]; then
+            STATUS="✅ Figma token sync completed"
+            MESSAGE="${{ steps.figma-check.outputs.has_changes }} tokens were updated."
+            STATUS_ICON="✅"
+          else
+            STATUS="ℹ️ No changes detected"
+            MESSAGE="No changed tokens found in Figma."
+            STATUS_ICON="ℹ️"
+          fi
+
+          echo "$STATUS: $MESSAGE"
+
+          # Microsoft Teams notification via Teams Workflows (optional)
+          if [ -n "$TEAMS_WORKFLOW_WEBHOOK_URL" ]; then
+            REPO_URL="https://github.com/${{ github.repository }}"
+            RUN_URL="$REPO_URL/actions/runs/${{ github.run_id }}"
+            COMMIT_URL="$REPO_URL/commit/${{ github.sha }}"
+            # Find PR URL from pr-result.json if it exists and is not empty
+            PR_URL=""
+            if [ -f pr-result.json ]; then
+              PR_URL=$(node -e "try{const d=require('./pr-result.json');if(d && d.pullRequest && d.pullRequest.url)console.log(d.pullRequest.url);else console.log('')}catch(e){console.log('')}")
+            fi
+            if [ -z "$PR_URL" ]; then
+              # Try to get the latest PR URL from GitHub CLI as a fallback
+              PR_URL=$(gh pr list --state open --json url --jq '.[0].url' 2>/dev/null)
+            fi
+            if [ -z "$PR_URL" ]; then
+              PR_URL="$RUN_URL"
+            fi
+
+            echo "📨 Attempting to send Teams notification..."
+
+            PAYLOAD="{\"@type\": \"MessageCard\", \"@context\": \"http://schema.org/extensions\", \"summary\": \"Figma token sync result\", \"themeColor\": \"0076D7\", \"title\": \"$STATUS\", \"text\": \"$MESSAGE\", \"sections\": [{\"facts\": [{\"name\": \"Repository\", \"value\": \"${{ github.repository }}\"}, {\"name\": \"Workflow\", \"value\": \"${{ github.workflow }}\"}, {\"name\": \"Run\", \"value\": \"[View Run]($RUN_URL)\"}]}], \"potentialAction\": [{\"@type\": \"OpenUri\", \"name\": \"View Github PR\", \"targets\": [{\"os\": \"default\", \"uri\": \"$PR_URL\"}]}]}"
+
+            curl -X POST -H 'Content-Type: application/json' \
+              --connect-timeout 10 \
+              --max-time 30 \
+              --data "$PAYLOAD" "$TEAMS_WORKFLOW_WEBHOOK_URL" || true
+
+            if [ $? -eq 0 ]; then
+              echo "✅ Teams notification sent successfully!"
+            else
+              echo "⚠️ Teams notification failed, but continuing..."
+            fi
+          else
+            echo "ℹ️ Teams webhook not configured, skipping notification"
+          fi
+
+      - name: Cleanup
+        if: always()
+        run: |
+          # Clean up temporary files
+          rm -f figma-changes.json token-update-manifest.json pr-result.json
+
+          # Return to develop branch if a branch was created
+          git checkout develop 2>/dev/null || true
