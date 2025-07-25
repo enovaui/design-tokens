@@ -12,5 +12,22 @@
   "keywords": [
     "design",
     "tokens"
-  ]
+  ],
+  "scripts": {
+    "sync:figma": "node scripts/figma-sync.js",
+    "transform:tokens": "node scripts/token-transformer.js",
+    "create:pr": "node scripts/pr-generator.js",
+    "sync:all": "npm run sync:figma && npm run transform:tokens && npm run create:pr",
+    "clean": "rm -rf packages/*/dist/*"
+  },
+  "devDependencies": {
+    "fs-extra": "^11.2.0",
+    "node-fetch": "^3.3.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.1.0"
+  }
 }

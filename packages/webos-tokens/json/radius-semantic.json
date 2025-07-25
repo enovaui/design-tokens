@@ -1,11 +1,11 @@
 {
     "semantic": {
         "radius": {
-            "full": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius/999"},
-            "button": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius/24"},
-            "container": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius/36"},
-            "overlay": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius/60"},
-            "popup": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius/60"}
+            "full": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
+            "button": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-24"},
+            "container": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-36"},
+            "overlay": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-60"},
+            "popup": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-60"}
         }
     }
 }
