@@ -178,24 +178,25 @@ jobs:
             if [ -f pr-result.json ]; then
               PR_URL=$(node -e "try{const d=require('./pr-result.json');if(d && d.pullRequest && d.pullRequest.url)console.log(d.pullRequest.url);else console.log('')}catch(e){console.log('')}")
             fi
-            if [ -z "$PR_URL" ]; then
-              # Try to get the latest PR URL from GitHub CLI as a fallback
-              PR_URL=$(gh pr list --state open --json url --jq '.[0].url' 2>/dev/null)
-            fi
+            # Always send a valid PR_URL (even if no PR exists)
             if [ -z "$PR_URL" ]; then
               PR_URL="$RUN_URL"
             fi
 
             echo "📨 Attempting to send Teams notification..."
 
-            PAYLOAD="{\"@type\": \"MessageCard\", \"@context\": \"http://schema.org/extensions\", \"summary\": \"Figma token sync result\", \"themeColor\": \"0076D7\", \"title\": \"$STATUS\", \"text\": \"$MESSAGE\", \"sections\": [{\"facts\": [{\"name\": \"Repository\", \"value\": \"${{ github.repository }}\"}, {\"name\": \"Workflow\", \"value\": \"${{ github.workflow }}\"}, {\"name\": \"Run\", \"value\": \"[View Run]($RUN_URL)\"}]}], \"potentialAction\": [{\"@type\": \"OpenUri\", \"name\": \"View Github PR\", \"targets\": [{\"os\": \"default\", \"uri\": \"$PR_URL\"}]}]}"
+            # Always send a valid JSON message card (even if no PR exists)
+            PAYLOAD="{\"@type\": \"MessageCard\", \"@context\": \"http://schema.org/extensions\", \"summary\": \"Figma design token sync result\", \"themeColor\": \"0076D7\", \"title\": \"$STATUS\", \"text\": \"$MESSAGE\", \"sections\": [{\"facts\": [{\"name\": \"Repository\", \"value\": \"${{ github.repository }}\"}, {\"name\": \"Workflow\", \"value\": \"${{ github.workflow }}\"}, {\"name\": \"Run\", \"value\": \"[View Run]($RUN_URL)\"}]}], \"potentialAction\": [{\"@type\": \"OpenUri\", \"name\": \"View Github PR\", \"targets\": [{\"os\": \"default\", \"uri\": \"$PR_URL\"}]}]}"
 
+            set +e
             curl -X POST -H 'Content-Type: application/json' \
               --connect-timeout 10 \
               --max-time 30 \
-              --data "$PAYLOAD" "$TEAMS_WORKFLOW_WEBHOOK_URL" || true
+              --data "$PAYLOAD" "$TEAMS_WORKFLOW_WEBHOOK_URL"
+            CURL_EXIT_CODE=$?
+            set -e
 
-            if [ $? -eq 0 ]; then
+            if [ $CURL_EXIT_CODE -eq 0 ]; then
               echo "✅ Teams notification sent successfully!"
             else
               echo "⚠️ Teams notification failed, but continuing..."
