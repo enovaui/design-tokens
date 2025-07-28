@@ -101,28 +101,22 @@ class PRGenerator {
 			if (keys.length === 0) return '';
 			return keys.map(k => {
 				const v = obj[k];
+				// fallback: use key as file path if v.file is missing
+				const filePath = v && v.file ? v.file : k;
 				const isPrimitive =
-					(v && v.file && /core-tokens\/(spacing|color|typography|radius)-primitive\//.test(v.file)) ||
-					(typeof k === 'string' && /core-tokens\/(spacing|color|typography|radius)-primitive\//.test(k));
+					/core-tokens\/(spacing|color|typography|radius)-primitive\//.test(filePath);
 
 				if (!isPrimitive) return null;
 
 				if (type === 'added') {
-					if (v && v.file && v.value !== undefined) {
-						return `${v.file}: ${v.value}`;
+					if (v && v.value !== undefined) {
+						return `${filePath}: ${v.value}`;
 					}
 					return null;
 				} else if (type === 'modified' && v && typeof v === 'object' && v.before !== undefined && v.after !== undefined) {
-					if (v.file) {
-						// Only show the value change, not the dot notation inside value
-						return `${v.file}: ${v.before} → ${v.after}`;
-					}
-					return null;
+					return `${filePath}: ${v.before} → ${v.after}`;
 				} else if (type === 'removed') {
-					if (v && v.file) {
-						return `${v.file}`;
-					}
-					return null;
+					return `${filePath}`;
 				} else {
 					return null;
 				}
