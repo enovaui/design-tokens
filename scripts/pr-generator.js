@@ -85,7 +85,7 @@ class PRGenerator {
 		if (modified > 0) parts.push(`🔄 ${modified} tokens modified`);
 		if (removed > 0) parts.push(`🗑️ ${removed} tokens removed`);
 
-		return `[Figma Sync] ${parts.join(', ')}`;
+		return `[Desgin Tokens Sync] ${parts.join(', ')}`;
 	}
 
 	/**
@@ -117,7 +117,17 @@ class PRGenerator {
 		// Helper to flatten and stringify token values for summary
 		function stringifySimple(val, prefix = '') {
 			if (val && typeof val === 'object' && !Array.isArray(val)) {
-				if (val.$ref) return val.$ref;
+				if (val.$ref) {
+					// Convert $ref path to dot notation
+					const ref = val.$ref;
+					const match = ref.match(/([^/]+)\.json#\/(.*)/);
+					if (match) {
+						const file = match[1].replace(/-/g, '.');
+						const path = match[2].replace(/\//g, '.');
+						return `${file}.${path}`;
+					}
+					return ref;
+				}
 				return Object.entries(val).map(([k, v]) => {
 					const path = prefix ? `${prefix}.${k}` : k;
 					return stringifySimple(v, path);
@@ -138,7 +148,7 @@ class PRGenerator {
 
 		body += '### Issue Resolved / Feature Added\n';
 		body += `[//]: # (Describe the issue resolved or feature added by this pull request)\n`;
-		body += `- Figma Variables Auto Sync\n`;
+		body += `- Figma Design Tokens Auto Sync\n`;
 		body += `- **Sync Time**: ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' })} (KST)\n`;
 		body += `- **Added**: ${added}, **Modified**: ${modified}, **Removed**: ${removed}\n\n`;
 
