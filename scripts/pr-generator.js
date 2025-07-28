@@ -98,11 +98,9 @@ class PRGenerator {
 
 		const summarize = (obj, type) => {
 			const keys = Object.keys(obj);
-			if (keys.length === 0) return '-';
+			if (keys.length === 0) return '';
 			return keys.map(k => {
 				const v = obj[k];
-				// Only handle primitive token changes for summary (ignore semantic/alias changes)
-				// Only allow keys that match core-tokens/*-primitive/*
 				const isPrimitive =
 					(v && v.file && /core-tokens\/(spacing|color|typography|radius)-primitive\//.test(v.file)) ||
 					(typeof k === 'string' && /core-tokens\/(spacing|color|typography|radius)-primitive\//.test(k));
@@ -110,52 +108,26 @@ class PRGenerator {
 				if (!isPrimitive) return null;
 
 				if (type === 'added') {
-					// Use file path style: core-tokens/spacing-primitive/spacing-66: 66
 					if (v && v.file && v.value !== undefined) {
 						return `${v.file}: ${v.value}`;
 					}
-					return `${k}: ${stringifySimple(v)}`;
+					return null;
 				} else if (type === 'modified' && v && typeof v === 'object' && v.before !== undefined && v.after !== undefined) {
-					// Only show primitive token changes
 					if (v.file) {
+						// Only show the value change, not the dot notation inside value
 						return `${v.file}: ${v.before} → ${v.after}`;
 					}
-					return `${k}: ${stringifySimple(v.before)} → ${stringifySimple(v.after)}`;
+					return null;
 				} else if (type === 'removed') {
 					if (v && v.file) {
 						return `${v.file}`;
 					}
-					return `${k}`;
+					return null;
 				} else {
-					return `${k}: ${stringifySimple(v)}`;
+					return null;
 				}
 			}).filter(Boolean).join('\n');
 		};
-
-		// Helper to flatten and stringify token values for summary
-		function stringifySimple(val, prefix = '') {
-			if (val && typeof val === 'object' && !Array.isArray(val)) {
-				if (val.$ref) {
-					// Convert $ref path to dot notation
-					const ref = val.$ref;
-					const match = ref.match(/([^/]+)\.json#\/(.*)/);
-					if (match) {
-						const file = match[1].replace(/-/g, '.');
-						const path = match[2].replace(/\//g, '.');
-						return `${file}.${path}`;
-					}
-					return ref;
-				}
-				return Object.entries(val).map(([k, v]) => {
-					const path = prefix ? `${prefix}.${k}` : k;
-					return stringifySimple(v, path);
-				}).join(', ');
-			} else if (val === undefined || val === null) {
-				return '';
-			} else {
-				return prefix ? `${prefix}: ${val}` : `${val}`;
-			}
-		}
 
 		let body = '';
 		body += '### Checklist\n\n';
@@ -175,11 +147,15 @@ class PRGenerator {
 		body += `[//]: # (What is the impact of this change and *why* was it made?)\n`;
 		body += `**Summary of Changes:**\n`;
 		body += `- ✨ **Added**: ${added} tokens\n`;
-		if (added > 0) body += summarize(changes.added, 'added') + '\n';
+		const addedSummary = summarize(changes.added, 'added');
+		if (addedSummary) body += addedSummary + '\n';
 		body += `- 🔄 **Modified**: ${modified} tokens\n`;
-		if (modified > 0) body += summarize(changes.modified, 'modified') + '\n';
+		const modifiedSummary = summarize(changes.modified, 'modified');
+		if (modifiedSummary) body += modifiedSummary + '\n';
 		body += `- 🗑️ **Removed**: ${removed} tokens\n`;
-		if (removed > 0) body += summarize(changes.removed, 'removed') + '\n\n';
+		const removedSummary = summarize(changes.removed, 'removed');
+		if (removedSummary) body += removedSummary + '\n';
+		body += '\n';
 
 		body += '### Additional Considerations\n';
 		body += `[//]: # (How should the change be tested?)\n`;
@@ -241,7 +217,7 @@ class PRGenerator {
 			const modified = Object.keys(changes.modified).length;
 			const removed = Object.keys(changes.removed).length;
 
-			let commitMessage = '[Figma Sync] Auto-update design tokens';
+			let commitMessage = '[Design Token Sync] Auto-update design tokens';
 			const details = [];
 			if (added > 0) details.push(`${added} added`);
 			if (modified > 0) details.push(`${modified} modified`);
