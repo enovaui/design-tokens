@@ -138,6 +138,32 @@ class PRGenerator {
 					}
 					return null;
 				} else if (type === 'modified' && v && typeof v === 'object' && v.before !== undefined && v.after !== undefined) {
+					// If primitive token (core-tokens, primitive collection), show raw before/after
+					if (
+						v.package && v.package.includes('core-tokens') &&
+						(
+							(v.collection && (
+								v.collection.includes('color') ||
+								v.collection.includes('spacing') ||
+								v.collection.includes('radius') ||
+								v.collection.includes('typography')
+							))
+						)
+					) {
+						return `${dotKey}: ${v.before} → ${v.after}`;
+					}
+					// For semantic tokens, skip if resolved value is unchanged
+					if (
+						v.package && v.package.match(/(web|webos|mobile)-tokens/) &&
+						v.collection && (v.collection.includes('color') || v.collection.includes('radius'))
+					) {
+						// Try to resolve before/after values (if $ref, resolve to string, else use value)
+						const beforeResolved = (typeof v.before === 'object' && v.before && v.before.$ref) ? stringifySimple(v.before) : v.before;
+						const afterResolved = (typeof v.after === 'object' && v.after && v.after.$ref) ? stringifySimple(v.after) : v.after;
+						if (beforeResolved === afterResolved) {
+							return null;
+						}
+					}
 					// Use stringifySimple for before/after if they are objects (not string/number)
 					const beforeStr = (typeof v.before === 'object' && v.before !== null) ? stringifySimple(v.before) : v.before;
 					const afterStr = (typeof v.after === 'object' && v.after !== null) ? stringifySimple(v.after) : v.after;
