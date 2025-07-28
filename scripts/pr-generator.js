@@ -98,30 +98,81 @@ class PRGenerator {
 
 		const summarize = (obj, type) => {
 			const keys = Object.keys(obj);
-			if (keys.length === 0) return '';
+			if (keys.length === 0) return '-';
 			return keys.map(k => {
 				const v = obj[k];
-				// fallback: use key as file path if v.file is missing
-				const filePath = v && v.file ? v.file : k;
-				const isPrimitive =
-					/core-tokens\/(spacing|color|typography|radius)-primitive\//.test(filePath);
-
-				if (!isPrimitive) return null;
+				// Try to build a normalized file path for primitive and semantic tokens
+				let dotKey = '';
+				if (v && v.package && v.path) {
+					const pathArr = Array.isArray(v.path) ? v.path : String(v.path).split(/[,/]/).map(s => s.trim());
+					// Handle primitive tokens
+					if (v.collection && v.collection.includes('spacing')) {
+						dotKey = `${v.package}/spacing-primitive/spacing-${pathArr[pathArr.length-1]}`;
+					} else if (v.collection && v.collection.includes('typography')) {
+						dotKey = `${v.package}/typography-primitive/fontsize-${pathArr[pathArr.length-1]}`;
+					} else if (v.collection && v.collection.includes('color') && v.package.includes('core-tokens')) {
+						dotKey = `${v.package}/color-primitive/${pathArr[pathArr.length-1]}`;
+					} else if (v.collection && v.collection.includes('radius') && v.package.includes('core-tokens')) {
+						dotKey = `${v.package}/radius-primitive/${pathArr[pathArr.length-1]}`;
+					}
+					// Handle semantic tokens for all platforms
+					else if (v.collection && v.collection.includes('color') && v.package.match(/(web|webos|mobile)-tokens/)) {
+						dotKey = `${v.package}/color-semantic-${v.brand ? v.brand + '-' : ''}${pathArr.join('-')}`;
+					} else if (v.collection && v.collection.includes('radius') && v.package.match(/(web|webos|mobile)-tokens/)) {
+						dotKey = `${v.package}/radius-semantic-${pathArr.join('-')}`;
+					} else {
+						dotKey = `${v.package}.${pathArr.join('.')}`;
+					}
+				} else if (v && v.file) {
+					dotKey = v.file;
+				} else {
+					dotKey = k;
+				}
 
 				if (type === 'added') {
 					if (v && v.value !== undefined) {
-						return `${filePath}: ${v.value}`;
+						return `${dotKey}: ${v.value}`;
 					}
+
 					return null;
 				} else if (type === 'modified' && v && typeof v === 'object' && v.before !== undefined && v.after !== undefined) {
-					return `${filePath}: ${v.before} → ${v.after}`;
+					// If $ref present in after, use stringifySimple
+					if (v.after && v.after.$ref) {
+						return `${dotKey}: ${v.before} → ${stringifySimple(v.after)}`;
+					}
+					return `${dotKey}: ${v.before} → ${v.after}`;
 				} else if (type === 'removed') {
-					return `${filePath}`;
+					return `${dotKey}`;
 				} else {
 					return null;
 				}
-			}).filter(Boolean).join('\n');
+			}).join('\n');
 		};
+
+		// Helper to flatten and stringify token values for summary
+		function stringifySimple(val, prefix = '') {
+			if (val && typeof val === 'object' && !Array.isArray(val)) {
+				if (val.$ref) {
+					// Convert $ref path to dot notation
+					const ref = val.$ref;
+					const match = ref.match(/([^/]+)\.json#\/(.*)/);
+					if (match) {
+						const file = match[1].replace(/-/g, '.');
+						const path = match[2].replace(/\//g, '.');
+						return `${file}.${path}`;
+					}
+					return ref;
+				}
+				return Object.entries(val).map(([k, v]) => {
+					const path = prefix ? `${prefix}.${k}` : k;
+					return stringifySimple(v, path);
+				}).join(', ');
+			} else if (val === undefined || val === null) {
+				return '';
+			} else {
+				return prefix ? `${prefix}: ${val}` : `${val}`;
+			}
+		}
 
 		let body = '';
 		body += '### Checklist\n\n';
@@ -141,15 +192,11 @@ class PRGenerator {
 		body += `[//]: # (What is the impact of this change and *why* was it made?)\n`;
 		body += `**Summary of Changes:**\n`;
 		body += `- ✨ **Added**: ${added} tokens\n`;
-		const addedSummary = summarize(changes.added, 'added');
-		if (addedSummary) body += addedSummary + '\n';
+		if (added > 0) body += summarize(changes.added, 'added') + '\n';
 		body += `- 🔄 **Modified**: ${modified} tokens\n`;
-		const modifiedSummary = summarize(changes.modified, 'modified');
-		if (modifiedSummary) body += modifiedSummary + '\n';
+		if (modified > 0) body += summarize(changes.modified, 'modified') + '\n';
 		body += `- 🗑️ **Removed**: ${removed} tokens\n`;
-		const removedSummary = summarize(changes.removed, 'removed');
-		if (removedSummary) body += removedSummary + '\n';
-		body += '\n';
+		if (removed > 0) body += summarize(changes.removed, 'removed') + '\n\n';
 
 		body += '### Additional Considerations\n';
 		body += `[//]: # (How should the change be tested?)\n`;
@@ -211,7 +258,7 @@ class PRGenerator {
 			const modified = Object.keys(changes.modified).length;
 			const removed = Object.keys(changes.removed).length;
 
-			let commitMessage = '[Design Token Sync] Auto-update design tokens';
+			let commitMessage = '[Figma Sync] Auto-update design tokens';
 			const details = [];
 			if (added > 0) details.push(`${added} added`);
 			if (modified > 0) details.push(`${modified} modified`);
