@@ -133,14 +133,15 @@ class PRGenerator {
 					if (v && v.value !== undefined) {
 						return `${dotKey}: ${v.value}`;
 					}
-
+					if (v && v.$ref) {
+						return `${dotKey}: ${stringifySimple(v)}`;
+					}
 					return null;
 				} else if (type === 'modified' && v && typeof v === 'object' && v.before !== undefined && v.after !== undefined) {
-					// If $ref present in after, use stringifySimple
-					if (v.after && v.after.$ref) {
-						return `${dotKey}: ${v.before} → ${stringifySimple(v.after)}`;
-					}
-					return `${dotKey}: ${v.before} → ${v.after}`;
+					// Use stringifySimple for before/after if they are objects (not string/number)
+					const beforeStr = (typeof v.before === 'object' && v.before !== null) ? stringifySimple(v.before) : v.before;
+					const afterStr = (typeof v.after === 'object' && v.after !== null) ? stringifySimple(v.after) : v.after;
+					return `${dotKey}: ${beforeStr} → ${afterStr}`;
 				} else if (type === 'removed') {
 					return `${dotKey}`;
 				} else {
