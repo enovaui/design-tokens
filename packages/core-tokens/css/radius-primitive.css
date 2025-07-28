@@ -7,10 +7,9 @@
 
 /* ----------------------------------------
 Primitive Radius Tokens
-------------------------------------------- */
+---------------------------------------- */
 
 :root {
-	--primitive-radius-0: 0;
 	--primitive-radius-2: 2px;
 	--primitive-radius-4: 4px;
 	--primitive-radius-6: 6px;
