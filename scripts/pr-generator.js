@@ -101,54 +101,35 @@ class PRGenerator {
 			if (keys.length === 0) return '-';
 			return keys.map(k => {
 				const v = obj[k];
+				// Only handle primitive token changes for summary (ignore semantic/alias changes)
+				// Only allow keys that match core-tokens/*-primitive/*
+				const isPrimitive =
+					(v && v.file && /core-tokens\/(spacing|color|typography|radius)-primitive\//.test(v.file)) ||
+					(typeof k === 'string' && /core-tokens\/(spacing|color|typography|radius)-primitive\//.test(k));
+
+				if (!isPrimitive) return null;
+
 				if (type === 'added') {
-					// Try to extract value for primitive tokens
-					if (v && v.path && v.value !== undefined) {
-						// Compose dot notation from package, primitive, and path
-						let dotKey = '';
-						if (v.package && v.path) {
-							const pathArr = Array.isArray(v.path) ? v.path : String(v.path).split(/[,/]/).map(s => s.trim());
-							if (v.collection && v.collection.includes('spacing')) {
-								dotKey = `${v.package}.spacing.primitive.spacing-${pathArr[pathArr.length-1]}`;
-							} else if (v.collection && v.collection.includes('typography')) {
-								dotKey = `${v.package}.typography.primitive.fontsize-${pathArr[pathArr.length-1]}`;
-							} else {
-								dotKey = `${v.package}.${pathArr.join('.')}`;
-							}
-							return `${dotKey}: ${v.value}`;
-						}
+					// Use file path style: core-tokens/spacing-primitive/spacing-66: 66
+					if (v && v.file && v.value !== undefined) {
+						return `${v.file}: ${v.value}`;
 					}
-					// Fallback: just show key and value
 					return `${k}: ${stringifySimple(v)}`;
 				} else if (type === 'modified' && v && typeof v === 'object' && v.before !== undefined && v.after !== undefined) {
-					// Try to extract dot notation and values
-					if (v.path) {
-						let dotKey = '';
-						const pathArr = Array.isArray(v.path) ? v.path : String(v.path).split(/[,/]/).map(s => s.trim());
-						if (v.package && v.collection && v.collection.includes('color')) {
-							dotKey = `${v.package}.color.primitive.${pathArr[pathArr.length-1]}`;
-						} else {
-							dotKey = `${v.package}.${pathArr.join('.')}`;
-						}
-						return `${dotKey}: ${v.before} → ${v.after}`;
+					// Only show primitive token changes
+					if (v.file) {
+						return `${v.file}: ${v.before} → ${v.after}`;
 					}
 					return `${k}: ${stringifySimple(v.before)} → ${stringifySimple(v.after)}`;
 				} else if (type === 'removed') {
-					if (v && v.path && v.package) {
-						let dotKey = '';
-						const pathArr = Array.isArray(v.path) ? v.path : String(v.path).split(/[,/]/).map(s => s.trim());
-						if (v.collection && v.collection.includes('radius')) {
-							dotKey = `${v.package}.radius.primitive.radius-${pathArr[pathArr.length-1]}`;
-						} else {
-							dotKey = `${v.package}.${pathArr.join('.')}`;
-						}
-						return `${dotKey}`;
+					if (v && v.file) {
+						return `${v.file}`;
 					}
 					return `${k}`;
 				} else {
 					return `${k}: ${stringifySimple(v)}`;
 				}
-			}).join('\n');
+			}).filter(Boolean).join('\n');
 		};
 
 		// Helper to flatten and stringify token values for summary
