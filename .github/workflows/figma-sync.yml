@@ -157,7 +157,7 @@ jobs:
           TEAMS_WORKFLOW_WEBHOOK_URL: ${{ secrets.TEAMS_WORKFLOW_WEBHOOK_URL }}
         run: |
           if [ "${{ steps.figma-check.outputs.has_changes }}" -gt "0" ]; then
-            STATUS="✅ Figma token sync completed"
+            STATUS="✅ Design token sync completed"
             MESSAGE="${{ steps.figma-check.outputs.has_changes }} tokens were updated."
             STATUS_ICON="✅"
           else

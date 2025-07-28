@@ -85,7 +85,7 @@ class PRGenerator {
 		if (modified > 0) parts.push(`🔄 ${modified} tokens modified`);
 		if (removed > 0) parts.push(`🗑️ ${removed} tokens removed`);
 
-		return `[Desgin Tokens Sync] ${parts.join(', ')}`;
+		return `[Desgin Token Sync] ${parts.join(', ')}`;
 	}
 
 	/**
@@ -101,15 +101,52 @@ class PRGenerator {
 			if (keys.length === 0) return '-';
 			return keys.map(k => {
 				const v = obj[k];
-				// Modified: show before -> after
-				if (type === 'modified' && v && typeof v === 'object' && v.before !== undefined && v.after !== undefined) {
-					return `- ${k}: ${stringifySimple(v.before)} -> ${stringifySimple(v.after)}`;
-				} else if (type === 'added') {
-					return `- ${k}: ${stringifySimple(v)}`;
+				if (type === 'added') {
+					// Try to extract value for primitive tokens
+					if (v && v.path && v.value !== undefined) {
+						// Compose dot notation from package, primitive, and path
+						let dotKey = '';
+						if (v.package && v.path) {
+							const pathArr = Array.isArray(v.path) ? v.path : String(v.path).split(/[,/]/).map(s => s.trim());
+							if (v.collection && v.collection.includes('spacing')) {
+								dotKey = `${v.package}.spacing.primitive.spacing-${pathArr[pathArr.length-1]}`;
+							} else if (v.collection && v.collection.includes('typography')) {
+								dotKey = `${v.package}.typography.primitive.fontsize-${pathArr[pathArr.length-1]}`;
+							} else {
+								dotKey = `${v.package}.${pathArr.join('.')}`;
+							}
+							return `${dotKey}: ${v.value}`;
+						}
+					}
+					// Fallback: just show key and value
+					return `${k}: ${stringifySimple(v)}`;
+				} else if (type === 'modified' && v && typeof v === 'object' && v.before !== undefined && v.after !== undefined) {
+					// Try to extract dot notation and values
+					if (v.path) {
+						let dotKey = '';
+						const pathArr = Array.isArray(v.path) ? v.path : String(v.path).split(/[,/]/).map(s => s.trim());
+						if (v.package && v.collection && v.collection.includes('color')) {
+							dotKey = `${v.package}.color.primitive.${pathArr[pathArr.length-1]}`;
+						} else {
+							dotKey = `${v.package}.${pathArr.join('.')}`;
+						}
+						return `${dotKey}: ${v.before} → ${v.after}`;
+					}
+					return `${k}: ${stringifySimple(v.before)} → ${stringifySimple(v.after)}`;
 				} else if (type === 'removed') {
-					return `- ${k}: ${stringifySimple(v)}`;
+					if (v && v.path && v.package) {
+						let dotKey = '';
+						const pathArr = Array.isArray(v.path) ? v.path : String(v.path).split(/[,/]/).map(s => s.trim());
+						if (v.collection && v.collection.includes('radius')) {
+							dotKey = `${v.package}.radius.primitive.radius-${pathArr[pathArr.length-1]}`;
+						} else {
+							dotKey = `${v.package}.${pathArr.join('.')}`;
+						}
+						return `${dotKey}`;
+					}
+					return `${k}`;
 				} else {
-					return `- ${k}: ${stringifySimple(v)}`;
+					return `${k}: ${stringifySimple(v)}`;
 				}
 			}).join('\n');
 		};
@@ -148,7 +185,7 @@ class PRGenerator {
 
 		body += '### Issue Resolved / Feature Added\n';
 		body += `[//]: # (Describe the issue resolved or feature added by this pull request)\n`;
-		body += `- Figma Design Tokens Auto Sync\n`;
+		body += `- Design Token Auto Sync\n`;
 		body += `- **Sync Time**: ${new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' })} (KST)\n`;
 		body += `- **Added**: ${added}, **Modified**: ${modified}, **Removed**: ${removed}\n\n`;
 
@@ -157,11 +194,11 @@ class PRGenerator {
 		body += `[//]: # (What is the impact of this change and *why* was it made?)\n`;
 		body += `**Summary of Changes:**\n`;
 		body += `- ✨ **Added**: ${added} tokens\n`;
-		body += summarize(changes.added, 'added') + '\n';
+		if (added > 0) body += summarize(changes.added, 'added') + '\n';
 		body += `- 🔄 **Modified**: ${modified} tokens\n`;
-		body += summarize(changes.modified, 'modified') + '\n';
+		if (modified > 0) body += summarize(changes.modified, 'modified') + '\n';
 		body += `- 🗑️ **Removed**: ${removed} tokens\n`;
-		body += summarize(changes.removed, 'removed') + '\n\n';
+		if (removed > 0) body += summarize(changes.removed, 'removed') + '\n\n';
 
 		body += '### Additional Considerations\n';
 		body += `[//]: # (How should the change be tested?)\n`;
