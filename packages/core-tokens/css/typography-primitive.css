@@ -7,11 +7,11 @@
 
 /* ----------------------------------------
 Primitive Typography Tokens
-------------------------------------------- */
+---------------------------------------- */
 
 :root {
-	/* Font Size
-	--------------------------------------- */
+
+	/* Font Sizes */
 	--primitive-font-size-10: 10px;
 	--primitive-font-size-11: 11px;
 	--primitive-font-size-12: 12px;
@@ -44,11 +44,11 @@ Primitive Typography Tokens
 	--primitive-font-size-96: 96px;
 	--primitive-font-size-102: 102px;
 	--primitive-font-size-108: 108px;
+	--primitive-font-size-120: 120px;
 	--primitive-font-size-156: 156px;
 	--primitive-font-size-180: 180px;
 
-	/* Font Weight
-	--------------------------------------- */
+	/* Font Weights */
 	--primitive-font-weight-thin: 100;
 	--primitive-font-weight-extralight: 200;
 	--primitive-font-weight-light: 300;

@@ -7,7 +7,7 @@
 
 /* ----------------------------------------
 Primitive Spacing Tokens
-------------------------------------------- */
+---------------------------------------- */
 
 :root {
 	--primitive-spacing-2: 2px;
@@ -30,6 +30,7 @@ Primitive Spacing Tokens
 	--primitive-spacing-48: 48px;
 	--primitive-spacing-54: 54px;
 	--primitive-spacing-60: 60px;
+	--primitive-spacing-66: 66px;
 	--primitive-spacing-72: 72px;
 	--primitive-spacing-80: 80px;
 	--primitive-spacing-84: 84px;
@@ -41,4 +42,16 @@ Primitive Spacing Tokens
 	--primitive-spacing-132: 132px;
 	--primitive-spacing-144: 144px;
 	--primitive-spacing-156: 156px;
+	--primitive-spacing-168: 168px;
+	--primitive-spacing-180: 180px;
+	--primitive-spacing-204: 204px;
+	--primitive-spacing-228: 228px;
+	--primitive-spacing-252: 252px;
+	--primitive-spacing-276: 276px;
+	--primitive-spacing-300: 300px;
+	--primitive-spacing-324: 324px;
+	--primitive-spacing-348: 348px;
+	--primitive-spacing-372: 372px;
+	--primitive-spacing-396: 396px;
+	--primitive-spacing-420: 420px;
 }
