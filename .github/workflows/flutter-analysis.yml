@@ -9,8 +9,8 @@ on:
       - '.github/workflows/flutter-analysis.yml'
 
 jobs:
-  analyze:
-    name: Run Flutter Analyze
+  flutter-analyze:
+    name: Flutter Analysis
     runs-on: ubuntu-latest
 
     steps:
