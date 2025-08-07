@@ -204,8 +204,8 @@ jobs:
               echo "⚠️ CSS file missing :root selector: $file"
             fi
 
-            # Check CSS variable format (should start with --)
-            if grep -q "^\s*[^-].*:" "$file"; then
+            # Check CSS variable format (should start with --), ignore :root, comments, and blank lines
+            if grep ":" "$file" | grep -v "^\s*--" | grep -v "^\s*\/\*" | grep -v "^\s*\*" | grep -v "^\s*:root" | grep -v "^\s*$" | grep -q .; then
               echo "⚠️ Non-CSS variable properties found: $file"
             fi
           done

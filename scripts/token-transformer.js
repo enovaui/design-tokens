@@ -104,8 +104,13 @@ class TokenTransformer {
 			let primitiveColors = {};
 			try {
 				const primitivePath = path.resolve(__dirname, '../packages/core-tokens/json/color-primitive.json');
-				primitiveColors = fs.readJsonSync(primitivePath).primitive.color;
-			} catch (e) {}
+				const primitiveData = fs.readJsonSync(primitivePath);
+				if (primitiveData && primitiveData.primitive && primitiveData.primitive.color) {
+					primitiveColors = primitiveData.primitive.color;
+				}
+			} catch (e) {
+				console.warn('Failed to load primitive colors:', e.message);
+			}
 			const primitiveColorLookup = this.buildPrimitiveColorLookup(primitiveColors);
 
 			for (const { changeData } of tokens) {
@@ -121,16 +126,10 @@ class TokenTransformer {
 					if (!target[tokenPathArray[i]]) target[tokenPathArray[i]] = {};
 					target = target[tokenPathArray[i]];
 				}
-				let val = value;
-				if (typeof value === 'string' && value.startsWith('#')) {
-					const hex = value.toLowerCase();
-					if (primitiveColorLookup[hex]) {
-						const refPath = primitiveColorLookup[hex].join('/');
-						val = { $ref: `core-tokens/json/color-primitive.json#/${refPath}` };
-					}
-				}
-				target[tokenPathArray[tokenPathArray.length - 1]] = val;
+				// Always set value as-is, let refSemanticColorsWithPrimitives handle conversion
+				target[tokenPathArray[tokenPathArray.length - 1]] = value;
 			}
+			// Apply reference conversion to entire object at once
 			existingTokens = this.refSemanticColorsWithPrimitives(existingTokens, primitiveColorLookup);
 			const sortedTokens = this.sortTokens(existingTokens);
 			await this.saveTokensToFile(filePath, sortedTokens);
@@ -296,10 +295,13 @@ class TokenTransformer {
 			// Only process string hex values
 			if (typeof tokens === 'string' && tokens.startsWith('#')) {
 				const hex = tokens.toLowerCase();
-				if (primitiveColorLookup[hex]) {
+				if (primitiveColorLookup && primitiveColorLookup[hex]) {
 					// Build $ref string
 					const refPath = primitiveColorLookup[hex].join('/');
+					console.log(`   🔗 Converting hex ${hex} to $ref: ${refPath}`);
 					return { $ref: `core-tokens/json/color-primitive.json#/${refPath}` };
+				} else {
+					console.warn(`   ⚠️ No primitive token found for hex color: ${hex}`);
 				}
 			}
 			return tokens;
@@ -319,16 +321,25 @@ class TokenTransformer {
 	 */
 	buildPrimitiveColorLookup(primitiveColors) {
 		const lookup = {};
+		if (!primitiveColors || typeof primitiveColors !== 'object') {
+			console.warn('   ⚠️ Primitive colors data is empty or invalid');
+			return lookup;
+		}
+
 		function walk(obj, path) {
+			if (!obj || typeof obj !== 'object') return;
 			Object.entries(obj).forEach(([key, value]) => {
 				if (typeof value === 'object' && value !== null) {
 					walk(value, path.concat(key));
 				} else if (typeof value === 'string' && value.startsWith('#')) {
-					lookup[value.toLowerCase()] = path.concat(key);
+					const hex = value.toLowerCase();
+					lookup[hex] = path.concat(key);
+					console.log(`   📋 Mapped primitive color: ${hex} → ${path.concat(key).join('/')}`);
 				}
 			});
 		}
 		walk(primitiveColors, ['primitive', 'color']);
+		console.log(`   ✅ Built primitive color lookup with ${Object.keys(lookup).length} entries`);
 		return lookup;
 	}
 
