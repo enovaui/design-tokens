@@ -20,6 +20,7 @@
         "spacing-48": "48px",
         "spacing-54": "54px",
         "spacing-60": "60px",
+        "spacing-66": "66px",
         "spacing-72": "72px",
         "spacing-80": "80px",
         "spacing-84": "84px",
@@ -30,6 +31,18 @@
         "spacing-120": "120px",
         "spacing-132": "132px",
         "spacing-144": "144px",
-        "spacing-156": "156px"
+        "spacing-156": "156px",
+        "spacing-168": "168px",
+        "spacing-180": "180px",
+        "spacing-204": "204px",
+        "spacing-228": "228px",
+        "spacing-252": "252px",
+        "spacing-276": "276px",
+        "spacing-300": "300px",
+        "spacing-324": "324px",
+        "spacing-348": "348px",
+        "spacing-372": "372px",
+        "spacing-396": "396px",
+        "spacing-420": "420px"
     }
 }
