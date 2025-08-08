@@ -7,7 +7,7 @@ on:
       force_sync:
         description: 'Force sync even if no changes'
         required: false
-        default: 'false'
+        default: false
         type: boolean
   # Temporal trigger for testing
   pull_request:
