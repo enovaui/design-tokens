@@ -9,10 +9,6 @@ on:
         required: false
         default: false
         type: boolean
-  # Temporal trigger for testing
-  pull_request:
-    branches:
-      - develop
 
 jobs:
   sync-figma-tokens:
