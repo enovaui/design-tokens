@@ -4,7 +4,6 @@
  */
 
 import '../../../base/color/background/background_base.dart';
-import '../../../base/color/background/full/full_base.dart';
 import 'full/full.dart';
 import 'overlay/overlay.dart';
 import 'popup/popup.dart';
@@ -13,7 +12,7 @@ class Background extends BackgroundBase {
   const Background();
 
   @override
-  FullBase get full => const Full();
+  Full get full => const Full();
   @override
   Overlay get overlay => const Overlay();
   @override
