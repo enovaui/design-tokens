@@ -14,11 +14,14 @@ console.log('🔧 Token transformer script started');
 const fs = require('fs-extra');
 const path = require('path');
 const CSSGenerator = require('./css-generator');
+const DartGenerator = require('./dart-generator');
 
 class TokenTransformer {
 	constructor(mappingConfig) {
 		this.mappingConfig = mappingConfig;
 		this.cssGenerator = new CSSGenerator();
+		this.dartGenerator = new DartGenerator();
+		this.baseDir = path.resolve(__dirname, '..');
 	}
 
 	/**
@@ -49,6 +52,50 @@ class TokenTransformer {
 			await this.updateCSSFromJSON(filePath, cssPath);
 			console.log(`   🎨 Updated CSS file ${path.relative(outputDir, cssPath)}`);
 			updatedFiles.push(cssPath);
+
+			// Update corresponding Dart file for color-primitive
+			if (filePath.includes('color-primitive')) {
+				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/color_primitive.dart');
+				await this.dartGenerator.generateColorDartFromJSON(filePath, dartPath);
+				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
+				updatedFiles.push(dartPath);
+			}
+			// Update corresponding Dart file for radius-primitive
+		   	if (filePath.includes('radius-primitive')) {
+				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/radius_primitive.dart');
+				await this.dartGenerator.generateRadiusDartFromJSON(filePath, dartPath);
+				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
+				updatedFiles.push(dartPath);
+			}
+			// Update corresponding Dart file for typography-primitive
+			if (filePath.includes('typography-primitive')) {
+				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/typography_primitive.dart');
+				await this.dartGenerator.generateTypographyDartFromJSON(filePath, dartPath);
+				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
+				updatedFiles.push(dartPath);
+			}
+			// Update corresponding Dart file for spacing-primitive
+			if (filePath.includes('spacing-primitive')) {
+				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/spacing_primitive.dart');
+				await this.dartGenerator.generateSpacingDartFromJSON(filePath, dartPath);
+				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
+				updatedFiles.push(dartPath);
+			}
+			// After all changes, generate semantic Dart files for each theme only once
+			const semanticThemes = [
+				{ name: 'dark', pattern: 'color-semantic-dark.json' },
+				{ name: 'light', pattern: 'color-semantic-light.json' },
+				{ name: 'high_contrast', pattern: 'color-semantic-high-contrast.json' },
+			];
+			const dartOutputDir = path.join(this.baseDir, 'lib/src/webos_tokens');
+			for (const theme of semanticThemes) {
+				const semanticJsonPath = path.join(outputDir, 'packages', 'web-tokens', 'json', theme.pattern);
+				if (await fs.pathExists(semanticJsonPath)) {
+					await this.dartGenerator.generateSemanticDartFromJSON(semanticJsonPath, dartOutputDir, theme.name);
+					console.log(`✅ Generated Semantic Dart files for ${theme.name} theme`);
+					console.log(`   💎 Updated Dart files for ${theme.name} theme semantic colors`);
+				}
+			}
 		}
 
 		// Handle modified tokens
@@ -63,6 +110,60 @@ class TokenTransformer {
 			await this.updateCSSFromJSON(filePath, cssPath);
 			console.log(`   🎨 Updated CSS file ${path.relative(outputDir, cssPath)}`);
 			updatedFiles.push(cssPath);
+
+			// Update corresponding Dart file for color-primitive
+			if (filePath.includes('color-primitive')) {
+				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/color_primitive.dart');
+				await this.dartGenerator.generateColorDartFromJSON(filePath, dartPath);
+				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
+				updatedFiles.push(dartPath);
+			}
+			// Update corresponding Dart file for radius-primitive
+			if (filePath.includes('radius-primitive')) {
+				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/radius_primitive.dart');
+				await this.dartGenerator.updateDartFromJSON(filePath, dartPath);
+				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
+				updatedFiles.push(dartPath);
+			}
+			// Update corresponding Dart file for typography-primitive
+			if (filePath.includes('typography-primitive')) {
+				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/typography_primitive.dart');
+				await this.dartGenerator.generateTypographyDartFromJSON(filePath, dartPath);
+				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
+				updatedFiles.push(dartPath);
+			}
+			// Update corresponding Dart file for spacing-primitive
+			if (filePath.includes('spacing-primitive')) {
+				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/spacing_primitive.dart');
+				await this.dartGenerator.generateSpacingDartFromJSON(filePath, dartPath);
+				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
+				updatedFiles.push(dartPath);
+			}
+
+			// Update corresponding Dart files for color-semantic
+			if (filePath.includes('color-semantic')) {
+				// Dark theme
+				if (filePath.includes('dark')) {
+					const dartOutputDir = path.join(this.baseDir, 'lib/src/webos_tokens');
+					await this.dartGenerator.generateSemanticDartFromJSON(filePath, dartOutputDir, 'dark');
+					console.log(`✅ Generated Semantic Dart files for dark theme`);
+					console.log(`   💎 Updated Dart files for dark theme semantic colors`);
+				}
+				// Light theme
+				if (filePath.includes('light')) {
+					const dartOutputDir = path.join(this.baseDir, 'lib/src/webos_tokens');
+					await this.dartGenerator.generateSemanticDartFromJSON(filePath, dartOutputDir, 'light');
+					console.log(`✅ Generated Semantic Dart files for light theme`);
+					console.log(`   💎 Updated Dart files for light theme semantic colors`);
+				}
+				// High contrast theme
+				if (filePath.includes('high-contrast') || filePath.includes('high_contrast')) {
+					const dartOutputDir = path.join(this.baseDir, 'lib/src/webos_tokens');
+					await this.dartGenerator.generateSemanticDartFromJSON(filePath, dartOutputDir, 'high_contrast');
+					console.log(`✅ Generated Semantic Dart files for high_contrast theme`);
+					console.log(`   💎 Updated Dart files for high contrast theme semantic colors`);
+				}
+			}
 		}
 
 		// Handle removed tokens
@@ -80,8 +181,63 @@ class TokenTransformer {
 			await this.updateCSSFromJSON(filePath, cssPath);
 			console.log(`   🎨 Updated CSS file ${path.relative(outputDir, cssPath)}`);
 			updatedFiles.push(cssPath);
-		}
 
+			// Update corresponding Dart file for color-primitive
+			if (filePath.includes('color-primitive')) {
+				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/color_primitive.dart');
+				await this.dartGenerator.generateColorDartFromJSON(filePath, dartPath);
+				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
+				updatedFiles.push(dartPath);
+		   	}
+		   	// Update corresponding Dart file for radius-primitive
+		   	if (filePath.includes('radius-primitive')) {
+				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/radius_primitive.dart');
+				await this.dartGenerator.generateRadiusDartFromJSON(filePath, dartPath);
+				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
+				updatedFiles.push(dartPath);
+		   	}
+
+		   	// Update corresponding Dart file for typography-primitive
+		   	if (filePath.includes('typography-primitive')) {
+				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/typography_primitive.dart');
+				await this.dartGenerator.generateTypographyDartFromJSON(filePath, dartPath);
+				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
+				updatedFiles.push(dartPath);
+		   	}
+
+			// Update corresponding Dart file for spacing-primitive
+		   	if (filePath.includes('spacing-primitive')) {
+				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/spacing_primitive.dart');
+				await this.dartGenerator.generateSpacingDartFromJSON(filePath, dartPath);
+				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`)
+				updatedFiles.push(dartPath);
+		   	}
+
+		   	// Update corresponding Dart files for color-semantic
+			if (filePath.includes('color-semantic')) {
+				// Dark theme
+				if (filePath.includes('dark')) {
+					const dartOutputDir = path.join(this.baseDir, 'lib/src/webos_tokens');
+					await this.dartGenerator.generateSemanticDartFromJSON(filePath, dartOutputDir, 'dark');
+					console.log(`✅ Generated Semantic Dart files for dark theme`);
+					console.log(`   💎 Updated Dart files for dark theme semantic colors`);
+				}
+				// Light theme
+				if (filePath.includes('light')) {
+					const dartOutputDir = path.join(this.baseDir, 'lib/src/webos_tokens');
+			 		await this.dartGenerator.generateSemanticDartFromJSON(filePath, dartOutputDir, 'light');
+					console.log(`✅ Generated Semantic Dart files for light theme`);
+					console.log(`   💎 Updated Dart files for light theme semantic colors`);
+				}
+				// High contrast theme
+				if (filePath.includes('high-contrast') || filePath.includes('high_contrast')) {
+					const dartOutputDir = path.join(this.baseDir, 'lib/src/webos_tokens');
+					await this.dartGenerator.generateSemanticDartFromJSON(filePath, dartOutputDir, 'high_contrast');
+					console.log(`✅ Generated Semantic Dart files for high_contrast theme`);
+					console.log(`   💎 Updated Dart files for high contrast theme semantic colors`);
+				}
+			}
+		}
 		return [...new Set(updatedFiles)]; // Remove duplicates
 	}
 
@@ -160,6 +316,13 @@ class TokenTransformer {
 	 */
 	async updateCSSFromJSON(jsonPath, cssPath) {
 		return await this.cssGenerator.generateCSSFromJSON(jsonPath, cssPath);
+	}
+
+	/**
+	 * Update Dart file based on JSON file content
+	 */
+	async updateDartFromJSON(jsonPath, dartPath) {
+		return await this.dartGenerator.generateDartFromJSON(jsonPath, dartPath);
 	}
 
 	/**
@@ -443,44 +606,44 @@ class TokenTransformer {
 	}
 
 	/**
-     * Sort tokens numerically for spacing, radius, and font-size tokens
-     */
-    sortTokens(tokens) {
-        if (!tokens || !tokens.primitive) {
-            return tokens;
-        }
+	 * Sort tokens numerically for spacing, radius, and font-size tokens
+	 */
+	sortTokens(tokens) {
+		if (!tokens || !tokens.primitive) {
+			return tokens;
+		}
 
-        const primitive = tokens.primitive;
-        const sortedPrimitive = {};
+		const primitive = tokens.primitive;
+		const sortedPrimitive = {};
 
-        // Get all keys and sort them
-        const keys = Object.keys(primitive).sort((a, b) => {
-            // Extract numerical value from key (e.g., "spacing-66" -> 66)
-            const getNumericValue = (key) => {
-                const match = key.match(/(\d+)$/);
-                return match ? parseInt(match[1], 10) : 0;
-            };
+		// Get all keys and sort them
+		const keys = Object.keys(primitive).sort((a, b) => {
+			// Extract numerical value from key (e.g., "spacing-66" -> 66)
+			const getNumericValue = (key) => {
+				const match = key.match(/(\d+)$/);
+				return match ? parseInt(match[1], 10) : 0;
+			};
 
-            // Only sort if both keys are spacing, radius, or font-size tokens
-            if ((a.includes('spacing') || a.includes('radius') || a.includes('font-size')) &&
-                (b.includes('spacing') || b.includes('radius') || b.includes('font-size'))) {
-                return getNumericValue(a) - getNumericValue(b);
-            }
+			// Only sort if both keys are spacing, radius, or font-size tokens
+			if ((a.includes('spacing') || a.includes('radius') || a.includes('font-size')) &&
+				(b.includes('spacing') || b.includes('radius') || b.includes('font-size'))) {
+				return getNumericValue(a) - getNumericValue(b);
+			}
 
-            // For other tokens, maintain alphabetical order
-            return a.localeCompare(b);
-        });
+			// For other tokens, maintain alphabetical order
+			return a.localeCompare(b);
+		});
 
-        // Rebuild the primitive object with sorted keys
-        keys.forEach(key => {
-            sortedPrimitive[key] = primitive[key];
-        });
+		// Rebuild the primitive object with sorted keys
+		keys.forEach(key => {
+			sortedPrimitive[key] = primitive[key];
+		});
 
-        return {
-            ...tokens,
-            primitive: sortedPrimitive
-        };
-    }
+		return {
+			...tokens,
+			primitive: sortedPrimitive
+		};
+	}
 
 	/**
 	 * Convert individual token data to proper nested format for removal
@@ -582,48 +745,48 @@ class TokenTransformer {
 	}
 
 	/**
-     * Write JSON with compact $ref objects and 4-space indentation (for color-semantic tokens)
-     * This version ensures {"$ref": "..."} is always on one line.
-     */
-    async writeColorSemanticJSON(filePath, data) {
-        function customStringify(obj, indent = 0) {
-            const pad = ' '.repeat(indent);
-            if (Array.isArray(obj)) {
-                if (obj.length === 0) return '[]';
-                const items = obj.map(item => customStringify(item, indent + 4));
-                return '[\n' + items.map(i => pad + '    ' + i).join(',\n') + '\n' + pad + ']';
-            } else if (obj && typeof obj === 'object') {
-                const keys = Object.keys(obj);
-                // Compact single $ref object
-                if (keys.length === 1 && keys[0] === '$ref') {
-                    return `{"$ref": ${JSON.stringify(obj['$ref'])}}`;
-                }
-                if (keys.length === 0) return '{}';
-                let out = '{\n';
-                out += keys.map((k, idx) => {
-                    const v = obj[k];
-                    return pad + '    ' + JSON.stringify(k) + ': ' + customStringify(v, indent + 4);
-                }).join(',\n');
-                out += '\n' + pad + '}';
-                return out;
-            } else {
-                return JSON.stringify(obj);
-            }
-        }
-        const json = customStringify(data, 0) + '\n';
-        await fs.writeFile(filePath, json);
-    }
+	 * Write JSON with compact $ref objects and 4-space indentation (for color-semantic tokens)
+	 * This version ensures {"$ref": "..."} is always on one line.
+	 */
+	async writeColorSemanticJSON(filePath, data) {
+		function customStringify(obj, indent = 0) {
+			const pad = ' '.repeat(indent);
+			if (Array.isArray(obj)) {
+				if (obj.length === 0) return '[]';
+				const items = obj.map(item => customStringify(item, indent + 4));
+				return '[\n' + items.map(i => pad + '    ' + i).join(',\n') + '\n' + pad + ']';
+			} else if (obj && typeof obj === 'object') {
+				const keys = Object.keys(obj);
+				// Compact single $ref object
+				if (keys.length === 1 && keys[0] === '$ref') {
+					return `{"$ref": ${JSON.stringify(obj['$ref'])}}`;
+				}
+				if (keys.length === 0) return '{}';
+				let out = '{\n';
+				out += keys.map((k, idx) => {
+					const v = obj[k];
+					return pad + '    ' + JSON.stringify(k) + ': ' + customStringify(v, indent + 4);
+				}).join(',\n');
+				out += '\n' + pad + '}';
+				return out;
+			} else {
+				return JSON.stringify(obj);
+			}
+		}
+		const json = customStringify(data, 0) + '\n';
+		await fs.writeFile(filePath, json);
+	}
 
 	/**
-     * Save tokens to JSON file, using compact $ref style for color-semantic files
-     */
-    async saveTokensToFile(filePath, data) {
-        if (filePath.includes('color-semantic')) {
-            await this.writeColorSemanticJSON(filePath, data);
-        } else {
-            await fs.writeJson(filePath, data, { spaces: 4 });
-        }
-    }
+	 * Save tokens to JSON file, using compact $ref style for color-semantic files
+	 */
+	async saveTokensToFile(filePath, data) {
+		if (filePath.includes('color-semantic')) {
+			await this.writeColorSemanticJSON(filePath, data);
+		} else {
+			await fs.writeJson(filePath, data, { spaces: 4 });
+		}
+	}
 }
 
 /**
