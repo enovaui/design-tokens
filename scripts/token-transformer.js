@@ -22,6 +22,81 @@ class TokenTransformer {
 		this.cssGenerator = new CSSGenerator();
 		this.dartGenerator = new DartGenerator();
 		this.baseDir = path.resolve(__dirname, '..');
+
+		// 공통 설정
+		this.semanticThemes = [
+			{ name: 'dark', pattern: 'color-semantic-dark.json' },
+			{ name: 'light', pattern: 'color-semantic-light.json' },
+			{ name: 'high_contrast', pattern: 'color-semantic-high-contrast.json' },
+		];
+
+		// 원시 토큰 매핑
+		this.primitiveTokenTypes = [
+			{ type: 'color', dartMethod: 'generateColorDartFromJSON' },
+			{ type: 'radius', dartMethod: 'generateRadiusDartFromJSON' },
+			{ type: 'typography', dartMethod: 'generateTypographyDartFromJSON' },
+			{ type: 'spacing', dartMethod: 'generateSpacingDartFromJSON' },
+		];
+	}
+
+	/**
+	 * Update primitive Dart files based on token type
+	 * @param {string} filePath - JSON file path
+	 * @param {string} outputDir - Output directory
+	 * @param {Array} updatedFiles - Array to store updated file paths
+	 */
+	async updatePrimitiveDartFiles(filePath, outputDir, updatedFiles) {
+		for (const { type, dartMethod } of this.primitiveTokenTypes) {
+			if (filePath.includes(`${type}-primitive`)) {
+				const dartPath = path.join(this.baseDir, `lib/src/core_tokens/${type}_primitive.dart`);
+				await this.dartGenerator[dartMethod](filePath, dartPath);
+				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
+				updatedFiles.push(dartPath);
+			}
+		}
+	}
+
+	/**
+	 * Update specific semantic color Dart file
+	 * @param {string} filePath - JSON file path
+	 * @param {Array} updatedFiles - Array to store updated file paths
+	 */
+	async updateSemanticDartFileForTheme(filePath, updatedFiles) {
+		if (!filePath.includes('color-semantic')) return;
+
+		const dartOutputDir = path.join(this.baseDir, 'lib/src/webos_tokens');
+
+		for (const { name, pattern } of this.semanticThemes) {
+			const themePart = pattern.replace('.json', '').replace('color-semantic-', '');
+			if (filePath.includes(themePart)) {
+				await this.dartGenerator.generateSemanticDartFromJSON(filePath, dartOutputDir, name)
+				console.log(`✅ Generated Semantic Dart files for ${name} theme`);
+				console.log(`   💎 Updated Dart files for ${name} theme semantic colors`);
+				const dartFilePath = path.join(dartOutputDir, `color_semantic_${name}.dart`);
+				updatedFiles.push(dartFilePath);
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Update CSS and Dart files based on JSON file
+	 * @param {string} filePath - JSON file path
+	 * @param {string} outputDir - Output directory
+	 * @param {Array} updatedFiles - Array to store updated file paths
+	 */
+	async updateDerivedFiles(filePath, outputDir, updatedFiles) {
+		// Update CSS file
+		const cssPath = filePath.replace('/json/', '/css/').replace('.json', '.css');
+		await this.updateCSSFromJSON(filePath, cssPath);
+		console.log(`   🎨 Updated CSS file ${path.relative(outputDir, cssPath)}`);
+		updatedFiles.push(cssPath);
+
+		// Update primitive Dart files
+		await this.updatePrimitiveDartFiles(filePath, outputDir, updatedFiles);
+
+		// Update semantic Dart files
+		await this.updateSemanticDartFileForTheme(filePath, updatedFiles);
 	}
 
 	/**
@@ -47,55 +122,8 @@ class TokenTransformer {
 			console.log(`   ✅ Added ${tokens.length} tokens to ${path.relative(outputDir, filePath)}`);
 			updatedFiles.push(filePath);
 
-			// Update corresponding CSS file
-			const cssPath = filePath.replace('/json/', '/css/').replace('.json', '.css');
-			await this.updateCSSFromJSON(filePath, cssPath);
-			console.log(`   🎨 Updated CSS file ${path.relative(outputDir, cssPath)}`);
-			updatedFiles.push(cssPath);
-
-			// Update corresponding Dart file for color-primitive
-			if (filePath.includes('color-primitive')) {
-				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/color_primitive.dart');
-				await this.dartGenerator.generateColorDartFromJSON(filePath, dartPath);
-				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
-				updatedFiles.push(dartPath);
-			}
-			// Update corresponding Dart file for radius-primitive
-		   	if (filePath.includes('radius-primitive')) {
-				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/radius_primitive.dart');
-				await this.dartGenerator.generateRadiusDartFromJSON(filePath, dartPath);
-				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
-				updatedFiles.push(dartPath);
-			}
-			// Update corresponding Dart file for typography-primitive
-			if (filePath.includes('typography-primitive')) {
-				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/typography_primitive.dart');
-				await this.dartGenerator.generateTypographyDartFromJSON(filePath, dartPath);
-				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
-				updatedFiles.push(dartPath);
-			}
-			// Update corresponding Dart file for spacing-primitive
-			if (filePath.includes('spacing-primitive')) {
-				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/spacing_primitive.dart');
-				await this.dartGenerator.generateSpacingDartFromJSON(filePath, dartPath);
-				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
-				updatedFiles.push(dartPath);
-			}
-			// After all changes, generate semantic Dart files for each theme only once
-			const semanticThemes = [
-				{ name: 'dark', pattern: 'color-semantic-dark.json' },
-				{ name: 'light', pattern: 'color-semantic-light.json' },
-				{ name: 'high_contrast', pattern: 'color-semantic-high-contrast.json' },
-			];
-			const dartOutputDir = path.join(this.baseDir, 'lib/src/webos_tokens');
-			for (const theme of semanticThemes) {
-				const semanticJsonPath = path.join(outputDir, 'packages', 'web-tokens', 'json', theme.pattern);
-				if (await fs.pathExists(semanticJsonPath)) {
-					await this.dartGenerator.generateSemanticDartFromJSON(semanticJsonPath, dartOutputDir, theme.name);
-					console.log(`✅ Generated Semantic Dart files for ${theme.name} theme`);
-					console.log(`   💎 Updated Dart files for ${theme.name} theme semantic colors`);
-				}
-			}
+			// Update corresponding CSS and Dart files
+			await this.updateDerivedFiles(filePath, outputDir, updatedFiles);
 		}
 
 		// Handle modified tokens
@@ -105,138 +133,25 @@ class TokenTransformer {
 			console.log(`   📝 Modified tokens in ${path.relative(outputDir, filePath)}`);
 			updatedFiles.push(filePath);
 
-			// Update corresponding CSS file
-			const cssPath = filePath.replace('/json/', '/css/').replace('.json', '.css');
-			await this.updateCSSFromJSON(filePath, cssPath);
-			console.log(`   🎨 Updated CSS file ${path.relative(outputDir, cssPath)}`);
-			updatedFiles.push(cssPath);
-
-			// Update corresponding Dart file for color-primitive
-			if (filePath.includes('color-primitive')) {
-				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/color_primitive.dart');
-				await this.dartGenerator.generateColorDartFromJSON(filePath, dartPath);
-				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
-				updatedFiles.push(dartPath);
-			}
-			// Update corresponding Dart file for radius-primitive
-			if (filePath.includes('radius-primitive')) {
-				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/radius_primitive.dart');
-				await this.dartGenerator.updateDartFromJSON(filePath, dartPath);
-				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
-				updatedFiles.push(dartPath);
-			}
-			// Update corresponding Dart file for typography-primitive
-			if (filePath.includes('typography-primitive')) {
-				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/typography_primitive.dart');
-				await this.dartGenerator.generateTypographyDartFromJSON(filePath, dartPath);
-				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
-				updatedFiles.push(dartPath);
-			}
-			// Update corresponding Dart file for spacing-primitive
-			if (filePath.includes('spacing-primitive')) {
-				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/spacing_primitive.dart');
-				await this.dartGenerator.generateSpacingDartFromJSON(filePath, dartPath);
-				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
-				updatedFiles.push(dartPath);
-			}
-
-			// Update corresponding Dart files for color-semantic
-			if (filePath.includes('color-semantic')) {
-				// Dark theme
-				if (filePath.includes('dark')) {
-					const dartOutputDir = path.join(this.baseDir, 'lib/src/webos_tokens');
-					await this.dartGenerator.generateSemanticDartFromJSON(filePath, dartOutputDir, 'dark');
-					console.log(`✅ Generated Semantic Dart files for dark theme`);
-					console.log(`   💎 Updated Dart files for dark theme semantic colors`);
-				}
-				// Light theme
-				if (filePath.includes('light')) {
-					const dartOutputDir = path.join(this.baseDir, 'lib/src/webos_tokens');
-					await this.dartGenerator.generateSemanticDartFromJSON(filePath, dartOutputDir, 'light');
-					console.log(`✅ Generated Semantic Dart files for light theme`);
-					console.log(`   💎 Updated Dart files for light theme semantic colors`);
-				}
-				// High contrast theme
-				if (filePath.includes('high-contrast') || filePath.includes('high_contrast')) {
-					const dartOutputDir = path.join(this.baseDir, 'lib/src/webos_tokens');
-					await this.dartGenerator.generateSemanticDartFromJSON(filePath, dartOutputDir, 'high_contrast');
-					console.log(`✅ Generated Semantic Dart files for high_contrast theme`);
-					console.log(`   💎 Updated Dart files for high contrast theme semantic colors`);
-				}
-			}
+			// Update corresponding CSS and Dart files
+			await this.updateDerivedFiles(filePath, outputDir, updatedFiles);
 		}
 
 		// Handle removed tokens
 		for (const [tokenPath, changeData] of Object.entries(changes.removed || {})) {
 			const filePath = this.resolveOutputPath(tokenPath, changeData, outputDir);
 
+			console.log(`   🔍 Processing removed token: ${tokenPath}`);
+
 			// Create token structure to remove
 			const tokenToRemove = this.convertTokenDataToFormat(changeData);
+
 			await this.removeTokensFromFile(filePath, tokenToRemove);
 			console.log(`   🗑️  Removed tokens from ${path.relative(outputDir, filePath)}`);
 			updatedFiles.push(filePath);
 
-			// Update corresponding CSS file
-			const cssPath = filePath.replace('/json/', '/css/').replace('.json', '.css');
-			await this.updateCSSFromJSON(filePath, cssPath);
-			console.log(`   🎨 Updated CSS file ${path.relative(outputDir, cssPath)}`);
-			updatedFiles.push(cssPath);
-
-			// Update corresponding Dart file for color-primitive
-			if (filePath.includes('color-primitive')) {
-				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/color_primitive.dart');
-				await this.dartGenerator.generateColorDartFromJSON(filePath, dartPath);
-				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
-				updatedFiles.push(dartPath);
-		   	}
-		   	// Update corresponding Dart file for radius-primitive
-		   	if (filePath.includes('radius-primitive')) {
-				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/radius_primitive.dart');
-				await this.dartGenerator.generateRadiusDartFromJSON(filePath, dartPath);
-				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
-				updatedFiles.push(dartPath);
-		   	}
-
-		   	// Update corresponding Dart file for typography-primitive
-		   	if (filePath.includes('typography-primitive')) {
-				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/typography_primitive.dart');
-				await this.dartGenerator.generateTypographyDartFromJSON(filePath, dartPath);
-				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
-				updatedFiles.push(dartPath);
-		   	}
-
-			// Update corresponding Dart file for spacing-primitive
-		   	if (filePath.includes('spacing-primitive')) {
-				const dartPath = path.join(this.baseDir, 'lib/src/core_tokens/spacing_primitive.dart');
-				await this.dartGenerator.generateSpacingDartFromJSON(filePath, dartPath);
-				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`)
-				updatedFiles.push(dartPath);
-		   	}
-
-		   	// Update corresponding Dart files for color-semantic
-			if (filePath.includes('color-semantic')) {
-				// Dark theme
-				if (filePath.includes('dark')) {
-					const dartOutputDir = path.join(this.baseDir, 'lib/src/webos_tokens');
-					await this.dartGenerator.generateSemanticDartFromJSON(filePath, dartOutputDir, 'dark');
-					console.log(`✅ Generated Semantic Dart files for dark theme`);
-					console.log(`   💎 Updated Dart files for dark theme semantic colors`);
-				}
-				// Light theme
-				if (filePath.includes('light')) {
-					const dartOutputDir = path.join(this.baseDir, 'lib/src/webos_tokens');
-			 		await this.dartGenerator.generateSemanticDartFromJSON(filePath, dartOutputDir, 'light');
-					console.log(`✅ Generated Semantic Dart files for light theme`);
-					console.log(`   💎 Updated Dart files for light theme semantic colors`);
-				}
-				// High contrast theme
-				if (filePath.includes('high-contrast') || filePath.includes('high_contrast')) {
-					const dartOutputDir = path.join(this.baseDir, 'lib/src/webos_tokens');
-					await this.dartGenerator.generateSemanticDartFromJSON(filePath, dartOutputDir, 'high_contrast');
-					console.log(`✅ Generated Semantic Dart files for high_contrast theme`);
-					console.log(`   💎 Updated Dart files for high contrast theme semantic colors`);
-				}
-			}
+			// Update corresponding CSS and Dart files
+			await this.updateDerivedFiles(filePath, outputDir, updatedFiles);
 		}
 		return [...new Set(updatedFiles)]; // Remove duplicates
 	}
@@ -270,8 +185,22 @@ class TokenTransformer {
 			const primitiveColorLookup = this.buildPrimitiveColorLookup(primitiveColors);
 
 			for (const { changeData } of tokens) {
-				const { path: tokenPathArray, value } = changeData;
-				console.log("changeData:", changeData);
+				const { path: originalTokenPathArray, value } = changeData;
+				// Process special cases like "onbackground" -> ["on", "background"]
+				const tokenPathArray = [];
+				for (const segment of originalTokenPathArray) {
+					// Special case handling for combined segments
+					if (segment === 'onbackground') {
+						tokenPathArray.push('on');
+						tokenPathArray.push('background');
+					} else if (segment === 'onsurface') {
+						tokenPathArray.push('on');
+						tokenPathArray.push('surface');
+					} else {
+						tokenPathArray.push(segment);
+					}
+				}
+
 				// semantic.color.[...path]
 				let target = existingTokens;
 				if (!target.semantic) target.semantic = {};
@@ -576,7 +505,10 @@ class TokenTransformer {
 		if (await fs.pathExists(filePath)) {
 			const existingTokens = await fs.readJson(filePath);
 			const updatedTokens = this.removeTokensRecursive(existingTokens, tokensToRemove);
-			await fs.writeJson(filePath, updatedTokens, { spaces: 4 });
+
+			// Sort tokens and use consistent formatting for all files
+			const sortedTokens = this.sortTokens(updatedTokens);
+			await this.saveTokensToFile(filePath, sortedTokens);
 		}
 	}
 
@@ -649,29 +581,76 @@ class TokenTransformer {
 	 * Convert individual token data to proper nested format for removal
 	 */
 	convertTokenDataToFormat(changeData) {
-		const { path: tokenPath, value } = changeData;
-		const result = {};
+		const { path: tokenPath, value, collection } = changeData;
 
-		// Always start with "primitive" as the top level
-		result.primitive = {};
-		let current = result.primitive;
+		// Handle semantic color tokens differently
+		if (collection && /color[.-]semantic/i.test(collection)) {
+			// For semantic color tokens, create a nested structure
+			// Example: [surface, default-selected-focused] -> semantic.color.surface.default-selected-focused
+			const result = { semantic: { color: {} } };
+			let current = result.semantic.color;
 
-		// For removed tokens, build simple key-value structure
-		const finalKey = tokenPath[tokenPath.length - 1];
+			// Handle special case for onsurface (combined token)
+			if (tokenPath[0] === 'onsurface') {
+				// onsurface -> on.surface
+				if (!current.on) current.on = {};
+				current.on.surface = {};
+				current = current.on.surface;
 
-		// Apply proper formatting based on token type
-		if (finalKey.includes('spacing') || finalKey.includes('radius')) {
-			current[finalKey] = typeof value === 'number' ? `${value}px` : value;
-		} else if (finalKey.includes('fontsize') && typeof value === 'number') {
-			current[finalKey] = `${value}px`;
-		} else {
-			current[finalKey] = value;
+				// Start from index 1 since we've already processed 'onsurface' -> 'on.surface'
+				for (let i = 1; i < tokenPath.length - 1; i++) {
+					current[tokenPath[i]] = {};
+					current = current[tokenPath[i]];
+				}
+				current[tokenPath[tokenPath.length - 1]] = value;
+			}
+			// Handle special case for onbackground (combined token)
+			else if (tokenPath[0] === 'onbackground') {
+				// onbackground -> on.background
+				if (!current.on) current.on = {};
+				current.on.background = {};
+				current = current.on.background;
+
+				// Start from index 1 since we've already processed 'onbackground' -> 'on.background'
+				for (let i = 1; i < tokenPath.length - 1; i++) {
+					current[tokenPath[i]] = {};
+					current = current[tokenPath[i]];
+				}
+				current[tokenPath[tokenPath.length - 1]] = value;
+			}
+			else {
+				// Normal nested structure
+				for (let i = 0; i < tokenPath.length - 1; i++) {
+					current[tokenPath[i]] = {};
+					current = current[tokenPath[i]];
+				}
+				current[tokenPath[tokenPath.length - 1]] = value;
+			}
+
+			return result;
 		}
+		// For primitive tokens (non-semantic)
+		else {
+			const result = {};
+			// Always start with "primitive" as the top level
+			result.primitive = {};
+			let current = result.primitive;
 
-		return result;
-	}
+			// For removed tokens, build simple key-value structure
+			const finalKey = tokenPath[tokenPath.length - 1];
 
-	/**
+			// Apply proper formatting based on token type
+			if (finalKey.includes('spacing') || finalKey.includes('radius')) {
+				current[finalKey] = typeof value === 'number' ? `${value}px` : value;
+			} else if (finalKey.includes('fontsize') && typeof value === 'number') {
+				current[finalKey] = `${value}px`;
+			} else {
+				current[finalKey] = value;
+			}
+
+			return result;
+		}
+	}	/**
 	 * Normalize existing token files to ensure consistent formatting
 	 */
 	async normalizeExistingTokenFiles(outputDir) {

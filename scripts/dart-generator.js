@@ -318,7 +318,46 @@ class FontWeightPrimitive {
 
         // Process each top-level category
         for (const [category, values] of Object.entries(semanticColors)) {
-            // Create directory for this category
+            console.log(`🔍 Found top-level category: ${category}`);
+
+            // Special case for "on" category which might contain subcategories like "background", "surface", etc.
+            if (category === 'on') {
+                console.log(`🔍 Found 'on' category, checking for special subcategories`);
+
+                // Handle special "on_*" combined categories
+                const combinedCategories = ['background', 'surface', 'primary', 'secondary'];
+
+                // Process each potential combined category
+                for (const subCat of combinedCategories) {
+                    if (values[subCat] && typeof values[subCat] === 'object') {
+                        // Create combined directory like "on_background", "on_surface", etc.
+                        const combinedCategory = `on_${subCat}`;
+                        const combinedCategoryDir = path.join(themeDirPath, 'color', combinedCategory);
+                        await fs.ensureDir(combinedCategoryDir);
+
+                        console.log(`   🔄 Processing combined category: ${combinedCategory}`);
+                        console.log(`   📁 Created directory: ${combinedCategoryDir}`);
+
+                        // Generate main category file
+                        await this.generateCategoryFile(combinedCategory, values[subCat], combinedCategoryDir, theme);
+
+                        // Process nested subcategories under the combined category
+                        for (const [key, subValues] of Object.entries(values[subCat])) {
+                            if (typeof subValues === 'object' && !subValues.$ref) {
+                                console.log(`      📦 Found subcategory in combined category: ${key}`);
+                                const subCategoryDir = path.join(combinedCategoryDir, key);
+                                await fs.ensureDir(subCategoryDir);
+                                await this.generateSubCategoryFile(key, subValues, subCategoryDir, combinedCategory, theme);
+                            }
+                        }
+                    }
+                }
+
+                // After processing all combined categories, continue with next top-level category
+                continue;
+            }
+
+            // Normal case - process the category directly
             const categoryDir = path.join(themeDirPath, 'color', category);
             await fs.ensureDir(categoryDir);
 
@@ -423,8 +462,25 @@ class FontWeightPrimitive {
         const fileName = `${subCategory}.dart`;
         const filePath = path.join(subCategoryDir, fileName);
 
+        // For parent categories that are combined (like on_background),
+        // we need to use the correct path format for imports
+        const formattedParentCategory = parentCategory;
+
         // Start building the Dart file content
-        let dartContent = `/*\n * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.\n * SPDX-License-Identifier: Apache-2.0\n */\n\nimport 'package:flutter/material.dart' show Color;\n\nimport '../../../../../core_tokens/color_primitive.dart';\nimport '../../../../base/color/${parentCategory}/${subCategory}/${subCategory}_base.dart';\n\nclass ${className} extends ${baseClassName} {\n  const ${className}();\n\n`;
+        let dartContent = `/*
+ * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import 'package:flutter/material.dart' show Color;
+
+import '../../../../../core_tokens/color_primitive.dart';
+import '../../../../base/color/${formattedParentCategory}/${subCategory}/${subCategory}_base.dart';
+
+class ${className} extends ${baseClassName} {
+  const ${className}();
+
+`;
 
         // Add properties
         for (const [prop, value] of Object.entries(values)) {
@@ -435,7 +491,8 @@ class FontWeightPrimitive {
 
                 // If the property is named 'default', rename to 'defaultColor'
                 const dartProp = prop === 'default' ? 'defaultColor' : this.toCamelCase(prop);
-                dartContent += `  @override\n  Color get ${dartProp} => ColorPrimitive.instance.${colorName};\n`;
+                dartContent += `  @override
+  Color get ${dartProp} => ColorPrimitive.instance.${colorName};\n`;
             }
         }
 
