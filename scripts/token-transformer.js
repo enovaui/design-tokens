@@ -14,11 +14,90 @@ console.log('🔧 Token transformer script started');
 const fs = require('fs-extra');
 const path = require('path');
 const CSSGenerator = require('./css-generator');
+const DartGenerator = require('./dart-generator');
 
 class TokenTransformer {
 	constructor(mappingConfig) {
 		this.mappingConfig = mappingConfig;
 		this.cssGenerator = new CSSGenerator();
+		this.dartGenerator = new DartGenerator();
+		this.baseDir = path.resolve(__dirname, '..');
+
+		// semantic color themes
+		// The pattern is used to match the file names in the JSON directory
+		this.semanticThemes = [
+			{ name: 'dark', pattern: 'color-semantic-dark.json' },
+			{ name: 'light', pattern: 'color-semantic-light.json' },
+			{ name: 'high_contrast', pattern: 'color-semantic-high-contrast.json' },
+		];
+
+		// primitive token types with corresponding Dart methods
+		this.primitiveTokenTypes = [
+			{ type: 'color', dartMethod: 'generateColorDartFromJSON' },
+			{ type: 'radius', dartMethod: 'generateRadiusDartFromJSON' },
+			{ type: 'typography', dartMethod: 'generateTypographyDartFromJSON' },
+			{ type: 'spacing', dartMethod: 'generateSpacingDartFromJSON' },
+		];
+	}
+
+	/**
+	 * Update primitive Dart files based on token type
+	 * @param {string} filePath - JSON file path
+	 * @param {string} outputDir - Output directory
+	 * @param {Array} updatedFiles - Array to store updated file paths
+	 */
+	async updatePrimitiveDartFiles(filePath, outputDir, updatedFiles) {
+		for (const { type, dartMethod } of this.primitiveTokenTypes) {
+			if (filePath.includes(`${type}-primitive`)) {
+				const dartPath = path.join(this.baseDir, `lib/src/core_tokens/${type}_primitive.dart`);
+				await this.dartGenerator[dartMethod](filePath, dartPath);
+				console.log(`   💎 Updated Dart file ${path.relative(outputDir, dartPath)}`);
+				updatedFiles.push(dartPath);
+			}
+		}
+	}
+
+	/**
+	 * Update specific semantic color Dart file
+	 * @param {string} filePath - JSON file path
+	 * @param {Array} updatedFiles - Array to store updated file paths
+	 */
+	async updateSemanticDartFileForTheme(filePath, updatedFiles) {
+		if (!filePath.includes('color-semantic')) return;
+
+		const dartOutputDir = path.join(this.baseDir, 'lib/src/webos_tokens');
+
+		for (const { name, pattern } of this.semanticThemes) {
+			const themePart = pattern.replace('.json', '').replace('color-semantic-', '');
+			if (filePath.includes(themePart)) {
+				await this.dartGenerator.generateSemanticDartFromJSON(filePath, dartOutputDir, name);
+				console.log(`✅ Generated Semantic Dart files for ${name} theme`);
+				console.log(`   💎 Updated Dart files for ${name} theme semantic colors`);
+				const dartFilePath = path.join(dartOutputDir, `color_semantic_${name}.dart`);
+				updatedFiles.push(dartFilePath);
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Update CSS and Dart files based on JSON file
+	 * @param {string} filePath - JSON file path
+	 * @param {string} outputDir - Output directory
+	 * @param {Array} updatedFiles - Array to store updated file paths
+	 */
+	async updateDerivedFiles(filePath, outputDir, updatedFiles) {
+		// Update CSS file
+		const cssPath = filePath.replace('/json/', '/css/').replace('.json', '.css');
+		await this.updateCSSFromJSON(filePath, cssPath);
+		console.log(`   🎨 Updated CSS file ${path.relative(outputDir, cssPath)}`);
+		updatedFiles.push(cssPath);
+
+		// Update primitive Dart files
+		await this.updatePrimitiveDartFiles(filePath, outputDir, updatedFiles);
+
+		// Update semantic Dart files
+		await this.updateSemanticDartFileForTheme(filePath, updatedFiles);
 	}
 
 	/**
@@ -44,11 +123,8 @@ class TokenTransformer {
 			console.log(`   ✅ Added ${tokens.length} tokens to ${path.relative(outputDir, filePath)}`);
 			updatedFiles.push(filePath);
 
-			// Update corresponding CSS file
-			const cssPath = filePath.replace('/json/', '/css/').replace('.json', '.css');
-			await this.updateCSSFromJSON(filePath, cssPath);
-			console.log(`   🎨 Updated CSS file ${path.relative(outputDir, cssPath)}`);
-			updatedFiles.push(cssPath);
+			// Update corresponding CSS and Dart files
+			await this.updateDerivedFiles(filePath, outputDir, updatedFiles);
 		}
 
 		// Handle modified tokens
@@ -58,30 +134,26 @@ class TokenTransformer {
 			console.log(`   📝 Modified tokens in ${path.relative(outputDir, filePath)}`);
 			updatedFiles.push(filePath);
 
-			// Update corresponding CSS file
-			const cssPath = filePath.replace('/json/', '/css/').replace('.json', '.css');
-			await this.updateCSSFromJSON(filePath, cssPath);
-			console.log(`   🎨 Updated CSS file ${path.relative(outputDir, cssPath)}`);
-			updatedFiles.push(cssPath);
+			// Update corresponding CSS and Dart files
+			await this.updateDerivedFiles(filePath, outputDir, updatedFiles);
 		}
 
 		// Handle removed tokens
 		for (const [tokenPath, changeData] of Object.entries(changes.removed || {})) {
 			const filePath = this.resolveOutputPath(tokenPath, changeData, outputDir);
 
+			console.log(`   🔍 Processing removed token: ${tokenPath}`);
+
 			// Create token structure to remove
 			const tokenToRemove = this.convertTokenDataToFormat(changeData);
+
 			await this.removeTokensFromFile(filePath, tokenToRemove);
 			console.log(`   🗑️  Removed tokens from ${path.relative(outputDir, filePath)}`);
 			updatedFiles.push(filePath);
 
-			// Update corresponding CSS file
-			const cssPath = filePath.replace('/json/', '/css/').replace('.json', '.css');
-			await this.updateCSSFromJSON(filePath, cssPath);
-			console.log(`   🎨 Updated CSS file ${path.relative(outputDir, cssPath)}`);
-			updatedFiles.push(cssPath);
+			// Update corresponding CSS and Dart files
+			await this.updateDerivedFiles(filePath, outputDir, updatedFiles);
 		}
-
 		return [...new Set(updatedFiles)]; // Remove duplicates
 	}
 
@@ -114,8 +186,22 @@ class TokenTransformer {
 			const primitiveColorLookup = this.buildPrimitiveColorLookup(primitiveColors);
 
 			for (const { changeData } of tokens) {
-				const { path: tokenPathArray, value } = changeData;
-				console.log("changeData:", changeData);
+				const { path: originalTokenPathArray, value } = changeData;
+				// Process special cases like "onbackground" -> ["on", "background"]
+				const tokenPathArray = [];
+				for (const segment of originalTokenPathArray) {
+					// Special case handling for combined segments
+					if (segment === 'onbackground') {
+						tokenPathArray.push('on');
+						tokenPathArray.push('background');
+					} else if (segment === 'onsurface') {
+						tokenPathArray.push('on');
+						tokenPathArray.push('surface');
+					} else {
+						tokenPathArray.push(segment);
+					}
+				}
+
 				// semantic.color.[...path]
 				let target = existingTokens;
 				if (!target.semantic) target.semantic = {};
@@ -160,6 +246,13 @@ class TokenTransformer {
 	 */
 	async updateCSSFromJSON(jsonPath, cssPath) {
 		return await this.cssGenerator.generateCSSFromJSON(jsonPath, cssPath);
+	}
+
+	/**
+	 * Update Dart file based on JSON file content
+	 */
+	async updateDartFromJSON(jsonPath, dartPath) {
+		return await this.dartGenerator.generateDartFromJSON(jsonPath, dartPath);
 	}
 
 	/**
@@ -413,7 +506,10 @@ class TokenTransformer {
 		if (await fs.pathExists(filePath)) {
 			const existingTokens = await fs.readJson(filePath);
 			const updatedTokens = this.removeTokensRecursive(existingTokens, tokensToRemove);
-			await fs.writeJson(filePath, updatedTokens, { spaces: 4 });
+
+			// Sort tokens and use consistent formatting for all files
+			const sortedTokens = this.sortTokens(updatedTokens);
+			await this.saveTokensToFile(filePath, sortedTokens);
 		}
 	}
 
@@ -443,69 +539,118 @@ class TokenTransformer {
 	}
 
 	/**
-     * Sort tokens numerically for spacing, radius, and font-size tokens
-     */
-    sortTokens(tokens) {
-        if (!tokens || !tokens.primitive) {
-            return tokens;
-        }
+	 * Sort tokens numerically for spacing, radius, and font-size tokens
+	 */
+	sortTokens(tokens) {
+		if (!tokens || !tokens.primitive) {
+			return tokens;
+		}
 
-        const primitive = tokens.primitive;
-        const sortedPrimitive = {};
+		const primitive = tokens.primitive;
+		const sortedPrimitive = {};
 
-        // Get all keys and sort them
-        const keys = Object.keys(primitive).sort((a, b) => {
-            // Extract numerical value from key (e.g., "spacing-66" -> 66)
-            const getNumericValue = (key) => {
-                const match = key.match(/(\d+)$/);
-                return match ? parseInt(match[1], 10) : 0;
-            };
+		// Get all keys and sort them
+		const keys = Object.keys(primitive).sort((a, b) => {
+			// Extract numerical value from key (e.g., "spacing-66" -> 66)
+			const getNumericValue = (key) => {
+				const match = key.match(/(\d+)$/);
+				return match ? parseInt(match[1], 10) : 0;
+			};
 
-            // Only sort if both keys are spacing, radius, or font-size tokens
-            if ((a.includes('spacing') || a.includes('radius') || a.includes('font-size')) &&
-                (b.includes('spacing') || b.includes('radius') || b.includes('font-size'))) {
-                return getNumericValue(a) - getNumericValue(b);
-            }
+			// Only sort if both keys are spacing, radius, or font-size tokens
+			if ((a.includes('spacing') || a.includes('radius') || a.includes('font-size')) &&
+				(b.includes('spacing') || b.includes('radius') || b.includes('font-size'))) {
+				return getNumericValue(a) - getNumericValue(b);
+			}
 
-            // For other tokens, maintain alphabetical order
-            return a.localeCompare(b);
-        });
+			// For other tokens, maintain alphabetical order
+			return a.localeCompare(b);
+		});
 
-        // Rebuild the primitive object with sorted keys
-        keys.forEach(key => {
-            sortedPrimitive[key] = primitive[key];
-        });
+		// Rebuild the primitive object with sorted keys
+		keys.forEach(key => {
+			sortedPrimitive[key] = primitive[key];
+		});
 
-        return {
-            ...tokens,
-            primitive: sortedPrimitive
-        };
-    }
+		return {
+			...tokens,
+			primitive: sortedPrimitive
+		};
+	}
 
 	/**
 	 * Convert individual token data to proper nested format for removal
 	 */
 	convertTokenDataToFormat(changeData) {
-		const { path: tokenPath, value } = changeData;
-		const result = {};
+		const { path: tokenPath, value, collection } = changeData;
 
-		// Always start with "primitive" as the top level
-		result.primitive = {};
-		let current = result.primitive;
+		// Handle semantic color tokens differently
+		if (collection && /color[.-]semantic/i.test(collection)) {
+			// For semantic color tokens, create a nested structure
+			// Example: [surface, default-selected-focused] -> semantic.color.surface.default-selected-focused
+			const result = { semantic: { color: {} } };
+			let current = result.semantic.color;
 
-		// For removed tokens, build simple key-value structure
-		const finalKey = tokenPath[tokenPath.length - 1];
+			// Handle special case for onsurface (combined token)
+			if (tokenPath[0] === 'onsurface') {
+				// onsurface -> on.surface
+				if (!current.on) current.on = {};
+				current.on.surface = {};
+				current = current.on.surface;
 
-		// Apply proper formatting based on token type
-		if (finalKey.includes('spacing') || finalKey.includes('radius')) {
-			current[finalKey] = typeof value === 'number' ? `${value}px` : value;
-		} else if (finalKey.includes('fontsize') && typeof value === 'number') {
-			current[finalKey] = `${value}px`;
-		} else {
-			current[finalKey] = value;
+				// Start from index 1 since we've already processed 'onsurface' -> 'on.surface'
+				for (let i = 1; i < tokenPath.length - 1; i++) {
+					current[tokenPath[i]] = {};
+					current = current[tokenPath[i]];
+				}
+				current[tokenPath[tokenPath.length - 1]] = value;
+			}
+			// Handle special case for onbackground (combined token)
+			else if (tokenPath[0] === 'onbackground') {
+				// onbackground -> on.background
+				if (!current.on) current.on = {};
+				current.on.background = {};
+				current = current.on.background;
+
+				// Start from index 1 since we've already processed 'onbackground' -> 'on.background'
+				for (let i = 1; i < tokenPath.length - 1; i++) {
+					current[tokenPath[i]] = {};
+					current = current[tokenPath[i]];
+				}
+				current[tokenPath[tokenPath.length - 1]] = value;
+			}
+			else {
+				// Normal nested structure
+				for (let i = 0; i < tokenPath.length - 1; i++) {
+					current[tokenPath[i]] = {};
+					current = current[tokenPath[i]];
+				}
+				current[tokenPath[tokenPath.length - 1]] = value;
+			}
+
+			return result;
 		}
+		// For primitive tokens (non-semantic)
+		else {
+			const result = {};
+			// Always start with "primitive" as the top level
+			result.primitive = {};
+			let current = result.primitive;
 
-		return result;
+			// For removed tokens, build simple key-value structure
+			const finalKey = tokenPath[tokenPath.length - 1];
+
+			// Apply proper formatting based on token type
+			if (finalKey.includes('spacing') || finalKey.includes('radius')) {
+				current[finalKey] = typeof value === 'number' ? `${value}px` : value;
+			} else if (finalKey.includes('fontsize') && typeof value === 'number') {
+				current[finalKey] = `${value}px`;
+			} else {
+				current[finalKey] = value;
+			}
+
+			return result;
+		}
 	}
 
 	/**
@@ -582,48 +727,48 @@ class TokenTransformer {
 	}
 
 	/**
-     * Write JSON with compact $ref objects and 4-space indentation (for color-semantic tokens)
-     * This version ensures {"$ref": "..."} is always on one line.
-     */
-    async writeColorSemanticJSON(filePath, data) {
-        function customStringify(obj, indent = 0) {
-            const pad = ' '.repeat(indent);
-            if (Array.isArray(obj)) {
-                if (obj.length === 0) return '[]';
-                const items = obj.map(item => customStringify(item, indent + 4));
-                return '[\n' + items.map(i => pad + '    ' + i).join(',\n') + '\n' + pad + ']';
-            } else if (obj && typeof obj === 'object') {
-                const keys = Object.keys(obj);
-                // Compact single $ref object
-                if (keys.length === 1 && keys[0] === '$ref') {
-                    return `{"$ref": ${JSON.stringify(obj['$ref'])}}`;
-                }
-                if (keys.length === 0) return '{}';
-                let out = '{\n';
-                out += keys.map((k, idx) => {
-                    const v = obj[k];
-                    return pad + '    ' + JSON.stringify(k) + ': ' + customStringify(v, indent + 4);
-                }).join(',\n');
-                out += '\n' + pad + '}';
-                return out;
-            } else {
-                return JSON.stringify(obj);
-            }
-        }
-        const json = customStringify(data, 0) + '\n';
-        await fs.writeFile(filePath, json);
-    }
+	 * Write JSON with compact $ref objects and 4-space indentation (for color-semantic tokens)
+	 * This version ensures {"$ref": "..."} is always on one line.
+	 */
+	async writeColorSemanticJSON(filePath, data) {
+		function customStringify(obj, indent = 0) {
+			const pad = ' '.repeat(indent);
+			if (Array.isArray(obj)) {
+				if (obj.length === 0) return '[]';
+				const items = obj.map(item => customStringify(item, indent + 4));
+				return '[\n' + items.map(i => pad + '    ' + i).join(',\n') + '\n' + pad + ']';
+			} else if (obj && typeof obj === 'object') {
+				const keys = Object.keys(obj);
+				// Compact single $ref object
+				if (keys.length === 1 && keys[0] === '$ref') {
+					return `{"$ref": ${JSON.stringify(obj['$ref'])}}`;
+				}
+				if (keys.length === 0) return '{}';
+				let out = '{\n';
+				out += keys.map((k, idx) => {
+					const v = obj[k];
+					return pad + '    ' + JSON.stringify(k) + ': ' + customStringify(v, indent + 4);
+				}).join(',\n');
+				out += '\n' + pad + '}';
+				return out;
+			} else {
+				return JSON.stringify(obj);
+			}
+		}
+		const json = customStringify(data, 0) + '\n';
+		await fs.writeFile(filePath, json);
+	}
 
 	/**
-     * Save tokens to JSON file, using compact $ref style for color-semantic files
-     */
-    async saveTokensToFile(filePath, data) {
-        if (filePath.includes('color-semantic')) {
-            await this.writeColorSemanticJSON(filePath, data);
-        } else {
-            await fs.writeJson(filePath, data, { spaces: 4 });
-        }
-    }
+	 * Save tokens to JSON file, using compact $ref style for color-semantic files
+	 */
+	async saveTokensToFile(filePath, data) {
+		if (filePath.includes('color-semantic')) {
+			await this.writeColorSemanticJSON(filePath, data);
+		} else {
+			await fs.writeJson(filePath, data, { spaces: 4 });
+		}
+	}
 }
 
 /**
