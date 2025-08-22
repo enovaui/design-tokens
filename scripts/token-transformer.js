@@ -23,14 +23,15 @@ class TokenTransformer {
 		this.dartGenerator = new DartGenerator();
 		this.baseDir = path.resolve(__dirname, '..');
 
-		// 공통 설정
+		// semantic color themes
+		// The pattern is used to match the file names in the JSON directory
 		this.semanticThemes = [
 			{ name: 'dark', pattern: 'color-semantic-dark.json' },
 			{ name: 'light', pattern: 'color-semantic-light.json' },
 			{ name: 'high_contrast', pattern: 'color-semantic-high-contrast.json' },
 		];
 
-		// 원시 토큰 매핑
+		// primitive token types with corresponding Dart methods
 		this.primitiveTokenTypes = [
 			{ type: 'color', dartMethod: 'generateColorDartFromJSON' },
 			{ type: 'radius', dartMethod: 'generateRadiusDartFromJSON' },
@@ -69,7 +70,7 @@ class TokenTransformer {
 		for (const { name, pattern } of this.semanticThemes) {
 			const themePart = pattern.replace('.json', '').replace('color-semantic-', '');
 			if (filePath.includes(themePart)) {
-				await this.dartGenerator.generateSemanticDartFromJSON(filePath, dartOutputDir, name)
+				await this.dartGenerator.generateSemanticDartFromJSON(filePath, dartOutputDir, name);
 				console.log(`✅ Generated Semantic Dart files for ${name} theme`);
 				console.log(`   💎 Updated Dart files for ${name} theme semantic colors`);
 				const dartFilePath = path.join(dartOutputDir, `color_semantic_${name}.dart`);
@@ -650,7 +651,9 @@ class TokenTransformer {
 
 			return result;
 		}
-	}	/**
+	}
+
+	/**
 	 * Normalize existing token files to ensure consistent formatting
 	 */
 	async normalizeExistingTokenFiles(outputDir) {
