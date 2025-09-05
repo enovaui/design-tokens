@@ -66,15 +66,15 @@ jobs:
           git commit -m "Version value updating" || exit 0
           git push
 
-      - name: Merge release into main
+      - name: Merge release into master
         run: |
           VERSION="${{ steps.get-version.outputs.version }}"
-          git fetch origin main
-          git checkout main
-          git reset --hard -q origin/main
+          git fetch origin master
+          git checkout master
+          git reset --hard -q origin/master
           git merge --no-ff ${{ github.ref_name }}
           git commit --amend -m "$VERSION release"
-          git push origin main
+          git push origin master
 
       - name: Tagging the release
         run: |
@@ -86,7 +86,7 @@ jobs:
           git fetch origin develop
           git checkout develop
           git reset --hard -q origin/develop
-          git merge --no-ff main
+          git merge --no-ff master
           git push origin develop
 
       - name: Delete release branch
