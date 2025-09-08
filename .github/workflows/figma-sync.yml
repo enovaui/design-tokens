@@ -197,7 +197,7 @@ jobs:
             if [ $CURL_EXIT_CODE -eq 0 ]; then
               echo "✅ Teams notification sent successfully!"
             else
-              echo "⚠️ Teams notification failed, but continuing..."
+              echo "⚠️ Teams notification failed, but continuing.."
             fi
           else
             echo "ℹ️ Teams webhook not configured, skipping notification"
