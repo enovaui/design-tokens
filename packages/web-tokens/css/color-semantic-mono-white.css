@@ -3,21 +3,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
- @import "@enovaui/core-tokens/css/color-primitive.css";
+@import "@enovaui/core-tokens/css/color-primitive.css";
 
- /* ----------------------------------------
- Semantic Color Tokens
- ------------------------------------------- */
+/* ----------------------------------------
+Semantic Color Tokens
+------------------------------------------- */
 
- :root {
-	/* background */
+:root {
+
+	/* Background */
 	--semantic-color-background-main: var(--primitive-color-mist-gray-95);
 	--semantic-color-background-sub: var(--primitive-color-white);
 
-	/* onBackground */
+	/* On Background */
 	--semantic-color-on-background-default: var(--primitive-color-mist-gray-10);
 
-	/* surface */
+	/* Surface */
 	--semantic-color-surface-default-handle: var(--primitive-color-mist-gray-50);
 	--semantic-color-surface-default-indicator: var(--primitive-color-mist-gray-50);
 	--semantic-color-surface-default-notification: var(--primitive-color-red-orange-60);
@@ -26,7 +27,7 @@
 	--semantic-color-surface-main: var(--primitive-color-white);
 	--semantic-color-surface-main-hover: var(--primitive-color-mist-gray-99);
 	--semantic-color-surface-main-pressed: var(--primitive-color-mist-gray-90);
-	--semantic-color-surface-sub: var(--primitive-color-mist-gray-90);
+	--semantic-color-surface-sub: var(--primitive-color-mist-gray-85);
 	--semantic-color-surface-accent: var(--primitive-color-mist-gray-40);
 	--semantic-color-surface-badge-dark: var(--primitive-color-mist-gray-10);
 	--semantic-color-surface-badge-light: var(--primitive-color-mist-gray-90);
@@ -43,7 +44,7 @@
 	--semantic-color-surface-button-icon-pressed: var(--primitive-color-mist-gray-70);
 	--semantic-color-surface-chip: var(--primitive-color-white);
 	--semantic-color-surface-chip-selected: var(--primitive-color-mist-gray-30);
-	--semantic-color-surface-notification-card: var(--primitive-color-mist-gray-90);
+	--semantic-color-surface-notification-card: var(--primitive-color-neutral-gray-30);
 	--semantic-color-surface-selection-active: var(--primitive-color-mist-gray-40);
 	--semantic-color-surface-selection-inactive: var(--primitive-color-mist-gray-70);
 	--semantic-color-surface-text-field-disabled: var(--primitive-color-mist-gray-90);
@@ -51,7 +52,7 @@
 	--semantic-color-surface-white: var(--primitive-color-white);
 	--semantic-color-surface-black: var(--primitive-color-mist-gray-10);
 
-	/* onSurface */
+	/* On Surface */
 	--semantic-color-on-surface-default-error: var(--primitive-color-active-red-50);
 	--semantic-color-on-surface-default-success: var(--primitive-color-green-55);
 	--semantic-color-on-surface-main: var(--primitive-color-mist-gray-10);
@@ -62,7 +63,7 @@
 	--semantic-color-on-surface-white: var(--primitive-color-white);
 	--semantic-color-on-surface-black: var(--primitive-color-mist-gray-10);
 
-	/* stroke */
+	/* Stroke */
 	--semantic-color-stroke-default-error: var(--primitive-color-active-red-60);
 	--semantic-color-stroke-default-success: var(--primitive-color-green-60);
 	--semantic-color-stroke-main: var(--primitive-color-mist-gray-90);
@@ -74,6 +75,6 @@
 	--semantic-color-stroke-selection-inactive: var(--primitive-color-mist-gray-70);
 	--semantic-color-stroke-tab: var(--primitive-color-mist-gray-10);
 
-	/* scrim */
+	/* Scrim */
 	--semantic-color-scrim-default: var(--primitive-color-black);
 }

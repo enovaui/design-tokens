@@ -305,8 +305,8 @@ class ColorPrimitive {
   /// warm-gray-80 - #e6e1d6
   late final Color warmGray80 = const Color.fromRGBO(230, 225, 214, 1.0);
 
-  /// warm-gray-85 - #f0ebe2
-  late final Color warmGray85 = const Color.fromRGBO(240, 235, 226, 1.0);
+  /// warm-gray-85 - #f0ece4
+  late final Color warmGray85 = const Color.fromRGBO(240, 236, 228, 1.0);
 
   /// warm-gray-90 - #f6f3eb
   late final Color warmGray90 = const Color.fromRGBO(246, 243, 235, 1.0);
@@ -1229,17 +1229,17 @@ class ColorPrimitive {
   /// heritage-red-20 - #66002a
   late final Color heritageRed20 = const Color.fromRGBO(102, 0, 42, 1.0);
 
-  /// heritage-red-25 - #780034
-  late final Color heritageRed25 = const Color.fromRGBO(120, 0, 52, 1.0);
+  /// heritage-red-25 - #84002c
+  late final Color heritageRed25 = const Color.fromRGBO(132, 0, 44, 1.0);
 
-  /// heritage-red-30 - #8f003e
-  late final Color heritageRed30 = const Color.fromRGBO(143, 0, 62, 1.0);
+  /// heritage-red-30 - #98002f
+  late final Color heritageRed30 = const Color.fromRGBO(152, 0, 47, 1.0);
 
   /// heritage-red-35 - #a50034
   late final Color heritageRed35 = const Color.fromRGBO(165, 0, 52, 1.0);
 
-  /// heritage-red-40 - #c60449
-  late final Color heritageRed40 = const Color.fromRGBO(198, 4, 73, 1.0);
+  /// heritage-red-40 - #c00045
+  late final Color heritageRed40 = const Color.fromRGBO(192, 0, 69, 1.0);
 
   /// heritage-red-45 - #d91757
   late final Color heritageRed45 = const Color.fromRGBO(217, 23, 87, 1.0);
