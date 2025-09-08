@@ -10,13 +10,16 @@ Semantic Color Tokens
 ------------------------------------------- */
 
 :root {
-	/* background */
-	--semantic-color-background-default: var(--primitive-color-mist-gray-95);
 
-	/* onBackground */
+	/* Background */
+	--semantic-color-background-default: var(--primitive-color-mist-gray-95);
+	--semantic-color-background-main: var(--primitive-color-mist-gray-95);
+	--semantic-color-background-sub: var(--primitive-color-mist-gray-95);
+
+	/* On Background */
 	--semantic-color-on-background-default: var(--primitive-color-mist-gray-10);
 
-	/* surface */
+	/* Surface */
 	--semantic-color-surface-default: var(--primitive-color-white);
 	--semantic-color-surface-default-hover: var(--primitive-color-blue-gray-95);
 	--semantic-color-surface-default-focused: var(--primitive-color-blue-gray-90);
@@ -52,8 +55,10 @@ Semantic Color Tokens
 	--semantic-color-surface-toast: var(--primitive-color-blue-gray-10);
 	--semantic-color-surface-white: var(--primitive-color-white);
 	--semantic-color-surface-black: var(--primitive-color-blue-gray-10);
+	--semantic-color-surface-main: var(--primitive-color-white);
+	--semantic-color-surface-sub: var(--primitive-color-blue-gray-90);
 
-	/* onSurface */
+	/* On Surface */
 	--semantic-color-on-surface-default-error: var(--primitive-color-active-red-60);
 	--semantic-color-on-surface-default-success: var(--primitive-color-green-55);
 	--semantic-color-on-surface-main: var(--primitive-color-mist-gray-10);
@@ -63,8 +68,9 @@ Semantic Color Tokens
 	--semantic-color-on-surface-button: var(--primitive-color-mist-gray-30);
 	--semantic-color-on-surface-white: var(--primitive-color-white);
 	--semantic-color-on-surface-black: var(--primitive-color-mist-gray-10);
+	--semantic-color-on-surface-tooltip-icon: var(--primitive-color-mist-gray-30);
 
-	/* stroke */
+	/* Stroke */
 	--semantic-color-stroke-default-error: var(--primitive-color-active-red-60);
 	--semantic-color-stroke-default-success: var(--primitive-color-green-60);
 	--semantic-color-stroke-main: var(--primitive-color-blue-gray-80);
@@ -76,6 +82,6 @@ Semantic Color Tokens
 	--semantic-color-stroke-selection-inactive: var(--primitive-color-mist-gray-70);
 	--semantic-color-stroke-tab: var(--primitive-color-mist-gray-10);
 
-	/* scrim */
+	/* Scrim */
 	--semantic-color-scrim-default: var(--primitive-color-white);
 }
