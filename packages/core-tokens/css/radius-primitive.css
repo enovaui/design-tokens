@@ -10,7 +10,6 @@ Primitive Radius Tokens
 ------------------------------------------- */
 
 :root {
-	--primitive-radius-0: 0;
 	--primitive-radius-2: 2px;
 	--primitive-radius-4: 4px;
 	--primitive-radius-6: 6px;
@@ -20,6 +19,7 @@ Primitive Radius Tokens
 	--primitive-radius-16: 16px;
 	--primitive-radius-20: 20px;
 	--primitive-radius-24: 24px;
+	--primitive-radius-28: 28px;
 	--primitive-radius-30: 30px;
 	--primitive-radius-36: 36px;
 	--primitive-radius-40: 40px;
