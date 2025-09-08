@@ -1,6 +1,8 @@
 name: Design Token Sync
 
 on:
+  pull_request:
+    branches: [ master, develop ]
   # Manual execution possible
   workflow_dispatch:
     inputs:
