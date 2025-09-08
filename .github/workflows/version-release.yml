@@ -31,6 +31,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          registry-url: 'https://registry.npmjs.org/'
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -53,9 +54,9 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Publish packages
-        run: |
-         echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
-         npx changeset publish
+        run: npx changeset publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Commit and push changes
         run: |
@@ -72,8 +73,7 @@ jobs:
           git fetch origin master
           git checkout master
           git reset --hard -q origin/master
-          git merge --no-ff ${{ github.ref_name }}
-          git commit --amend -m "$VERSION release"
+          git merge --no-ff -m "$VERSION release" ${{ github.ref_name }}
           git push origin master
 
       - name: Tagging the release
