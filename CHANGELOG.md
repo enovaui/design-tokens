@@ -2,6 +2,10 @@
 
 The following is a curated list of changes in the design tokens module, newest changes on the top.
 
+## [0.8.2] - 2025-09-09
+
+- No significant changes
+
 ## [0.8.1] - 2025-07-21
 
 ### core-tokens

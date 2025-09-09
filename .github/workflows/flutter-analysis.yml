@@ -1,0 +1,56 @@
+name: Flutter Analysis
+
+on:
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  flutter-analyze:
+    name: Flutter Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Check for Dart/Flutter files
+        id: check-files
+        run: |
+          # Check if any relevant files were changed
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }})
+          echo "Changed files: $CHANGED_FILES"
+
+          if echo "$CHANGED_FILES" | grep -E '\.(dart)$|^pubspec\.yaml$|^\.github/workflows/flutter-analysis\.yml$'; then
+            echo "has_dart_changes=true" >> $GITHUB_OUTPUT
+            echo "✅ Dart/Flutter files detected - will run analysis"
+          else
+            echo "has_dart_changes=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ No Dart/Flutter files changed - skipping analysis"
+          fi
+
+      - name: Skip Analysis
+        if: steps.check-files.outputs.has_dart_changes == 'false'
+        run: |
+          echo "::notice::No Dart or Flutter files were modified in this PR. Skipping Flutter analysis."
+          echo "✅ Flutter Analysis: Skipped (no relevant file changes)"
+      - name: Set up Flutter
+        if: steps.check-files.outputs.has_dart_changes == 'true'
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'  # This will use the latest stable version
+          cache: true
+
+      - name: Show Flutter version
+        if: steps.check-files.outputs.has_dart_changes == 'true'
+        run: flutter --version
+
+      - name: Get dependencies
+        if: steps.check-files.outputs.has_dart_changes == 'true'
+        run: flutter pub get
+
+      - name: Analyze Dart files
+        if: steps.check-files.outputs.has_dart_changes == 'true'
+        run: flutter analyze lib/design_tokens.dart
+        # This will fail if there are any analysis issues

@@ -1,0 +1,94 @@
+name: Design Token Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check if branch is release branch and exit if not
+        run: |
+          BRANCH_NAME="${{ github.ref_name }}"
+          if [[ $BRANCH_NAME != release/* ]]; then
+            echo "Current branch $BRANCH_NAME is not a release branch. Exiting workflow."
+            exit 1
+          fi
+
+      - name: Check for changeset files and exit if none
+        run: |
+          if ! ls .changeset/*.md 1> /dev/null 2>&1; then
+            echo "No changeset files found, exiting workflow."
+            exit 1
+          fi
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org/'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run changeset version
+        run: npm run version
+
+      - name: Install dependencies after version update
+        run: pnpm install
+
+      - name: Get current version
+        id: get-version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Publish packages
+        run: npx changeset publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Commit and push changes
+        run: |
+          echo "Committing and pushing changes..."
+          git config --global user.name 'enovaui-bot'
+          git config --global user.email 'enovaui@lge.com'
+          git add .
+          git commit -m "Version value updating" || exit 0
+          git push
+
+      - name: Merge release into master
+        run: |
+          VERSION="${{ steps.get-version.outputs.version }}"
+          git fetch origin master
+          git checkout master
+          git reset --hard -q origin/master
+          git merge --no-ff -m "$VERSION release" ${{ github.ref_name }}
+          git push origin master
+
+      - name: Tagging the release
+        run: |
+          git tag -a -m "${{ steps.get-version.outputs.version }}" ${{ steps.get-version.outputs.version }}
+          git push origin ${{ steps.get-version.outputs.version }}
+
+      - name: Merge release into develop
+        run: |
+          git fetch origin develop
+          git checkout develop
+          git reset --hard -q origin/develop
+          git merge --no-ff master
+          git push origin develop
+
+      - name: Delete release branch
+        run: |
+          git push origin --delete ${{ github.ref_name }}

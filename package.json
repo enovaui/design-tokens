@@ -1,6 +1,6 @@
 {
   "name": "@enovaui/design-tokens",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "Monorepo for Design Tokens for LGE",
   "private": true,
   "repository": {
@@ -12,5 +12,27 @@
   "keywords": [
     "design",
     "tokens"
-  ]
+  ],
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "sync:figma": "node scripts/figma-sync.js",
+    "transform:tokens": "node scripts/token-transformer.js",
+    "create:pr": "node scripts/pr-generator.js",
+    "sync:all": "npm run sync:figma && npm run transform:tokens && npm run create:pr",
+    "clean": "rm -rf packages/*/dist/*",
+    "version": "npx changeset version && node scripts/sync-version.js"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.6",
+    "fs-extra": "^11.2.0",
+    "node-fetch": "^3.3.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.1.0"
+  }
 }
