@@ -10,13 +10,12 @@ Primitive Color Tokens
 ------------------------------------------- */
 
 :root {
-	/* Gray Scale
-	--------------------------------------- */
+
+	/* Basic Colors */
 	--primitive-color-black: #000000;
 	--primitive-color-white: #ffffff;
 
-	/* Neutral Gray
-	--------------------------------------- */
+	/* Neutral Gray Colors */
 	--primitive-color-neutral-gray-5: #1a1a1a;
 	--primitive-color-neutral-gray-10: #262626;
 	--primitive-color-neutral-gray-15: #303030;
@@ -38,8 +37,7 @@ Primitive Color Tokens
 	--primitive-color-neutral-gray-95: #f2f2f2;
 	--primitive-color-neutral-gray-99: #fafafa;
 
-	/* Mist Gray
-	--------------------------------------- */
+	/* Mist Gray Colors */
 	--primitive-color-mist-gray-5: #090909;
 	--primitive-color-mist-gray-10: #111111;
 	--primitive-color-mist-gray-15: #1f1f1f;
@@ -61,8 +59,7 @@ Primitive Color Tokens
 	--primitive-color-mist-gray-95: #eff1f4;
 	--primitive-color-mist-gray-99: #f7f8fa;
 
-	/* Cool Gray
-	--------------------------------------- */
+	/* Cool Gray Colors */
 	--primitive-color-cool-gray-5: #1b1c1f;
 	--primitive-color-cool-gray-10: #26282b;
 	--primitive-color-cool-gray-15: #393a40;
@@ -84,8 +81,7 @@ Primitive Color Tokens
 	--primitive-color-cool-gray-95: #f2f3f5;
 	--primitive-color-cool-gray-99: #fcfcfc;
 
-	/* Blue Gray
-	--------------------------------------- */
+	/* Blue Gray Colors */
 	--primitive-color-blue-gray-5: #080e15;
 	--primitive-color-blue-gray-10: #111c2a;
 	--primitive-color-blue-gray-15: #1b2735;
@@ -107,8 +103,7 @@ Primitive Color Tokens
 	--primitive-color-blue-gray-95: #eef1fb;
 	--primitive-color-blue-gray-99: #fcfdff;
 
-	/* Warm Gray
-	--------------------------------------- */
+	/* Warm Gray Colors */
 	--primitive-color-warm-gray-5: #1a1a1a;
 	--primitive-color-warm-gray-10: #262626;
 	--primitive-color-warm-gray-15: #333333;
@@ -125,13 +120,34 @@ Primitive Color Tokens
 	--primitive-color-warm-gray-70: #cbc8c2;
 	--primitive-color-warm-gray-75: #dbd7ce;
 	--primitive-color-warm-gray-80: #e6e1d6;
-	--primitive-color-warm-gray-85: #f0ebe2;
+	--primitive-color-warm-gray-85: #f0ece4;
 	--primitive-color-warm-gray-90: #f6f3eb;
 	--primitive-color-warm-gray-95: #faf9f5;
 	--primitive-color-warm-gray-99: #fcf9f6;
 
-	/* Active Red
-	--------------------------------------- */
+	/* Heritage Red Colors */
+	--primitive-color-heritage-red-5: #20000c;
+	--primitive-color-heritage-red-10: #400017;
+	--primitive-color-heritage-red-15: #530021;
+	--primitive-color-heritage-red-20: #66002a;
+	--primitive-color-heritage-red-25: #84002c;
+	--primitive-color-heritage-red-30: #98002f;
+	--primitive-color-heritage-red-35: #a50034;
+	--primitive-color-heritage-red-40: #c00045;
+	--primitive-color-heritage-red-45: #d91757;
+	--primitive-color-heritage-red-50: #db3265;
+	--primitive-color-heritage-red-55: #ed3f76;
+	--primitive-color-heritage-red-60: #fe4e87;
+	--primitive-color-heritage-red-65: #ff6997;
+	--primitive-color-heritage-red-70: #ff84a6;
+	--primitive-color-heritage-red-75: #ffa0b5;
+	--primitive-color-heritage-red-80: #ffb1c3;
+	--primitive-color-heritage-red-85: #ffc5d2;
+	--primitive-color-heritage-red-90: #ffd9e1;
+	--primitive-color-heritage-red-95: #ffecef;
+	--primitive-color-heritage-red-99: #fffbfe;
+
+	/* Active Red Colors */
 	--primitive-color-active-red-5: #210001;
 	--primitive-color-active-red-10: #410002;
 	--primitive-color-active-red-15: #550004;
@@ -153,8 +169,7 @@ Primitive Color Tokens
 	--primitive-color-active-red-95: #ffedea;
 	--primitive-color-active-red-99: #fffbfb;
 
-	/* Red Orange
-	--------------------------------------- */
+	/* Red Orange Colors */
 	--primitive-color-red-orange-5: #200200;
 	--primitive-color-red-orange-10: #3f0400;
 	--primitive-color-red-orange-15: #520700;
@@ -176,8 +191,7 @@ Primitive Color Tokens
 	--primitive-color-red-orange-95: #ffede8;
 	--primitive-color-red-orange-99: #fffcfb;
 
-	/* Deep Orange
-	--------------------------------------- */
+	/* Deep Orange Colors */
 	--primitive-color-deep-orange-5: #1a0b06;
 	--primitive-color-deep-orange-10: #33160d;
 	--primitive-color-deep-orange-15: #4a2114;
@@ -199,8 +213,7 @@ Primitive Color Tokens
 	--primitive-color-deep-orange-95: #fff0ec;
 	--primitive-color-deep-orange-99: #fffaf9;
 
-	/* Orange
-	--------------------------------------- */
+	/* Orange Colors */
 	--primitive-color-orange-5: #180a00;
 	--primitive-color-orange-10: #301300;
 	--primitive-color-orange-15: #401900;
@@ -222,8 +235,7 @@ Primitive Color Tokens
 	--primitive-color-orange-95: #ffede0;
 	--primitive-color-orange-99: #fffdfb;
 
-	/* Yellow
-	--------------------------------------- */
+	/* Yellow Colors */
 	--primitive-color-yellow-5: #110d03;
 	--primitive-color-yellow-10: #221b06;
 	--primitive-color-yellow-15: #301f04;
@@ -244,9 +256,6 @@ Primitive Color Tokens
 	--primitive-color-yellow-90: #ffdf8b;
 	--primitive-color-yellow-95: #feefca;
 	--primitive-color-yellow-99: #fffdf2;
-
-	/* Yellow Green
-	--------------------------------------- */
 	--primitive-color-yellow-green-5: #090f06;
 	--primitive-color-yellow-green-10: #121f0c;
 	--primitive-color-yellow-green-15: #1b2f11;
@@ -268,8 +277,7 @@ Primitive Color Tokens
 	--primitive-color-yellow-green-95: #ddf6cf;
 	--primitive-color-yellow-green-99: #fbfff2;
 
-	/* Green
-	--------------------------------------- */
+	/* Green Colors */
 	--primitive-color-green-5: #03130b;
 	--primitive-color-green-10: #062516;
 	--primitive-color-green-15: #041e13;
@@ -291,8 +299,7 @@ Primitive Color Tokens
 	--primitive-color-green-95: #d9f6e6;
 	--primitive-color-green-99: #f2fffe;
 
-	/* Mint Green
-	--------------------------------------- */
+	/* Mint Green Colors */
 	--primitive-color-mint-green-5: #06130e;
 	--primitive-color-mint-green-10: #0c261d;
 	--primitive-color-mint-green-15: #101f18;
@@ -314,8 +321,7 @@ Primitive Color Tokens
 	--primitive-color-mint-green-95: #ebf8f3;
 	--primitive-color-mint-green-99: #f5fcfa;
 
-	/* Teal Green
-	--------------------------------------- */
+	/* Teal Green Colors */
 	--primitive-color-teal-green-5: #00100e;
 	--primitive-color-teal-green-10: #00201d;
 	--primitive-color-teal-green-15: #012d28;
@@ -337,8 +343,7 @@ Primitive Color Tokens
 	--primitive-color-teal-green-95: #d9f6f2;
 	--primitive-color-teal-green-99: #f2fffe;
 
-	/* Blue Green
-	--------------------------------------- */
+	/* Blue Green Colors */
 	--primitive-color-blue-green-5: #000f14;
 	--primitive-color-blue-green-10: #001f28;
 	--primitive-color-blue-green-15: #022c36;
@@ -360,8 +365,7 @@ Primitive Color Tokens
 	--primitive-color-blue-green-95: #eafaff;
 	--primitive-color-blue-green-99: #f9fdff;
 
-	/* Sky Blue
-	--------------------------------------- */
+	/* Sky Blue Colors */
 	--primitive-color-sky-blue-5: #000e1a;
 	--primitive-color-sky-blue-10: #001d34;
 	--primitive-color-sky-blue-15: #01253f;
@@ -383,8 +387,7 @@ Primitive Color Tokens
 	--primitive-color-sky-blue-95: #e8f2ff;
 	--primitive-color-sky-blue-99: #f2faff;
 
-	/* Cobalt Blue
-	--------------------------------------- */
+	/* Cobalt Blue Colors */
 	--primitive-color-cobalt-blue-5: #11142c;
 	--primitive-color-cobalt-blue-10: #232959;
 	--primitive-color-cobalt-blue-15: #2c328c;
@@ -406,8 +409,7 @@ Primitive Color Tokens
 	--primitive-color-cobalt-blue-95: #eaedff;
 	--primitive-color-cobalt-blue-99: #f7f8ff;
 
-	/* Navy
-	--------------------------------------- */
+	/* Navy Colors */
 	--primitive-color-navy-5: #030d19;
 	--primitive-color-navy-10: #051a32;
 	--primitive-color-navy-15: #101f3c;
@@ -429,8 +431,7 @@ Primitive Color Tokens
 	--primitive-color-navy-95: #e8effe;
 	--primitive-color-navy-99: #fcfcff;
 
-	/* Violet
-	--------------------------------------- */
+	/* Violet Colors */
 	--primitive-color-violet-5: #0e0031;
 	--primitive-color-violet-10: #1b0063;
 	--primitive-color-violet-15: #260082;
@@ -452,8 +453,7 @@ Primitive Color Tokens
 	--primitive-color-violet-95: #f5edff;
 	--primitive-color-violet-99: #fdfbff;
 
-	/* Purple
-	--------------------------------------- */
+	/* Purple Colors */
 	--primitive-color-purple-5: #1b0021;
 	--primitive-color-purple-10: #350042;
 	--primitive-color-purple-15: #450055;
@@ -475,31 +475,7 @@ Primitive Color Tokens
 	--primitive-color-purple-95: #feeafe;
 	--primitive-color-purple-99: #fefbff;
 
-	/* Heritage-red
-	--------------------------------------- */
-	--primitive-color-heritage-red-5: #20000c;
-	--primitive-color-heritage-red-10: #400017;
-	--primitive-color-heritage-red-15: #530021;
-	--primitive-color-heritage-red-20: #66002a;
-	--primitive-color-heritage-red-25: #780034;
-	--primitive-color-heritage-red-30: #8f003e;
-	--primitive-color-heritage-red-35: #a50034;
-	--primitive-color-heritage-red-40: #c60449;
-	--primitive-color-heritage-red-45: #d91757;
-	--primitive-color-heritage-red-50: #db3265;
-	--primitive-color-heritage-red-55: #ed3f76;
-	--primitive-color-heritage-red-60: #fe4e87;
-	--primitive-color-heritage-red-65: #ff6997;
-	--primitive-color-heritage-red-70: #ff84a6;
-	--primitive-color-heritage-red-75: #ffa0b5;
-	--primitive-color-heritage-red-80: #ffb1c3;
-	--primitive-color-heritage-red-85: #ffc5d2;
-	--primitive-color-heritage-red-90: #ffd9e1;
-	--primitive-color-heritage-red-95: #ffecef;
-	--primitive-color-heritage-red-99: #fffbfe;
-
-	/* Red Brown
-	--------------------------------------- */
+	/* Red Brown Colors */
 	--primitive-color-red-brown-5: #200001;
 	--primitive-color-red-brown-10: #410102;
 	--primitive-color-red-brown-15: #500d0b;
@@ -521,8 +497,7 @@ Primitive Color Tokens
 	--primitive-color-red-brown-95: #ffede9;
 	--primitive-color-red-brown-99: #fffbfb;
 
-	/* Brown
-	--------------------------------------- */
+	/* Brown Colors */
 	--primitive-color-brown-5: #150b07;
 	--primitive-color-brown-10: #2b160f;
 	--primitive-color-brown-15: #361f18;

@@ -1,6 +1,5 @@
 {
     "primitive": {
-        "radius-0": "0",
         "radius-2": "2px",
         "radius-4": "4px",
         "radius-6": "6px",
@@ -10,6 +9,7 @@
         "radius-16": "16px",
         "radius-20": "20px",
         "radius-24": "24px",
+        "radius-28": "28px",
         "radius-30": "30px",
         "radius-36": "36px",
         "radius-40": "40px",
