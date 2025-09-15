@@ -10,8 +10,8 @@ Primitive Typography Tokens
 ------------------------------------------- */
 
 :root {
-	/* Font Size
-	--------------------------------------- */
+
+	/* Font Sizes */
 	--primitive-font-size-10: 10px;
 	--primitive-font-size-11: 11px;
 	--primitive-font-size-12: 12px;
@@ -29,26 +29,37 @@ Primitive Typography Tokens
 	--primitive-font-size-32: 32px;
 	--primitive-font-size-34: 34px;
 	--primitive-font-size-36: 36px;
+	--primitive-font-size-38: 38px;
 	--primitive-font-size-40: 40px;
 	--primitive-font-size-42: 42px;
 	--primitive-font-size-44: 44px;
+	--primitive-font-size-46: 46px;
 	--primitive-font-size-48: 48px;
 	--primitive-font-size-50: 50px;
+	--primitive-font-size-52: 52px;
 	--primitive-font-size-54: 54px;
+	--primitive-font-size-56: 56px;
+	--primitive-font-size-58: 58px;
 	--primitive-font-size-60: 60px;
+	--primitive-font-size-64: 64px;
 	--primitive-font-size-66: 66px;
+	--primitive-font-size-68: 68px;
 	--primitive-font-size-72: 72px;
 	--primitive-font-size-78: 78px;
+	--primitive-font-size-80: 80px;
+	--primitive-font-size-82: 82px;
 	--primitive-font-size-84: 84px;
 	--primitive-font-size-90: 90px;
 	--primitive-font-size-96: 96px;
+	--primitive-font-size-100: 100px;
 	--primitive-font-size-102: 102px;
 	--primitive-font-size-108: 108px;
+	--primitive-font-size-120: 120px;
+	--primitive-font-size-140: 140px;
 	--primitive-font-size-156: 156px;
 	--primitive-font-size-180: 180px;
 
-	/* Font Weight
-	--------------------------------------- */
+	/* Font Weights */
 	--primitive-font-weight-thin: 100;
 	--primitive-font-weight-extralight: 200;
 	--primitive-font-weight-light: 300;
