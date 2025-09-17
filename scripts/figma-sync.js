@@ -163,6 +163,12 @@ class FigmaAPIClient {
 				return;
 			}
 
+			// Skip invalid tokens with "--" names (Figma data artifacts)
+			if (variable.name === '--' || variable.name.includes('/--')) {
+				console.log(`⏭️ Skipping invalid token name: ${variable.name} in ${collectionName}`);
+				return;
+			}
+
 			// Skip specific tokens to ignore
 			if (variable.name === 'mist-gray/100') {
 				console.log(`⏭️ Skipping ignored token: ${variable.name} in ${collectionName}`);
