@@ -12,7 +12,7 @@ Christmas Theme Semantic Color Tokens
 :root {
 
 	/* Background */
-	--semantic-color-background-default: var(--primitive-color-navy-10);
+	--semantic-color-background-default: var(--primitive-color-navy-20);
 	--semantic-color-background-white: var(--primitive-color-white);
 	--semantic-color-background-black: var(--primitive-color-black);
 
@@ -28,7 +28,7 @@ Christmas Theme Semantic Color Tokens
 	--semantic-color-surface-default-success: var(--primitive-color-green-80);
 	--semantic-color-surface-default-warning: var(--primitive-color-yellow-80);
 	--semantic-color-surface-default-track: var(--primitive-color-neutral-gray-80);
-	--semantic-color-surface-main: var(--primitive-color-warm-gray-55);
+	--semantic-color-surface-main: var(--primitive-color-warm-gray-85);
 	--semantic-color-surface-main-hover: var(--primitive-color-warm-gray-99);
 	--semantic-color-surface-main-pressed: var(--primitive-color-warm-gray-95);
 	--semantic-color-surface-main-disabled: var(--primitive-color-neutral-gray-85);
@@ -49,7 +49,7 @@ Christmas Theme Semantic Color Tokens
 	--semantic-color-surface-button-primary-hover: var(--primitive-color-active-red-60);
 	--semantic-color-surface-button-primary-pressed: var(--primitive-color-active-red-40);
 	--semantic-color-surface-button-primary-disabled: var(--primitive-color-neutral-gray-80);
-	--semantic-color-surface-button-secondary: var(--primitive-color-green-50);
+	--semantic-color-surface-button-secondary: var(--primitive-color-yello-green-99);
 	--semantic-color-surface-button-secondary-hover: var(--primitive-color-green-60);
 	--semantic-color-surface-button-secondary-pressed: var(--primitive-color-green-40);
 	--semantic-color-surface-button-tertiary: var(--primitive-color-white);
@@ -81,9 +81,9 @@ Christmas Theme Semantic Color Tokens
 	--semantic-color-on-surface-default-error: var(--primitive-color-active-red-50);
 	--semantic-color-on-surface-default-success: var(--primitive-color-green-40);
 	--semantic-color-on-surface-default-supporting: var(--primitive-color-yellow-70);
-	--semantic-color-on-surface-main: var(--primitive-color-white);
+	--semantic-color-on-surface-main: var(--primitive-color-black);
 	--semantic-color-on-surface-main-selected: var(--primitive-color-white);
-	--semantic-color-on-surface-sub: var(--primitive-color-warm-gray-45);
+	--semantic-color-on-surface-sub: var(--primitive-color-warm-gray-30);
 	--semantic-color-on-surface-accent: var(--primitive-color-active-red-50);
 	--semantic-color-on-surface-highlight: var(--primitive-color-heritage-red-45);
 	--semantic-color-on-surface-badge-red: var(--primitive-color-heritage-red-50);
@@ -92,9 +92,9 @@ Christmas Theme Semantic Color Tokens
 	--semantic-color-on-surface-badge-magenta: var(--primitive-color-heritage-red-45);
 	--semantic-color-on-surface-badge-gray: var(--primitive-color-neutral-gray-70);
 	--semantic-color-on-surface-button-primary: var(--primitive-color-white);
-	--semantic-color-on-surface-button-primary-hover: var(--primitive-color-yellow-50);
+	--semantic-color-on-surface-button-primary-hover: var(--primitive-color-white);
 	--semantic-color-on-surface-button-primary-disabled: var(--primitive-color-neutral-gray-70);
-	--semantic-color-on-surface-button-secondary: var(--primitive-color-green-20);
+	--semantic-color-on-surface-button-secondary: var(--primitive-color-teal-green-50);
 	--semantic-color-on-surface-button-secondary-hover: var(--primitive-color-white);
 	--semantic-color-on-surface-button-tertiary: var(--primitive-color-warm-gray-20);
 	--semantic-color-on-surface-page-indicator-dot: var(--primitive-color-yellow-70);
@@ -105,7 +105,7 @@ Christmas Theme Semantic Color Tokens
 	/* Stroke */
 	--semantic-color-stroke-default-error: var(--primitive-color-active-red-50);
 	--semantic-color-stroke-default-success: var(--primitive-color-green-60);
-	--semantic-color-stroke-main: var(--primitive-color-warm-gray-70);
+	--semantic-color-stroke-main: var(--primitive-color-blue-gray-40);
 	--semantic-color-stroke-main-focused: var(--primitive-color-heritage-red-50);
 	--semantic-color-stroke-sub: var(--primitive-color-warm-gray-60);
 	--semantic-color-stroke-accent: var(--primitive-color-active-red-50);
@@ -115,10 +115,10 @@ Christmas Theme Semantic Color Tokens
 	--semantic-color-stroke-badge-magenta: var(--primitive-color-heritage-red-60);
 	--semantic-color-stroke-badge-gray: var(--primitive-color-neutral-gray-60);
 	--semantic-color-stroke-button-primary: var(--primitive-color-active-red-40);
-	--semantic-color-stroke-button-secondary: var(--primitive-color-green-40);
-	--semantic-color-stroke-button-tertiary: var(--primitive-color-warm-gray-60);
+	--semantic-color-stroke-button-secondary: var(--primitive-color-mint-green-65);
+	--semantic-color-stroke-button-tertiary: var(--primitive-color-cool-gray-40);
 	--semantic-color-stroke-chip: var(--primitive-color-warm-gray-70);
-	--semantic-color-stroke-chip-selected: var(--primitive-color-active-red-40);
+	--semantic-color-stroke-chip-selected: var(--primitive-color-mint-green-40);
 	--semantic-color-stroke-chip-black: var(--primitive-color-warm-gray-30);
 	--semantic-color-stroke-chip-pink: var(--primitive-color-heritage-red-50);
 	--semantic-color-stroke-chip-white: var(--primitive-color-neutral-gray-80);
