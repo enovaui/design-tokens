@@ -662,13 +662,44 @@ Semantic ${headerType} Tokens
 :root {
 `;
 
+        // Normalize token names to consistent kebab-case
+        const normalizeTokenName = (name) => {
+            return name
+                // Handle specific cases for radius semantic tokens
+                .replace(/^chip-actionchip$/, 'chip-action-chip')
+                .replace(/^chip-filterchip$/, 'chip-filter-chip') 
+                .replace(/^dialogpopup$/, 'dialog-popup')
+                .replace(/^selectioncontrol-checkbox$/, 'selection-control-checkbox')
+                .replace(/^selectioncontrol-switch$/, 'selection-control-switch')
+                // Handle badge specific cases
+                .replace(/^badge-deeporange$/, 'badge-deep-orange')
+                .replace(/^badge-heritagered$/, 'badge-heritage-red')
+                .replace(/^badge-lightred$/, 'badge-light-red')
+                .replace(/^badge-lightorange$/, 'badge-light-orange')
+                .replace(/^badge-lightgreen$/, 'badge-light-green')
+                .replace(/^badge-lightmagenta$/, 'badge-light-magenta')
+                .replace(/^badge-lightgray$/, 'badge-light-gray')
+                // General kebab-case normalization for compound words
+                .replace(/([a-z])([A-Z])/g, '$1-$2')
+                .toLowerCase();
+        };
+
         // Flatten semantic tokens and generate CSS variables
         const flattenTokens = (obj, prefix = `semantic-${tokenType}`) => {
             const flattened = [];
 
             const flatten = (current, currentPrefix) => {
                 for (const [key, value] of Object.entries(current)) {
-                    const newPrefix = `${currentPrefix}-${key}`;
+                    // Special handling for radius semantic tokens to avoid duplicate "radius" in variable names
+                    let newPrefix;
+                    if (tokenType === 'radius' && key === 'radius' && currentPrefix === `semantic-${tokenType}`) {
+                        // Skip the "radius" key for radius semantic tokens to avoid semantic-radius-radius-*
+                        newPrefix = currentPrefix;
+                    } else {
+                        // Normalize the key name for consistent kebab-case
+                        const normalizedKey = normalizeTokenName(key);
+                        newPrefix = `${currentPrefix}-${normalizedKey}`;
+                    }
 
                     if (typeof value === 'string' || typeof value === 'number') {
                         // Direct value - convert to CSS variable reference if it looks like a primitive reference
@@ -677,8 +708,12 @@ Semantic ${headerType} Tokens
                             // Already a CSS variable
                             cssValue = `var(--${value})`;
                         } else {
-                            // Convert primitive reference to CSS variable
-                            cssValue = `var(--primitive-${tokenType}-${value})`;
+                            // Convert primitive reference to CSS variable, remove px suffix for radius
+                            let cleanValue = value;
+                            if (tokenType === 'radius' && String(value).endsWith('px')) {
+                                cleanValue = String(value).replace(/px$/, '');
+                            }
+                            cssValue = `var(--primitive-${tokenType}-${cleanValue})`;
                         }
                         flattened.push([newPrefix, cssValue]);
                     } else if (typeof value === 'object' && value !== null) {
