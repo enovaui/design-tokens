@@ -6,7 +6,7 @@
                     "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/navy-20"}
                 },
                 "overlay": {
-                    "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cool-gray-15"}
+                    "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/navy-35"}
                 },
                 "popup": {
                     "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-90"}
