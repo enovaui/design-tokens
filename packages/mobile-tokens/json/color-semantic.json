@@ -1,0 +1,19 @@
+{
+    "semantic": {
+        "color": {
+            "background": {
+                "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
+                "sub": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"}
+            },
+            "surface": {
+                "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-30"},
+                "sub": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-90"}
+            },
+            "on": {
+                "surface": {
+                    "tooltip-icon": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"}
+                }
+            }
+        }
+    }
+}
