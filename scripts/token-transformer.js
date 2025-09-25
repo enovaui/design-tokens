@@ -41,6 +41,29 @@ class TokenTransformer {
 	}
 
 	/**
+	 * Normalize token names to consistent kebab-case format
+	 * @param {string} tokenName - Original token name
+	 * @returns {string} Normalized token name
+	 */
+	normalizeTokenName(tokenName) {
+		const normalizations = {
+			'chip-actionchip': 'chip-action-chip',
+			'chip-filterchip': 'chip-filter-chip', 
+			'dialogpopup': 'dialog-popup',
+			'selectioncontrol-checkbox': 'selection-control-checkbox',
+			'selectioncontrol-switch': 'selection-control-switch',
+			'badge-deeporange': 'badge-deep-orange',
+			'badge-heritagered': 'badge-heritage-red',
+			'badge-lightred': 'badge-light-red',
+			'badge-lightorange': 'badge-light-orange',
+			'badge-lightgreen': 'badge-light-green',
+			'badge-lightmagenta': 'badge-light-magenta',
+			'badge-lightgray': 'badge-light-gray'
+		};
+		return normalizations[tokenName] || tokenName;
+	}
+
+	/**
 	 * Update primitive Dart files based on token type
 	 * @param {string} filePath - JSON file path
 	 * @param {string} outputDir - Output directory
@@ -119,6 +142,7 @@ class TokenTransformer {
 
 		// Process added tokens by file
 		for (const [filePath, tokens] of Object.entries(addedTokensByFile)) {
+			console.log(`   🔍 Processing file: ${path.relative(outputDir, filePath)} with ${tokens.length} tokens`);
 			await this.addTokensToFile(filePath, tokens);
 			console.log(`   ✅ Added ${tokens.length} tokens to ${path.relative(outputDir, filePath)}`);
 			updatedFiles.push(filePath);
@@ -222,6 +246,55 @@ class TokenTransformer {
 			return;
 		}
 
+		if (isRadiusSemantic) {
+			// Build primitive radius lookup
+			let primitiveRadius = {};
+			try {
+				const primitivePath = path.resolve(__dirname, '../packages/core-tokens/json/radius-primitive.json');
+				const radiusJson = fs.readJsonSync(primitivePath);
+				if (radiusJson && radiusJson.primitive) {
+					primitiveRadius = radiusJson.primitive;
+				}
+			} catch (e) {
+				console.warn('Failed to load primitive radius:', e.message);
+			}
+			const primitiveRadiusLookup = this.buildPrimitiveRadiusLookup(primitiveRadius);
+
+			// Initialize fresh semantic radius structure to avoid duplicates
+			if (!existingTokens.semantic) existingTokens.semantic = {};
+			existingTokens.semantic.radius = {}; // Reset radius to avoid duplicates
+
+			for (const { changeData } of tokens) {
+				const { path: tokenPathArray, value } = changeData;
+				// semantic.radius.[...path] - but skip first 'radius' from path if it exists
+				let target = existingTokens.semantic.radius;
+				
+				// Skip the first element if it's 'radius' (to avoid semantic.radius.radius.*)
+				const pathToUse = tokenPathArray[0] === 'radius' ? tokenPathArray.slice(1) : tokenPathArray;
+				
+				for (let i = 0; i < pathToUse.length - 1; i++) {
+					if (!target[pathToUse[i]]) target[pathToUse[i]] = {};
+					target = target[pathToUse[i]];
+				}
+				
+				// Format value as px string if it's a number
+				let formattedValue = value;
+				if (typeof value === 'number') {
+					formattedValue = `${value}px`;
+				}
+				
+				// Always set value as-is, let refSemanticRadiusWithPrimitives handle conversion
+				const normalizedKey = this.normalizeTokenName(pathToUse[pathToUse.length - 1]);
+				target[normalizedKey] = formattedValue;
+			}
+			
+			// Apply reference conversion to entire object at once
+			existingTokens = this.refSemanticRadiusWithPrimitives(existingTokens, primitiveRadiusLookup);
+			const sortedTokens = this.sortTokens(existingTokens);
+			await this.saveTokensToFile(filePath, sortedTokens);
+			return;
+		}
+
 		if (!existingTokens.primitive) existingTokens.primitive = {};
 		for (const { changeData } of tokens) {
 			const { path: tokenPathArray, value } = changeData;
@@ -279,9 +352,12 @@ class TokenTransformer {
 		// Determine the appropriate file name based on collection type or filePath
 		let fileName;
 
-		if (collection && /color[.-]semantic/i.test(collection)) {
-			// Try to extract the dark/light part
-			const match = collection.match(/color[.-]semantic[.-](\w+)$/i);
+		// First check if fileName is explicitly provided in changeData
+		if (changeData.fileName) {
+			fileName = changeData.fileName;
+		} else if (collection && /color[.-]semantic/i.test(collection)) {
+			// Try to extract the mode part (mono-white, mono-black, web, mobile, etc.)
+			const match = collection.match(/color[.-]semantic[.-]([\w-]+)$/i);
 			if (match) {
 				fileName = `color-semantic-${match[1]}`;
 			} else {
@@ -763,7 +839,7 @@ class TokenTransformer {
 	 * Save tokens to JSON file, using compact $ref style for color-semantic files
 	 */
 	async saveTokensToFile(filePath, data) {
-		if (filePath.includes('color-semantic')) {
+		if (filePath.includes('color-semantic') || filePath.includes('radius-semantic')) {
 			await this.writeColorSemanticJSON(filePath, data);
 		} else {
 			await fs.writeJson(filePath, data, { spaces: 4 });
