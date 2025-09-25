@@ -28,7 +28,12 @@ function normalizeTokenName(tokenName) {
 		// Convert underscores to dashes
 		.replace(/_/g, '-')
 		// Handle special cases first (before camelCase conversion)
+		.replace(/carouselindicator/g, 'carousel-indicator')
+		.replace(/dialogpopup/g, 'dialog-popup')
 		.replace(/notificationcard/g, 'notification-card')
+		.replace(/pageindicator/g, 'page-indicator')
+		.replace(/selectioncontrol/g, 'selection-control')
+		.replace(/stepindicator/g, 'step-indicator')
 		.replace(/textfield/g, 'text-field')
 		.replace(/inputfield/g, 'input-field')
 		// Convert camelCase to dash-separated (e.g., dialogPopup -> dialog-popup)
