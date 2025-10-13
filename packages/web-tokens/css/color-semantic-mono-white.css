@@ -3,21 +3,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
- @import "@enovaui/core-tokens/css/color-primitive.css";
+@import "@enovaui/core-tokens/css/color-primitive.css";
 
- /* ----------------------------------------
- Semantic Color Tokens
- ------------------------------------------- */
+/* ----------------------------------------
+Semantic Color Tokens
+------------------------------------------- */
 
- :root {
-	/* background */
+:root {
+
+	/* Background */
 	--semantic-color-background-main: var(--primitive-color-mist-gray-95);
 	--semantic-color-background-sub: var(--primitive-color-white);
+	--semantic-color-background-white: var(--primitive-color-white);
+	--semantic-color-background-black: var(--primitive-color-black);
 
-	/* onBackground */
+	/* On Background */
 	--semantic-color-on-background-default: var(--primitive-color-mist-gray-10);
 
-	/* surface */
+	/* Surface */
 	--semantic-color-surface-default-handle: var(--primitive-color-mist-gray-50);
 	--semantic-color-surface-default-indicator: var(--primitive-color-mist-gray-50);
 	--semantic-color-surface-default-notification: var(--primitive-color-red-orange-60);
@@ -26,10 +29,8 @@
 	--semantic-color-surface-main: var(--primitive-color-white);
 	--semantic-color-surface-main-hover: var(--primitive-color-mist-gray-99);
 	--semantic-color-surface-main-pressed: var(--primitive-color-mist-gray-90);
-	--semantic-color-surface-sub: var(--primitive-color-mist-gray-90);
+	--semantic-color-surface-sub: var(--primitive-color-mist-gray-85);
 	--semantic-color-surface-accent: var(--primitive-color-mist-gray-40);
-	--semantic-color-surface-badge-dark: var(--primitive-color-mist-gray-10);
-	--semantic-color-surface-badge-light: var(--primitive-color-mist-gray-90);
 	--semantic-color-surface-button-primary: var(--primitive-color-mist-gray-40);
 	--semantic-color-surface-button-primary-hover: var(--primitive-color-mist-gray-30);
 	--semantic-color-surface-button-primary-pressed: var(--primitive-color-mist-gray-20);
@@ -43,37 +44,114 @@
 	--semantic-color-surface-button-icon-pressed: var(--primitive-color-mist-gray-70);
 	--semantic-color-surface-chip: var(--primitive-color-white);
 	--semantic-color-surface-chip-selected: var(--primitive-color-mist-gray-30);
-	--semantic-color-surface-notification-card: var(--primitive-color-mist-gray-90);
+	--semantic-color-surface-notification-card: var(--primitive-color-neutral-gray-30);
 	--semantic-color-surface-selection-active: var(--primitive-color-mist-gray-40);
 	--semantic-color-surface-selection-inactive: var(--primitive-color-mist-gray-70);
 	--semantic-color-surface-text-field-disabled: var(--primitive-color-mist-gray-90);
 	--semantic-color-surface-toast: var(--primitive-color-mist-gray-10);
 	--semantic-color-surface-white: var(--primitive-color-white);
 	--semantic-color-surface-black: var(--primitive-color-mist-gray-10);
+	--semantic-color-surface-default-error: var(--primitive-color-active-red-50);
+	--semantic-color-surface-default-success: var(--primitive-color-green-55);
+	--semantic-color-surface-default-warning: var(--primitive-color-yellow-80);
+	--semantic-color-surface-main-disabled: var(--primitive-color-neutral-gray-95);
+	--semantic-color-surface-badge-gradient-start: var(--primitive-color-deep-orange-45);
+	--semantic-color-surface-badge-gradient-stop: var(--primitive-color-active-red-50);
+	--semantic-color-surface-badge-gradient-end: var(--primitive-color-heritage-red-35);
+	--semantic-color-surface-badge-red: var(--primitive-color-active-red-50);
+	--semantic-color-surface-badge-lightred: var(--primitive-color-active-red-95);
+	--semantic-color-surface-badge-orange: var(--primitive-color-orange-50);
+	--semantic-color-surface-badge-lightorange: var(--primitive-color-orange-95);
+	--semantic-color-surface-badge-green: var(--primitive-color-green-50);
+	--semantic-color-surface-badge-lightgreen: var(--primitive-color-green-95);
+	--semantic-color-surface-badge-magenta: var(--primitive-color-heritage-red-45);
+	--semantic-color-surface-badge-lightmagenta: var(--primitive-color-heritage-red-95);
+	--semantic-color-surface-badge-gray: var(--primitive-color-cool-gray-35);
+	--semantic-color-surface-badge-lightgray: var(--primitive-color-mist-gray-90);
+	--semantic-color-surface-badge-black: var(--primitive-color-mist-gray-10);
+	--semantic-color-surface-button-primary-disabled: var(--primitive-color-mist-gray-40);
+	--semantic-color-surface-button-social: var(--primitive-color-mist-gray-95);
+	--semantic-color-surface-card-brown: var(--primitive-color-red-brown-95);
+	--semantic-color-surface-card-gray: var(--primitive-color-neutral-gray-99);
+	--semantic-color-surface-chip-white: var(--primitive-color-warm-gray-99);
+	--semantic-color-surface-chip-pink: var(--primitive-color-heritage-red-95);
+	--semantic-color-surface-dialog-popup: var(--primitive-color-mist-gray-95);
+	--semantic-color-surface-footer: var(--primitive-color-mist-gray-95);
+	--semantic-color-surface-footer-black: var(--primitive-color-neutral-gray-30);
+	--semantic-color-surface-header: var(--primitive-color-mist-gray-95);
+	--semantic-color-surface-selection-disabled: var(--primitive-color-mist-gray-70);
+	--semantic-color-surface-selection-active-disabled: var(--primitive-color-mist-gray-70);
+	--semantic-color-surface-selection-switch-inactive: var(--primitive-color-mist-gray-70);
+	--semantic-color-surface-selection-option-disabled: var(--primitive-color-mist-gray-95);
+	--semantic-color-surface-tab: var(--primitive-color-mist-gray-95);
+	--semantic-color-surface-tab-active: var(--primitive-color-mist-gray-95);
 
-	/* onSurface */
-	--semantic-color-on-surface-default-error: var(--primitive-color-active-red-50);
-	--semantic-color-on-surface-default-success: var(--primitive-color-green-55);
+	/* On Surface */
 	--semantic-color-on-surface-main: var(--primitive-color-mist-gray-10);
 	--semantic-color-on-surface-main-selected: var(--primitive-color-white);
 	--semantic-color-on-surface-sub: var(--primitive-color-mist-gray-50);
 	--semantic-color-on-surface-accent: var(--primitive-color-mist-gray-40);
-	--semantic-color-on-surface-button: var(--primitive-color-mist-gray-30);
 	--semantic-color-on-surface-white: var(--primitive-color-white);
 	--semantic-color-on-surface-black: var(--primitive-color-mist-gray-10);
+	--semantic-color-on-surface-default-disabled: var(--primitive-color-mist-gray-70);
+	--semantic-color-on-surface-default-supporting: var(--primitive-color-mist-gray-70);
+	--semantic-color-on-surface-main-error: var(--primitive-color-active-red-50);
+	--semantic-color-on-surface-main-success: var(--primitive-color-green-55);
+	--semantic-color-on-surface-sub-error: var(--primitive-color-active-red-40);
+	--semantic-color-on-surface-sub-success: var(--primitive-color-green-55);
+	--semantic-color-on-surface-highlight: var(--primitive-color-mist-gray-30);
+	--semantic-color-on-surface-badge-red: var(--primitive-color-active-red-50);
+	--semantic-color-on-surface-badge-orange: var(--primitive-color-orange-50);
+	--semantic-color-on-surface-badge-green: var(--primitive-color-green-50);
+	--semantic-color-on-surface-badge-magenta: var(--primitive-color-heritage-red-45);
+	--semantic-color-on-surface-badge-gray: var(--primitive-color-mist-gray-20);
+	--semantic-color-on-surface-button-primary: var(--primitive-color-white);
+	--semantic-color-on-surface-button-primary-hover: var(--primitive-color-white);
+	--semantic-color-on-surface-button-primary-disabled: var(--primitive-color-white);
+	--semantic-color-on-surface-button-secondary: var(--primitive-color-mist-gray-30);
+	--semantic-color-on-surface-button-secondary-hover: var(--primitive-color-mist-gray-30);
+	--semantic-color-on-surface-button-tertiary: var(--primitive-color-mist-gray-30);
+	--semantic-color-on-surface-card-brown: var(--primitive-color-red-brown-40);
+	--semantic-color-on-surface-card-gray: var(--primitive-color-warm-gray-65);
+	--semantic-color-on-surface-card-yellow: var(--primitive-color-yellow-70);
+	--semantic-color-on-surface-footer: var(--primitive-color-mist-gray-90);
+	--semantic-color-on-surface-index: var(--primitive-color-mist-gray-90);
+	--semantic-color-on-surface-page-indicator-dot: var(--primitive-color-mist-gray-70);
+	--semantic-color-on-surface-text-field-inactive: var(--primitive-color-mist-gray-60);
 
-	/* stroke */
+	/* Stroke */
 	--semantic-color-stroke-default-error: var(--primitive-color-active-red-60);
 	--semantic-color-stroke-default-success: var(--primitive-color-green-60);
 	--semantic-color-stroke-main: var(--primitive-color-mist-gray-90);
 	--semantic-color-stroke-main-focused: var(--primitive-color-mist-gray-40);
 	--semantic-color-stroke-sub: var(--primitive-color-mist-gray-70);
 	--semantic-color-stroke-accent: var(--primitive-color-mist-gray-20);
-	--semantic-color-stroke-button: var(--primitive-color-mist-gray-80);
 	--semantic-color-stroke-selection-active: var(--primitive-color-mist-gray-40);
 	--semantic-color-stroke-selection-inactive: var(--primitive-color-mist-gray-70);
 	--semantic-color-stroke-tab: var(--primitive-color-mist-gray-10);
+	--semantic-color-stroke-badge-magenta: var(--primitive-color-heritage-red-45);
+	--semantic-color-stroke-badge-green: var(--primitive-color-green-50);
+	--semantic-color-stroke-badge-red: var(--primitive-color-active-red-50);
+	--semantic-color-stroke-badge-orange: var(--primitive-color-orange-50);
+	--semantic-color-stroke-badge-gray: var(--primitive-color-cool-gray-35);
+	--semantic-color-stroke-button-primary: var(--primitive-color-mist-gray-80);
+	--semantic-color-stroke-button-secondary: var(--primitive-color-mist-gray-80);
+	--semantic-color-stroke-button-tertiary: var(--primitive-color-mist-gray-80);
+	--semantic-color-stroke-card-selected: var(--primitive-color-mist-gray-70);
+	--semantic-color-stroke-card-gray: var(--primitive-color-neutral-gray-95);
+	--semantic-color-stroke-chip: var(--primitive-color-neutral-gray-90);
+	--semantic-color-stroke-chip-selected: var(--primitive-color-black);
+	--semantic-color-stroke-chip-black: var(--primitive-color-black);
+	--semantic-color-stroke-chip-pink: var(--primitive-color-heritage-red-35);
+	--semantic-color-stroke-chip-white: var(--primitive-color-white);
+	--semantic-color-stroke-page-indicator: var(--primitive-color-mist-gray-90);
+	--semantic-color-stroke-selection-option-active: var(--primitive-color-mist-gray-70);
+	--semantic-color-stroke-text-field: var(--primitive-color-mist-gray-50);
+	--semantic-color-stroke-text-field-focused: var(--primitive-color-mist-gray-35);
+	--semantic-color-stroke-text-field-disabled: var(--primitive-color-mist-gray-70);
+	--semantic-color-stroke-white: var(--primitive-color-white);
+	--semantic-color-stroke-black: var(--primitive-color-mist-gray-10);
 
-	/* scrim */
+	/* Scrim */
 	--semantic-color-scrim-default: var(--primitive-color-black);
 }
