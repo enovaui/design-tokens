@@ -54,7 +54,7 @@
                 }
             },
             "surface": {
-                "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cool-gray-30"},
+                "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cool-gray-55"},
                 "default-focused": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                 "default-selected": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cool-gray-10"},
                 "default-disabled-focused": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-70"},

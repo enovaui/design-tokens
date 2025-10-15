@@ -15,7 +15,7 @@
             "on": {
                 "background": {
                     "default-error": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/deep-orange-50"},
-                    "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-10"},
+                    "main": "#080808",
                     "sub": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-35"},
                     "accent": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-55"},
                     "highlight-green": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mint-green-50"},
@@ -54,7 +54,7 @@
                 }
             },
             "surface": {
-                "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cool-gray-55"},
+                "default": "#080808",
                 "default-focused": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                 "default-selected": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cool-gray-40"},
                 "default-disabled-focused": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cool-gray-80"},

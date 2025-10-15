@@ -31,7 +31,7 @@
                 },
                 "surface": {
                     "default-rec": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-50"},
-                    "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
+                    "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                     "main-focused": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-10"},
                     "main-selected": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                     "sub": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-30"},
@@ -54,7 +54,7 @@
                 }
             },
             "surface": {
-                "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-85"},
+                "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
                 "default-focused": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                 "default-selected": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-95"},
                 "default-disabled-focused": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-70"},

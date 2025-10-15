@@ -30,7 +30,7 @@ Semantic Color Tokens
 	--semantic-color-on-background-popup-sub: var(--primitive-color-neutral-gray-70);
 
 	/* surface */
-	--semantic-color-surface-default: var(--primitive-color-cool-gray-30);
+	--semantic-color-surface-default: var(--primitive-color-cool-gray-55);
 	--semantic-color-surface-default-focused: var(--primitive-color-white);
 	--semantic-color-surface-default-selected: var(--primitive-color-cool-gray-10);
 	--semantic-color-surface-default-disabled-focused: var(--primitive-color-neutral-gray-70);

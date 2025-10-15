@@ -17,7 +17,7 @@ Semantic Color Tokens
 
 	/* onBackground */
 	--semantic-color-on-background-default-error: var(--primitive-color-deep-orange-50);
-	--semantic-color-on-background-main: var(--primitive-color-neutral-gray-10);
+	--semantic-color-on-background-main: #080808;
 	--semantic-color-on-background-sub: var(--primitive-color-neutral-gray-35);
 	--semantic-color-on-background-accent: var(--primitive-color-active-red-55);
 	--semantic-color-on-background-highlight-green: var(--primitive-color-mint-green-50);
@@ -30,7 +30,7 @@ Semantic Color Tokens
 	--semantic-color-on-background-popup-sub: var(--primitive-color-neutral-gray-35);
 
 	/* surface */
-	--semantic-color-surface-default: var(--primitive-color-cool-gray-55);
+	--semantic-color-surface-default: #080808;
 	--semantic-color-surface-default-focused: var(--primitive-color-white);
 	--semantic-color-surface-default-selected: var(--primitive-color-cool-gray-40);
 	--semantic-color-surface-default-disabled-focused: var(--primitive-color-cool-gray-80);
