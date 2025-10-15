@@ -6,7 +6,7 @@
                     "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/navy-20"}
                 },
                 "overlay": {
-                    "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/navy-35"}
+                    "default":"#35605c"
                 },
                 "popup": {
                     "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-90"}
@@ -105,7 +105,7 @@
                 "white": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                 "black": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
                 "overlay": {
-                    "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-60"}
+                    "default": "#35605c"
                 },
                 "popup": {
                     "selection-inactive": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"}
