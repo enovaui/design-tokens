@@ -28,21 +28,33 @@ class FontSizePrimitive {
   late final double size32 = 32;
   late final double size34 = 34;
   late final double size36 = 36;
+  late final double size38 = 38;
   late final double size40 = 40;
   late final double size42 = 42;
   late final double size44 = 44;
+  late final double size46 = 46;
   late final double size48 = 48;
   late final double size50 = 50;
+  late final double size52 = 52;
   late final double size54 = 54;
+  late final double size56 = 56;
+  late final double size58 = 58;
   late final double size60 = 60;
+  late final double size64 = 64;
   late final double size66 = 66;
+  late final double size68 = 68;
   late final double size72 = 72;
   late final double size78 = 78;
+  late final double size80 = 80;
+  late final double size82 = 82;
   late final double size84 = 84;
   late final double size90 = 90;
   late final double size96 = 96;
+  late final double size100 = 100;
   late final double size102 = 102;
   late final double size108 = 108;
+  late final double size120 = 120;
+  late final double size140 = 140;
   late final double size156 = 156;
   late final double size180 = 180;
 }
@@ -51,8 +63,7 @@ class FontWeightPrimitive {
   FontWeightPrimitive._();
 
   static FontWeightPrimitive? _instance;
-  static FontWeightPrimitive get instance =>
-      _instance ??= FontWeightPrimitive._();
+  static FontWeightPrimitive get instance => _instance ??= FontWeightPrimitive._();
 
   late final FontWeight thin = FontWeight.w100;
   late final FontWeight extralight = FontWeight.w200;
