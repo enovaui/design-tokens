@@ -17,7 +17,7 @@
                     "default-supporting": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-70"},
                     "main": "#080808",
                     "main-selected": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
-                    "sub": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-30"},
+                    "sub": "#5B5A58",
                     "accent": "#FD312E",
                     "highlight": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-30"},
                     "badge-red": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-50"},

@@ -83,7 +83,7 @@ Semantic Color Tokens
 	--semantic-color-on-surface-default-supporting: var(--primitive-color-mist-gray-70);
 	--semantic-color-on-surface-main: #080808;
 	--semantic-color-on-surface-main-selected: var(--primitive-color-white);
-	--semantic-color-on-surface-sub: var(--primitive-color-warm-gray-30);
+	--semantic-color-on-surface-sub: #5B5A58;
 	--semantic-color-on-surface-accent: #FD312E;
 	--semantic-color-on-surface-highlight: var(--primitive-color-mist-gray-30);
 	--semantic-color-on-surface-badge-red: var(--primitive-color-active-red-50);
