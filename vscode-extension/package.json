@@ -1,0 +1,109 @@
+{
+  "name": "enovaui-design-tokens",
+  "displayName": "EnovaUI Design Tokens",
+  "description": "Enhanced productivity tools for EnovaUI design token development",
+  "version": "1.0.0",
+  "publisher": "enovaui",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Snippets",
+    "Themes"
+  ],
+  "keywords": [
+    "design-tokens",
+    "enovaui",
+    "figma",
+    "css",
+    "variables"
+  ],
+  "activationEvents": [
+    "onLanguage:css",
+    "onLanguage:scss",
+    "onLanguage:javascript",
+    "onLanguage:typescript",
+    "onLanguage:json"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "enovaui.searchTokens",
+        "title": "Search Design Tokens",
+        "category": "EnovaUI"
+      },
+      {
+        "command": "enovaui.validateTokenUsage",
+        "title": "Validate Token Usage",
+        "category": "EnovaUI"
+      },
+      {
+        "command": "enovaui.syncWithFigma",
+        "title": "Sync with Figma",
+        "category": "EnovaUI"
+      },
+      {
+        "command": "enovaui.generateTokenDocs",
+        "title": "Generate Token Documentation",
+        "category": "EnovaUI"
+      }
+    ],
+    "configuration": {
+      "title": "EnovaUI Design Tokens",
+      "properties": {
+        "enovaui.figmaToken": {
+          "type": "string",
+          "description": "Figma API Token for real-time sync",
+          "scope": "window"
+        },
+        "enovaui.autoValidation": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable automatic token validation"
+        },
+        "enovaui.mcpServerPath": {
+          "type": "string",
+          "description": "Path to the Design Token MCP Server",
+          "default": "./mcp-servers/design-token-assistant"
+        }
+      }
+    },
+    "snippets": [
+      {
+        "language": "css",
+        "path": "./snippets/css-tokens.json"
+      },
+      {
+        "language": "scss",
+        "path": "./snippets/scss-tokens.json"
+      },
+      {
+        "language": "javascript",
+        "path": "./snippets/js-tokens.json"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "enovaui.searchTokens",
+        "key": "ctrl+shift+t",
+        "mac": "cmd+shift+t",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "16.x",
+    "@types/vscode": "^1.74.0",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}

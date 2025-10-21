@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "design-token-assistant": {
+      "command": "node",
+      "args": ["/home/worker/github/enovaui/design-tokens/mcp-servers/design-token-assistant/server.cjs"],
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}

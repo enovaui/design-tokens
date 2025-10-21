@@ -1,0 +1,92 @@
+/* EnovaUI 디자인 토큰 사용 예시 */
+
+/* 1. 기본 버튼 스타일링 */
+.primary-button {
+  /* 검색된 토큰 사용: var(--semantic-color-surface-button-primary-$ref) */
+  background-color: var(--primitive-color-active-red-50);
+  color: var(--primitive-color-white);
+  border: none;
+  padding: var(--primitive-spacing-4) var(--primitive-spacing-8);
+  border-radius: var(--primitive-radius-4);
+  font-size: var(--primitive-fontsize-16);
+  font-weight: var(--primitive-fontweight-medium);
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  background-color: var(--primitive-color-active-red-40);
+}
+
+.primary-button:pressed {
+  background-color: var(--primitive-color-active-red-30);
+}
+
+/* 2. 카드 컴포넌트 */
+.card {
+  background-color: var(--primitive-color-white);
+  border: 1px solid var(--semantic-color-stroke-main);
+  border-radius: var(--primitive-radius-8);
+  padding: var(--primitive-spacing-6);
+  box-shadow: var(--primitive-elevation-1);
+}
+
+.card-title {
+  color: var(--semantic-color-on-surface-main);
+  font-size: var(--primitive-fontsize-18);
+  font-weight: var(--primitive-fontweight-semibold);
+  margin-bottom: var(--primitive-spacing-2);
+}
+
+.card-subtitle {
+  color: var(--semantic-color-on-surface-sub);
+  font-size: var(--primitive-fontsize-14);
+  font-weight: var(--primitive-fontweight-regular);
+}
+
+/* 3. 텍스트 필드 */
+.text-field {
+  border: 1px solid var(--semantic-color-stroke-main);
+  border-radius: var(--primitive-radius-4);
+  padding: var(--primitive-spacing-3) var(--primitive-spacing-4);
+  font-size: var(--primitive-fontsize-16);
+  background-color: var(--primitive-color-white);
+  color: var(--semantic-color-on-surface-main);
+}
+
+.text-field:focus {
+  border-color: var(--semantic-color-stroke-main-focused);
+  outline: none;
+}
+
+.text-field:disabled {
+  background-color: var(--semantic-color-surface-text-field-disabled);
+  color: var(--semantic-color-on-surface-sub);
+  cursor: not-allowed;
+}
+
+/* 4. 반응형 디자인을 위한 플랫폼별 토큰 사용 */
+@media (max-width: 768px) {
+  .mobile-specific {
+    /* mobile-tokens 패키지 사용 */
+    background-color: var(--mobile-semantic-color-surface-main);
+    padding: var(--mobile-semantic-spacing-container);
+  }
+}
+
+@media (min-width: 1024px) {
+  .web-specific {
+    /* web-tokens 패키지 사용 */
+    background-color: var(--web-semantic-color-surface-main);
+    max-width: var(--web-semantic-size-container-max);
+  }
+}
+
+/* 5. 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+  .dark-mode-card {
+    /* webos-tokens dark 테마 사용 */
+    background-color: var(--webos-dark-semantic-color-surface-main);
+    color: var(--webos-dark-semantic-color-on-surface-main);
+    border-color: var(--webos-dark-semantic-color-stroke-main);
+  }
+}

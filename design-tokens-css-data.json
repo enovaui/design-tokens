@@ -1,0 +1,119 @@
+{
+  "version": 1.1,
+  "properties": [],
+  "atDirectives": [],
+  "pseudoClasses": [],
+  "pseudoElements": [],
+  "variables": [
+    {
+      "name": "--primitive-color-white",
+      "description": "White color primitive token (#ffffff)",
+      "syntax": "#ffffff"
+    },
+    {
+      "name": "--primitive-color-black", 
+      "description": "Black color primitive token (#000000)",
+      "syntax": "#000000"
+    },
+    {
+      "name": "--semantic-color-surface-main",
+      "description": "Main surface color (platform-specific)",
+      "syntax": "color"
+    },
+    {
+      "name": "--semantic-color-surface-button-primary",
+      "description": "Primary button surface color",
+      "syntax": "color"
+    },
+    {
+      "name": "--semantic-color-surface-button-secondary",
+      "description": "Secondary button surface color", 
+      "syntax": "color"
+    },
+    {
+      "name": "--semantic-color-on-surface-main",
+      "description": "Main text color on surface",
+      "syntax": "color"
+    },
+    {
+      "name": "--semantic-color-on-surface-sub",
+      "description": "Secondary text color on surface",
+      "syntax": "color"
+    },
+    {
+      "name": "--primitive-spacing-1",
+      "description": "4px spacing",
+      "syntax": "4px"
+    },
+    {
+      "name": "--primitive-spacing-2",
+      "description": "8px spacing",
+      "syntax": "8px"
+    },
+    {
+      "name": "--primitive-spacing-4",
+      "description": "16px spacing",
+      "syntax": "16px"
+    },
+    {
+      "name": "--primitive-spacing-6",
+      "description": "24px spacing",
+      "syntax": "24px"
+    },
+    {
+      "name": "--primitive-spacing-8",
+      "description": "32px spacing",
+      "syntax": "32px"
+    },
+    {
+      "name": "--primitive-fontsize-12",
+      "description": "12px font size",
+      "syntax": "12px"
+    },
+    {
+      "name": "--primitive-fontsize-14",
+      "description": "14px font size",
+      "syntax": "14px"
+    },
+    {
+      "name": "--primitive-fontsize-16",
+      "description": "16px font size",
+      "syntax": "16px"
+    },
+    {
+      "name": "--primitive-fontsize-18",
+      "description": "18px font size",
+      "syntax": "18px"
+    },
+    {
+      "name": "--primitive-fontweight-regular",
+      "description": "Regular font weight (400)",
+      "syntax": "400"
+    },
+    {
+      "name": "--primitive-fontweight-medium",
+      "description": "Medium font weight (500)",
+      "syntax": "500"
+    },
+    {
+      "name": "--primitive-fontweight-semibold",
+      "description": "Semibold font weight (600)",
+      "syntax": "600"
+    },
+    {
+      "name": "--primitive-fontweight-bold",
+      "description": "Bold font weight (700)",
+      "syntax": "700"
+    },
+    {
+      "name": "--primitive-radius-4",
+      "description": "4px border radius",
+      "syntax": "4px"
+    },
+    {
+      "name": "--primitive-radius-8",
+      "description": "8px border radius",
+      "syntax": "8px"
+    }
+  ]
+}

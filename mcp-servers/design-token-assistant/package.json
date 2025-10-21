@@ -1,0 +1,26 @@
+{
+  "name": "@enovaui/design-token-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP Server for Design Token assistance and automation",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.6.0",
+    "zod": "^3.23.8",
+    "fs-extra": "^11.2.0",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0",
+    "@types/fs-extra": "^11.0.0"
+  },
+  "bin": {
+    "design-token-mcp": "./dist/index.js"
+  }
+}

@@ -1,0 +1,116 @@
+/* 
+ * GitHub Copilot 테스트 파일
+ * 이 파일에서 Copilot이 EnovaUI 디자인 토큰을 잘 제안하는지 테스트할 수 있습니다.
+ */
+
+/* 
+ * 테스트 1: 버튼 컴포넌트 생성
+ * Copilot에게 "Create a primary button component using EnovaUI design tokens" 라고 요청해보세요
+ */
+.primary-button {
+  /* Copilot이 다음과 같은 토큰들을 제안해야 합니다:
+     - background-color: var(--semantic-color-surface-button-primary);
+     - color: var(--semantic-color-on-surface-main-selected);
+     - padding: var(--primitive-spacing-3) var(--primitive-spacing-6);
+     - font-size: var(--primitive-fontsize-16);
+  */
+}
+
+/* 
+ * 테스트 2: 카드 컴포넌트 생성
+ * Copilot에게 "Create a card component with proper spacing and colors" 라고 요청해보세요
+ */
+.card {
+  /* Copilot이 제안할 토큰들:
+     - background-color: var(--semantic-color-surface-main);
+     - border: 1px solid var(--semantic-color-stroke-main);
+     - padding: var(--primitive-spacing-6);
+     - border-radius: var(--primitive-radius-8);
+  */
+}
+
+/* 
+ * 테스트 3: 자동완성 테스트
+ * 다음을 타이핑해보세요: "var(--" 
+ * Copilot과 VS Code가 토큰들을 자동완성으로 제안해야 합니다.
+ */
+.test-autocomplete {
+  background-color: /* var(-- 을 타이핑해보세요 */
+  color: /* var(-- 을 타이핑해보세요 */
+  font-size: /* var(-- 을 타이핑해보세요 */
+  margin: /* var(-- 을 타이핑해보세요 */
+}
+
+/* 
+ * 테스트 4: 플랫폼별 토큰 사용
+ * Copilot에게 "Convert this to use WebOS tokens" 라고 요청해보세요
+ */
+.web-component {
+  background-color: var(--web-semantic-color-surface-main);
+  color: var(--web-semantic-color-on-surface-main);
+}
+
+/* Copilot이 webos 토큰으로 변환해야 합니다 */
+.webos-component {
+  /* 예상 결과:
+     background-color: var(--webos-semantic-color-surface-main);
+     color: var(--webos-semantic-color-on-surface-main);
+  */
+}
+
+/* 
+ * 테스트 5: 다크 모드 지원
+ * Copilot에게 "Add dark mode support using semantic tokens" 라고 요청해보세요
+ */
+.component-with-dark-mode {
+  background-color: var(--semantic-color-surface-main);
+  color: var(--semantic-color-on-surface-main);
+}
+
+/* Copilot이 다크 모드 미디어 쿼리를 추가해야 합니다 */
+@media (prefers-color-scheme: dark) {
+  .component-with-dark-mode {
+    /* 다크 모드용 토큰들 */
+  }
+}
+
+/* 
+ * 테스트 6: 반응형 디자인
+ * Copilot에게 "Make this responsive using different tokens for mobile and desktop" 라고 요청해보세요
+ */
+.responsive-component {
+  /* 모바일 우선 */
+  padding: var(--mobile-semantic-spacing-container);
+  font-size: var(--primitive-fontsize-14);
+}
+
+/* Copilot이 미디어 쿼리를 추가해야 합니다 */
+
+/* 
+ * 테스트 7: 상태 변화 (hover, active 등)
+ * Copilot에게 "Add hover and active states for this button" 라고 요청해보세요
+ */
+.interactive-button {
+  background-color: var(--semantic-color-surface-button-primary);
+}
+
+/* Copilot이 hover, active 상태를 추가해야 합니다 */
+
+/*
+ * 💡 Copilot 사용 팁:
+ * 
+ * 1. 자연어로 질문하세요:
+ *    - "Create a primary button with EnovaUI tokens"
+ *    - "Add spacing between these elements"
+ *    - "Make this component accessible"
+ *
+ * 2. 컨텍스트를 제공하세요:
+ *    - "This is for WebOS platform"
+ *    - "This needs to support dark mode"
+ *    - "This should be mobile-friendly"
+ *
+ * 3. 구체적으로 요청하세요:
+ *    - "Use semantic tokens instead of primitive tokens"
+ *    - "Add hover states for interactive elements"
+ *    - "Follow EnovaUI design system guidelines"
+ */

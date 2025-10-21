@@ -1,0 +1,64 @@
+{
+  "CSS Token Variables": {
+    "prefix": "etok",
+    "body": [
+      "var(--${1:token-name})"
+    ],
+    "description": "EnovaUI CSS token variable"
+  },
+  "Background Color Token": {
+    "prefix": "ebg",
+    "body": [
+      "background-color: var(--${1:background-color-token});"
+    ],
+    "description": "Background color using EnovaUI token"
+  },
+  "Text Color Token": {
+    "prefix": "etext",
+    "body": [
+      "color: var(--${1:text-color-token});"
+    ],
+    "description": "Text color using EnovaUI token"
+  },
+  "Font Size Token": {
+    "prefix": "efont",
+    "body": [
+      "font-size: var(--${1:font-size-token});"
+    ],
+    "description": "Font size using EnovaUI token"
+  },
+  "Spacing Token": {
+    "prefix": "espc",
+    "body": [
+      "${1|margin,padding|}: var(--${2:spacing-token});"
+    ],
+    "description": "Spacing using EnovaUI token"
+  },
+  "Border Token": {
+    "prefix": "ebor",
+    "body": [
+      "border: var(--${1:border-width-token}) solid var(--${2:border-color-token});"
+    ],
+    "description": "Border using EnovaUI tokens"
+  },
+  "Shadow Token": {
+    "prefix": "esha",
+    "body": [
+      "box-shadow: var(--${1:shadow-token});"
+    ],
+    "description": "Box shadow using EnovaUI token"
+  },
+  "Complete Component Styling": {
+    "prefix": "ecomp",
+    "body": [
+      ".${1:component-name} {",
+      "  background-color: var(--${2:background-token});",
+      "  color: var(--${3:text-token});",
+      "  padding: var(--${4:spacing-token});",
+      "  border-radius: var(--${5:border-radius-token});",
+      "  font-size: var(--${6:font-size-token});",
+      "}"
+    ],
+    "description": "Complete component styling with EnovaUI tokens"
+  }
+}

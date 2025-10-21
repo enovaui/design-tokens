@@ -1,0 +1,89 @@
+{
+  "name": "enovaui-design-tokens-copilot",
+  "displayName": "EnovaUI Design Tokens for Copilot",
+  "description": "GitHub Copilot integration for EnovaUI design tokens",
+  "version": "1.0.0",
+  "publisher": "enovaui",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Snippets",
+    "AI"
+  ],
+  "keywords": [
+    "design-tokens",
+    "enovaui",
+    "copilot",
+    "ai",
+    "mcp"
+  ],
+  "activationEvents": [
+    "onLanguage:css",
+    "onLanguage:scss",
+    "onLanguage:javascript",
+    "onLanguage:typescript"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "enovaui.askCopilotAboutTokens",
+        "title": "Ask Copilot about Design Tokens",
+        "category": "EnovaUI"
+      },
+      {
+        "command": "enovaui.insertTokenWithCopilot",
+        "title": "Insert Token with Copilot Help",
+        "category": "EnovaUI"
+      },
+      {
+        "command": "enovaui.explainTokenToCopilot",
+        "title": "Explain Token to Copilot",
+        "category": "EnovaUI"
+      }
+    ],
+    "configuration": {
+      "title": "EnovaUI Design Tokens for Copilot",
+      "properties": {
+        "enovaui.enableCopilotIntegration": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable GitHub Copilot integration for design tokens"
+        },
+        "enovaui.mcpServerPath": {
+          "type": "string",
+          "description": "Path to the Design Token MCP Server",
+          "default": "./mcp-servers/design-token-assistant/server.cjs"
+        },
+        "enovaui.autoSuggestTokens": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically suggest design tokens in CSS/SCSS files"
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "enovaui.askCopilotAboutTokens",
+        "key": "ctrl+shift+d",
+        "mac": "cmd+shift+d",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "16.x",
+    "@types/vscode": "^1.74.0",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "child_process": "^1.0.2"
+  }
+}

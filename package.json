@@ -22,7 +22,17 @@
     "create:pr": "node scripts/pr-generator.js",
     "sync:all": "npm run sync:figma && npm run transform:tokens && npm run create:pr",
     "clean": "rm -rf packages/*/dist/*",
-    "version": "npx changeset version && node scripts/sync-version.js"
+    "version": "npx changeset version && node scripts/sync-version.js",
+    "dev:monitor": "node scripts/figma-dev-tools.js monitor",
+    "dev:analyze": "node scripts/figma-dev-tools.js analyze",
+    "mcp:start": "cd mcp-servers/design-token-assistant && npm start",
+    "mcp:build": "cd mcp-servers/design-token-assistant && npm run build",
+    "vscode:package": "cd vscode-extension && npm run compile",
+    "tools:search": "node -e \"console.log('Use MCP server for token search')\"",
+    "tools:validate": "node -e \"console.log('Use MCP server for validation')\"",
+    "docs:serve": "npx serve docs",
+    "test:tokens": "echo 'Token validation tests coming soon'",
+    "report:weekly": "node scripts/generate-weekly-report.js"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.6",
