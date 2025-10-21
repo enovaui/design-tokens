@@ -1,0 +1,60 @@
+/*
+ * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@import "@enovaui/core-tokens/css/radius-primitive.css";
+
+/* ----------------------------------------
+Semantic Radius Tokens
+------------------------------------------- */
+
+:root {
+	--semantic-radius-accordion-l: var(--primitive-radius-28);
+	--semantic-radius-accordion-m: var(--primitive-radius-20);
+	--semantic-radius-accordion-s: var(--primitive-radius-6);
+	--semantic-radius-badge-full: var(--primitive-radius-999);
+	--semantic-radius-badge-s: var(--primitive-radius-4);
+	--semantic-radius-banner-l: var(--primitive-radius-28);
+	--semantic-radius-banner-m: var(--primitive-radius-20);
+	--semantic-radius-banner-s: var(--primitive-radius-8);
+	--semantic-radius-button-full: var(--primitive-radius-999);
+	--semantic-radius-button-l: var(--primitive-radius-12);
+	--semantic-radius-button-m: var(--primitive-radius-8);
+	--semantic-radius-button-s: var(--primitive-radius-6);
+	--semantic-radius-button-xs: var(--primitive-radius-4);
+	--semantic-radius-caption: var(--primitive-radius-20);
+	--semantic-radius-card-l: var(--primitive-radius-28);
+	--semantic-radius-card-m: var(--primitive-radius-20);
+	--semantic-radius-card-s: var(--primitive-radius-12);
+	--semantic-radius-card-xs: var(--primitive-radius-4);
+	--semantic-radius-carousel-indicator: var(--primitive-radius-999);
+	--semantic-radius-chip-full: var(--primitive-radius-999);
+	--semantic-radius-chip-s: var(--primitive-radius-4);
+	--semantic-radius-dialog-popup-l: var(--primitive-radius-20);
+	--semantic-radius-dialog-popup-s: var(--primitive-radius-16);
+	--semantic-radius-index-l: var(--primitive-radius-28);
+	--semantic-radius-index-s: var(--primitive-radius-20);
+	--semantic-radius-list-l: var(--primitive-radius-28);
+	--semantic-radius-list-s: var(--primitive-radius-20);
+	--semantic-radius-menu: var(--primitive-radius-6);
+	--semantic-radius-page-indicator: var(--primitive-radius-999);
+	--semantic-radius-picker: var(--primitive-radius-6);
+	--semantic-radius-scrollbar: var(--primitive-radius-999);
+	--semantic-radius-search: var(--primitive-radius-999);
+	--semantic-radius-selection-control-full: var(--primitive-radius-999);
+	--semantic-radius-selection-control-l: var(--primitive-radius-16);
+	--semantic-radius-selection-control-m: var(--primitive-radius-12);
+	--semantic-radius-selection-control-s: var(--primitive-radius-4);
+	--semantic-radius-step-indicator: var(--primitive-radius-999);
+	--semantic-radius-stepper: var(--primitive-radius-6);
+	--semantic-radius-tab-l: var(--primitive-radius-12);
+	--semantic-radius-tab-m: var(--primitive-radius-8);
+	--semantic-radius-tab-s: var(--primitive-radius-6);
+	--semantic-radius-text-field: var(--primitive-radius-6);
+	--semantic-radius-toast: var(--primitive-radius-20);
+	--semantic-radius-tooltip-l: var(--primitive-radius-28);
+	--semantic-radius-tooltip-s: var(--primitive-radius-20);
+	--semantic-radius-thumbnail-l: var(--primitive-radius-28);
+	--semantic-radius-thumbnail-s: var(--primitive-radius-20);
+}
