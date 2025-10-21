@@ -44,8 +44,10 @@ jobs:
 
       - name: Install dependencies
         run: |
-          # Use npm ci for faster, reliable, reproducible builds
-          npm ci --prefer-offline --no-audit --omit=optional
+          # Use npm install with performance and reliability options
+          npm install --no-audit --no-fund --prefer-offline
+          # Install node-fetch for Figma API requests
+          npm install node-fetch@3
 
       - name: Configure Git
         run: |
