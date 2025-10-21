@@ -60,7 +60,31 @@ class TokenTransformer {
 			'badge-lightmagenta': 'badge-light-magenta',
 			'badge-lightgray': 'badge-light-gray'
 		};
-		return normalizations[tokenName] || tokenName;
+		
+		// Apply specific normalizations first
+		let normalized = normalizations[tokenName] || tokenName;
+		
+		// Apply global pattern-based normalizations for compound paths
+		normalized = normalized
+			// Apply badge normalizations globally for compound paths
+			.replace(/badge-deeporange/g, 'badge-deep-orange')
+			.replace(/badge-heritagered/g, 'badge-heritage-red')
+			.replace(/badge-lightred/g, 'badge-light-red')
+			.replace(/badge-lightorange/g, 'badge-light-orange')
+			.replace(/badge-lightgreen/g, 'badge-light-green')
+			.replace(/badge-lightmagenta/g, 'badge-light-magenta')
+			.replace(/badge-lightgray/g, 'badge-light-gray')
+			// Apply chip and selection control normalizations globally
+			.replace(/chip-actionchip/g, 'chip-action-chip')
+			.replace(/chip-filterchip/g, 'chip-filter-chip')
+			.replace(/dialogpopup/g, 'dialog-popup')
+			.replace(/selectioncontrol-checkbox/g, 'selection-control-checkbox')
+			.replace(/selectioncontrol-switch/g, 'selection-control-switch')
+			// General kebab-case normalization for compound words
+			.replace(/([a-z])([A-Z])/g, '$1-$2')
+			.toLowerCase();
+			
+		return normalized;
 	}
 
 	/**
@@ -233,11 +257,13 @@ class TokenTransformer {
 				if (!target.color) target.color = {};
 				target = target.color;
 				for (let i = 0; i < tokenPathArray.length - 1; i++) {
-					if (!target[tokenPathArray[i]]) target[tokenPathArray[i]] = {};
-					target = target[tokenPathArray[i]];
+					const normalizedKey = this.normalizeTokenName(tokenPathArray[i]);
+					if (!target[normalizedKey]) target[normalizedKey] = {};
+					target = target[normalizedKey];
 				}
-				// Always set value as-is, let refSemanticColorsWithPrimitives handle conversion
-				target[tokenPathArray[tokenPathArray.length - 1]] = value;
+				// Apply normalization to the final key as well
+				const finalKey = this.normalizeTokenName(tokenPathArray[tokenPathArray.length - 1]);
+				target[finalKey] = value;
 			}
 			// Apply reference conversion to entire object at once
 			existingTokens = this.refSemanticColorsWithPrimitives(existingTokens, primitiveColorLookup);

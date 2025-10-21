@@ -9,6 +9,16 @@ on:
         required: false
         default: false
         type: boolean
+      branch_name:
+        description: 'Branch name for PR (optional, auto-generated if empty)'
+        required: false
+        default: ''
+        type: string
+      use_current_branch:
+        description: 'Use current branch as target for PR (default: develop)'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   sync-figma-tokens:
@@ -30,12 +40,12 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
 
       - name: Install dependencies
         run: |
-          npm install
-          # Install node-fetch for Figma API requests
-          npm install node-fetch@3
+          # Use npm ci for faster, reliable, reproducible builds
+          npm ci --prefer-offline --no-audit --omit=optional
 
       - name: Configure Git
         run: |
@@ -140,11 +150,27 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.ENOVA_BOT_PAT }}
           FIGMA_FILE_URL: ${{ secrets.FIGMA_FILE_URL }}
           PR_REVIEWERS: ${{ secrets.PR_REVIEWERS }}
+          CUSTOM_BRANCH_NAME: ${{ inputs.branch_name }}
+          TARGET_BRANCH: ${{ inputs.use_current_branch == true && github.ref_name || 'develop' }}
         run: |
           git config --global user.email "enovaui@lge.com"
           git config --global user.name "enovaui-bot"
           git remote set-url origin https://x-access-token:${{ secrets.ENOVA_BOT_PAT }}@github.com/${{ github.repository }}
-          echo "🚀 Creating Pull Request..."
+
+          if [ "${{ inputs.use_current_branch }}" = "true" ]; then
+            TARGET="${{ github.ref_name }}"
+            echo "📍 Target branch for PR: $TARGET (current branch)"
+          else
+            TARGET="develop"
+            echo "📍 Target branch for PR: $TARGET (default)"
+          fi
+
+          if [ -n "${{ inputs.branch_name }}" ]; then
+            echo "🚀 Creating Pull Request with custom branch name: ${{ inputs.branch_name }}"
+          else
+            echo "🚀 Creating Pull Request with auto-generated branch name..."
+          fi
+
           node scripts/pr-generator.js
 
       - name: Notify Results
