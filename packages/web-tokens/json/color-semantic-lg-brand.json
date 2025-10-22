@@ -16,11 +16,11 @@
                     "default-supporting": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-45"},
                     "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
                     "main-error": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-50"},
-                    "main-success": "#317d0c",
+                    "main-success": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/yellow-green-40"},
                     "main-selected": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                     "sub": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-30"},
                     "sub-error": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/heritage-red-35"},
-                    "sub-success": "#3a701f",
+                    "sub-success": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/yellow-green-35"},
                     "accent": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-50"},
                     "highlight": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/heritage-red-35"},
                     "badge-red": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-50"},
@@ -148,7 +148,7 @@
             },
             "scrim": {
                 "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
-                "default-gray": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-10"},
+                "default-gray": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-10"},
                 "white": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"}
             }
         }

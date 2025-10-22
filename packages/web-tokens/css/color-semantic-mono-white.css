@@ -156,6 +156,6 @@ Semantic Color Tokens
 
 	/* Scrim */
 	--semantic-color-scrim-default: var(--primitive-color-black);
-	--semantic-color-scrim-default-gray: var(--primitive-color-warm-gray-10);
+	--semantic-color-scrim-default-gray: var(--primitive-color-neutral-gray-10);
 	--semantic-color-scrim-white: var(--primitive-color-white);
 }

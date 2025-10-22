@@ -93,11 +93,11 @@ Semantic Color Tokens
 	--semantic-color-on-surface-default-supporting: var(--primitive-color-warm-gray-45);
 	--semantic-color-on-surface-main: var(--primitive-color-black);
 	--semantic-color-on-surface-main-error: var(--primitive-color-active-red-50);
-	--semantic-color-on-surface-main-success: #317d0c;
+	--semantic-color-on-surface-main-success: var(--primitive-color-yellow-green-40);
 	--semantic-color-on-surface-main-selected: var(--primitive-color-white);
 	--semantic-color-on-surface-sub: var(--primitive-color-warm-gray-30);
 	--semantic-color-on-surface-sub-error: var(--primitive-color-heritage-red-35);
-	--semantic-color-on-surface-sub-success: #3a701f;
+	--semantic-color-on-surface-sub-success: var(--primitive-color-yellow-green-35);
 	--semantic-color-on-surface-accent: var(--primitive-color-active-red-50);
 	--semantic-color-on-surface-highlight: var(--primitive-color-heritage-red-35);
 	--semantic-color-on-surface-badge-red: var(--primitive-color-active-red-50);
@@ -156,6 +156,6 @@ Semantic Color Tokens
 
 	/* Scrim */
 	--semantic-color-scrim-default: var(--primitive-color-black);
-	--semantic-color-scrim-default-gray: var(--primitive-color-warm-gray-10);
+	--semantic-color-scrim-default-gray: var(--primitive-color-neutral-gray-10);
 	--semantic-color-scrim-white: var(--primitive-color-white);
 }
