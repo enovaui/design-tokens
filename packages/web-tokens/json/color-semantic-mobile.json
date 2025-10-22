@@ -148,8 +148,8 @@
             },
             "scrim": {
                 "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
-                "🟠default-gray": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-10"},
-                "🟠white": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"}
+                "default-gray": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-10"},
+                "white": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"}
             }
         }
     }
