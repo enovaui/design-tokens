@@ -662,28 +662,6 @@ Semantic ${headerType} Tokens
 :root {
 `;
 
-        // Normalize token names to consistent kebab-case
-        const normalizeTokenName = (name) => {
-            return name
-                // Handle specific cases for radius semantic tokens
-                .replace(/^chip-actionchip$/, 'chip-action-chip')
-                .replace(/^chip-filterchip$/, 'chip-filter-chip') 
-                .replace(/^dialogpopup$/, 'dialog-popup')
-                .replace(/^selectioncontrol-checkbox$/, 'selection-control-checkbox')
-                .replace(/^selectioncontrol-switch$/, 'selection-control-switch')
-                // Handle badge specific cases
-                .replace(/^badge-deeporange$/, 'badge-deep-orange')
-                .replace(/^badge-heritagered$/, 'badge-heritage-red')
-                .replace(/^badge-lightred$/, 'badge-light-red')
-                .replace(/^badge-lightorange$/, 'badge-light-orange')
-                .replace(/^badge-lightgreen$/, 'badge-light-green')
-                .replace(/^badge-lightmagenta$/, 'badge-light-magenta')
-                .replace(/^badge-lightgray$/, 'badge-light-gray')
-                // General kebab-case normalization for compound words
-                .replace(/([a-z])([A-Z])/g, '$1-$2')
-                .toLowerCase();
-        };
-
         // Flatten semantic tokens and generate CSS variables
         const flattenTokens = (obj, prefix = `semantic-${tokenType}`) => {
             const flattened = [];
@@ -696,9 +674,8 @@ Semantic ${headerType} Tokens
                         // Skip the "radius" key for radius semantic tokens to avoid semantic-radius-radius-*
                         newPrefix = currentPrefix;
                     } else {
-                        // Normalize the key name for consistent kebab-case
-                        const normalizedKey = normalizeTokenName(key);
-                        newPrefix = `${currentPrefix}-${normalizedKey}`;
+                        // Token names are already normalized by Token Transformer
+                        newPrefix = `${currentPrefix}-${key}`;
                     }
 
                     if (typeof value === 'string' || typeof value === 'number') {
@@ -730,6 +707,7 @@ Semantic ${headerType} Tokens
 
         // Output CSS variables
         for (const [varName, value] of flatTokens) {
+            // Token names are already normalized by Token Transformer
             cssContent += `\t--${varName}: ${value};\n`;
         }
 
