@@ -36,6 +36,13 @@ function normalizeTokenName(tokenName) {
 		.replace(/stepindicator/g, 'step-indicator')
 		.replace(/textfield/g, 'text-field')
 		.replace(/inputfield/g, 'input-field')
+		// Badge compound words
+		.replace(/badge-lightred/g, 'badge-light-red')
+		.replace(/badge-lightorange/g, 'badge-light-orange')
+		.replace(/badge-lightgreen/g, 'badge-light-green')
+		.replace(/badge-lightmagenta/g, 'badge-light-magenta')
+		.replace(/badge-lightgray/g, 'badge-light-gray')
+		.replace(/badge-darkgray/g, 'badge-dark-gray')
 		// Convert camelCase to dash-separated (e.g., dialogPopup -> dialog-popup)
 		.replace(/([a-z])([A-Z])/g, '$1-$2')
 		// Convert to lowercase
