@@ -635,11 +635,11 @@ class ColorPrimitive {
   /// yellow-green-30 - #375d23
   late final Color yellowGreen30 = const Color.fromRGBO(55, 93, 35, 1.0);
 
-  /// yellow-green-35 - #3a701f
-  late final Color yellowGreen35 = const Color.fromRGBO(58, 112, 31, 1.0);
+  /// yellow-green-35 - #316d15
+  late final Color yellowGreen35 = const Color.fromRGBO(49, 109, 21, 1.0);
 
-  /// yellow-green-40 - #317d0c
-  late final Color yellowGreen40 = const Color.fromRGBO(49, 125, 12, 1.0);
+  /// yellow-green-40 - #287d00
+  late final Color yellowGreen40 = const Color.fromRGBO(40, 125, 0, 1.0);
 
   /// yellow-green-45 - #529233
   late final Color yellowGreen45 = const Color.fromRGBO(82, 146, 51, 1.0);
