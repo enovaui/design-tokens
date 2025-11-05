@@ -2,7 +2,8 @@
     "semantic": {
         "color": {
             "background": {
-                "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-99"}
+                "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-99"},
+                "sub": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-99"}
             },
             "on": {
                 "background": {
@@ -21,7 +22,6 @@
                 }
             },
             "surface": {
-                "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                 "default-hover": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-80"},
                 "default-focused": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-75"},
                 "default-pressed": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-75"},
@@ -55,7 +55,9 @@
                 "selection-inactive": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-60"},
                 "toast": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-10"},
                 "white": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
-                "black": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-10"}
+                "black": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-10"},
+                "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                "sub": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-75"}
             },
             "stroke": {
                 "default-error": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/red-orange-60"},
