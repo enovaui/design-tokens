@@ -1,0 +1,33 @@
+{
+    "semantic": {
+        "font-weight": {
+            "100": {
+                "$ref": "core-tokens/json/typography-primitive.json#/primitive/font-weight/thin"
+            },
+            "200": {
+                "$ref": "core-tokens/json/typography-primitive.json#/primitive/font-weight/extralight"
+            },
+            "300": {
+                "$ref": "core-tokens/json/typography-primitive.json#/primitive/font-weight/light"
+            },
+            "400": {
+                "$ref": "core-tokens/json/typography-primitive.json#/primitive/font-weight/regular"
+            },
+            "500": {
+                "$ref": "core-tokens/json/typography-primitive.json#/primitive/font-weight/medium"
+            },
+            "600": {
+                "$ref": "core-tokens/json/typography-primitive.json#/primitive/font-weight/semibold"
+            },
+            "700": {
+                "$ref": "core-tokens/json/typography-primitive.json#/primitive/font-weight/bold"
+            },
+            "800": {
+                "$ref": "core-tokens/json/typography-primitive.json#/primitive/font-weight/extrabold"
+            },
+            "900": {
+                "$ref": "core-tokens/json/typography-primitive.json#/primitive/font-weight/black"
+            }
+        }
+    }
+}

@@ -2,6 +2,17 @@
 
 The following is a curated list of changes in the mobile tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Removed
+
+- `semantic-color-background-default`
+- `semantic-color-surface-default`
+
+### Added
+
+- `color-semantic` tokens to match the latest guide
+
 ## [0.8.2] - 2025-09-09
 
 - No significant changes

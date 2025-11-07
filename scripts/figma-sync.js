@@ -28,6 +28,7 @@ function normalizeTokenName(tokenName) {
 		// Convert underscores to dashes
 		.replace(/_/g, '-')
 		// Handle special cases first (before camelCase conversion)
+		.replace(/darkgray/g, 'dark-gray')
 		.replace(/carouselindicator/g, 'carousel-indicator')
 		.replace(/dialogpopup/g, 'dialog-popup')
 		.replace(/notificationcard/g, 'notification-card')
@@ -36,6 +37,13 @@ function normalizeTokenName(tokenName) {
 		.replace(/stepindicator/g, 'step-indicator')
 		.replace(/textfield/g, 'text-field')
 		.replace(/inputfield/g, 'input-field')
+		// Badge compound words
+		.replace(/badge-lightred/g, 'badge-light-red')
+		.replace(/badge-lightorange/g, 'badge-light-orange')
+		.replace(/badge-lightgreen/g, 'badge-light-green')
+		.replace(/badge-lightmagenta/g, 'badge-light-magenta')
+		.replace(/badge-lightgray/g, 'badge-light-gray')
+		.replace(/badge-darkgray/g, 'badge-dark-gray')
 		// Convert camelCase to dash-separated (e.g., dialogPopup -> dialog-popup)
 		.replace(/([a-z])([A-Z])/g, '$1-$2')
 		// Convert to lowercase

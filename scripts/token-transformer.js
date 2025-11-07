@@ -218,6 +218,7 @@ class TokenTransformer {
 
 		const isColorSemantic = /color-semantic/.test(filePath);
 		const isRadiusSemantic = /radius-semantic/.test(filePath);
+		const isTypographySemantic = /typography-semantic/.test(filePath);
 
 		if (isColorSemantic) {
 			// Build primitive color lookup
@@ -321,6 +322,51 @@ class TokenTransformer {
 			return;
 		}
 
+		if (isTypographySemantic) {
+			// Build primitive typography lookup  
+			let primitiveTypography = {};
+			try {
+				const primitivePath = path.resolve(__dirname, '../packages/core-tokens/json/typography-primitive.json');
+				const typographyJson = fs.readJsonSync(primitivePath);
+				if (typographyJson && typographyJson.primitive) {
+					primitiveTypography = typographyJson.primitive;
+				}
+			} catch (e) {
+				console.warn('Failed to load primitive typography:', e.message);
+			}
+			const primitiveTypographyLookup = this.buildPrimitiveTypographyLookup(primitiveTypography);
+
+			// Initialize fresh semantic structure - directly under semantic, not under typography
+			if (!existingTokens.semantic) existingTokens.semantic = {};
+
+			for (const { changeData } of tokens) {
+				const { path: tokenPathArray, value } = changeData;
+				// Convert fontweight to font-weight and put directly under semantic
+				let target = existingTokens.semantic;
+				
+				for (let i = 0; i < tokenPathArray.length - 1; i++) {
+					let key = tokenPathArray[i];
+					// Convert fontweight to font-weight
+					if (key === 'fontweight') {
+						key = 'font-weight';
+					}
+					const normalizedKey = this.normalizeTokenName(key);
+					if (!target[normalizedKey]) target[normalizedKey] = {};
+					target = target[normalizedKey];
+				}
+				
+				// Set the final value
+				const finalKey = this.normalizeTokenName(tokenPathArray[tokenPathArray.length - 1]);
+				target[finalKey] = value;
+			}
+			
+			// Apply reference conversion to entire object at once
+			existingTokens = this.refSemanticTypographyWithPrimitives(existingTokens, primitiveTypographyLookup);
+			const sortedTokens = this.sortTokens(existingTokens);
+			await this.saveTokensToFile(filePath, sortedTokens);
+			return;
+		}
+
 		if (!existingTokens.primitive) existingTokens.primitive = {};
 		for (const { changeData } of tokens) {
 			const { path: tokenPathArray, value } = changeData;
@@ -389,6 +435,8 @@ class TokenTransformer {
 			} else {
 				fileName = 'color-semantic';
 			}
+		} else if (collection && /typography[.-]semantic/i.test(collection)) {
+			fileName = 'typography-semantic';
 		} else if (collection && collection.includes('color')) {
 			fileName = 'color-primitive';
 		} else if (collection && collection.includes('spacing')) {
@@ -471,6 +519,24 @@ class TokenTransformer {
 			}
 			const primitiveRadiusLookup = this.buildPrimitiveRadiusLookup(primitiveRadius);
 			out = this.refSemanticRadiusWithPrimitives(out, primitiveRadiusLookup);
+		}
+		
+		// typography-semantic: number → $ref
+		if (filePath.includes('typography-semantic')) {
+			let primitiveTypography = {};
+			try {
+				const primitivePath = path.resolve(__dirname, '../packages/core-tokens/json/typography-primitive.json');
+				const typographyJson = fs.readJsonSync(primitivePath);
+				if (typographyJson && typographyJson.primitive) {
+					primitiveTypography = typographyJson.primitive;
+				} else {
+					primitiveTypography = {};
+				}
+			} catch (e) {
+				primitiveTypography = {};
+			}
+			const primitiveTypographyLookup = this.buildPrimitiveTypographyLookup(primitiveTypography);
+			out = this.refSemanticTypographyWithPrimitives(out, primitiveTypographyLookup);
 		}
 		const sortedTokens = this.sortTokens(out);
 		await this.saveTokensToFile(filePath, sortedTokens);
@@ -556,6 +622,27 @@ class TokenTransformer {
 		return lookup;
 	}
 
+	// Build a lookup of primitive typography values to their token paths
+	buildPrimitiveTypographyLookup(primitiveTypography) {
+		const lookup = {};
+		if (!primitiveTypography || typeof primitiveTypography !== 'object') return lookup;
+
+		function walk(obj, path) {
+			if (!obj || typeof obj !== 'object') return;
+			Object.entries(obj).forEach(([key, value]) => {
+				if (typeof value === 'object' && value !== null) {
+					walk(value, path.concat(key));
+				} else if (typeof value === 'number' || typeof value === 'string') {
+					// For font-weight values like 100, 200, 300, etc.
+					lookup[value] = path.concat(key);
+				}
+			});
+		}
+
+		walk(primitiveTypography, ['primitive']);
+		return lookup;
+	}
+
 	// Recursively replace px string values in semantic radius tokens with $ref to primitives
 	refSemanticRadiusWithPrimitives(tokens, primitiveRadiusLookup) {
 		if (Array.isArray(tokens)) {
@@ -578,6 +665,29 @@ class TokenTransformer {
 		const out = Array.isArray(tokens) ? [] : {};
 		for (const [k, v] of Object.entries(tokens)) {
 			out[k] = this.refSemanticRadiusWithPrimitives(v, primitiveRadiusLookup);
+		}
+		return out;
+	}
+
+	// Recursively replace typography values in semantic typography tokens with $ref to primitives
+	refSemanticTypographyWithPrimitives(tokens, primitiveTypographyLookup) {
+		if (Array.isArray(tokens)) {
+			return tokens.map(t => this.refSemanticTypographyWithPrimitives(t, primitiveTypographyLookup));
+		}
+		if (tokens === null || tokens === undefined) return tokens;
+		
+		// Check if this is a font-weight value that should be converted to a reference
+		if (typeof tokens === 'number' && primitiveTypographyLookup[tokens]) {
+			const refPath = primitiveTypographyLookup[tokens].join('/');
+			return { $ref: `core-tokens/json/typography-primitive.json#/${refPath}` };
+		}
+		
+		if (typeof tokens !== 'object') return tokens;
+		if (tokens.$ref) return tokens;
+		
+		const out = Array.isArray(tokens) ? [] : {};
+		for (const [k, v] of Object.entries(tokens)) {
+			out[k] = this.refSemanticTypographyWithPrimitives(v, primitiveTypographyLookup);
 		}
 		return out;
 	}

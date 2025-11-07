@@ -635,16 +635,91 @@ Primitive ${tokenType.charAt(0).toUpperCase() + tokenType.slice(1)} Tokens
     }
 
     /**
-     * Generate semantic CSS for non-color tokens (radius, spacing, etc.)
+     * Generate semantic CSS for non-color tokens (radius, spacing, typography, etc.)
      */
     async generateSemanticGenericCSS(jsonTokens, tokenType, options = {}) {
         // Load all tokens for reference resolution
         const allTokens = await this.loadAllTokens();
 
-        // Resolve all $ref references
-        const resolvedTokens = await this.resolveAllReferences(jsonTokens, allTokens);
+        const semanticTokensRaw = jsonTokens.semantic || {};
 
-        const semanticTokens = resolvedTokens.semantic || {};
+        // Helper to extract primitive variable name from $ref
+        function getPrimitiveVarFromRef(ref, tokenType) {
+            // Example refs: 
+            // core-tokens/json/typography-primitive.json#/primitive/font-weight/thin
+            // core-tokens/json/radius-primitive.json#/primitive/radius-28
+            let pattern;
+            if (tokenType === 'typography') {
+                pattern = /typography-primitive\.json#\/primitive\/([\w-]+)\/([\w-]+)/;
+            } else if (tokenType === 'radius') {
+                pattern = /radius-primitive\.json#\/primitive\/([\w-]+)/;
+            } else {
+                pattern = new RegExp(`${tokenType}-primitive\\.json#\\/primitive\\/([\w-]+)`);
+            }
+            
+            const match = ref.match(pattern);
+            if (match) {
+                if (tokenType === 'typography') {
+                    return `var(--primitive-${match[1]}-${match[2]})`;
+                } else {
+                    return `var(--primitive-${match[1]})`;
+                }
+            }
+            return null;
+        }
+
+        // Flatten semantic tokens and generate CSS variables, preserving $ref as var() when possible
+        const flattenTokens = (objRaw, objResolved, prefix = 'semantic') => {
+            const flattened = [];
+            
+            const flatten = (currentRaw, currentResolved, currentPrefix) => {
+                for (const key of Object.keys(currentResolved)) {
+                    const valueResolved = currentResolved[key];
+                    const valueRaw = currentRaw ? currentRaw[key] : undefined;
+                    
+                    // Handle different token type structures
+                    let newPrefix;
+                    if (tokenType === 'typography' && key === 'typography' && currentPrefix === 'semantic') {
+                        // Skip 'typography' in the variable name to get semantic-font-weight instead of semantic-typography-font-weight
+                        newPrefix = currentPrefix;
+                    } else {
+                        // Normalize fontweight to font-weight
+                        const normalizedKey = key === 'fontweight' ? 'font-weight' : key;
+                        newPrefix = `${currentPrefix}-${normalizedKey}`;
+                    }
+
+                    if (
+                        typeof valueResolved === 'string' ||
+                        typeof valueResolved === 'number' ||
+                        (typeof valueResolved === 'object' && valueResolved !== null && valueResolved.value)
+                    ) {
+                        // If original was a $ref, output var(--primitive-xxx-xxx)
+                        let cssValue;
+                        if (valueRaw && valueRaw.$ref) {
+                            const varRef = getPrimitiveVarFromRef(valueRaw.$ref, tokenType);
+                            cssValue = varRef || valueResolved;
+                        } else if (typeof valueResolved === 'string' && String(valueResolved).includes(`primitive-${tokenType}`)) {
+                            // Already a CSS variable
+                            cssValue = `var(--${valueResolved})`;
+                        } else {
+                            // Direct value or fallback
+                            cssValue = valueResolved;
+                        }
+                        flattened.push([newPrefix, cssValue]);
+                    } else if (typeof valueResolved === 'object' && valueResolved !== null) {
+                        flatten(valueRaw, valueResolved, newPrefix);
+                    }
+                }
+            };
+
+            flatten(objRaw, objResolved, prefix);
+            return flattened;
+        };
+
+        // Resolve all $ref references (for fallback/other cases)
+        const resolvedTokens = await this.resolveAllReferences(jsonTokens, allTokens);
+        const semanticTokensResolved = resolvedTokens.semantic || {};
+        const flatTokens = flattenTokens(semanticTokensRaw, semanticTokensResolved);
 
         // Generate CSS header
         const headerType = tokenType.charAt(0).toUpperCase() + tokenType.slice(1);
@@ -662,53 +737,47 @@ Semantic ${headerType} Tokens
 :root {
 `;
 
-        // Flatten semantic tokens and generate CSS variables
-        const flattenTokens = (obj, prefix = `semantic-${tokenType}`) => {
-            const flattened = [];
+        // Group tokens by category for better organization (especially for typography)
+        const categories = {};
+        if (tokenType === 'typography') {
+            categories['font-weight'] = [];
+            categories['font-size'] = [];
+            categories['other'] = [];
+        } else {
+            categories[tokenType] = [];
+            categories['other'] = [];
+        }
 
-            const flatten = (current, currentPrefix) => {
-                for (const [key, value] of Object.entries(current)) {
-                    // Special handling for radius semantic tokens to avoid duplicate "radius" in variable names
-                    let newPrefix;
-                    if (tokenType === 'radius' && key === 'radius' && currentPrefix === `semantic-${tokenType}`) {
-                        // Skip the "radius" key for radius semantic tokens to avoid semantic-radius-radius-*
-                        newPrefix = currentPrefix;
-                    } else {
-                        // Token names are already normalized by Token Transformer
-                        newPrefix = `${currentPrefix}-${key}`;
-                    }
-
-                    if (typeof value === 'string' || typeof value === 'number') {
-                        // Direct value - convert to CSS variable reference if it looks like a primitive reference
-                        let cssValue = value;
-                        if (String(value).includes(`primitive-${tokenType}`)) {
-                            // Already a CSS variable
-                            cssValue = `var(--${value})`;
-                        } else {
-                            // Convert primitive reference to CSS variable, remove px suffix for radius
-                            let cleanValue = value;
-                            if (tokenType === 'radius' && String(value).endsWith('px')) {
-                                cleanValue = String(value).replace(/px$/, '');
-                            }
-                            cssValue = `var(--primitive-${tokenType}-${cleanValue})`;
-                        }
-                        flattened.push([newPrefix, cssValue]);
-                    } else if (typeof value === 'object' && value !== null) {
-                        flatten(value, newPrefix);
-                    }
-                }
-            };
-
-            flatten(obj, prefix);
-            return flattened;
-        };
-
-        const flatTokens = flattenTokens(semanticTokens);
-
-        // Output CSS variables
         for (const [varName, value] of flatTokens) {
-            // Token names are already normalized by Token Transformer
-            cssContent += `\t--${varName}: ${value};\n`;
+            let category = 'other';
+            
+            if (tokenType === 'typography') {
+                if (varName.includes('-font-weight-')) {
+                    category = 'font-weight';
+                } else if (varName.includes('-font-size-')) {
+                    category = 'font-size';
+                }
+            } else if (tokenType === 'radius' && varName.startsWith('semantic-radius-')) {
+                category = tokenType;
+            } else if (varName.includes(`-${tokenType}-`)) {
+                category = tokenType;
+            }
+            
+            categories[category].push([varName, value]);
+        }
+
+        // Output CSS variables by category
+        for (const [categoryName, tokens] of Object.entries(categories)) {
+            if (tokens.length === 0) continue;
+            
+            const categoryComment = categoryName.split('-')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+            cssContent += `\n\t/* ${categoryComment} */\n`;
+            
+            for (const [varName, value] of tokens) {
+                cssContent += `\t--${varName}: ${value};\n`;
+            }
         }
 
         cssContent += '}\n';
