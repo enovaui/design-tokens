@@ -76,7 +76,7 @@
                 "button-tertiary-pressed": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-30"},
                 "button-icon": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-40"},
                 "button-icon-pressed": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-50"},
-                "chip": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-40"},
+                "chip": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-25"},
                 "chip-selected": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-90"},
                 "notification-card": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-30"},
                 "selection-active": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/green-60"},

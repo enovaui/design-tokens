@@ -43,7 +43,7 @@ Semantic Color Tokens
 	--semantic-color-surface-button-tertiary-pressed: var(--primitive-color-mist-gray-30);
 	--semantic-color-surface-button-icon: var(--primitive-color-mist-gray-40);
 	--semantic-color-surface-button-icon-pressed: var(--primitive-color-mist-gray-50);
-	--semantic-color-surface-chip: var(--primitive-color-mist-gray-40);
+	--semantic-color-surface-chip: var(--primitive-color-warm-gray-25);
 	--semantic-color-surface-chip-selected: var(--primitive-color-mist-gray-90);
 	--semantic-color-surface-notification-card: var(--primitive-color-mist-gray-30);
 	--semantic-color-surface-selection-active: var(--primitive-color-green-60);
