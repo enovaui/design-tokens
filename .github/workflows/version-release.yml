@@ -6,6 +6,8 @@ on:
 jobs:
   version:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -53,16 +55,12 @@ jobs:
           VERSION=$(node -p "require('./package.json').version")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Publish packages
-        run: npx changeset publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - name: Commit and push changes
         run: |
           echo "Committing and pushing changes..."
           git config --global user.name 'enovaui-bot'
           git config --global user.email 'enovaui@lge.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/enovaui/design-tokens.git
           git add .
           git commit -m "Version value updating" || exit 0
           git push
@@ -92,3 +90,10 @@ jobs:
       - name: Delete release branch
         run: |
           git push origin --delete ${{ github.ref_name }}
+
+      - name: Publish NPM packages
+        run: |
+          git checkout master
+          npx changeset publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
