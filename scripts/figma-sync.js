@@ -28,6 +28,7 @@ function normalizeTokenName(tokenName) {
 		// Convert underscores to dashes
 		.replace(/_/g, '-')
 		// Handle special cases first (before camelCase conversion)
+		.replace(/darkgray/g, 'dark-gray')
 		.replace(/carouselindicator/g, 'carousel-indicator')
 		.replace(/dialogpopup/g, 'dialog-popup')
 		.replace(/notificationcard/g, 'notification-card')
