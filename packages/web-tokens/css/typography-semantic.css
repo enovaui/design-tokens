@@ -1,0 +1,24 @@
+/*
+ * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@import "@enovaui/core-tokens/css/typography-primitive.css";
+
+/* ----------------------------------------
+Semantic Typography Tokens
+------------------------------------------- */
+
+:root {
+
+	/* Font Weight */
+	--semantic-font-weight-100: var(--primitive-font-weight-thin);
+	--semantic-font-weight-200: var(--primitive-font-weight-extralight);
+	--semantic-font-weight-300: var(--primitive-font-weight-light);
+	--semantic-font-weight-400: var(--primitive-font-weight-regular);
+	--semantic-font-weight-500: var(--primitive-font-weight-medium);
+	--semantic-font-weight-600: var(--primitive-font-weight-semibold);
+	--semantic-font-weight-700: var(--primitive-font-weight-bold);
+	--semantic-font-weight-800: var(--primitive-font-weight-extrabold);
+	--semantic-font-weight-900: var(--primitive-font-weight-black);
+}
