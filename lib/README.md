@@ -65,7 +65,7 @@ dependencies:
   design_tokens:
     git:
       url: git@github.com:enovaui/design-tokens.git
-      ref: v0.8.2
+      ref: v0.9.0
 ```
 
 ### 2. Import library
