@@ -18,7 +18,9 @@ class PRGenerator {
 		const repoInfo = process.env.GITHUB_REPOSITORY ? process.env.GITHUB_REPOSITORY.split('/') : [];
 		this.owner = options.owner || repoInfo[0] || 'enovaui';
 		this.repo = options.repo || repoInfo[1] || 'design-tokens';
-		this.baseBranch = options.baseBranch || process.env.GITHUB_BASE_REF || 'develop';
+
+		// Use target branch from environment variable, otherwise default to develop
+		this.baseBranch = options.baseBranch || process.env.TARGET_BRANCH || 'develop';
 		this.token = process.env.GITHUB_TOKEN;
 
 		if (!this.token) {
@@ -65,6 +67,15 @@ class PRGenerator {
 	 * Analyze changes and generate branch name
 	 */
 	generateBranchName(changes) {
+		// Check if custom branch name is provided via environment variable
+		const customBranchName = process.env.CUSTOM_BRANCH_NAME;
+		if (customBranchName && customBranchName.trim()) {
+			// Sanitize the branch name (remove special characters, spaces, etc.)
+			const sanitized = customBranchName.trim().replace(/[^a-zA-Z0-9-_/]/g, '-').replace(/--+/g, '-');
+			return sanitized.startsWith('figma-sync/') ? sanitized : `figma-sync/${sanitized}`;
+		}
+
+		// Default auto-generated branch name
 		const timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, '');
 		const changeTypes = [];
 
@@ -89,7 +100,7 @@ class PRGenerator {
 		if (modified > 0) parts.push(`🔄 ${modified} tokens modified`);
 		if (removed > 0) parts.push(`🗑️ ${removed} tokens removed`);
 
-		return `[Desgin Token Sync] ${parts.join(', ')}`;
+		return `[Design Token Sync] ${parts.join(', ')}`;
 	}
 
 	/**
@@ -100,6 +111,46 @@ class PRGenerator {
 		const modified = Object.keys(changes.modified).length;
 		const removed = Object.keys(changes.removed).length;
 
+		// Helper function to extract mode from collection name
+		const extractMode = (collection) => {
+			if (!collection) return '';
+			const modeMatch = collection.match(/\.semantic\.(.+)$/);
+			return modeMatch ? modeMatch[1] : '';
+		};
+
+		// Helper function to convert hex values to primitive token names for display
+		const convertHexToPrimitiveName = (hexValue) => {
+			if (!hexValue || typeof hexValue !== 'string' || !hexValue.startsWith('#')) {
+				return hexValue;
+			}
+			try {
+				const fs = require('fs');
+				const path = require('path');
+				const primitivePath = path.resolve(__dirname, '../packages/core-tokens/json/color-primitive.json');
+				if (fs.existsSync(primitivePath)) {
+					const primitiveData = JSON.parse(fs.readFileSync(primitivePath, 'utf8'));
+					if (primitiveData && primitiveData.primitive && primitiveData.primitive.color) {
+						const findHexInObject = (obj, currentPath = []) => {
+							for (const [key, value] of Object.entries(obj)) {
+								if (typeof value === 'string' && value.toLowerCase() === hexValue.toLowerCase()) {
+									return currentPath.concat(key).join('-');
+								} else if (typeof value === 'object' && value !== null) {
+									const result = findHexInObject(value, currentPath.concat(key));
+									if (result) return result;
+								}
+							}
+							return null;
+						};
+						const tokenName = findHexInObject(primitiveData.primitive.color);
+						return tokenName ? `primitive.color.${tokenName}` : hexValue;
+					}
+				}
+			} catch (e) {
+				// If error, return original hex value
+			}
+			return hexValue;
+		};
+
 		const summarize = (obj, type) => {
 			const keys = Object.keys(obj);
 			if (keys.length === 0) return '-';
@@ -109,7 +160,7 @@ class PRGenerator {
 				let dotKey = '';
 				if (v && v.package && v.path) {
 					const pathArr = Array.isArray(v.path) ? v.path : String(v.path).split(/[,/]/).map(s => s.trim());
-					// Handle primitive tokens
+					// Handle primitive tokens (no mode info for core-tokens)
 					if (v.collection && v.collection.includes('spacing')) {
 						dotKey = `${v.package}/spacing-primitive/spacing-${pathArr[pathArr.length-1]}`;
 					} else if (v.collection && v.collection.includes('typography')) {
@@ -119,23 +170,35 @@ class PRGenerator {
 					} else if (v.collection && v.collection.includes('radius') && v.package.includes('core-tokens')) {
 						dotKey = `${v.package}/radius-primitive/${pathArr[pathArr.length-1]}`;
 					}
-					// Handle semantic tokens for all platforms
+					// Handle semantic tokens for all platforms (mode in path)
 					else if (v.collection && v.collection.includes('color') && v.package.match(/(web|webos|mobile)-tokens/)) {
-						dotKey = `${v.package}/color-semantic-${v.brand ? v.brand + '-' : ''}${pathArr.join('-')}`;
+						const mode = extractMode(v.collection);
+						const modePrefix = mode ? `${mode}/` : '';
+						dotKey = `${v.package}/${modePrefix}color-semantic-${pathArr.join('-')}`;
 					} else if (v.collection && v.collection.includes('radius') && v.package.match(/(web|webos|mobile)-tokens/)) {
-						dotKey = `${v.package}/radius-semantic-${pathArr.join('-')}`;
+						const mode = extractMode(v.collection);
+						const modePrefix = mode ? `${mode}/` : '';
+						dotKey = `${v.package}/${modePrefix}radius-semantic-${pathArr.join('-')}`;
 					} else {
-						dotKey = `${v.package}.${pathArr.join('.')}`;
+						// Extract mode from collection name for any other semantic tokens
+						const mode = extractMode(v.collection);
+						const modeInfo = mode ? `[${mode}]` : '';
+						dotKey = `${v.package}.${pathArr.join('.')}${modeInfo}`;
 					}
 				} else if (v && v.file) {
-					dotKey = v.file;
+					// Extract mode from collection name if available
+					const mode = extractMode(v.collection);
+					const modeInfo = mode ? `[${mode}]` : '';
+					dotKey = `${v.file}${modeInfo}`;
 				} else {
 					dotKey = k;
 				}
 
 				if (type === 'added') {
 					if (v && v.value !== undefined) {
-						return `${dotKey}: ${v.value}`;
+						// Convert hex values to primitive token names for better readability
+						const displayValue = convertHexToPrimitiveName(v.value);
+						return `${dotKey}: ${displayValue}`;
 					}
 					if (v && v.$ref) {
 						return `${dotKey}: ${stringifySimple(v)}`;
@@ -154,7 +217,10 @@ class PRGenerator {
 							))
 						)
 					) {
-						return `${dotKey}: ${v.before} → ${v.after}`;
+						// Convert hex values to primitive token names for better readability
+						const displayBefore = convertHexToPrimitiveName(v.before);
+						const displayAfter = convertHexToPrimitiveName(v.after);
+						return `${dotKey}: ${displayBefore} → ${displayAfter}`;
 					}
 					// For semantic tokens, skip if resolved value is unchanged
 					if (
@@ -171,7 +237,12 @@ class PRGenerator {
 					// Use stringifySimple for before/after if they are objects (not string/number)
 					const beforeStr = (typeof v.before === 'object' && v.before !== null) ? stringifySimple(v.before) : v.before;
 					const afterStr = (typeof v.after === 'object' && v.after !== null) ? stringifySimple(v.after) : v.after;
-					return `${dotKey}: ${beforeStr} → ${afterStr}`;
+					
+					// Convert hex values to primitive token names for better readability
+					const displayBeforeStr = convertHexToPrimitiveName(beforeStr);
+					const displayAfterStr = convertHexToPrimitiveName(afterStr);
+					
+					return `${dotKey}: ${displayBeforeStr} → ${displayAfterStr}`;
 				} else if (type === 'removed') {
 					return `${dotKey}`;
 				} else {

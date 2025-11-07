@@ -16,6 +16,41 @@ const fs = require('fs-extra');
 const path = require('path');
 
 /**
+ * Normalize token names for consistent comparison
+ * - Convert underscores to dashes
+ * - Convert camelCase to dash-separated lowercase
+ * - Handle special cases like 'notificationcard' -> 'notification-card'
+ * @param {string} tokenName - The token name to normalize
+ * @returns {string} - The normalized token name
+ */
+function normalizeTokenName(tokenName) {
+	return tokenName
+		// Convert underscores to dashes
+		.replace(/_/g, '-')
+		// Handle special cases first (before camelCase conversion)
+		.replace(/darkgray/g, 'dark-gray')
+		.replace(/carouselindicator/g, 'carousel-indicator')
+		.replace(/dialogpopup/g, 'dialog-popup')
+		.replace(/notificationcard/g, 'notification-card')
+		.replace(/pageindicator/g, 'page-indicator')
+		.replace(/selectioncontrol/g, 'selection-control')
+		.replace(/stepindicator/g, 'step-indicator')
+		.replace(/textfield/g, 'text-field')
+		.replace(/inputfield/g, 'input-field')
+		// Badge compound words
+		.replace(/badge-lightred/g, 'badge-light-red')
+		.replace(/badge-lightorange/g, 'badge-light-orange')
+		.replace(/badge-lightgreen/g, 'badge-light-green')
+		.replace(/badge-lightmagenta/g, 'badge-light-magenta')
+		.replace(/badge-lightgray/g, 'badge-light-gray')
+		.replace(/badge-darkgray/g, 'badge-dark-gray')
+		// Convert camelCase to dash-separated (e.g., dialogPopup -> dialog-popup)
+		.replace(/([a-z])([A-Z])/g, '$1-$2')
+		// Convert to lowercase
+		.toLowerCase();
+}
+
+/**
  * Resolve a $ref to its actual value from the token structure
  * @param {string} ref - The $ref string (e.g., "core-tokens/json/color-primitive.json#/primitive/color/white")
  * @param {object} localTokens - The loaded local token structure
@@ -141,6 +176,12 @@ class FigmaAPIClient {
 				return;
 			}
 
+			// Skip invalid tokens with "--" names (Figma data artifacts)
+			if (variable.name === '--' || variable.name.includes('/--')) {
+				console.log(`⏭️ Skipping invalid token name: ${variable.name} in ${collectionName}`);
+				return;
+			}
+
 			// Skip specific tokens to ignore
 			if (variable.name === 'mist-gray/100') {
 				console.log(`⏭️ Skipping ignored token: ${variable.name} in ${collectionName}`);
@@ -152,8 +193,8 @@ class FigmaAPIClient {
 				formattedTokens[collectionName] = {};
 			}
 
-			// Create token path from Variable name
-			const tokenPath = variable.name.toLowerCase().replace(/\s+/g, '-').split('/');
+			// Create token path from Variable name with normalized names
+			const tokenPath = variable.name.toLowerCase().replace(/\s+/g, '-').split('/').map(segment => normalizeTokenName(segment));
 			let current = formattedTokens[collectionName];
 
 			// Create nested object structure
@@ -271,20 +312,125 @@ async function loadLocalTokens() {
 }
 
 /**
+ * Add new collection to changes (when local file doesn't exist)
+ */
+function addNewCollection(figmaCollection, collectionName, packageName, fileName, changes) {
+	// Recursively add all tokens from the new collection as "added"
+	function addTokensRecursively(obj, currentPath = []) {
+		Object.entries(obj).forEach(([key, value]) => {
+			const fullPath = [...currentPath, key];
+			const pathString = `${collectionName}/${fullPath.join('/')}`;
+
+			if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+				// Recursive case: nested object
+				addTokensRecursively(value, fullPath);
+			} else {
+				// Leaf value - add as new token
+				changes.added[pathString] = {
+					collection: collectionName,
+					package: packageName,
+					path: fullPath,
+					value: value,
+					fileName: fileName,
+					isNewCollection: true
+				};
+				console.log(`Added new token from new collection: ${pathString} = ${value}`);
+			}
+		});
+	}
+
+	addTokensRecursively(figmaCollection);
+}
+
+/**
  * Get semantic color file name based on mode
  */
 function getSemanticColorFileName(mode) {
-	const modeFileMapping = {
+	// Use pattern-based approach with fallback to explicit mapping for edge cases
+	const explicitMapping = {
 		'mono-white': 'color-semantic-mono-white',
 		'mono-black': 'color-semantic-mono-black',
 		'lg-brand': 'color-semantic-lg-brand',
-		'mobile': 'color-semantic-mobile',
-		'web': 'color-semantic-web',
-		'dark': 'color-semantic-dark',
-		'light': 'color-semantic-light',
-		'high-contrast': 'color-semantic-high-contrast'
+		'lg-brand-(삭제예정)': null, // Skip this collection
 	};
-	return modeFileMapping[mode] || `color-semantic-${mode}`;
+	
+	// Check explicit mapping first
+	if (explicitMapping.hasOwnProperty(mode)) {
+		return explicitMapping[mode];
+	}
+	
+	// Use pattern-based approach for new modes
+	return `color-semantic-${mode}`;
+}
+
+/**
+ * Automatically determine package name from collection name
+ */
+function getPackageFromCollection(collectionName) {
+	// Pattern: lg.{platform}.{type}.{category}[.{mode}]
+	const parts = collectionName.split('.');
+	
+	if (parts.length < 3) {
+		console.warn(`⚠️ Unexpected collection name format: ${collectionName}`);
+		return null;
+	}
+	
+	const platform = parts[1]; // web, mobile, webOS, color, spacing, radius, typography
+	
+	// Map platform to package
+	const platformToPackage = {
+		'web': 'web-tokens',
+		'mobile': 'mobile-tokens',
+		'webOS': 'webos-tokens',
+		// Primitive collections use the type as platform indicator
+		'color': 'core-tokens',
+		'spacing': 'core-tokens',
+		'radius': 'core-tokens',
+		'typography': 'core-tokens'
+	};
+	
+	return platformToPackage[platform] || null;
+}
+
+/**
+ * Automatically determine file name from collection name
+ */
+function getFileNameFromCollection(collectionName) {
+	// Pattern: lg.{platform}.{type}.{category}[.{mode}]
+	const parts = collectionName.split('.');
+	
+	if (parts.length < 3) {
+		console.warn(`⚠️ Unexpected collection name format: ${collectionName}`);
+		return null;
+	}
+	
+	const platform = parts[1];
+	const type = parts[2];
+	const category = parts[3];
+	const mode = parts[4];
+	
+	// Handle primitive collections
+	if (['color', 'spacing', 'radius', 'typography'].includes(platform)) {
+		return `${platform}-${type}`; // e.g., "color-primitive"
+	}
+	
+	// Handle semantic collections with modes
+	if (type === 'color' && category === 'semantic' && mode) {
+		return getSemanticColorFileName(mode);
+	}
+	
+	// Handle other semantic collections
+	if (category === 'semantic') {
+		return `${type}-${category}`; // e.g., "radius-semantic"
+	}
+	
+	// Handle component collections
+	if (category === 'component') {
+		return `${type}-${category}`; // e.g., "color-component"
+	}
+	
+	// Fallback: use the last parts of the collection name
+	return `${type}-${category}${mode ? '-' + mode : ''}`;
 }
 
 /**
@@ -301,43 +447,6 @@ function analyzeChanges(figmaTokens, localTokens) {
 	console.log('Analyzing changes...');
 	console.log('Number of Figma token collections:', Object.keys(figmaTokens).length);
 	console.log('Number of local packages:', Object.keys(localTokens).length);
-
-	// Collection to Package mapping (based on actual Figma collection names)
-	const collectionMapping = {
-		// Primitive collections
-		'lg.color.primitive': 'core-tokens',
-		'lg.spacing.primitive': 'core-tokens',
-		'lg.radius.primitive': 'core-tokens',
-		'lg.typography.primitive': 'core-tokens',
-
-		// Web semantic collections (only hyphenated versions exist in Figma)
-		'lg.web.color.semantic': 'web-tokens',
-		'lg.web.color.semantic.mono-white': 'web-tokens',
-		'lg.web.color.semantic.mono-black': 'web-tokens',
-		'lg.web.color.semantic.lg-brand': 'web-tokens',
-		'lg.web.color.semantic.mobile': 'web-tokens',
-		'lg.web.color.semantic.web': 'web-tokens',
-
-		// WebOS semantic collections
-		'lg.webOS.color.semantic': 'webos-tokens',
-		'lg.webOS.color.semantic.dark': 'webos-tokens',
-		'lg.webOS.color.semantic.light': 'webos-tokens',
-		'lg.webOS.color.semantic.high-contrast': 'webos-tokens',
-		'lg.webOS.radius.semantic': 'webos-tokens',
-
-		// Mobile semantic collections (only hyphenated versions exist in Figma)
-		'lg.mobile.color.semantic': 'mobile-tokens',
-		'lg.mobile.color.semantic.mono-white': 'mobile-tokens',
-		'lg.mobile.color.semantic.mono-black': 'mobile-tokens',
-		'lg.mobile.color.semantic.lg-brand': 'mobile-tokens',
-		'lg.mobile.color.semantic.mobile': 'mobile-tokens',
-		'lg.mobile.color.semantic.web': 'mobile-tokens',
-
-		// Component collections (for reference)
-		'lg.web.color.component': 'web-tokens',
-		'lg.webOS.color.component': 'webos-tokens',
-		'lg.mobile.color.component': 'mobile-tokens'
-	};
 
 	console.log('🔍 Figma collections found:', Object.keys(figmaTokens));
 
@@ -363,106 +472,104 @@ function analyzeChanges(figmaTokens, localTokens) {
 			return;
 		}
 
-		const packageName = collectionMapping[collectionName];
+		// Skip collections with deletion markers
+		if (collectionName.includes('(삭제예정)') || collectionName.includes('삭제예정')) {
+			console.log(`⏭️ Skipping collection marked for deletion: ${collectionName}`);
+			return;
+		}
+
+		// Automatically determine package and file name
+		const packageName = getPackageFromCollection(collectionName);
+		const fileName = getFileNameFromCollection(collectionName);
 
 		if (!packageName) {
-			console.log(`⚠️ No mapping found for collection: ${collectionName}`);
+			console.log(`⚠️ Could not determine package for collection: ${collectionName}`);
+			return;
+		}
+
+		if (!fileName) {
+			console.log(`⚠️ Could not determine file name for collection: ${collectionName}`);
 			return;
 		}
 
 		const localPackage = localTokens[packageName];
 		if (!localPackage) {
-			console.log(`⚠️ Local package not found: ${packageName}`);
+			console.log(`⚠️ Local package not found: ${packageName} for collection: ${collectionName}`);
 			return;
 		}
 
-		// For lg.color.primitive, compare with color-primitive.json
+		console.log(`🔄 Processing collection: ${collectionName} -> ${packageName}/${fileName}`);
+
+		// Handle different collection types with unified approach
 		if (collectionName === 'lg.color.primitive') {
 			const localColorTokens = localPackage['color-primitive'];
 			if (localColorTokens && localColorTokens.primitive && localColorTokens.primitive.color) {
 				compareFigmaWithLocal(figmaCollection, localColorTokens.primitive.color, collectionName, packageName, changes);
 			}
 		} else if (collectionName === 'lg.typography.primitive') {
-			// For lg.typography.primitive, compare with typography-primitive.json
 			const localTypographyTokens = localPackage['typography-primitive'];
 			if (localTypographyTokens && localTypographyTokens.primitive) {
 				compareTypographyTokens(figmaCollection, localTypographyTokens.primitive, collectionName, packageName, changes);
 			}
 		} else if (collectionName === 'lg.radius.primitive') {
-			// For lg.radius.primitive, compare with radius-primitive.json
 			const localRadiusTokens = localPackage['radius-primitive'];
 			if (localRadiusTokens && localRadiusTokens.primitive) {
 				comparePrimitiveTokens(figmaCollection, localRadiusTokens.primitive, collectionName, packageName, changes, 'radius');
 			}
 		} else if (collectionName === 'lg.spacing.primitive') {
-			// For lg.spacing.primitive, compare with spacing-primitive.json
 			const localSpacingTokens = localPackage['spacing-primitive'];
 			if (localSpacingTokens && localSpacingTokens.primitive) {
 				comparePrimitiveTokens(figmaCollection, localSpacingTokens.primitive, collectionName, packageName, changes, 'spacing');
 			}
-		} else if (collectionName === 'lg.webOS.color.semantic.dark') {
-			// For lg.webOS.color.semantic.dark, compare with color-semantic-dark.json
-			const localSemanticTokens = localPackage['color-semantic-dark'];
-			if (localSemanticTokens && localSemanticTokens.semantic && localSemanticTokens.semantic.color) {
-				compareSemanticColorTokens(figmaCollection, localSemanticTokens.semantic.color, collectionName, packageName, changes, localTokens);
-			}
-		} else if (collectionName === 'lg.webOS.color.semantic.light') {
-			// For lg.webOS.color.semantic.light, compare with color-semantic-light.json
-			const localSemanticTokens = localPackage['color-semantic-light'];
-			if (localSemanticTokens && localSemanticTokens.semantic && localSemanticTokens.semantic.color) {
-				compareSemanticColorTokens(figmaCollection, localSemanticTokens.semantic.color, collectionName, packageName, changes, localTokens);
-			}
-		} else if (collectionName === 'lg.webOS.color.semantic.high-contrast') {
-			// For lg.webOS.color.semantic.high-contrast, compare with color-semantic-high-contrast.json
-			const localSemanticTokens = localPackage['color-semantic-high-contrast'];
-			if (localSemanticTokens && localSemanticTokens.semantic && localSemanticTokens.semantic.color) {
-				compareSemanticColorTokens(figmaCollection, localSemanticTokens.semantic.color, collectionName, packageName, changes, localTokens);
-			}
-		} else if (collectionName === 'lg.webOS.color.semantic') {
-			// Skip the base collection since we handle the mode-specific ones above
-			console.log(`⏭️ Skipping base semantic collection: ${collectionName} (handled via mode-specific collections)`);
-		} else if (collectionName === 'lg.web.color.semantic') {
-			// Skip the base collection since we handle the mode-specific ones above
-			console.log(`⏭️ Skipping base semantic collection: ${collectionName} (handled via mode-specific collections)`);
-		} else if (collectionName === 'lg.mobile.color.semantic') {
-			// Skip the base collection since we handle the mode-specific ones above
-			console.log(`⏭️ Skipping base semantic collection: ${collectionName} (handled via mode-specific collections)`);
-		} else if (collectionName.startsWith('lg.web.color.semantic.')) {
-			// Handle web semantic color modes
-			const mode = collectionName.split('.').pop(); // monowhite, monoblack, lgbrand, mobile, web
-			const fileName = getSemanticColorFileName(mode);
+		} else if (collectionName.includes('.semantic')) {
+			// Handle all semantic collections uniformly
 			const localSemanticTokens = localPackage[fileName];
-			if (localSemanticTokens && localSemanticTokens.semantic && localSemanticTokens.semantic.color) {
-				compareSemanticColorTokens(figmaCollection, localSemanticTokens.semantic.color, collectionName, packageName, changes, localTokens);
+			
+			if (localSemanticTokens && localSemanticTokens.semantic) {
+				// Determine the semantic type (color, radius, etc.)
+				const semanticType = collectionName.includes('radius') ? 'radius' : 'color';
+				const semanticData = localSemanticTokens.semantic[semanticType];
+				
+				if (semanticData) {
+					if (semanticType === 'radius') {
+						compareSemanticRadiusTokens(figmaCollection, semanticData, collectionName, packageName, changes, localTokens);
+					} else {
+						compareSemanticColorTokens(figmaCollection, semanticData, collectionName, packageName, changes, localTokens);
+					}
+				} else {
+					console.log(`⚠️ No ${semanticType} data found in ${fileName} for collection: ${collectionName}`);
+				}
+			} else {
+				// Local file doesn't exist - this is a new collection, add all tokens as new
+				console.log(`📝 New collection detected: ${collectionName} (file: ${fileName} doesn't exist)`);
+				addNewCollection(figmaCollection, collectionName, packageName, fileName, changes);
 			}
-		} else if (collectionName.startsWith('lg.mobile.color.semantic.')) {
-			// Handle mobile semantic color modes
-			const mode = collectionName.split('.').pop(); // monowhite, monoblack, lgbrand, mobile, web
-			const fileName = getSemanticColorFileName(mode);
-			const localSemanticTokens = localPackage[fileName];
-			if (localSemanticTokens && localSemanticTokens.semantic && localSemanticTokens.semantic.color) {
-				compareSemanticColorTokens(figmaCollection, localSemanticTokens.semantic.color, collectionName, packageName, changes, localTokens);
-			}
-		} else if (collectionName === 'lg.webOS.radius.semantic') {
-			// For lg.webOS.radius.semantic, compare with radius-semantic.json
-			const localRadiusSemanticTokens = localPackage['radius-semantic'];
-			if (localRadiusSemanticTokens && localRadiusSemanticTokens.semantic && localRadiusSemanticTokens.semantic.radius) {
-				compareSemanticRadiusTokens(figmaCollection, localRadiusSemanticTokens.semantic.radius, collectionName, packageName, changes, localTokens);
-			}
+		} else if (collectionName.includes('.color.semantic.')) {
+			// This is now handled by the .semantic case above, but kept for clarity
+			console.log(`⏭️ Color semantic collection handled by unified semantic processing: ${collectionName}`);
 		} else {
 			// For other collections, use general comparison
+			console.log(`⚠️ Unhandled collection type: ${collectionName}, using general comparison`);
 			compareTokensRecursively(figmaCollection, localPackage, collectionName, packageName, changes);
 		}
 	});
 
 	// Check for removed tokens (exist in local but not in Figma)
 	Object.entries(localTokens).forEach(([packageName, localPackage]) => {
-		const collectionName = Object.keys(collectionMapping).find(key =>
-			collectionMapping[key] === packageName
-		);
+		// Find corresponding Figma collections for this package
+		const correspondingCollections = Object.keys(figmaTokens).filter(collectionName => {
+			const figmaPackage = getPackageFromCollection(collectionName);
+			return figmaPackage === packageName;
+		});
+
+		// Skip if no corresponding collections found
+		if (correspondingCollections.length === 0) {
+			return;
+		}
 
 		// Skip component collections
-		if (collectionName && collectionName.includes('.component')) {
+		const hasComponentCollections = correspondingCollections.some(name => name.includes('.component'));
+		if (hasComponentCollections) {
 			return;
 		}
 
@@ -475,7 +582,8 @@ function analyzeChanges(figmaTokens, localTokens) {
 			'webOS.radius'
 		];
 
-		if (collectionName && excludedCollections.includes(collectionName)) {
+		const hasExcludedCollections = correspondingCollections.some(name => excludedCollections.includes(name));
+		if (hasExcludedCollections) {
 			return;
 		}
 
@@ -487,25 +595,38 @@ function analyzeChanges(figmaTokens, localTokens) {
 			'lg.spacing.primitive'
 		];
 
-		if (collectionName && primitiveCollections.includes(collectionName)) {
+		const hasPrimitiveCollections = correspondingCollections.some(name => primitiveCollections.includes(name));
+		if (hasPrimitiveCollections) {
 			return;
 		}
 
-		// Skip semantic collections (they are handled via mode-specific collections)
-		const semanticCollections = [
-			'lg.webOS.color.semantic',
-			'lg.web.color.semantic',
-			'lg.mobile.color.semantic',
-			'lg.webOS.radius.semantic'
-		];
-
-		if (collectionName && semanticCollections.includes(collectionName)) {
-			return;
-		}
-
-		if (collectionName && figmaTokens[collectionName]) {
-			checkRemovedTokens(localPackage, figmaTokens[collectionName], collectionName, packageName, changes);
-		}
+		// Check each corresponding collection for removed tokens
+		correspondingCollections.forEach(collectionName => {
+			if (figmaTokens[collectionName]) {
+				// Get the correct local file for this collection
+				const fileName = getFileNameFromCollection(collectionName);
+				if (fileName && localPackage[fileName]) {
+					let localTokens = localPackage[fileName];
+					let figmaTokensForCollection = figmaTokens[collectionName];
+					
+					// For semantic color collections, navigate to the actual token structure
+					if (collectionName.includes('color.semantic') && localTokens.semantic && localTokens.semantic.color) {
+						localTokens = localTokens.semantic.color;
+					}
+					
+					// For webOS radius semantic collection, navigate to the radius structure
+					if (collectionName === 'lg.webOS.radius.semantic' && localTokens.semantic && localTokens.semantic.radius) {
+						localTokens = localTokens.semantic.radius;
+						// Also navigate Figma tokens to radius structure
+						if (figmaTokensForCollection.radius) {
+							figmaTokensForCollection = figmaTokensForCollection.radius;
+						}
+					}
+					
+					checkRemovedTokens(localTokens, figmaTokensForCollection, collectionName, packageName, changes);
+				}
+			}
+		});
 	});
 
 	return changes;
@@ -732,29 +853,12 @@ function compareSemanticColorTokens(figmaCollection, localSemanticColorTokens, c
 		if (!figmaObj || !localObj) return;
 
 		Object.entries(figmaObj).forEach(([key, figmaValue]) => {
-			// Map Figma token names to local structure
-			let mappedKey = key;
+			// Normalize the Figma key for comparison
+			let mappedKey = normalizeTokenName(key);
 			let mappedPath = [...currentPath];
 
-			if (key === 'inputfield') {
-				mappedKey = 'input-field';
-				mappedPath = [...currentPath, mappedKey];
-			} else if (key === 'inputfield-success') {
-				mappedKey = 'input-field-success';
-				mappedPath = [...currentPath, mappedKey];
-			} else if (key === 'button_icon') {
-				mappedKey = 'button-icon';
-				mappedPath = [...currentPath, mappedKey];
-			} else if (key === 'button_icon-pressed') {
-				mappedKey = 'button-icon-pressed';
-				mappedPath = [...currentPath, mappedKey];
-			} else if (key === 'notificationcard') {
-				mappedKey = 'notification-card';
-				mappedPath = [...currentPath, mappedKey];
-			} else if (key === 'textfield-disabled') {
-				mappedKey = 'text-field-disabled';
-				mappedPath = [...currentPath, mappedKey];
-			} else if (key === 'onbackground') {
+			// Handle special structure mappings
+			if (key === 'onbackground') {
 				// onbackground → on.background
 				mappedPath = [...currentPath, 'on', 'background'];
 			} else if (key === 'onsurface') {
@@ -1310,19 +1414,26 @@ function checkRemovedTokens(localObj, figmaObj, collectionName, packageName, cha
 	if (!localObj || typeof localObj !== 'object') return;
 
 	Object.entries(localObj).forEach(([key, localValue]) => {
+		// Skip $ref keys as they don't have direct equivalents in Figma
+		if (key === '$ref') {
+			return;
+		}
+
 		// Handle special 'on' structure mapping
 		if (key === 'on' && typeof localValue === 'object') {
 			// Check 'on.background' and 'on.surface' structures
 			Object.entries(localValue).forEach(([onKey, onValue]) => {
 				const figmaKey = onKey === 'background' ? 'onbackground' : onKey === 'surface' ? 'onsurface' : onKey;
 				const fullPath = [...currentPath, key, onKey];
-				const pathString = `${collectionName}/${fullPath.join('/')}`;
 
 				if (typeof onValue === 'object' && onValue !== null && !Array.isArray(onValue)) {
-					// Recursive case for 'on' structure
+					// Check if the corresponding Figma structure exists
 					if (figmaObj && figmaObj[figmaKey]) {
+						// Recursively check the contents
 						checkRemovedTokens(onValue, figmaObj[figmaKey], collectionName, packageName, changes, fullPath);
 					} else {
+						// Mark entire structure as removed only if no corresponding structure exists
+						const pathString = `${collectionName}/${fullPath.join('/')}`;
 						changes.removed[pathString] = {
 							collection: collectionName,
 							package: packageName,
@@ -1331,49 +1442,49 @@ function checkRemovedTokens(localObj, figmaObj, collectionName, packageName, cha
 						};
 						console.log(`Found removed token structure: ${pathString}`);
 					}
-				} else {
-					// Leaf value in 'on' structure
-					if (!figmaObj || figmaObj[figmaKey] === undefined) {
-						changes.removed[pathString] = {
-							collection: collectionName,
-							package: packageName,
-							path: fullPath,
-							value: onValue
-						};
-						console.log(`Found removed token: ${pathString} = ${onValue}`);
-					}
 				}
 			});
 			return; // Skip normal processing for 'on' key
 		}
 
-		// Map local key to Figma key (reverse mapping for other keys)
-		let figmaKey = key;
-		if (key === 'input-field') {
-			figmaKey = 'inputfield';
-		} else if (key === 'input-field-success') {
-			figmaKey = 'inputfield-success';
-		}
+		// Map local key to Figma key with normalization
+		let figmaKey = normalizeTokenName(key);
 
 		const fullPath = [...currentPath, key];
 		const pathString = `${collectionName}/${fullPath.join('/')}`;
 
 		if (typeof localValue === 'object' && localValue !== null && !Array.isArray(localValue)) {
-			// Recursive case
-			if (figmaObj && figmaObj[figmaKey]) {
-				checkRemovedTokens(localValue, figmaObj[figmaKey], collectionName, packageName, changes, fullPath);
+			// For objects, check if they contain only $ref or have actual structure
+			const hasOnlyRef = Object.keys(localValue).length === 1 && Object.keys(localValue)[0] === '$ref';
+			
+			if (hasOnlyRef) {
+				// This is a token with only $ref, check if corresponding Figma token exists
+				if (!figmaObj || figmaObj[figmaKey] === undefined) {
+					changes.removed[pathString] = {
+						collection: collectionName,
+						package: packageName,
+						path: fullPath,
+						value: localValue
+					};
+					console.log(`Found removed token: ${pathString}`);
+				}
 			} else {
-				// Entire structure removed
-				changes.removed[pathString] = {
-					collection: collectionName,
-					package: packageName,
-					path: fullPath,
-					value: localValue
-				};
-				console.log(`Found removed token structure: ${pathString}`);
+				// Recursive case for actual nested structures
+				if (figmaObj && figmaObj[figmaKey]) {
+					checkRemovedTokens(localValue, figmaObj[figmaKey], collectionName, packageName, changes, fullPath);
+				} else {
+					// Entire structure removed
+					changes.removed[pathString] = {
+						collection: collectionName,
+						package: packageName,
+						path: fullPath,
+						value: localValue
+					};
+					console.log(`Found removed token structure: ${pathString}`);
+				}
 			}
 		} else {
-			// Leaf value
+			// Leaf value - check if it exists in Figma
 			if (!figmaObj || figmaObj[figmaKey] === undefined) {
 				changes.removed[pathString] = {
 					collection: collectionName,

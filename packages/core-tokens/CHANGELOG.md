@@ -2,6 +2,28 @@
 
 The following is a curated list of changes in the core tokens module, newest changes on the top.
 
+## [0.9.0] - 2025-11-07
+
+### Removed
+
+- `primitive-radius-0`
+
+### Changed
+
+- `primitive-color-neutral-gray-25` value to `#4a4946`
+- `primitive-color-warm-gray-35` value to `#646464`
+- `primitive-color-warm-gray-85` value to `#f0ece4`
+- `primitive-color-active-red-99` value to `#fef5f5`
+- `primitive-color-yellow-green-35` value to `#316d15`
+- `primitive-color-yellow-green-40` value to `#287d00`
+- `primtivie-color-heritage-red` values to match the latest guide
+
+### Added
+
+- `primitive-radius-28`
+- `spacing-primitive` values to match the latest guide
+- `typograph-primitive` values to match the latest guide
+
 ## [0.8.2] - 2025-09-09
 
 - No significant changes
