@@ -20,7 +20,7 @@ Primitive Color Tokens
 	--primitive-color-neutral-gray-10: #262626;
 	--primitive-color-neutral-gray-15: #303030;
 	--primitive-color-neutral-gray-20: #3b3b3b;
-	--primitive-color-neutral-gray-25: #454545;
+	--primitive-color-neutral-gray-25: #4a4946;
 	--primitive-color-neutral-gray-30: #4f4f4f;
 	--primitive-color-neutral-gray-35: #5c5c5c;
 	--primitive-color-neutral-gray-40: #696969;
@@ -110,7 +110,7 @@ Primitive Color Tokens
 	--primitive-color-warm-gray-20: #3d3d3d;
 	--primitive-color-warm-gray-25: #4a4a49;
 	--primitive-color-warm-gray-30: #5c5b5a;
-	--primitive-color-warm-gray-35: #6b6a68;
+	--primitive-color-warm-gray-35: #646464;
 	--primitive-color-warm-gray-40: #7e7c77;
 	--primitive-color-warm-gray-45: #878580;
 	--primitive-color-warm-gray-50: #94928d;
@@ -167,7 +167,7 @@ Primitive Color Tokens
 	--primitive-color-active-red-85: #ffcdbf;
 	--primitive-color-active-red-90: #ffdad6;
 	--primitive-color-active-red-95: #ffedea;
-	--primitive-color-active-red-99: #fffbfb;
+	--primitive-color-active-red-99: #fef5f5;
 
 	/* Red Orange Colors */
 	--primitive-color-red-orange-5: #200200;

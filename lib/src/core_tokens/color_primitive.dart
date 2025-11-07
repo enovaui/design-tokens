@@ -29,8 +29,8 @@ class ColorPrimitive {
   /// neutral-gray-20 - #3b3b3b
   late final Color neutralGray20 = const Color.fromRGBO(59, 59, 59, 1.0);
 
-  /// neutral-gray-25 - #454545
-  late final Color neutralGray25 = const Color.fromRGBO(69, 69, 69, 1.0);
+  /// neutral-gray-25 - #4a4946
+  late final Color neutralGray25 = const Color.fromRGBO(74, 73, 70, 1.0);
 
   /// neutral-gray-30 - #4f4f4f
   late final Color neutralGray30 = const Color.fromRGBO(79, 79, 79, 1.0);
@@ -275,8 +275,8 @@ class ColorPrimitive {
   /// warm-gray-30 - #5c5b5a
   late final Color warmGray30 = const Color.fromRGBO(92, 91, 90, 1.0);
 
-  /// warm-gray-35 - #6b6a68
-  late final Color warmGray35 = const Color.fromRGBO(107, 106, 104, 1.0);
+  /// warm-gray-35 - #646464
+  late final Color warmGray35 = const Color.fromRGBO(100, 100, 100, 1.0);
 
   /// warm-gray-40 - #7e7c77
   late final Color warmGray40 = const Color.fromRGBO(126, 124, 119, 1.0);
@@ -374,8 +374,8 @@ class ColorPrimitive {
   /// active-red-95 - #ffedea
   late final Color activeRed95 = const Color.fromRGBO(255, 237, 234, 1.0);
 
-  /// active-red-99 - #fffbfb
-  late final Color activeRed99 = const Color.fromRGBO(255, 251, 251, 1.0);
+  /// active-red-99 - #fef5f5
+  late final Color activeRed99 = const Color.fromRGBO(254, 245, 245, 1.0);
 
   /// red-orange-5 - #200200
   late final Color redOrange5 = const Color.fromRGBO(32, 2, 0, 1.0);

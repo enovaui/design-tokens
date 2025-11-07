@@ -1,0 +1,13 @@
+{
+    "primitive": {
+        "fontweight-100": 100,
+        "fontweight-200": 200,
+        "fontweight-300": 300,
+        "fontweight-400": 400,
+        "fontweight-500": 500,
+        "fontweight-600": 600,
+        "fontweight-700": 700,
+        "fontweight-800": 800,
+        "fontweight-900": 900
+    }
+}

@@ -1,0 +1,24 @@
+/*
+ * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/* typography-primitive.css */
+
+/* ----------------------------------------
+Primitive Typography Tokens
+------------------------------------------- */
+
+:root {
+
+	/* Other Typography */
+	--primitive-fontweight-100: 100;
+	--primitive-fontweight-200: 200;
+	--primitive-fontweight-300: 300;
+	--primitive-fontweight-400: 400;
+	--primitive-fontweight-500: 500;
+	--primitive-fontweight-600: 600;
+	--primitive-fontweight-700: 700;
+	--primitive-fontweight-800: 800;
+	--primitive-fontweight-900: 900;
+}
