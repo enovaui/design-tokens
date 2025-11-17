@@ -60,19 +60,19 @@ jobs:
           echo "Committing and pushing changes..."
           git config --global user.name 'enovaui-bot'
           git config --global user.email 'enovaui@lge.com'
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/enovaui/design-tokens.git
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           git add .
           git commit -m "Version value updating" || exit 0
           git push
 
-      - name: Merge release into master
+      - name: Merge release into main
         run: |
           VERSION="${{ steps.get-version.outputs.version }}"
-          git fetch origin master
-          git checkout master
-          git reset --hard -q origin/master
+          git fetch origin ${{ github.event.repository.default_branch }}
+          git checkout ${{ github.event.repository.default_branch }}
+          git reset --hard -q origin/${{ github.event.repository.default_branch }}
           git merge --no-ff -m "$VERSION release" ${{ github.ref_name }}
-          git push origin master
+          git push origin ${{ github.event.repository.default_branch }}
 
       - name: Tagging the release
         run: |
@@ -84,7 +84,7 @@ jobs:
           git fetch origin develop
           git checkout develop
           git reset --hard -q origin/develop
-          git merge --no-ff master
+          git merge --no-ff ${{ github.event.repository.default_branch }}
           git push origin develop
 
       - name: Delete release branch
@@ -93,7 +93,7 @@ jobs:
 
       - name: Publish NPM packages
         run: |
-          git checkout master
+          git checkout ${{ github.event.repository.default_branch }}
           npx changeset publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
