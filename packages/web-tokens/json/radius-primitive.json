@@ -1,0 +1,8 @@
+{
+    "primitive": {
+        "radius-banner-xs": "8px",
+        "radius-card-full": "999px",
+        "radius-card-xl": "28px",
+        "radius-tab-xl": "16px"
+    }
+}
