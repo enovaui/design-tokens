@@ -38,6 +38,8 @@ class Surface extends SurfaceBase {
   @override
   Color get accent => ColorPrimitive.instance.activeRed55;
   @override
+  Color get highlight => ColorPrimitive.instance.mintGreen50;
+  @override
   Color get contextGroup => ColorPrimitive.instance.coolGray80;
   @override
   Color get inputField => ColorPrimitive.instance.neutralGray80;
@@ -61,6 +63,4 @@ class Surface extends SurfaceBase {
   Color get defaultIndicator => ColorPrimitive.instance.neutralGray10;
   @override
   Color get defaultPlaceholder => ColorPrimitive.instance.coolGray15;
-  @override
-  Color get highlight => ColorPrimitive.instance.mintGreen50;
 }
