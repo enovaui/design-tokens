@@ -61,4 +61,6 @@ class Surface extends SurfaceBase {
   Color get defaultIndicator => ColorPrimitive.instance.white;
   @override
   Color get defaultPlaceholder => ColorPrimitive.instance.coolGray10;
+  @override
+  Color get highlight => ColorPrimitive.instance.mintGreen50;
 }
