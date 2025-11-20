@@ -17,9 +17,15 @@ Semantic Color Tokens
 	--semantic-color-background-white: var(--primitive-color-white);
 	--semantic-color-background-black: var(--primitive-color-black);
 	--semantic-color-background-dark-gray: var(--primitive-color-warm-gray-15);
+	--semantic-color-background-main-dark: var(--primitive-color-mist-gray-90);
 
 	/* On Background */
-	--semantic-color-on-background-default: var(--primitive-color-mist-gray-10);
+	--semantic-color-on-background-main: var(--primitive-color-mist-gray-10);
+	--semantic-color-on-background-main-supporting: var(--primitive-color-mist-gray-20);
+	--semantic-color-on-background-sub: var(--primitive-color-mist-gray-50);
+	--semantic-color-on-background-accent: var(--primitive-color-blue-green-40);
+	--semantic-color-on-background-highlight: var(--primitive-color-blue-green-40);
+	--semantic-color-on-background-white: var(--primitive-color-white);
 
 	/* Surface */
 	--semantic-color-surface-default-handle: var(--primitive-color-blue-gray-50);
@@ -71,7 +77,6 @@ Semantic Color Tokens
 	--semantic-color-surface-badge-light-gray: var(--primitive-color-blue-gray-90);
 	--semantic-color-surface-badge-black: var(--primitive-color-blue-gray-10);
 	--semantic-color-surface-button-primary-disabled: var(--primitive-color-blue-green-40);
-	--semantic-color-surface-button-social: var(--primitive-color-blue-gray-95);
 	--semantic-color-surface-button-light: var(--primitive-color-blue-gray-90);
 	--semantic-color-surface-button-dark: var(--primitive-color-blue-gray-10);
 	--semantic-color-surface-card-gray: var(--primitive-color-neutral-gray-99);
@@ -90,6 +95,11 @@ Semantic Color Tokens
 	--semantic-color-surface-sub-disabled: var(--primitive-color-neutral-gray-95);
 	--semantic-color-surface-card-orange: var(--primitive-color-orange-95);
 	--semantic-color-surface-selection-inactive-disabled: var(--primitive-color-mist-gray-70);
+	--semantic-color-surface-banner: var(--primitive-color-neutral-gray-5);
+	--semantic-color-surface-card: var(--primitive-color-mist-gray-95);
+	--semantic-color-surface-filter: var(--primitive-color-mist-gray-95);
+	--semantic-color-surface-selection-option: var(--primitive-color-neutral-gray-95);
+	--semantic-color-surface-tab-segmented: var(--primitive-color-mist-gray-95);
 
 	/* On Surface */
 	--semantic-color-on-surface-main: var(--primitive-color-mist-gray-10);
@@ -126,11 +136,12 @@ Semantic Color Tokens
 	--semantic-color-on-surface-header: var(--primitive-color-mist-gray-45);
 	--semantic-color-on-surface-button-label-disabled: var(--primitive-color-mist-gray-45);
 	--semantic-color-on-surface-card-orange: var(--primitive-color-orange-40);
-	--semantic-color-on-surface-card-product: var(--primitive-color-blue-gray-20);
 	--semantic-color-on-surface-menu: var(--primitive-color-blue-gray-80);
 	--semantic-color-on-surface-page-indicator: var(--primitive-color-mist-gray-45);
 	--semantic-color-on-surface-selection-active-disabled: var(--primitive-color-mist-gray-70);
 	--semantic-color-on-surface-text-field-assistive: var(--primitive-color-cool-gray-55);
+	--semantic-color-on-surface-card-dark: var(--primitive-color-blue-gray-20);
+	--semantic-color-on-surface-card-light: var(--primitive-color-blue-gray-80);
 
 	/* Stroke */
 	--semantic-color-stroke-default-error: var(--primitive-color-active-red-60);
@@ -153,7 +164,6 @@ Semantic Color Tokens
 	--semantic-color-stroke-card-selected: var(--primitive-color-mist-gray-70);
 	--semantic-color-stroke-card-gray: var(--primitive-color-neutral-gray-95);
 	--semantic-color-stroke-chip: var(--primitive-color-neutral-gray-90);
-	--semantic-color-stroke-chip-selected: var(--primitive-color-black);
 	--semantic-color-stroke-chip-pink: var(--primitive-color-heritage-red-35);
 	--semantic-color-stroke-chip-white: var(--primitive-color-white);
 	--semantic-color-stroke-page-indicator: var(--primitive-color-blue-gray-80);
@@ -162,6 +172,8 @@ Semantic Color Tokens
 	--semantic-color-stroke-text-field-disabled: var(--primitive-color-blue-gray-70);
 	--semantic-color-stroke-white: var(--primitive-color-white);
 	--semantic-color-stroke-black: var(--primitive-color-blue-gray-10);
+	--semantic-color-stroke-default-selected: var(--primitive-color-black);
+	--semantic-color-stroke-tab-segmented: var(--primitive-color-blue-gray-70);
 
 	/* Scrim */
 	--semantic-color-scrim-default: var(--primitive-color-white);

@@ -2,6 +2,35 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
+## [0.10.0] - 2025-11-20
+
+### Added
+
+- `primitive_radius_32` value
+- `semantic_color_surface_highlight` vlaue
+
+## [0.9.0] - 2025-11-07
+
+### Removed
+
+- `primitive_radius_0` value
+
+### Changed
+
+- `primitive_color_neutral_gray_25` value to `#4a4946`
+- `primitive_color_warm_gray_35` value to `#646464`
+- `primitive_color_warm_gray_85` value to `#f0ece4`
+- `primitive_color_active_red_99` value to `#fef5f5`
+- `primitive_color_yellow_green_35` value to `#316d15`
+- `primitive_color_yellow_green_40` value to `#287d00`
+- `primitive_color_heritage_red_25` value to `#84002c`
+- `primitive_color_heritage_red_30` value to `#98002f`
+- `primitive_color_heritage_red_40` value to `#c00045`
+
+### Added
+
+- `primitve_radius_28` value
+
 ## [0.8.2] - 2025-09-09
 
 - No significant changes

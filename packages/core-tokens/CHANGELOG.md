@@ -2,6 +2,12 @@
 
 The following is a curated list of changes in the core tokens module, newest changes on the top.
 
+## [0.10.0] - 2025-11-20
+
+### Added
+
+- `primitive-radius-32`
+
 ## [0.9.0] - 2025-11-07
 
 ### Removed
