@@ -95,7 +95,7 @@ Semantic Color Tokens
 	--semantic-color-surface-sub-disabled: var(--primitive-color-neutral-gray-95);
 	--semantic-color-surface-card-orange: var(--primitive-color-orange-95);
 	--semantic-color-surface-selection-inactive-disabled: var(--primitive-color-warm-gray-55);
-	--semantic-color-surface-banner: var(--primitive-color-warm-gray-5);
+	--semantic-color-surface-banner: var(--primitive-color-neutral-gray-5);
 	--semantic-color-surface-card: var(--primitive-color-warm-gray-85);
 	--semantic-color-surface-filter: var(--primitive-color-warm-gray-85);
 	--semantic-color-surface-selection-option: var(--primitive-color-neutral-gray-95);

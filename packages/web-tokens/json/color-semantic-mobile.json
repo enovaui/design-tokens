@@ -129,7 +129,7 @@
                 "sub-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-95"},
                 "card-orange": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/orange-95"},
                 "selection-inactive-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-70"},
-                "banner": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-5"},
+                "banner": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-5"},
                 "card": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-95"},
                 "filter": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-95"},
                 "selection-option": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-95"},
