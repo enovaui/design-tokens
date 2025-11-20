@@ -10,12 +10,13 @@ Semantic Color Tokens
 ------------------------------------------- */
 
 :root {
-	/* background */
+
+	/* Background */
 	--semantic-color-background-full-default: var(--primitive-color-black);
 	--semantic-color-background-overlay-default: var(--primitive-color-cool-gray-15);
 	--semantic-color-background-popup-default: var(--primitive-color-neutral-gray-90);
 
-	/* onBackground */
+	/* On Background */
 	--semantic-color-on-background-default-error: var(--primitive-color-deep-orange-50);
 	--semantic-color-on-background-main: var(--primitive-color-white);
 	--semantic-color-on-background-sub: var(--primitive-color-neutral-gray-70);
@@ -29,7 +30,7 @@ Semantic Color Tokens
 	--semantic-color-on-background-popup-main: var(--primitive-color-neutral-gray-10);
 	--semantic-color-on-background-popup-sub: var(--primitive-color-neutral-gray-35);
 
-	/* surface */
+	/* Surface */
 	--semantic-color-surface-default: var(--primitive-color-cool-gray-30);
 	--semantic-color-surface-default-focused: var(--primitive-color-white);
 	--semantic-color-surface-default-selected: var(--primitive-color-cool-gray-10);
@@ -62,8 +63,9 @@ Semantic Color Tokens
 	--semantic-color-surface-popup-input-field-success: var(--primitive-color-neutral-gray-90);
 	--semantic-color-surface-popup-scroll-handle: var(--primitive-color-cool-gray-60);
 	--semantic-color-surface-popup-toast: var(--primitive-color-neutral-gray-90);
+	--semantic-color-surface-higlight: var(--primitive-color-mint-green-50);
 
-	/* onSurface */
+	/* On Surface */
 	--semantic-color-on-surface-default-rec: var(--primitive-color-active-red-55);
 	--semantic-color-on-surface-main: var(--primitive-color-white);
 	--semantic-color-on-surface-main-focused: var(--primitive-color-neutral-gray-10);
@@ -82,7 +84,7 @@ Semantic Color Tokens
 	--semantic-color-on-surface-popup-default: var(--primitive-color-neutral-gray-10);
 	--semantic-color-on-surface-popup-input-field: var(--primitive-color-neutral-gray-10);
 
-	/* stroke */
+	/* Stroke */
 	--semantic-color-stroke-main: var(--primitive-color-neutral-gray-35);
 	--semantic-color-stroke-main-focused: var(--primitive-color-white);
 	--semantic-color-stroke-main-selected: var(--primitive-color-cool-gray-40);
@@ -98,6 +100,6 @@ Semantic Color Tokens
 	--semantic-color-stroke-overlay-default: var(--primitive-color-cool-gray-30);
 	--semantic-color-stroke-popup-selection-inactive: var(--primitive-color-neutral-gray-10);
 
-	/* scrim */
+	/* Scrim */
 	--semantic-color-scrim-default: var(--primitive-color-black);
 }

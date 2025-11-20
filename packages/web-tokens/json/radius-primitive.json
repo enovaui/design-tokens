@@ -1,0 +1,13 @@
+{
+    "primitive": {
+        "radius-banner-xs": "8px",
+        "radius-card-full": "999px",
+        "radius-card-xxl": "28px",
+        "radius-card-xl": "20px",
+        "radius-header": "8px",
+        "radius-tab-xl": "16px",
+        "radius-thumbnail-xl": "28px",
+        "radius-thumbnail-m": "16px",
+        "radius-thumbnail-xs": "8px"
+    }
+}
