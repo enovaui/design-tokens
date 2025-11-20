@@ -2,6 +2,50 @@
 
 The following is a curated list of changes in the design tokens module, newest changes on the top.
 
+## [0.10.0] - 2025-11-20
+
+### core-tokens
+
+#### Added
+
+- `primitive-radius-32`
+
+### mobile-tokens
+
+- No significant changes
+
+### web-tokens
+
+#### Removed
+
+- `semantic-color-on-background-default`
+- `semantic-color-surface-button-social`
+- `semantic-color-on-surface-card-product`
+- `semantic-color-stroke-chip-selected`
+
+#### Changed
+
+- `semantic-color-surface-main-disabled` value
+- `semantic-color-surface-dialog-popup` value
+- `semantic-color-on-surface-sub-supporting` value
+- `semantic-radius-banner-s` value
+- `semantic-radius-card-l` value
+- `semantic-radius-card-m` value
+- `semantic-radius-card-s` value
+- `semantic-radius-thumbnail-l` value
+- `semantic-radius-thumbnail-s` value
+
+#### Added
+
+- `color-semantic` tokens to match the latest guide
+- `radius-semantic` tokens to match the latest guide
+
+### webos-tokens
+
+#### Added
+
+- `semantic-color-surface-highlight`
+
 ## [0.9.0] - 2025-11-07
 
 ### core-tokens
