@@ -2,6 +2,12 @@
 
 The following is a curated list of changes in the core tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Added
+
+- `typography-primitive-font-family` tokens
+
 ## [0.10.0] - 2025-11-20
 
 ### Added
@@ -28,7 +34,7 @@ The following is a curated list of changes in the core tokens module, newest cha
 
 - `primitive-radius-28`
 - `spacing-primitive` values to match the latest guide
-- `typograph-primitive` values to match the latest guide
+- `typography-primitive` values to match the latest guide
 
 ## [0.8.2] - 2025-09-09
 
