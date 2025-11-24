@@ -23,6 +23,7 @@ abstract class SurfaceBase {
   Color get defaultTranslucent;
   Color get subNotification;
   Color get accent;
+  Color get highlight;
   Color get contextGroup;
   Color get inputField;
   Color get inputFieldSuccess;
