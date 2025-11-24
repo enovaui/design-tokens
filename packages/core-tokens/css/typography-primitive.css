@@ -81,6 +81,6 @@ Primitive Typography Tokens
 	--primitive-font-family-lg-smart-ui-number: 'LG Smart UI Number';
 
 	/* Font Family LG EI */
-	--primitive-font-family-lg-ei-text: 'LG EI text';
-	--primitive-font-family-lg-ei-headline: 'LG EI Headline'
+	--primitive-font-family-lg-ei-text: 'LG EI Text';
+	--primitive-font-family-lg-ei-headline: 'LG EI Headline';
 }
