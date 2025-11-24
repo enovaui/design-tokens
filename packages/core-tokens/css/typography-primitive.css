@@ -69,4 +69,18 @@ Primitive Typography Tokens
 	--primitive-font-weight-bold: 700;
 	--primitive-font-weight-extrabold: 800;
 	--primitive-font-weight-black: 900;
+	
+	/* Font Family */
+	--primitive-font-family-ios: 'Apple SD Gothic Neo';
+	--primitive-font-family-android: 'Noto Sans CJK KR';
+
+	/* Font Family LG Smart UI */
+	--primitive-font-family-lg-smart-ui-default: 'LG Smart UI';
+	--primitive-font-family-lg-smart-ui-condensed: 'LG Smart UI Condensed';
+	--primitive-font-family-lg-smart-ui-dingbat: 'LG Smart UI Dingbat';
+	--primitive-font-family-lg-smart-ui-number: 'LG Smart UI Number';
+
+	/* Font Family LG EI */
+	--primitive-font-family-lg-ei-text: 'LG EI text';
+	--primitive-font-family-lg-ei-headline: 'LG EI Headline'
 }
