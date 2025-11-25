@@ -10,7 +10,7 @@ The following is a curated list of changes in the flutter tokens module, newest 
 
 ### Fixed
 
-- `semantic_color_surface_highlight` value
+- `semantic_color_surface_highlight` token to be defined in `SurfaceBase`
 
 ## [0.10.0] - 2025-11-20
 
