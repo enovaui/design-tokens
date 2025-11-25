@@ -12,7 +12,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          token: ${{ secrets.ENOVA_BOT_PAT }}
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Check if branch is release branch and exit if not
         run: |
@@ -60,7 +62,7 @@ jobs:
           echo "Committing and pushing changes..."
           git config --global user.name 'enovaui-bot'
           git config --global user.email 'enovaui@lge.com'
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git remote set-url origin https://x-access-token:${{ secrets.ENOVA_BOT_PAT }}@github.com/${{ github.repository }}.git
           git add .
           git commit -m "Version value updating" || exit 0
           git push
