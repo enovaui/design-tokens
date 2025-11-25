@@ -90,7 +90,7 @@
                     "scroll-handle": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cool-gray-60"},
                     "toast": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-90"}
                 },
-                "higlight": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mint-green-50"}
+                "highlight": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mint-green-50"}
             },
             "stroke": {
                 "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-35"},
