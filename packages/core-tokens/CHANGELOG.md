@@ -2,7 +2,7 @@
 
 The following is a curated list of changes in the core tokens module, newest changes on the top.
 
-## [unreleased]
+## [0.11.0] - 2025-11-25
 
 ### Added
 
@@ -28,7 +28,7 @@ The following is a curated list of changes in the core tokens module, newest cha
 - `primitive-color-active-red-99` value to `#fef5f5`
 - `primitive-color-yellow-green-35` value to `#316d15`
 - `primitive-color-yellow-green-40` value to `#287d00`
-- `primtivie-color-heritage-red` values to match the latest guide
+- `primitive-color-heritage-red` values to match the latest guide
 
 ### Added
 

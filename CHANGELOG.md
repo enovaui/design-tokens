@@ -2,6 +2,35 @@
 
 The following is a curated list of changes in the design tokens module, newest changes on the top.
 
+## [0.11.0] - 2025-11-25
+
+### core-tokens
+
+#### Added
+
+- `typography-primitive-font-family` tokens
+
+### mobile-tokens
+
+#### Removed
+
+- `semantic-color-background-main` 
+- `semantic-color-background-sub`
+
+#### Added
+
+- `semantic-color-background-default`
+
+### web-tokens
+
+- No significant changes
+
+### webos-tokens
+
+#### Fixed
+
+- typo in `semantic-color-surface-highlight` token
+
 ## [0.10.0] - 2025-11-20
 
 ### core-tokens
@@ -62,13 +91,13 @@ The following is a curated list of changes in the design tokens module, newest c
 - `primitive-color-active-red-99` value to `#fef5f5`
 - `primitive-color-yellow-green-35` value to `#316d15`
 - `primitive-color-yellow-green-40` value to `#287d00`
-- `primtivie-color-heritage-red` values to match the latest guide
+- `primitive-color-heritage-red` values to match the latest guide
 
 #### Added
 
 - `primitive-radius-28`
 - `spacing-primitive` values to match the latest guide
-- `typograph-primitive` values to match the latest guide
+- `typography-primitive` values to match the latest guide
 
 ### mobile-tokens
 
