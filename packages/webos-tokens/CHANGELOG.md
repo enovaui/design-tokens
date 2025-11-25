@@ -4,7 +4,9 @@ The following is a curated list of changes in the webos tokens module, newest ch
 
 ## [unreleased]
 
-- No significant changes
+### Fixed
+
+- Fixed typo in `semantic-color-surface-highlight` token
 
 ## [0.10.0] - 2025-11-20
 
