@@ -2,12 +2,22 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
+## [0.11.0] - 2025-11-25
+
+### Added
+
+- `typography-primitive-font-family` tokens
+
+### Fixed
+
+- `semantic_color_surface_highlight` token to be defined in `SurfaceBase`
+
 ## [0.10.0] - 2025-11-20
 
 ### Added
 
 - `primitive_radius_32` value
-- `semantic_color_surface_highlight` vlaue
+- `semantic_color_surface_highlight` value
 
 ## [0.9.0] - 2025-11-07
 
@@ -29,7 +39,7 @@ The following is a curated list of changes in the flutter tokens module, newest 
 
 ### Added
 
-- `primitve_radius_28` value
+- `primitive_radius_28` value
 
 ## [0.8.2] - 2025-09-09
 

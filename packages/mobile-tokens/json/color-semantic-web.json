@@ -2,8 +2,7 @@
     "semantic": {
         "color": {
             "background": {
-                "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-95"},
-                "sub": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-95"}
+                "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-95"}
             },
             "on": {
                 "background": {

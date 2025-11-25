@@ -12,8 +12,7 @@ Semantic Color Tokens
 :root {
 
 	/* Background */
-	--semantic-color-background-main: var(--primitive-color-black);
-	--semantic-color-background-sub: var(--primitive-color-black);
+	--semantic-color-background-default: var(--primitive-color-black);
 
 	/* On Background */
 	--semantic-color-on-background-default: var(--primitive-color-mist-gray-99);
