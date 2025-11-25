@@ -75,3 +75,19 @@ class FontWeightPrimitive {
   late final FontWeight extrabold = FontWeight.w800;
   late final FontWeight black = FontWeight.w900;
 }
+
+class FontFamilyPrimitive {
+  FontFamilyPrimitive._();
+
+  static FontFamilyPrimitive? _instance;
+  static FontFamilyPrimitive get instance => _instance ??= FontFamilyPrimitive._();
+
+  late final String ios = 'Apple SD Gothic Neo';
+  late final String android = 'Noto Sans CJK KR';
+  late final String lgSmartUiDefault = 'LG Smart UI';
+  late final String lgSmartUiCondensed = 'LG Smart UI Condensed';
+  late final String lgSmartUiDingbat = 'LG Smart UI Dingbat';
+  late final String lgSmartUiNumber = 'LG Smart UI Number';
+  late final String lgEiText = 'LG EI Text';
+  late final String lgEiHeadline = 'LG EI Headline';
+}

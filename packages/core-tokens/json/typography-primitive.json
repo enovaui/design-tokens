@@ -56,6 +56,20 @@
             "bold": "700",
             "extrabold": "800",
             "black": "900"
+        },
+        "font-family": {
+            "ios": "Apple SD Gothic Neo",
+            "android": "Noto Sans CJK KR",
+            "lg-smart-ui": {
+                "default": "LG Smart UI",
+                "condensed": "LG Smart UI Condensed",
+                "dingbat": "LG Smart UI Dingbat",
+                "number": "LG Smart UI Number"
+            },
+            "lg-ei": {
+                "text": "LG EI Text",
+                "headline": "LG EI Headline"
+            }
         }
     }
 }

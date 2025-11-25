@@ -2,6 +2,16 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Added
+
+- `typography-primitive-font-family` tokens
+
+### Fixed
+
+- `semantic_color_surface_highlight` token to be defined in `SurfaceBase`
+
 ## [0.10.0] - 2025-11-20
 
 ### Added
