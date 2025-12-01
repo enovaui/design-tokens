@@ -37,6 +37,8 @@ function normalizeTokenName(tokenName) {
 		.replace(/stepindicator/g, 'step-indicator')
 		.replace(/textfield/g, 'text-field')
 		.replace(/inputfield/g, 'input-field')
+		.replace(/activedisabled/g, 'active-disabled')
+		.replace(/inactivedisabled/g, 'inactive-disabled')
 		// Badge compound words
 		.replace(/badge-lightred/g, 'badge-light-red')
 		.replace(/badge-lightorange/g, 'badge-light-orange')
