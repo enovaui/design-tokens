@@ -2,6 +2,10 @@
 
 The following is a curated list of changes in the mobile tokens module, newest changes on the top.
 
+## [unreleased]
+
+- No significant changes
+
 ## [0.11.0] - 2025-11-25
 
 ### Removed
