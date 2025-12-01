@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import * as tokens from '../design-tokens/packages/core-tokens/json/color-primitive.json';
+import * as tokens from '../packages/core-tokens/json/color-primitive.json';
 
 
 // Test: Open the HTML file and take a screenshot
