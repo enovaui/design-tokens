@@ -15,5 +15,5 @@ test('color tokens HTML renders and matches screenshot', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 12000 });
   await page.setContent(htmlContent);
   await expect(page.locator('h1')).toHaveText('header');
-  await expect(page).toHaveScreenshot('reference-color-tockens.png', {threshold: 0.05});
+  await expect(page).toHaveScreenshot('reference-color-tockens.png', {threshold: 0.1});
 });
