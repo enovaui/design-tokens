@@ -2,6 +2,27 @@
 
 The following is a curated list of changes in the design tokens module, newest changes on the top.
 
+## [0.13.0] - 2025-12-04
+
+### core-tokens
+
+- No significant changes
+
+### mobile-tokens
+
+- No significant changes
+
+### web-tokens
+
+#### Added
+
+- `semantic-color-on-surface-sub-supporting`
+- `semantic-color-stroke-sub-supporting`
+
+### webos-tokens
+
+- No significant changes
+
 ## [0.12.0] - 2025-12-01
 
 ### core-tokens
