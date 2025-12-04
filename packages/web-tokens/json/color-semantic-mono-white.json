@@ -57,7 +57,8 @@
                     "selection-active-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-70"},
                     "text-field-assistive": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-70"},
                     "card-dark": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-20"},
-                    "card-light": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-90"}
+                    "card-light": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-90"},
+                    "sub-supporting": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-20"}
                 }
             },
             "surface": {
@@ -82,7 +83,7 @@
                 "button-tertiary-pressed": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-90"},
                 "button-icon": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-90"},
                 "button-icon-pressed": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-70"},
-                "chip": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-99"},
+                "chip": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                 "chip-selected": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-30"},
                 "notification-card": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-30"},
                 "selection-active": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-40"},
@@ -164,7 +165,8 @@
                 "black": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-10"},
                 "default-selected": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
                 "tab-segmented": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-50"},
-                "main-supporting": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-90"}
+                "main-supporting": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-90"},
+                "sub-supporting": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-55"}
             },
             "scrim": {
                 "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},

@@ -49,7 +49,7 @@ Semantic Color Tokens
 	--semantic-color-surface-button-tertiary-pressed: var(--primitive-color-mist-gray-90);
 	--semantic-color-surface-button-icon: var(--primitive-color-mist-gray-90);
 	--semantic-color-surface-button-icon-pressed: var(--primitive-color-mist-gray-70);
-	--semantic-color-surface-chip: var(--primitive-color-warm-gray-99);
+	--semantic-color-surface-chip: var(--primitive-color-white);
 	--semantic-color-surface-chip-selected: var(--primitive-color-mist-gray-30);
 	--semantic-color-surface-notification-card: var(--primitive-color-neutral-gray-30);
 	--semantic-color-surface-selection-active: var(--primitive-color-mist-gray-40);
@@ -141,6 +141,7 @@ Semantic Color Tokens
 	--semantic-color-on-surface-text-field-assistive: var(--primitive-color-mist-gray-70);
 	--semantic-color-on-surface-card-dark: var(--primitive-color-mist-gray-20);
 	--semantic-color-on-surface-card-light: var(--primitive-color-mist-gray-90);
+	--semantic-color-on-surface-sub-supporting: var(--primitive-color-mist-gray-20);
 
 	/* Stroke */
 	--semantic-color-stroke-default-error: var(--primitive-color-active-red-60);
@@ -173,6 +174,7 @@ Semantic Color Tokens
 	--semantic-color-stroke-default-selected: var(--primitive-color-black);
 	--semantic-color-stroke-tab-segmented: var(--primitive-color-mist-gray-50);
 	--semantic-color-stroke-main-supporting: var(--primitive-color-mist-gray-90);
+	--semantic-color-stroke-sub-supporting: var(--primitive-color-mist-gray-55);
 
 	/* Scrim */
 	--semantic-color-scrim-default: var(--primitive-color-black);
