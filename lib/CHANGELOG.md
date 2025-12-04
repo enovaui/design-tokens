@@ -2,6 +2,10 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
+## [0.13.0] - 2025-12-04
+
+- No significant changes
+
 ## [0.12.0] - 2025-12-01
 
 - No significant changes
