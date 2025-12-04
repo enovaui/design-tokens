@@ -2,6 +2,13 @@
 
 The following is a curated list of changes in the web tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Added
+
+- `semantic-color-on-surface-sub-supporting`
+- `semantic-color-stroke-sub-supporting`
+
 ## [0.12.0] - 2025-12-01
 
 ### Removed
