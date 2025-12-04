@@ -616,8 +616,8 @@ function analyzeChanges(figmaTokens, localTokens) {
 						localTokens = localTokens.semantic.color;
 					}
 					
-					// For webOS radius semantic collection, navigate to the radius structure
-					if (collectionName === 'lg.webOS.radius.semantic' && localTokens.semantic && localTokens.semantic.radius) {
+					// For radius semantic collections, navigate to the radius structure
+					if (collectionName.includes('radius.semantic') && localTokens.semantic && localTokens.semantic.radius) {
 						localTokens = localTokens.semantic.radius;
 						// Also navigate Figma tokens to radius structure
 						if (figmaTokensForCollection.radius) {
