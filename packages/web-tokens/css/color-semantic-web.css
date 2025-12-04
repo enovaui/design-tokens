@@ -141,6 +141,7 @@ Semantic Color Tokens
 	--semantic-color-on-surface-text-field-assistive: var(--primitive-color-cool-gray-55);
 	--semantic-color-on-surface-card-dark: var(--primitive-color-blue-gray-20);
 	--semantic-color-on-surface-card-light: var(--primitive-color-blue-gray-80);
+	--semantic-color-on-surface-sub-supporting: var(--primitive-color-blue-gray-20);
 
 	/* Stroke */
 	--semantic-color-stroke-default-error: var(--primitive-color-active-red-60);
@@ -173,6 +174,7 @@ Semantic Color Tokens
 	--semantic-color-stroke-default-selected: var(--primitive-color-black);
 	--semantic-color-stroke-tab-segmented: var(--primitive-color-blue-gray-70);
 	--semantic-color-stroke-main-supporting: var(--primitive-color-blue-gray-80);
+	--semantic-color-stroke-sub-supporting: var(--primitive-color-blue-gray-55);
 
 	/* Scrim */
 	--semantic-color-scrim-default: var(--primitive-color-white);
