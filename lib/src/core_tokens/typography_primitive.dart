@@ -88,6 +88,6 @@ class FontFamilyPrimitive {
   late final String lgSmartUiCondensed = 'LG Smart UI Condensed';
   late final String lgSmartUiDingbat = 'LG Smart UI Dingbat';
   late final String lgSmartUiNumber = 'LG Smart UI Number';
-  late final String lgEiText = 'LG EI Text';
-  late final String lgEiHeadline = 'LG EI Headline';
+  late final String lgEiText = 'LGEI Text';
+  late final String lgEiHeadline = 'LGEI Headline';
 }

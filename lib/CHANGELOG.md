@@ -2,6 +2,13 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
+## [0.13.1] - 2025-12-12
+
+### Changed
+
+- `primitive_font_family_lg_ei_text` value to `LGEI Text`
+- `primitive_font_family_lg_ei_headline` value to `LGEI Headline`
+
 ## [0.13.0] - 2025-12-04
 
 - No significant changes
