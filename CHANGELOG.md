@@ -2,6 +2,27 @@
 
 The following is a curated list of changes in the design tokens module, newest changes on the top.
 
+## [0.13.1] - 2025-12-12
+
+### core-tokens
+
+#### Changed
+
+- `primitive-font-family-lg-ei-text` value to `LGEI Text`
+- `primitive-font-family-lg-ei-headline` value to `LGEI Headline`
+
+### mobile-tokens
+
+- No significant changes
+
+### web-tokens
+
+- No significant changes
+
+### webos-tokens
+
+- No significant changes
+
 ## [0.13.0] - 2025-12-04
 
 ### core-tokens
