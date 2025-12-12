@@ -80,7 +80,7 @@ Primitive Typography Tokens
 	--primitive-font-family-lg-smart-ui-dingbat: 'LG Smart UI Dingbat';
 	--primitive-font-family-lg-smart-ui-number: 'LG Smart UI Number';
 
-	/* Font Family LG EI */
-	--primitive-font-family-lg-ei-text: 'LG EI Text';
-	--primitive-font-family-lg-ei-headline: 'LG EI Headline';
+	/* Font Family LGEI */
+	--primitive-font-family-lg-ei-text: 'LGEI Text';
+	--primitive-font-family-lg-ei-headline: 'LGEI Headline';
 }
