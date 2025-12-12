@@ -2,6 +2,13 @@
 
 The following is a curated list of changes in the core tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Changed
+
+- `primitive-font-family-lg-ei-text` value to `LGEI Text`
+- `primitive-font-family-lg-ei-headline` value to `LGEI Headline`
+
 ## [0.13.0] - 2025-12-04
 
 - No significant changes
