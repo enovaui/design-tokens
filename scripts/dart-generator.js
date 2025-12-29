@@ -214,8 +214,7 @@ class SpacingPrimitive {
 			// Use int if px is integer, else double
 			const isInt = Number.isInteger(px);
 			const type = isInt ? 'int' : 'double';
-			const val = isInt ? px : px;
-			dartContent += `\n  late final ${type} ${varName} = ${val};`;
+			dartContent += `\n  late final ${type} ${varName} = ${px};`;
 		});
 
 		// Close the class
