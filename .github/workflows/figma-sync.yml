@@ -52,7 +52,7 @@ jobs:
           # Use pnpm install with performance and reliability options
           pnpm install --prefer-offline
           # Install node-fetch for Figma API requests
-          pnpm install node-fetch@3
+          pnpm add node-fetch@3
 
       - name: Configure Git
         run: |
