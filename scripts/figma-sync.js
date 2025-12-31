@@ -632,16 +632,9 @@ function analyzeChanges(figmaTokens, localTokens) {
 	});
 
 	return changes;
-}
+	}
 
-// Normalize font-family value for comparison (ignore case and spaces)
-function normalizeFontFamilyValue (value) {
-	if (typeof value !== 'string') return value;
-	// remove all whitespace and lowercase so "LG EI Text" and "LGEI Text" match
-	return value.replace(/\s+/g, '').toLowerCase();
-}
-
-// Build nested object for a font-family change at a given path
+	// Build nested object for a font-family change at a given path
 function buildFontFamilyChangeObject (path, leafKey, value) {
 	const fullPath = [...path, leafKey];
 	let obj = value;
@@ -682,10 +675,7 @@ function compareFontFamilyTokens (figmaValues, localFontFamily, collectionName, 
 				};
 				console.log(`Found new fontfamily token: ${pathString} = ${figmaValue}`);
 			} else {
-				const normalizedLocal = normalizeFontFamilyValue(localValue);
-				const normalizedFigma = normalizeFontFamilyValue(figmaValue);
-
-				if (normalizedLocal !== normalizedFigma) {
+				if (String(localValue) !== String(figmaValue)) {
 					// Token modified
 					const mappedChange = {
 						filePath: `${packageName}/typography-primitive`,
