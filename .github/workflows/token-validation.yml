@@ -19,10 +19,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'npm'
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Validate JSON Syntax
         run: |
@@ -32,7 +32,7 @@ jobs:
 
           find packages -name "*.json" -type f | while read file; do
             echo "Checking: $file"
-            if ! node -e "
+            if ! pnpm node -e "
               try {
                 JSON.parse(require('fs').readFileSync('$file', 'utf8'));
                 console.log('✅ Valid:', '$file');
@@ -57,7 +57,7 @@ jobs:
         run: |
           echo "🏗️ Validating token structure..."
 
-          node -e "
+          pnpm node -e "
             const fs = require('fs');
             const path = require('path');
 
@@ -99,7 +99,7 @@ jobs:
         run: |
           echo "🔗 Validating token references..."
 
-          node -e "
+          pnpm node -e "
             const fs = require('fs');
             const path = require('path');
 
@@ -216,7 +216,7 @@ jobs:
         run: |
           echo "📦 Validating package version consistency..."
 
-          node -e "
+          pnpm node -e "
             const fs = require('fs');
             const path = require('path');
 
