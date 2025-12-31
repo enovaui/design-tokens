@@ -67,11 +67,11 @@ jobs:
           FIGMA_FILE_URL: ${{ secrets.FIGMA_FILE_URL }}
         run: |
           echo "🎨 Checking Figma Variables..."
-          pnpm node scripts/figma-sync.js
+          node scripts/figma-sync.js
 
           # Check if there are changes
           if [ -f "figma-changes.json" ]; then
-            CHANGES=$(pnpm node -e "
+            CHANGES=$(node -e "
               const changes = require('./figma-changes.json').changes;
               const total = Object.keys(changes.added).length + Object.keys(changes.modified).length + Object.keys(changes.removed).length;
               console.log(total);
@@ -93,7 +93,7 @@ jobs:
         if: steps.figma-check.outputs.proceed == 'true'
         run: |
           echo "🔄 Transforming tokens..."
-          pnpm node scripts/token-transformer.js
+          node scripts/token-transformer.js
 
       - name: Validate Tokens
         if: steps.figma-check.outputs.proceed == 'true'
@@ -102,7 +102,7 @@ jobs:
 
           # Validate JSON file syntax
           find packages -name "*.json" -type f | while read file; do
-            if ! pnpm node -e "JSON.parse(require('fs').readFileSync('$file', 'utf8'))"; then
+            if ! node -e "JSON.parse(require('fs').readFileSync('$file', 'utf8'))"; then
               echo "❌ JSON syntax error: $file"
               exit 1
             fi
@@ -205,7 +205,7 @@ jobs:
             # Find PR URL from pr-result.json if it exists and is not empty
             PR_URL=""
             if [ -f pr-result.json ]; then
-              PR_URL=$(pnpm node -e "try{const d=require('./pr-result.json');if(d && d.pullRequest && d.pullRequest.url)console.log(d.pullRequest.url);else console.log('')}catch(e){console.log('')}")
+              PR_URL=$(node -e "try{const d=require('./pr-result.json');if(d && d.pullRequest && d.pullRequest.url)console.log(d.pullRequest.url);else console.log('')}catch(e){console.log('')}")
             fi
             # Always send a valid PR_URL (even if no PR exists)
             if [ -z "$PR_URL" ]; then
