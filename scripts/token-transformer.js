@@ -570,7 +570,7 @@ class TokenTransformer {
 		// If already a $ref, leave as is
 		if (tokens.$ref) return tokens;
 		// Recurse into object
-		const out = Array.isArray(tokens) ? [] : {};
+		const out = {};
 		for (const [k, v] of Object.entries(tokens)) {
 			out[k] = this.refSemanticColorsWithPrimitives(v, primitiveColorLookup);
 		}
@@ -662,7 +662,7 @@ class TokenTransformer {
 		}
 		if (typeof tokens !== 'object') return tokens;
 		if (tokens.$ref) return tokens;
-		const out = Array.isArray(tokens) ? [] : {};
+		const out = {};
 		for (const [k, v] of Object.entries(tokens)) {
 			out[k] = this.refSemanticRadiusWithPrimitives(v, primitiveRadiusLookup);
 		}
@@ -685,7 +685,7 @@ class TokenTransformer {
 		if (typeof tokens !== 'object') return tokens;
 		if (tokens.$ref) return tokens;
 		
-		const out = Array.isArray(tokens) ? [] : {};
+		const out = {};
 		for (const [k, v] of Object.entries(tokens)) {
 			out[k] = this.refSemanticTypographyWithPrimitives(v, primitiveTypographyLookup);
 		}
