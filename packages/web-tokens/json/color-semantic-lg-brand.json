@@ -104,7 +104,7 @@
                 "button-light": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-95"},
                 "button-dark": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-15"},
                 "card-gray": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-99"},
-                "chip": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-99"},
+                "chip": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                 "chip-selected": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-50"},
                 "chip-pink": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-99"},
                 "dialog-popup": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-85"},
