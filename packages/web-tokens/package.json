@@ -1,6 +1,6 @@
 {
   "name": "@enovaui/web-tokens",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "description": "Theme design tokens for web",
   "main": "index.js",
   "license": "Apache-2.0",
@@ -10,6 +10,6 @@
     "web"
   ],
   "dependencies": {
-    "@enovaui/core-tokens": "^0.13.1"
+    "@enovaui/core-tokens": "^0.13.2"
   }
 }
