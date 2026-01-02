@@ -616,8 +616,8 @@ function analyzeChanges(figmaTokens, localTokens) {
 						localTokens = localTokens.semantic.color;
 					}
 					
-					// For webOS radius semantic collection, navigate to the radius structure
-					if (collectionName === 'lg.webOS.radius.semantic' && localTokens.semantic && localTokens.semantic.radius) {
+					// For radius semantic collections, navigate to the radius structure
+					if (collectionName.includes('radius.semantic') && localTokens.semantic && localTokens.semantic.radius) {
 						localTokens = localTokens.semantic.radius;
 						// Also navigate Figma tokens to radius structure
 						if (figmaTokensForCollection.radius) {
@@ -632,16 +632,93 @@ function analyzeChanges(figmaTokens, localTokens) {
 	});
 
 	return changes;
+	}
+
+	// Build nested object for a font-family change at a given path
+function buildFontFamilyChangeObject (path, leafKey, value) {
+	const fullPath = [...path, leafKey];
+	let obj = value;
+	for (let i = fullPath.length - 1; i >= 0; i--) {
+		obj = { [fullPath[i]]: obj };
+	}
+	return obj;
+}
+
+// Compare fontfamily tokens (supports nested structures like lg-smart-ui/default, lg-ei/text, ...)
+function compareFontFamilyTokens (figmaValues, localFontFamily, collectionName, packageName, changes) {
+	function walk (figmaObj, localObj, path = []) {
+		Object.entries(figmaObj).forEach(([key, figmaValue]) => {
+			// Map Figma keys to local JSON keys when they differ (e.g., lgsmartui -> lg-smart-ui)
+			let localKey = key;
+			if (key === 'lgsmartui') localKey = 'lg-smart-ui';
+			if (key === 'lgei') localKey = 'lg-ei';
+
+			const hasLocalKey = localObj && Object.prototype.hasOwnProperty.call(localObj, localKey);
+			const localValue = hasLocalKey ? localObj[localKey] : undefined;
+			const currentPath = [...path, key];
+			const pathString = `${collectionName}/fontfamily-${currentPath.join('-')}`;
+
+			if (figmaValue && typeof figmaValue === 'object' && !Array.isArray(figmaValue)) {
+				// nested group (e.g., lg-smart-ui/default)
+				walk(figmaValue, hasLocalKey && typeof localValue === 'object' ? localValue : {}, currentPath);
+				return;
+			}
+
+			// leaf value comparison
+			if (localValue === undefined) {
+				// Token added
+				changes.added[pathString] = {
+					collection: collectionName,
+					package: packageName,
+					path: ['fontfamily', ...currentPath],
+					value: figmaValue
+				};
+				console.log(`Found new fontfamily token: ${pathString} = ${figmaValue}`);
+			} else {
+				if (String(localValue) !== String(figmaValue)) {
+					// Token modified
+					const mappedChange = {
+						filePath: `${packageName}/typography-primitive`,
+						before: {
+							primitive: {
+								'font-family': buildFontFamilyChangeObject(path, key, localValue)
+							}
+						},
+						after: {
+							primitive: {
+								'font-family': buildFontFamilyChangeObject(path, key, figmaValue)
+							}
+						}
+					};
+					changes.modified[`${packageName}/typography-primitive/font-family-${currentPath.join('-')}`] = mappedChange;
+					console.log(`Found modified fontfamily token: ${pathString}`);
+					console.log(`  Local: ${localValue} → Figma: ${figmaValue}`);
+				} else {
+					// Token unchanged
+					changes.unchanged[pathString] = {
+						collection: collectionName,
+						package: packageName,
+						path: ['fontfamily', ...currentPath],
+						value: figmaValue
+					};
+					console.log(`Fontfamily token unchanged: ${pathString} (${localValue})`);
+				}
+			}
+		});
+	}
+
+	walk(figmaValues, localFontFamily || {}, []);
 }
 
 /**
  * Compare Figma typography collection with local typography tokens
  */
 function compareTypographyTokens(figmaCollection, localPrimitiveTokens, collectionName, packageName, changes) {
-	// Handle fontsize and fontweight, skip fontfamily
+	// Handle fontsize, fontweight, and fontfamily
 	Object.entries(figmaCollection).forEach(([category, figmaValues]) => {
-		if (category === 'fontfamily') {
-			console.log(`⏭️ Skipping fontfamily tokens in ${collectionName}`);
+		if (category === 'fontfamily' && typeof figmaValues === 'object') {
+			const localFontFamily = localPrimitiveTokens['font-family'] || {};
+			compareFontFamilyTokens(figmaValues, localFontFamily, collectionName, packageName, changes);
 			return;
 		}
 
