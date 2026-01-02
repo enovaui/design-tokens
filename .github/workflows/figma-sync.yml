@@ -38,7 +38,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: latest
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -59,9 +59,6 @@ jobs:
         run: |
           git config --global user.name "enovaui-bot"
           git config --global user.email "enovaui@lge.com"
-
-      - name: Log .npmrc content for debugging
-        run: cat ~/.npmrc
 
       - name: Check Figma Variables
         id: figma-check
