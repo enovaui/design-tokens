@@ -60,6 +60,9 @@ jobs:
           git config --global user.name "enovaui-bot"
           git config --global user.email "enovaui@lge.com"
 
+      - name: Log .npmrc content for debugging
+        run: cat ./.npmrc
+
       - name: Check Figma Variables
         id: figma-check
         env:
