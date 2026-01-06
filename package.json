@@ -22,12 +22,14 @@
     "create:pr": "node scripts/pr-generator.js",
     "sync:all": "npm run sync:figma && npm run transform:tokens && npm run create:pr",
     "clean": "rm -rf packages/*/dist/*",
-    "version": "npx changeset version && node scripts/sync-version.js"
+    "version": "npx changeset version && node scripts/sync-version.js",
+    "test": "npx playwright test"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.6",
     "fs-extra": "^11.2.0",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "playwright": "^1.57.0"
   },
   "engines": {
     "node": ">=16.0.0"
