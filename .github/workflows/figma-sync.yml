@@ -50,7 +50,7 @@ jobs:
       - name: Install dependencies
         run: |
           # Use pnpm install with performance and reliability options
-          pnpm install --no-audit --no-fund --prefer-offline
+          pnpm install --prefer-offline
           # Install node-fetch for Figma API requests
           pnpm install node-fetch@3
 
