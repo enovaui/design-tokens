@@ -20,11 +20,11 @@ class Stroke extends StrokeBase {
   @override
   Color get main => ColorPrimitive.instance.neutralGray35;
   @override
-  Color get mainDisabledFocused => ColorPrimitive.instance.neutralGray70;
-  @override
   Color get mainFocused => ColorPrimitive.instance.white;
   @override
   Color get mainSelected => ColorPrimitive.instance.coolGray40;
+  @override
+  Color get mainDisabledFocused => ColorPrimitive.instance.neutralGray70;
   @override
   Color get sub => ColorPrimitive.instance.neutralGray70;
   @override

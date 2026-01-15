@@ -28,7 +28,13 @@ class Surface extends SurfaceBase {
   @override
   Color get defaultGroup => ColorPrimitive.instance.white;
   @override
+  Color get defaultHandle => ColorPrimitive.instance.activeRed70;
+  @override
+  Color get defaultIndicator => ColorPrimitive.instance.white;
+  @override
   Color get defaultNotification => ColorPrimitive.instance.deepOrange50;
+  @override
+  Color get defaultPlaceholder => ColorPrimitive.instance.coolGray10;
   @override
   Color get defaultTrack => ColorPrimitive.instance.neutralGray40;
   @override
@@ -58,9 +64,5 @@ class Surface extends SurfaceBase {
   @override
   Color get black => ColorPrimitive.instance.black;
   @override
-  Color get defaultHandle => ColorPrimitive.instance.activeRed70;
-  @override
-  Color get defaultIndicator => ColorPrimitive.instance.white;
-  @override
-  Color get defaultPlaceholder => ColorPrimitive.instance.coolGray10;
+  Color get spinner => ColorPrimitive.instance.coolGray20;
 }
