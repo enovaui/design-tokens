@@ -90,7 +90,8 @@
                     "input-field-success": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-90"},
                     "scroll-handle": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cool-gray-60"},
                     "toast": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-90"}
-                }
+                },
+                "spinner": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cool-gray-20"}
             },
             "stroke": {
                 "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-50"},

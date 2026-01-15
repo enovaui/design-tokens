@@ -64,6 +64,7 @@ Semantic Color Tokens
 	--semantic-color-surface-popup-input-field-success: var(--primitive-color-neutral-gray-90);
 	--semantic-color-surface-popup-scroll-handle: var(--primitive-color-cool-gray-60);
 	--semantic-color-surface-popup-toast: var(--primitive-color-neutral-gray-90);
+	--semantic-color-surface-spinner: var(--primitive-color-cool-gray-20);
 
 	/* On Surface */
 	--semantic-color-on-surface-default-rec: var(--primitive-color-active-red-55);
