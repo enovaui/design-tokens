@@ -54,6 +54,7 @@ Semantic Color Tokens
 	--semantic-color-surface-toggle-handle: var(--primitive-color-neutral-gray-70);
 	--semantic-color-surface-white: var(--primitive-color-white);
 	--semantic-color-surface-black: var(--primitive-color-black);
+	--semantic-color-surface-spinner: var(--primitive-color-cool-gray-20);
 	--semantic-color-surface-overlay-default: var(--primitive-color-cool-gray-15);
 	--semantic-color-surface-popup-default: var(--primitive-color-cool-gray-55);
 	--semantic-color-surface-popup-default-selected: var(--primitive-color-cool-gray-40);
@@ -64,7 +65,6 @@ Semantic Color Tokens
 	--semantic-color-surface-popup-input-field-success: var(--primitive-color-neutral-gray-90);
 	--semantic-color-surface-popup-scroll-handle: var(--primitive-color-cool-gray-60);
 	--semantic-color-surface-popup-toast: var(--primitive-color-neutral-gray-90);
-	--semantic-color-surface-spinner: var(--primitive-color-cool-gray-20);
 
 	/* On Surface */
 	--semantic-color-on-surface-default-rec: var(--primitive-color-active-red-55);
