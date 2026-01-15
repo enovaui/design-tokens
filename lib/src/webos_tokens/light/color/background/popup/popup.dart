@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show Color;
 
 import '../../../../../core_tokens/color_primitive.dart';
 import '../../../../base/color/background/popup/popup_base.dart';

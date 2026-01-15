@@ -2,6 +2,12 @@
 
 The following is a curated list of changes in the webos tokens module, newest changes on the top.
 
+## [0.14.0] - 2026-01-15
+
+### Added
+
+- `semantic-color-surface-spinner`
+
 ## [0.13.2] - 2026-01-02
 
 - No significant changes
