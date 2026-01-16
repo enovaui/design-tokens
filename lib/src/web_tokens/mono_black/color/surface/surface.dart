@@ -54,7 +54,7 @@ class Surface extends SurfaceBase {
   @override
   Color get buttonIconPressed => ColorPrimitive.instance.mistGray50;
   @override
-  Color get chip => ColorPrimitive.instance.mistGray40;
+  Color get chip => ColorPrimitive.instance.warmGray25;
   @override
   Color get chipSelected => ColorPrimitive.instance.mistGray90;
   @override

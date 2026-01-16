@@ -96,7 +96,7 @@ class Surface extends SurfaceBase {
   @override
   Color get cardGray => ColorPrimitive.instance.neutralGray99;
   @override
-  Color get chip => ColorPrimitive.instance.white;
+  Color get chip => ColorPrimitive.instance.warmGray99;
   @override
   Color get chipSelected => ColorPrimitive.instance.activeRed50;
   @override
