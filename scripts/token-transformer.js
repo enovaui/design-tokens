@@ -130,17 +130,19 @@ class TokenTransformer {
 	async updateSemanticDartFileForTheme(filePath, updatedFiles) {
 		if (!filePath.includes('color-semantic')) return;
 
-		// Determine which package this file belongs to
-		const isWebosPackage = filePath.includes('webos-tokens');
-		const isWebPackage = filePath.includes('web-tokens');
-		const isMobilePackage = filePath.includes('mobile-tokens');
+		// Determine which package this file belongs to by checking the full path
+		const isWebosPackage = filePath.includes('packages/webos-tokens/');
+		const isWebPackage = filePath.includes('packages/web-tokens/');
+		const isMobilePackage = filePath.includes('packages/mobile-tokens/');
 
 		// webos-tokens semantic colors
 		if (isWebosPackage) {
 			const webosDartOutputDir = path.join(this.baseDir, 'lib/src/webos_tokens');
 			for (const { name, pattern } of this.semanticThemes) {
 				const themePart = pattern.replace('.json', '').replace('color-semantic-', '');
-				if (filePath.includes(themePart)) {
+				// Extract just the filename from the full path for comparison
+				const fileName = path.basename(filePath);
+				if (fileName === pattern) {
 					await this.dartGenerator.generateSemanticDartFromJSON(filePath, webosDartOutputDir, name);
 					console.log(`✅ Generated WebOS Semantic Dart files for ${name} theme`);
 					console.log(`   💎 Updated WebOS Dart files for ${name} theme semantic colors`);
@@ -156,7 +158,9 @@ class TokenTransformer {
 			const webDartOutputDir = path.join(this.baseDir, 'lib/src/web_tokens');
 			for (const { name, pattern } of this.webSemanticThemes) {
 				const themePart = pattern.replace('.json', '').replace('color-semantic-', '');
-				if (filePath.includes(themePart)) {
+				// Extract just the filename from the full path for comparison
+				const fileName = path.basename(filePath);
+				if (fileName === pattern) {
 					// For web-tokens we use folder names that may differ from "name" in DartGenerator
 					await this.dartGenerator.generateSemanticDartFromJSON(filePath, webDartOutputDir, name);
 					console.log(`✅ Generated Web Semantic Dart files for ${name} theme`);
@@ -173,7 +177,9 @@ class TokenTransformer {
 			const mobileDartOutputDir = path.join(this.baseDir, 'lib/src/mobile_tokens');
 			for (const { name, pattern } of this.mobileSemanticThemes) {
 				const themePart = pattern.replace('.json', '').replace('color-semantic-', '');
-				if (filePath.includes(themePart)) {
+				// Extract just the filename from the full path for comparison
+				const fileName = path.basename(filePath);
+				if (fileName === pattern) {
 					// For mobile-tokens we also use folder names that may differ from "name" in DartGenerator
 					await this.dartGenerator.generateSemanticDartFromJSON(filePath, mobileDartOutputDir, name);
 					console.log(`✅ Generated Mobile Semantic Dart files for ${name} theme`);
