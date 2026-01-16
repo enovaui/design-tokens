@@ -435,17 +435,40 @@ class TokenTransformer {
 		if (!existingTokens.primitive) existingTokens.primitive = {};
 		for (const { changeData } of tokens) {
 			const { path: tokenPathArray, value } = changeData;
-			const tokenKey = tokenPathArray.length > 1
-				? `${tokenPathArray[0]}-${tokenPathArray[tokenPathArray.length - 1]}`
-				: tokenPathArray[0];
-			let formattedValue = value;
-			if (tokenPathArray[0] === 'spacing' || tokenPathArray[0] === 'radius') {
-				formattedValue = value === 0 ? '0' : `${value}px`;
-			} else if (tokenPathArray[0].startsWith('font-size') && typeof value === 'number') {
-				formattedValue = `${value}px`;
+			
+			// Special handling for nested structures (font-family, font-weight)
+			if ((tokenPathArray[0] === 'font-family' || tokenPathArray[0] === 'font-weight') && tokenPathArray.length > 1) {
+				// These tokens have nested structure
+				const rootKey = tokenPathArray[0];
+				if (!existingTokens.primitive[rootKey]) {
+					existingTokens.primitive[rootKey] = {};
+				}
+				
+				let target = existingTokens.primitive[rootKey];
+				// Navigate through the path, preserving kebab-case for intermediate keys
+				for (let i = 1; i < tokenPathArray.length - 1; i++) {
+					const key = tokenPathArray[i];
+					if (!target[key]) target[key] = {};
+					target = target[key];
+				}
+				// Set the final value
+				const finalKey = tokenPathArray[tokenPathArray.length - 1];
+				target[finalKey] = value;
+				console.log(`     + Added ${rootKey}.${tokenPathArray.slice(1).join('.')}: ${value}`);
+			} else {
+				// Original logic for non-nested tokens
+				const tokenKey = tokenPathArray.length > 1
+					? `${tokenPathArray[0]}-${tokenPathArray[tokenPathArray.length - 1]}`
+					: tokenPathArray[0];
+				let formattedValue = value;
+				if (tokenPathArray[0] === 'spacing' || tokenPathArray[0] === 'radius') {
+					formattedValue = value === 0 ? '0' : `${value}px`;
+				} else if (tokenPathArray[0].startsWith('font-size') && typeof value === 'number') {
+					formattedValue = `${value}px`;
+				}
+				existingTokens.primitive[tokenKey] = formattedValue;
+				console.log(`     + Added ${tokenKey}: ${formattedValue}`);
 			}
-			existingTokens.primitive[tokenKey] = formattedValue;
-			console.log(`     + Added ${tokenKey}: ${formattedValue}`);
 		}
 		const sortedTokens = this.sortTokens(existingTokens);
 		await this.saveTokensToFile(filePath, sortedTokens);

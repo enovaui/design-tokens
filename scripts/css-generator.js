@@ -344,9 +344,58 @@ Primitive Typography Tokens
             });
         }
 
+        // Handle font-family object with nested structure
+        if (primitive['font-family'] && typeof primitive['font-family'] === 'object') {
+            cssContent += '\n\t/* Font Families */\n';
+            
+            // Helper function to flatten nested font-family structure with better comments
+            const flattenFontFamilyWithComments = (obj, prefix = '', parentKey = '') => {
+                const result = [];
+                const entries = Object.entries(obj);
+                
+                // Check if this level needs a comment header
+                if (parentKey && entries.some(([_, v]) => typeof v === 'object')) {
+                    // Add a comment for nested groups
+                    result.push({ comment: parentKey });
+                }
+                
+                for (const [key, value] of entries) {
+                    if (typeof value === 'string') {
+                        // Simple string value
+                        const varName = prefix ? `${prefix}-${key}` : key;
+                        result.push({ name: varName, value });
+                    } else if (typeof value === 'object' && value !== null) {
+                        // Nested object - flatten recursively
+                        const newPrefix = prefix ? `${prefix}-${key}` : key;
+                        result.push(...flattenFontFamilyWithComments(value, newPrefix, key));
+                    }
+                }
+                return result;
+            };
+            
+            const fontFamilyEntries = flattenFontFamilyWithComments(primitive['font-family']);
+            let lastComment = null;
+            fontFamilyEntries.forEach((entry) => {
+                if (entry.comment) {
+                    // Add section comment
+                    if (lastComment !== null) {
+                        cssContent += '\n';
+                    }
+                    const commentText = entry.comment
+                        .split('-')
+                        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                        .join(' ');
+                    cssContent += `\t/* ${commentText} */\n`;
+                    lastComment = entry.comment;
+                } else if (entry.name && entry.value) {
+                    cssContent += `\t--primitive-font-family-${entry.name}: "${entry.value}";\n`;
+                }
+            });
+        }
+
         // Handle any other typography tokens
         const otherTokens = Object.keys(primitive)
-            .filter(key => !key.startsWith('font-size-') && !key.startsWith('font-weight-') && key !== 'font-weight')
+            .filter(key => !key.startsWith('font-size-') && !key.startsWith('font-weight-') && key !== 'font-weight' && key !== 'font-family')
             .sort();
 
         if (otherTokens.length > 0) {
