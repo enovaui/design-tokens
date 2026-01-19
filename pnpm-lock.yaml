@@ -22,6 +22,26 @@ importers:
         specifier: ^3.3.2
         version: 3.3.2
 
+  packages/core-tokens: {}
+
+  packages/mobile-tokens:
+    dependencies:
+      '@enovaui/core-tokens':
+        specifier: ^0.13.2
+        version: 0.13.2
+
+  packages/web-tokens:
+    dependencies:
+      '@enovaui/core-tokens':
+        specifier: ^0.13.2
+        version: 0.13.2
+
+  packages/webos-tokens:
+    dependencies:
+      '@enovaui/core-tokens':
+        specifier: ^0.13.2
+        version: 0.13.2
+
 packages:
 
   '@babel/runtime@7.28.4':
@@ -82,6 +102,9 @@ packages:
 
   '@changesets/write@0.4.0':
     resolution: {integrity: sha512-CdTLvIOPiCNuH71pyDu3rA+Q0n65cmAbXnwWH84rKGiFumFzkmHNT8KHTMEchcxN+Kl8I54xGUhJ7l3E7X396Q==}
+
+  '@enovaui/core-tokens@0.13.2':
+    resolution: {integrity: sha512-kPV7jgmgbmArjf1cmC8oYlu36K9+ggKTlBum4A9hgBSvB7FEAtPeannekCaiQUDrsVb0PUow+gnDWwwb5PtqFg==}
 
   '@inquirer/external-editor@1.0.3':
     resolution: {integrity: sha512-RWbSrDiYmO4LbejWY7ttpxczuwQyZLBUyygsA9Nsv95hpzUWwnNTVQmAq3xuh7vNwCp07UTmE5i11XAEExx4RA==}
@@ -579,6 +602,8 @@ snapshots:
       fs-extra: 7.0.1
       human-id: 4.1.2
       prettier: 2.8.8
+
+  '@enovaui/core-tokens@0.13.2': {}
 
   '@inquirer/external-editor@1.0.3':
     dependencies:
