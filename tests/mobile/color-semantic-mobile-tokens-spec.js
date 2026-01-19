@@ -6,10 +6,10 @@ import * as token from '../../packages/mobile-tokens/json/color-semantic-mobile.
 // Test: Open the HTML file and take a screenshot
 // Also check that the color table is visible and has rows
 
-test('moible tokens HTML renders and matches screenshot', async ({ page }) => {
+test('mobile tokens HTML renders and matches screenshot', async ({ page }) => {
   let result = `<h1>Mobile tokens</h1><ul>${extractLastKeyValue(token)}</ul>`;
   await page.setViewportSize({ width: 1280, height: 3000 });
   await page.setContent(result);
   await expect(page.locator('h1')).toHaveText('Mobile tokens');
-  await expect(page).toHaveScreenshot('reference-color-mobile-tockens.png', {threshold: 0.2});
+  await expect(page).toHaveScreenshot('reference-color-semantic-mobile-tokens.png', {threshold: 0.2});
 });

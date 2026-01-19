@@ -11,5 +11,5 @@ test('core tokens radius HTML renders and matches screenshot', async ({ page }) 
   await page.setViewportSize({ width: 1280, height: 2000 });
   await page.setContent(result);
   await expect(page.locator('h1')).toHaveText('Core Tokens Radius');
-  await expect(page).toHaveScreenshot('reference-tockens-radius.png', {threshold: 0.2});
+  await expect(page).toHaveScreenshot('reference-tokens-radius.png', {threshold: 0.2});
 });

@@ -11,5 +11,5 @@ test('webOS dark tokens HTML renders and matches screenshot', async ({ page }) =
   await page.setViewportSize({ width: 1280, height: 5000 });
   await page.setContent(result);
   await expect(page.locator('h1')).toHaveText('WebOS Dark tokens');
-  await expect(page).toHaveScreenshot('reference-color-webos-dark-tockens.png', {threshold: 0.2});
+  await expect(page).toHaveScreenshot('reference-color-semantic-dark-tokens.png', {threshold: 0.2});
 });

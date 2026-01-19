@@ -11,5 +11,5 @@ test('webOS highcontrast tokens HTML renders and matches screenshot', async ({ p
   await page.setViewportSize({ width: 1280, height: 5000 });
   await page.setContent(result);
   await expect(page.locator('h1')).toHaveText('WebOS highcontrast tokens');
-  await expect(page).toHaveScreenshot('reference-color-webos-highcontrast-tockens.png', {threshold: 0.2});
+  await expect(page).toHaveScreenshot('reference-color-semantic-highcontrast-tokens.png', {threshold: 0.2});
 });
