@@ -11,5 +11,5 @@ test('semantic web tokens HTML renders and matches screenshot', async ({ page })
   await page.setViewportSize({ width: 1280, height: 8000 });
   await page.setContent(result);
   await expect(page.locator('h1')).toHaveText('Semantic web tokens');
-  await expect(page).toHaveScreenshot('reference-color-semantic-web-tokens.png', {threshold: 0.2});
+  await expect(page).toHaveScreenshot('reference-web-tokens-color-semantic-web.png', {threshold: 0.2});
 });

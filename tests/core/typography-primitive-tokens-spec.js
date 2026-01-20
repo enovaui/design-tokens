@@ -11,5 +11,5 @@ test('core tokens typography HTML renders and matches screenshot', async ({ page
   await page.setViewportSize({ width: 1280, height: 4000 });
   await page.setContent(result);
   await expect(page.locator('h1')).toHaveText('Core Tokens Typography');
-  await expect(page).toHaveScreenshot('reference-tokens-typography.png', {threshold: 0.2});
+  await expect(page).toHaveScreenshot('reference-core-tokens-typography-primitive.png', {threshold: 0.2});
 });

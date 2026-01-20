@@ -11,5 +11,5 @@ test('core tokens spacing HTML renders and matches screenshot', async ({ page })
   await page.setViewportSize({ width: 1280, height: 3000 });
   await page.setContent(result);
   await expect(page.locator('h1')).toHaveText('Core Tokens Spacing');
-  await expect(page).toHaveScreenshot('reference-tokens-spacing.png', {threshold: 0.2});
+  await expect(page).toHaveScreenshot('reference-core-tokens-spacing-primitive.png', {threshold: 0.2});
 });

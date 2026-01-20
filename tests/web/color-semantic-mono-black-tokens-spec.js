@@ -11,5 +11,5 @@ test('semantic mono-black tokens HTML renders and matches screenshot', async ({ 
   await page.setViewportSize({ width: 1280, height: 10000 });
   await page.setContent(result);
   await expect(page.locator('h1')).toHaveText('Semantic Mono Black tokens');
-  await expect(page).toHaveScreenshot('reference-color-semantic-mono-black-tokens.png', {threshold: 0.2});
+  await expect(page).toHaveScreenshot('reference-web-tokens-color-semantic-mono-black.png', {threshold: 0.2});
 });
