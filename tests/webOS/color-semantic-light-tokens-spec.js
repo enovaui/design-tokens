@@ -7,9 +7,9 @@ import * as token from '../../packages/webos-tokens/json/color-semantic-light.js
 // Also check that the color table is visible and has rows
 
 test('semanitc light tokens HTML renders and matches screenshot', async ({ page }) => {
-  let result = `<h1>WebOS Light tokens</h1><ul>${extractLastKeyValue(token)}</ul>`;
+  let result = `<h1>Color semantic light tokens for webOS</h1><ul>${extractLastKeyValue(token)}</ul>`;
   await page.setViewportSize({ width: 1280, height: 5000 });
   await page.setContent(result);
-  await expect(page.locator('h1')).toHaveText('WebOS Light tokens');
+  await expect(page.locator('h1')).toHaveText('Color semantic light tokens for webOS');
   await expect(page).toHaveScreenshot('reference-webos-tokens-color-semantic-light.png', {threshold: 0.2});
 });

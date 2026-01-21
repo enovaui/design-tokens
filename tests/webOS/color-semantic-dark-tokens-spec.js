@@ -7,9 +7,9 @@ import * as token from '../../packages/webos-tokens/json/color-semantic-dark.jso
 // Also check that the color table is visible and has rows
 
 test('semantic dark tokens HTML renders and matches screenshot', async ({ page }) => {
-  let result = `<h1>WebOS Dark tokens</h1><ul>${extractLastKeyValue(token)}</ul>`;
+  let result = `<h1>Color semantic dark tokens for webOS</h1><ul>${extractLastKeyValue(token)}</ul>`;
   await page.setViewportSize({ width: 1280, height: 5000 });
   await page.setContent(result);
-  await expect(page.locator('h1')).toHaveText('WebOS Dark tokens');
+  await expect(page.locator('h1')).toHaveText('Color semantic dark tokens for webOS');
   await expect(page).toHaveScreenshot('reference-webos-tokens-color-semantic-dark.png', {threshold: 0.2});
 });

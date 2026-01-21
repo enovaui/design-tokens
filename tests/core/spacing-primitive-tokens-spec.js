@@ -7,9 +7,9 @@ import * as token from '../../packages/core-tokens/json/spacing-primitive.json'
 // Also check that the color table is visible and has rows
 
 test('core tokens spacing HTML renders and matches screenshot', async ({ page }) => {
-  let result = `<h1>Spacing Primitive Tokens</h1><ul>${extractLastKeyValue(token)}</ul>`;
+  let result = `<h1>Spacing primitive tokens</h1><ul>${extractLastKeyValue(token)}</ul>`;
   await page.setViewportSize({ width: 1280, height: 3000 });
   await page.setContent(result);
-  await expect(page.locator('h1')).toHaveText('Spacing Primitive Tokens');
+  await expect(page.locator('h1')).toHaveText('Spacing primitive tokens');
   await expect(page).toHaveScreenshot('reference-core-tokens-spacing-primitive.png', {threshold: 0.2});
 });
