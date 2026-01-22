@@ -5,7 +5,6 @@
 
 import 'package:flutter/material.dart' show Color;
 
-/// Base structure for web semantic stroke colors.
 abstract class StrokeBase {
   const StrokeBase();
 
@@ -14,16 +13,13 @@ abstract class StrokeBase {
   Color get main;
   Color get mainFocused;
   Color get sub;
-  Color get accent;
-  Color get button;
-  Color get selectionActive;
-  Color get selectionInactive;
-  Color get tab;
   Color get badgeGreen;
   Color get badgeGray;
   Color get badgeOrange;
   Color get badgeMagenta;
+  Color get accent;
   Color get badgeRed;
+  Color get button;
   Color get buttonTertiary;
   Color get buttonIcon;
   Color get cardSelected;
@@ -31,6 +27,9 @@ abstract class StrokeBase {
   Color get chip;
   Color get chipPink;
   Color get chipWhite;
+  Color get selectionActive;
+  Color get selectionInactive;
+  Color get tab;
   Color get textField;
   Color get textFieldFocused;
   Color get textFieldDisabled;

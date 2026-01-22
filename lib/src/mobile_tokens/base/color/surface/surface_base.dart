@@ -5,7 +5,6 @@
 
 import 'package:flutter/material.dart';
 
-/// Base structure for mobile semantic surface colors.
 abstract class SurfaceBase {
   const SurfaceBase();
 

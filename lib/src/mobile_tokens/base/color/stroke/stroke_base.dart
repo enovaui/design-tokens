@@ -5,7 +5,6 @@
 
 import 'package:flutter/material.dart' show Color;
 
-/// Base structure for mobile semantic stroke colors.
 abstract class StrokeBase {
   const StrokeBase();
 

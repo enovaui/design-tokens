@@ -5,10 +5,8 @@
 
 import 'package:flutter/material.dart';
 
-/// Base structure for mobile semantic background colors.
 abstract class BackgroundBase {
   const BackgroundBase();
 
-  /// Default background color.
   Color get defaultColor;
 }

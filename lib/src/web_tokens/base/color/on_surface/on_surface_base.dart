@@ -5,26 +5,47 @@
 
 import 'package:flutter/material.dart';
 
-import 'overlay/overlay_base.dart';
-import 'popup/popup_base.dart';
-
-/// Base structure for web semantic on-surface colors.
 abstract class OnSurfaceBase {
   const OnSurfaceBase();
 
-  OverlayBase get overlay;
-  PopupBase get popup;
+  Color get defaultDisabled;
   Color get main;
-  Color get mainFocused;
+  Color get mainError;
+  Color get mainSuccess;
   Color get mainSelected;
   Color get sub;
-  Color get subFocused;
-  Color get subSelected;
+  Color get subError;
+  Color get subSuccess;
   Color get accent;
-  Color get highlightGreen;
-  Color get highlightYellow;
-  Color get inputField;
+  Color get highlight;
+  Color get badgeRed;
+  Color get badgeOrange;
+  Color get badgeGreen;
+  Color get badgeMagenta;
+  Color get buttonPrimary;
+  Color get buttonPrimaryHover;
+  Color get buttonPrimaryDisabled;
+  Color get buttonSecondary;
+  Color get buttonSecondaryHover;
+  Color get buttonTertiary;
+  Color get cardGray;
+  Color get cardYellow;
+  Color get footer;
+  Color get index;
+  Color get pageIndicatorDot;
+  Color get textFieldInactive;
   Color get white;
   Color get black;
-  Color get defaultRec;
+  Color get mainSupporting;
+  Color get badgeDarkGray;
+  Color get header;
+  Color get buttonLabelDisabled;
+  Color get cardOrange;
+  Color get menu;
+  Color get pageIndicator;
+  Color get sectionActiveDisabled;
+  Color get textFieldAssistive;
+  Color get cardDark;
+  Color get cardLight;
+  Color get subSupporting;
 }

@@ -5,7 +5,6 @@
 
 import 'package:flutter/material.dart';
 
-/// Base structure for mobile semantic scrim colors.
 abstract class ScrimBase {
   const ScrimBase();
 

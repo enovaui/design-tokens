@@ -5,10 +5,8 @@
 
 import 'package:flutter/material.dart';
 
-/// Base structure for mobile semantic on-background colors.
 abstract class OnBackgroundBase {
   const OnBackgroundBase();
 
-  /// Text/icon color on top of the default background.
   Color get defaultColor;
 }

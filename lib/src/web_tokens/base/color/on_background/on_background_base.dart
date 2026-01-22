@@ -5,7 +5,6 @@
 
 import 'package:flutter/material.dart' show Color;
 
-/// Base structure for web semantic on-background colors.
 abstract class OnBackgroundBase {
   const OnBackgroundBase();
 

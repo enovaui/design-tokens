@@ -5,7 +5,6 @@
 
 import 'package:flutter/material.dart';
 
-/// Base structure for mobile semantic on-surface colors.
 abstract class OnSurfaceBase {
   const OnSurfaceBase();
 
