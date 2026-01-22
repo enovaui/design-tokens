@@ -11,7 +11,7 @@ import 'on_surface/on_surface.dart';
 import 'stroke/stroke.dart';
 import 'scrim/scrim.dart';
 
-class ColorSemanticWeb implements ColorSemanticTheme {
+class ColorSemanticWeb implements ColorSemantic {
   const ColorSemanticWeb._();
 
   static ColorSemanticWeb? _instance;

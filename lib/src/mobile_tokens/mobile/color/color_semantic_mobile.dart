@@ -11,7 +11,7 @@ import 'on_surface/on_surface.dart';
 import 'stroke/stroke.dart';
 import 'scrim/scrim.dart';
 
-class ColorSemanticMobile implements ColorSemanticTheme {
+class ColorSemanticMobile extends ColorSemantic {
   const ColorSemanticMobile._();
 
   static ColorSemanticMobile? _instance;

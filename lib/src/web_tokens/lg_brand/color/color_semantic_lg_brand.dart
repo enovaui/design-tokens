@@ -11,7 +11,7 @@ import 'on_surface/on_surface.dart';
 import 'stroke/stroke.dart';
 import 'scrim/scrim.dart';
 
-class ColorSemanticLgBrand implements ColorSemanticTheme {
+class ColorSemanticLgBrand extends ColorSemantic {
   const ColorSemanticLgBrand._();
 
   static ColorSemanticLgBrand? _instance;
