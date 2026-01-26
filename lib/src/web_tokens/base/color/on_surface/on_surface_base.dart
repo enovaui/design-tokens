@@ -43,7 +43,7 @@ abstract class OnSurfaceBase {
   Color get cardOrange;
   Color get menu;
   Color get pageIndicator;
-  Color get sectionActiveDisabled;
+  Color get selectionActiveDisabled;
   Color get textFieldAssistive;
   Color get cardDark;
   Color get cardLight;

@@ -6,10 +6,10 @@
 import '../../color_semantic.dart';
 import 'background/background.dart';
 import 'on_background/on_background.dart';
-import 'surface/surface.dart';
 import 'on_surface/on_surface.dart';
-import 'stroke/stroke.dart';
 import 'scrim/scrim.dart';
+import 'stroke/stroke.dart';
+import 'surface/surface.dart';
 
 class ColorSemanticLgBrand extends ColorSemantic {
   const ColorSemanticLgBrand._();
