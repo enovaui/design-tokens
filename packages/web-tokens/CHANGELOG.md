@@ -4,7 +4,7 @@ The following is a curated list of changes in the web tokens module, newest chan
 
 ## [undefined]
 
-### Chnaged
+### Changed
 
 - `semantic-color-background-sub` value
 
