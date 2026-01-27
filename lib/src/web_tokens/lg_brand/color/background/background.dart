@@ -14,7 +14,7 @@ class Background extends BackgroundBase {
   @override
   Color get main => ColorPrimitive.instance.warmGray85;
   @override
-  Color get sub => ColorPrimitive.instance.white;
+  Color get sub => ColorPrimitive.instance.neutralGray95;
   @override
   Color get white => ColorPrimitive.instance.white;
   @override
