@@ -2,6 +2,13 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Added
+
+- `mobile-tokens`
+- `web-tokens`
+
 ## [0.14.0] - 2026-01-15
 
 ### Added

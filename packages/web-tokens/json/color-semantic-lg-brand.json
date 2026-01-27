@@ -3,7 +3,7 @@
         "color": {
             "background": {
                 "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-85"},
-                "sub": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                "sub": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-95"},
                 "white": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                 "black": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
                 "dark-gray": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-15"},
@@ -171,7 +171,7 @@
             "scrim": {
                 "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
                 "white": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
-                "black": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/warm-gray-10"}
+                "black": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-10"}
             }
         }
     }
