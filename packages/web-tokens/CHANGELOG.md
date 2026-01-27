@@ -2,6 +2,12 @@
 
 The following is a curated list of changes in the web tokens module, newest changes on the top.
 
+## [undefined]
+
+### Chnaged
+
+- `semantic-color-background-sub` value
+
 ## [0.14.0] - 2026-01-15
 
 - No significant changes
