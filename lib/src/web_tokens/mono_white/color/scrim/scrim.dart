@@ -16,5 +16,5 @@ class Scrim extends ScrimBase {
   @override
   Color get white => ColorPrimitive.instance.white;
   @override
-  Color get black => ColorPrimitive.instance.warmGray10;
+  Color get black => ColorPrimitive.instance.neutralGray10;
 }
