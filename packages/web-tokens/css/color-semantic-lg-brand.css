@@ -13,7 +13,7 @@ Semantic Color Tokens
 
 	/* Background */
 	--semantic-color-background-main: var(--primitive-color-warm-gray-85);
-	--semantic-color-background-sub: var(--primitive-color-white);
+	--semantic-color-background-sub: var(--primitive-color-neutral-gray-95);
 	--semantic-color-background-white: var(--primitive-color-white);
 	--semantic-color-background-black: var(--primitive-color-black);
 	--semantic-color-background-dark-gray: var(--primitive-color-warm-gray-15);
@@ -179,5 +179,5 @@ Semantic Color Tokens
 	/* Scrim */
 	--semantic-color-scrim-default: var(--primitive-color-black);
 	--semantic-color-scrim-white: var(--primitive-color-white);
-	--semantic-color-scrim-black: var(--primitive-color-warm-gray-10);
+	--semantic-color-scrim-black: var(--primitive-color-neutral-gray-10);
 }

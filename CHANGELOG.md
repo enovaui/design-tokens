@@ -2,6 +2,38 @@
 
 The following is a curated list of changes in the design tokens module, newest changes on the top.
 
+## [0.15.0] - 2026-01-28
+
+### core-tokens
+
+- No significant changes
+
+### mobile-tokens
+
+- No significant changes
+
+### web-tokens
+
+#### Fixed
+
+- `semantic-color-background-sub` value
+
+### webos-tokens
+
+- No significant changes
+
+### mobile-tokens for flutter
+
+#### Added
+
+- `color-semantic` tokens
+
+### web-tokens for flutter
+
+#### Added
+
+- `color-semantic` tokens
+
 ## [0.14.0] - 2026-01-15
 
 ### core-tokens
