@@ -73,3 +73,36 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+### Automated Testing
+
+This project includes the [Playwright](https://playwright.dev/) configurations for executing automated Screenshot tests from design tokens library packages.
+
+#### Prerequisites
+
+```bash
+npm install
+npx playwright install # Install Playwright browsers first time only
+```
+
+#### Creating Screenshot Tests
+
+Within the repository, create a corresponding test in /tests/**-specs.js.
+
+The test-utils from /utils/ contains useful methods for loading tests.
+
+#### Test Commands
+
+```bash
+# Screenshot Tests
+npm run test          # Run all screenshot tests
+npm run test-update   # Update reference images (must be run before the first test)
+```
+
+#### Viewing Test Results
+
+After a test runs, if there are test failures, a page is created with links automatically. And we can view the report by opening the provided link:
+
+```bash
+ Serving HTML report at http://localhost:9323. Press Ctrl+C to quit.
+```

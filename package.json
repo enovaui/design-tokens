@@ -23,7 +23,8 @@
     "sync:all": "npm run sync:figma && npm run transform:tokens && npm run create:pr",
     "clean": "rm -rf packages/*/dist/*",
     "version": "npx changeset version && node scripts/sync-version.js",
-    "test": "npx playwright test"
+    "test": "npx playwright test",
+    "test-update": "npx playwright test --update-snapshots"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.6",

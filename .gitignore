@@ -18,10 +18,8 @@ bundle.js
 # Testing
 .eslintcache
 .env
-.last-run.json
 example.spec.js
-index.html
-snapshots/**/
+result/
 
 # Temporary sync files
 figma-changes.json

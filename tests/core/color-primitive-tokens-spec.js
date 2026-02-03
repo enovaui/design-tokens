@@ -1,10 +1,7 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
+
 import * as tokens from '../../packages/core-tokens/json/color-primitive.json';
-
-
-// Test: Open the HTML file and take a screenshot
-// Also check that the color table is visible and has rows
 
 test('color tokens HTML renders and matches screenshot', async ({ page }) => {
   let htmlContent = '<h1>Color primitive tokens</h1><ul>';
