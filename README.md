@@ -82,7 +82,6 @@ This project includes the [Playwright](https://playwright.dev/) configurations f
 
 ```bash
 npm install
-npx playwright install # Install Playwright browsers first time only
 ```
 
 #### Creating Screenshot Tests
@@ -101,8 +100,9 @@ npm run test-update   # Update reference images (must be run before the first te
 
 #### Viewing Test Results
 
-After a test runs, if there are test failures, a page is created with links automatically. And we can view the report by opening the provided link:
+After a test runs, if there are test failures, a page is created with links automatically. And we can view the report by opening the provided link or inputting command:
 
 ```bash
- Serving HTML report at http://localhost:9323. Press Ctrl+C to quit.
+ Serving HTML report at http://localhost:9323. Press Ctrl+C to quit. # Automatically created link
+ npx playwright show-report tests\result\reports\html # Command to view report
 ```

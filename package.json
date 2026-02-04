@@ -24,13 +24,14 @@
     "clean": "rm -rf packages/*/dist/*",
     "version": "npx changeset version && node scripts/sync-version.js",
     "test": "npx playwright test",
-    "test-update": "npx playwright test --update-snapshots"
+    "test-update": "npx playwright test --update-snapshots",
+    "postinstall": "npx playwright install --with-deps"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.6",
+    "@playwright/test": "^1.57.0",
     "fs-extra": "^11.2.0",
-    "node-fetch": "^3.3.2",
-    "playwright": "^1.57.0"
+    "node-fetch": "^3.3.2"
   },
   "engines": {
     "node": ">=16.0.0"
