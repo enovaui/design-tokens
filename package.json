@@ -21,11 +21,11 @@
     "transform:tokens": "node scripts/token-transformer.js",
     "create:pr": "node scripts/pr-generator.js",
     "sync:all": "npm run sync:figma && npm run transform:tokens && npm run create:pr",
-    "clean": "rm -rf packages/*/dist/*",
+    "clean": "rm -rf node_modules packages/*/node_modules tests/result",
     "version": "npx changeset version && node scripts/sync-version.js",
     "test": "npx playwright test",
     "test-update": "npx playwright test --update-snapshots",
-    "postinstall": "npx playwright install --with-deps"
+    "prepare:test-ss": "npx playwright install --with-deps"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.6",

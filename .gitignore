@@ -19,7 +19,7 @@ bundle.js
 .eslintcache
 .env
 example.spec.js
-result/
+tests/result/
 
 # Temporary sync files
 figma-changes.json
