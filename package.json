@@ -23,8 +23,8 @@
     "sync:all": "npm run sync:figma && npm run transform:tokens && npm run create:pr",
     "clean": "rm -rf node_modules packages/*/node_modules tests/result",
     "version": "npx changeset version && node scripts/sync-version.js",
-    "test": "npx playwright test",
-    "test-update": "npx playwright test --update-snapshots",
+    "test-ss": "npx playwright test",
+    "test-ss:update": "npx playwright test --update-snapshots",
     "prepare:test-ss": "npx playwright install --with-deps"
   },
   "devDependencies": {

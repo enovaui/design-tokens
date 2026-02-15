@@ -5,7 +5,7 @@ import {runScreenshotTest} from './utils/test-utils';
 import * as light from '../packages/webos-tokens/json/color-semantic-light.json';
 import * as highContrast from '../packages/webos-tokens/json/color-semantic-high-contrast.json';
 import * as dark from '../packages/webos-tokens/json/color-semantic-dark.json';
-import * as radius from '../packages/web-tokens/json/radius-semantic.json';
+import * as radius from '../packages/webos-tokens/json/radius-semantic.json';
 
 const cases = [
     {json: light, title: 'Color semantic light tokens for webOS', file: 'reference-webos-tokens-color-semantic-light.png'},
