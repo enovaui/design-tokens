@@ -87,8 +87,8 @@ The test-utils from /utils/ contains useful methods for loading tests.
 
 ```bash
 # Screenshot Tests
-npm run test          # Run all screenshot tests
-npm run test-update   # Update reference images (must be run before the first test)
+npm run test-ss          # Run all screenshot tests
+npm run test-ss:update   # Update reference images (must be run before the first test)
 ```
 
 #### Viewing Test Results
