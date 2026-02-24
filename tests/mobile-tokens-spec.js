@@ -1,4 +1,3 @@
-// @ts-check
 import {test} from '@playwright/test';
 import {runScreenshotTest} from './utils/test-utils';
 

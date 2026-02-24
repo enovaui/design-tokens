@@ -18,7 +18,6 @@ bundle.js
 # Testing
 .eslintcache
 .env
-example.spec.js
 tests/result/
 
 # Temporary sync files
