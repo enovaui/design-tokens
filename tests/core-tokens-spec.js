@@ -1,15 +1,15 @@
 import {test} from '@playwright/test';
 import {runScreenshotTest} from './utils/test-utils';
 
-import * as colorToken from '../packages/core-tokens/json/color-primitive.json';
-import * as spacingToken from '../packages/core-tokens/json/spacing-primitive.json';
-import * as radiusToken from '../packages/core-tokens/json/radius-primitive.json';
-import * as typographyToken from '../packages/core-tokens/json/typography-primitive.json';
+import * as colorPrimitive from '../packages/core-tokens/json/color-primitive.json';
+import * as spacingPrimitive from '../packages/core-tokens/json/spacing-primitive.json';
+import * as radiusPrimitive from '../packages/core-tokens/json/radius-primitive.json';
+import * as typographyPrimitive from '../packages/core-tokens/json/typography-primitive.json';
 
 // For color tokens we need a custom renderer (show color swatches and fixed height).
 const cases = [
     {
-        json: colorToken,
+        json: colorPrimitive,
         title: 'Color primitive tokens',
         file: 'reference-core-tokens-color-primitive.png',
         render: (json, title) => {
@@ -22,9 +22,9 @@ const cases = [
             return {html: htmlContent, height: 12000};
        },
    },
-    {json: spacingToken, title: 'Spacing primitive tokens', file: 'reference-core-tokens-spacing-primitive.png'},
-    {json: radiusToken, title: 'Radius primitive tokens', file: 'reference-core-tokens-radius-primitive.png'},
-    {json: typographyToken, title: 'Typography primitive tokens', file: 'reference-core-tokens-typography-primitive.png'},
+    {json: spacingPrimitive, title: 'Spacing primitive tokens', file: 'reference-core-tokens-spacing-primitive.png'},
+    {json: radiusPrimitive, title: 'Radius primitive tokens', file: 'reference-core-tokens-radius-primitive.png'},
+    {json: typographyPrimitive, title: 'Typography primitive tokens', file: 'reference-core-tokens-typography-primitive.png'},
 ];
 
 for (const c of cases) {
