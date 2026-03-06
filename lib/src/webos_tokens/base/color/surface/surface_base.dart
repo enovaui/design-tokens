@@ -36,4 +36,5 @@ abstract class SurfaceBase {
   Color get defaultHandle;
   Color get defaultIndicator;
   Color get defaultPlaceholder;
+  Color get spinner;
 }

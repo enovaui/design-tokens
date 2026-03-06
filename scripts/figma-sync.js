@@ -655,7 +655,8 @@ function compareFontFamilyTokens (figmaValues, localFontFamily, collectionName, 
 
 			const hasLocalKey = localObj && Object.prototype.hasOwnProperty.call(localObj, localKey);
 			const localValue = hasLocalKey ? localObj[localKey] : undefined;
-			const currentPath = [...path, key];
+			// Use the normalized localKey for the path to maintain consistency with JSON structure
+			const currentPath = [...path, localKey];
 			const pathString = `${collectionName}/fontfamily-${currentPath.join('-')}`;
 
 			if (figmaValue && typeof figmaValue === 'object' && !Array.isArray(figmaValue)) {
@@ -681,12 +682,12 @@ function compareFontFamilyTokens (figmaValues, localFontFamily, collectionName, 
 						filePath: `${packageName}/typography-primitive`,
 						before: {
 							primitive: {
-								'font-family': buildFontFamilyChangeObject(path, key, localValue)
+								'font-family': buildFontFamilyChangeObject(path, localKey, localValue)
 							}
 						},
 						after: {
 							primitive: {
-								'font-family': buildFontFamilyChangeObject(path, key, figmaValue)
+								'font-family': buildFontFamilyChangeObject(path, localKey, figmaValue)
 							}
 						}
 					};

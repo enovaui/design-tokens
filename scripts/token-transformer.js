@@ -23,12 +23,30 @@ class TokenTransformer {
 		this.dartGenerator = new DartGenerator();
 		this.baseDir = path.resolve(__dirname, '..');
 
-		// semantic color themes
+		// semantic color themes for webos-tokens
 		// The pattern is used to match the file names in the JSON directory
 		this.semanticThemes = [
 			{ name: 'dark', pattern: 'color-semantic-dark.json' },
 			{ name: 'light', pattern: 'color-semantic-light.json' },
 			{ name: 'high_contrast', pattern: 'color-semantic-high-contrast.json' },
+		];
+
+		// semantic color themes for web-tokens
+		this.webSemanticThemes = [
+			{ name: 'web', pattern: 'color-semantic-web.json' },
+			{ name: 'mobile', pattern: 'color-semantic-mobile.json' },
+			{ name: 'mono_black', pattern: 'color-semantic-mono-black.json' },
+			{ name: 'mono_white', pattern: 'color-semantic-mono-white.json' },
+			{ name: 'lg_brand', pattern: 'color-semantic-lg-brand.json' },
+		];
+
+		// semantic color themes for mobile-tokens
+		this.mobileSemanticThemes = [
+			{ name: 'mobile', pattern: 'color-semantic-mobile.json' },
+			{ name: 'mono_black', pattern: 'color-semantic-mono-black.json' },
+			{ name: 'mono_white', pattern: 'color-semantic-mono-white.json' },
+			{ name: 'web', pattern: 'color-semantic-web.json' },
+			{ name: 'lg_brand', pattern: 'color-semantic-lg-brand.json' },
 		];
 
 		// primitive token types with corresponding Dart methods
@@ -112,17 +130,64 @@ class TokenTransformer {
 	async updateSemanticDartFileForTheme(filePath, updatedFiles) {
 		if (!filePath.includes('color-semantic')) return;
 
-		const dartOutputDir = path.join(this.baseDir, 'lib/src/webos_tokens');
+		// Determine which package this file belongs to by checking the full path
+		const isWebosPackage = filePath.includes('packages/webos-tokens/');
+		const isWebPackage = filePath.includes('packages/web-tokens/');
+		const isMobilePackage = filePath.includes('packages/mobile-tokens/');
 
-		for (const { name, pattern } of this.semanticThemes) {
-			const themePart = pattern.replace('.json', '').replace('color-semantic-', '');
-			if (filePath.includes(themePart)) {
-				await this.dartGenerator.generateSemanticDartFromJSON(filePath, dartOutputDir, name);
-				console.log(`✅ Generated Semantic Dart files for ${name} theme`);
-				console.log(`   💎 Updated Dart files for ${name} theme semantic colors`);
-				const dartFilePath = path.join(dartOutputDir, `color_semantic_${name}.dart`);
-				updatedFiles.push(dartFilePath);
-				break;
+		// webos-tokens semantic colors
+		if (isWebosPackage) {
+			const webosDartOutputDir = path.join(this.baseDir, 'lib/src/webos_tokens');
+			for (const { name, pattern } of this.semanticThemes) {
+				const themePart = pattern.replace('.json', '').replace('color-semantic-', '');
+				// Extract just the filename from the full path for comparison
+				const fileName = path.basename(filePath);
+				if (fileName === pattern) {
+					await this.dartGenerator.generateSemanticDartFromJSON(filePath, webosDartOutputDir, name);
+					console.log(`✅ Generated WebOS Semantic Dart files for ${name} theme`);
+					console.log(`   💎 Updated WebOS Dart files for ${name} theme semantic colors`);
+					const dartFilePath = path.join(webosDartOutputDir, `color_semantic_${name}.dart`);
+					updatedFiles.push(dartFilePath);
+					return;
+				}
+			}
+		}
+
+		// web-tokens semantic colors
+		if (isWebPackage) {
+			const webDartOutputDir = path.join(this.baseDir, 'lib/src/web_tokens');
+			for (const { name, pattern } of this.webSemanticThemes) {
+				const themePart = pattern.replace('.json', '').replace('color-semantic-', '');
+				// Extract just the filename from the full path for comparison
+				const fileName = path.basename(filePath);
+				if (fileName === pattern) {
+					// For web-tokens we use folder names that may differ from "name" in DartGenerator
+					await this.dartGenerator.generateSemanticDartFromJSON(filePath, webDartOutputDir, name);
+					console.log(`✅ Generated Web Semantic Dart files for ${name} theme`);
+					console.log(`   💎 Updated Web Dart files for ${name} theme semantic colors`);
+					const dartFilePath = path.join(webDartOutputDir, name, 'color', `color_semantic_${name}.dart`);
+					updatedFiles.push(dartFilePath);
+					return;
+				}
+			}
+		}
+
+		// mobile-tokens semantic colors
+		if (isMobilePackage) {
+			const mobileDartOutputDir = path.join(this.baseDir, 'lib/src/mobile_tokens');
+			for (const { name, pattern } of this.mobileSemanticThemes) {
+				const themePart = pattern.replace('.json', '').replace('color-semantic-', '');
+				// Extract just the filename from the full path for comparison
+				const fileName = path.basename(filePath);
+				if (fileName === pattern) {
+					// For mobile-tokens we also use folder names that may differ from "name" in DartGenerator
+					await this.dartGenerator.generateSemanticDartFromJSON(filePath, mobileDartOutputDir, name);
+					console.log(`✅ Generated Mobile Semantic Dart files for ${name} theme`);
+					console.log(`   💎 Updated Mobile Dart files for ${name} theme semantic colors`);
+					const dartFilePath = path.join(mobileDartOutputDir, name, 'color', `color_semantic_${name}.dart`);
+					updatedFiles.push(dartFilePath);
+					return;
+				}
 			}
 		}
 	}
@@ -370,17 +435,40 @@ class TokenTransformer {
 		if (!existingTokens.primitive) existingTokens.primitive = {};
 		for (const { changeData } of tokens) {
 			const { path: tokenPathArray, value } = changeData;
-			const tokenKey = tokenPathArray.length > 1
-				? `${tokenPathArray[0]}-${tokenPathArray[tokenPathArray.length - 1]}`
-				: tokenPathArray[0];
-			let formattedValue = value;
-			if (tokenPathArray[0] === 'spacing' || tokenPathArray[0] === 'radius') {
-				formattedValue = value === 0 ? '0' : `${value}px`;
-			} else if (tokenPathArray[0].startsWith('font-size') && typeof value === 'number') {
-				formattedValue = `${value}px`;
+			
+			// Special handling for nested structures (font-family, font-weight)
+			if ((tokenPathArray[0] === 'font-family' || tokenPathArray[0] === 'font-weight') && tokenPathArray.length > 1) {
+				// These tokens have nested structure
+				const rootKey = tokenPathArray[0];
+				if (!existingTokens.primitive[rootKey]) {
+					existingTokens.primitive[rootKey] = {};
+				}
+				
+				let target = existingTokens.primitive[rootKey];
+				// Navigate through the path, preserving kebab-case for intermediate keys
+				for (let i = 1; i < tokenPathArray.length - 1; i++) {
+					const key = tokenPathArray[i];
+					if (!target[key]) target[key] = {};
+					target = target[key];
+				}
+				// Set the final value
+				const finalKey = tokenPathArray[tokenPathArray.length - 1];
+				target[finalKey] = value;
+				console.log(`     + Added ${rootKey}.${tokenPathArray.slice(1).join('.')}: ${value}`);
+			} else {
+				// Original logic for non-nested tokens
+				const tokenKey = tokenPathArray.length > 1
+					? `${tokenPathArray[0]}-${tokenPathArray[tokenPathArray.length - 1]}`
+					: tokenPathArray[0];
+				let formattedValue = value;
+				if (tokenPathArray[0] === 'spacing' || tokenPathArray[0] === 'radius') {
+					formattedValue = value === 0 ? '0' : `${value}px`;
+				} else if (tokenPathArray[0].startsWith('font-size') && typeof value === 'number') {
+					formattedValue = `${value}px`;
+				}
+				existingTokens.primitive[tokenKey] = formattedValue;
+				console.log(`     + Added ${tokenKey}: ${formattedValue}`);
 			}
-			existingTokens.primitive[tokenKey] = formattedValue;
-			console.log(`     + Added ${tokenKey}: ${formattedValue}`);
 		}
 		const sortedTokens = this.sortTokens(existingTokens);
 		await this.saveTokensToFile(filePath, sortedTokens);

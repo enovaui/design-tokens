@@ -284,6 +284,41 @@ class FontWeightPrimitive {
 }
 `;
 
+		// FontFamilyPrimitive class - generate from JSON
+		if (typographyTokens['font-family']) {
+			dartContent += `
+class FontFamilyPrimitive {
+  FontFamilyPrimitive._();
+
+  static FontFamilyPrimitive? _instance;
+  static FontFamilyPrimitive get instance => _instance ??= FontFamilyPrimitive._();
+`;
+
+			const fontFamily = typographyTokens['font-family'];
+			
+			// Helper function to convert nested font-family structure to flat properties
+			const generateFontFamilyProperties = (obj, prefix = '') => {
+				let properties = '';
+				for (const [key, value] of Object.entries(obj)) {
+					if (typeof value === 'string') {
+						// Simple string value
+						const propertyName = prefix ? `${prefix}${key.charAt(0).toUpperCase() + key.slice(1)}` : key;
+						const camelCaseName = propertyName.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+						properties += `\n  late final String ${camelCaseName} = "${value}";`;
+					} else if (typeof value === 'object' && value !== null) {
+						// Nested object - flatten with prefix
+						const newPrefix = prefix ? `${prefix}${key.charAt(0).toUpperCase() + key.slice(1)}` : key;
+						const camelPrefix = newPrefix.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+						properties += generateFontFamilyProperties(value, camelPrefix);
+					}
+				}
+				return properties;
+			};
+
+			dartContent += generateFontFamilyProperties(fontFamily);
+			dartContent += '\n}\n';
+		}
+
 		await fs.writeFile(dartPath, dartContent);
 		console.log(`✅ Generated Dart file: ${path.basename(dartPath)}`);
 		return true;

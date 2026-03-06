@@ -77,6 +77,7 @@
                 "toggle-handle": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/neutral-gray-70"},
                 "white": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                 "black": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
+                "spinner": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cool-gray-20"},
                 "overlay": {
                     "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cool-gray-90"}
                 },

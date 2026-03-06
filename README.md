@@ -53,6 +53,53 @@ Documentation and developer samples are coming soon. In the meantime, you can:
 2. Explore the JSON and CSS implementations
 3. Use the tokens in your projects by importing them from the respective packages
 
+### Automated Screenshot Testing
+
+This project includes the [Playwright](https://playwright.dev/) configurations for executing automated Screenshot tests from design tokens library packages.
+
+#### Prerequisites
+
+```bash
+npm install
+```
+
+#### Install Playwright browsers (one-time)
+
+Playwright browser binaries are required for screenshot tests. Run the installer once locally or in CI using:
+
+```bash
+# local (run once)
+npm run prepare:test-ss
+
+# CI (recommended step in your pipeline)
+npx playwright install --with-deps
+```
+
+If you prefer to control the download location, set `PLAYWRIGHT_BROWSERS_PATH` before running the command. See Playwright docs for details.
+
+#### Creating Screenshot Tests
+
+Within the repository, create a corresponding test in /tests/**-specs.js.
+
+The test-utils from /utils/ contains useful methods for loading tests.
+
+#### Test Commands
+
+```bash
+# Screenshot Tests
+npm run test-ss          # Run all screenshot tests
+npm run test-ss:update   # Update reference images (must be run before the first test)
+```
+
+#### Viewing Test Results
+
+After a test runs, if there are test failures, a page is created with links automatically. And we can view the report by opening the provided link or inputting command:
+
+```bash
+ Serving HTML report at http://localhost:9323. Press Ctrl+C to quit. # Automatically created link
+ npx playwright show-report tests\result\reports\html # Command to view report
+```
+
 ## Copyright and License Information
 
 Unless otherwise specified, all content, including all source code files and
