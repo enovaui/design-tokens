@@ -17,12 +17,12 @@
     "packages/*"
   ],
   "scripts": {
-    "sync:figma": "pnpm node scripts/figma-sync.js",
-    "transform:tokens": "pnpm node scripts/token-transformer.js",
-    "create:pr": "pnpm node scripts/pr-generator.js",
+    "sync:figma": "node scripts/figma-sync.js",
+    "transform:tokens": "node scripts/token-transformer.js",
+    "create:pr": "node scripts/pr-generator.js",
     "sync:all": "pnpm run sync:figma && pnpm run transform:tokens && pnpm run create:pr",
     "clean": "rm -rf node_modules packages/*/node_modules tests/result",
-    "version": "pnpm changeset version && pnpm node scripts/sync-version.js",
+    "version": "pnpm dlx @changesets/cli version && node scripts/sync-version.js",
     "test-ss": "pnpm exec playwright test",
     "test-ss:update": "pnpm exec playwright test --update-snapshots",
     "prepare:test-ss": "pnpm exec playwright install --with-deps"
