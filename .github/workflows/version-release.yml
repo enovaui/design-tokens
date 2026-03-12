@@ -96,6 +96,6 @@ jobs:
       - name: Publish NPM packages
         run: |
           git checkout ${{ github.event.repository.default_branch }}
-          pnpm dlx @changesets/cli publish
+          pnpm exec changeset publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

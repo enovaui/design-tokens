@@ -21,7 +21,7 @@ Semantic tokens translate primitive values into purpose-driven design tokens. Th
 To install the package, use your preferred package manager:
 
 ```bash
-npm install @enovaui/mobile-tokens
+pnpm install @enovaui/mobile-tokens
 ```
 
 or

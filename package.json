@@ -22,7 +22,7 @@
     "create:pr": "node scripts/pr-generator.js",
     "sync:all": "pnpm sync:figma && pnpm transform:tokens && pnpm create:pr",
     "clean": "rm -rf node_modules packages/*/node_modules tests/result",
-    "version": "pnpm dlx @changesets/cli version && node scripts/sync-version.js",
+    "version": "pnpm exec changeset version && node scripts/sync-version.js",
     "test-ss": "pnpm exec playwright test",
     "test-ss:update": "pnpm exec playwright test --update-snapshots",
     "prepare:test-ss": "pnpm exec playwright install --with-deps"
@@ -34,8 +34,7 @@
     "node-fetch": "^3.3.2"
   },
   "engines": {
-    "node": ">=16.0.0",
-    "pnpm": ">=8.0.0"
+    "node": ">=16.0.0"
   },
   "dependencies": {
     "dotenv": "^17.1.0"
