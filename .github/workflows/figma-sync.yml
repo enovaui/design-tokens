@@ -35,19 +35,22 @@ jobs:
           fetch-depth: 0
           persist-credentials: false # Ensure token is not reused for write
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: 'package-lock.json'
+          node-version: '20'
+          cache: 'pnpm'
+          cache-dependency-path: 'pnpm-lock.yaml'
 
       - name: Install dependencies
         run: |
-          # Use npm install with performance and reliability options
-          npm install --no-audit --no-fund --prefer-offline
-          # Install node-fetch for Figma API requests
-          npm install node-fetch@3
+          # Use pnpm install with performance and reliability options
+          pnpm install --prefer-offline
 
       - name: Configure Git
         run: |

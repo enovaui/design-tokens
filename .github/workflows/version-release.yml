@@ -46,7 +46,7 @@ jobs:
         run: pnpm install
 
       - name: Run changeset version
-        run: npm run version
+        run: pnpm run version
 
       - name: Install dependencies after version update
         run: pnpm install
@@ -96,6 +96,6 @@ jobs:
       - name: Publish NPM packages
         run: |
           git checkout ${{ github.event.repository.default_branch }}
-          npx changeset publish
+          pnpm exec changeset publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
