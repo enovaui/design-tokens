@@ -47,11 +47,308 @@ This repository is structured as a monorepo, containing multiple packages:
 
 ### How to Use
 
-Documentation and developer samples are coming soon. In the meantime, you can:
+Our design tokens are available in three formats to support different development environments:
 
-1. Browse through the token definitions in each package
-2. Explore the JSON and CSS implementations
-3. Use the tokens in your projects by importing them from the respective packages
+#### 1. JSON Format (C++ Applications)
+
+JSON tokens can be parsed and used in C++ applications, typically in webOS native apps.
+
+**Installation:**
+
+Use one of these methods:
+```bash
+# Option 1: Git Submodule
+git submodule add https://github.com/enovaui/design-tokens.git third_party/design-tokens
+
+# Option 2: Direct download and copy JSON files to your project
+# Copy packages/core-tokens/json/* and packages/webos-tokens/json/* to your source tree
+```
+
+**Example - Loading Primitive Tokens:**
+```cpp
+#include <nlohmann/json.hpp>
+#include <fstream>
+
+// Load primitive typography tokens
+std::ifstream file("third_party/design-tokens/packages/core-tokens/json/typography-primitive.json");
+
+nlohmann::json primitiveTokens;
+file >> primitiveTokens;
+
+// Access primitive font-size values
+std::string fontSize24 = primitiveTokens["primitive"]["font-size-24"];
+// Returns: "24px"
+
+std::string fontSize32 = primitiveTokens["primitive"]["font-size-32"];
+// Returns: "32px"
+```
+
+**Example - Loading Semantic Tokens:**
+```cpp
+// Load semantic tokens for dark theme
+std::ifstream semanticFile("node_modules/@enovaui/webos-tokens/json/color-semantic-dark.json");
+nlohmann::json semanticTokens;
+semanticFile >> semanticTokens;
+
+// Access semantic color values (with $ref resolution required)
+auto onBackgroundMain = semanticTokens["semantic"]["color"]["on"]["background"]["main"];
+// References: "core-tokens/json/color-primitive.json#/primitive/color/white"
+```
+
+**Note:** JSON tokens use `$ref` to reference primitive tokens. You'll need to implement reference resolution in your C++ code.
+
+#### 2. CSS Format (Web Applications)
+
+CSS tokens are provided as CSS custom properties (variables) for web-based projects.
+
+**Installation:**
+```bash
+npm install @enovaui/core-tokens @enovaui/webos-tokens
+```
+
+**Example - Using Primitive Tokens:**
+```css
+/* Import primitive tokens */
+@import "@enovaui/core-tokens/css/typography-primitive.css";
+@import "@enovaui/core-tokens/css/spacing-primitive.css";
+
+.my-element {
+  /* Use primitive tokens directly (not recommended for components) */
+  font-size: var(--primitive-font-size-24);
+  padding: var(--primitive-spacing-300);
+}
+```
+
+**Example - Using Semantic Tokens:**
+```css
+/* Import semantic tokens (automatically imports primitives) */
+@import "@enovaui/webos-tokens/css/color-semantic-dark.css";
+
+.my-component {
+  /* Use semantic tokens - recommended approach */
+  color: var(--semantic-color-on-background-main);
+  background: var(--semantic-color-background-full-default);
+}
+```
+
+**Example - Theme Switching:**
+```css
+/* Light theme */
+[data-theme="light"] {
+  @import "@enovaui/webos-tokens/css/color-semantic-light.css";
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  @import "@enovaui/webos-tokens/css/color-semantic-dark.css";
+}
+```
+
+#### 3. Dart Format (Flutter Applications)
+
+Dart tokens are provided as Flutter Color objects for mobile and Flutter applications.
+
+**Installation:**
+Add to your `pubspec.yaml`:
+```yaml
+dependencies:
+  design_tokens:
+    path: ../design-tokens  # Adjust path as needed
+```
+
+**Example - Using Primitive Tokens:**
+```dart
+import 'package:design_tokens/design_tokens.dart';
+
+class MyWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      child: Text(
+        'Hello World',
+        style: TextStyle(
+          // Use primitive font-size tokens
+          fontSize: FontSizePrimitive.instance.size24,
+          fontWeight: FontWeightPrimitive.instance.medium,
+        ),
+      ),
+    );
+  }
+}
+```
+
+**Example - Using Semantic Tokens:**
+```dart
+import 'package:design_tokens/design_tokens.dart';
+
+class ThemedWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // Use semantic tokens - recommended approach
+    final semanticColors = ColorSemanticDark.instance;
+    
+    return Container(
+      color: semanticColors.background.full.defaultColor,
+      child: Text(
+        'Themed Content',
+        style: TextStyle(
+          color: semanticColors.onBackground.main,
+        ),
+      ),
+    );
+  }
+}
+```
+
+#### Creating Component Tokens
+
+Component tokens should always reference semantic tokens, never primitive tokens directly. Here's how to create them in each format:
+
+**CSS Component Token Example:**
+```css
+/* Import semantic tokens */
+@import "@enovaui/webos-tokens/css/color-semantic-dark.css";
+
+:root {
+  /* Component tokens reference semantic tokens */
+  --header-label-main-color: var(--semantic-color-on-background-main);
+  --header-label-sub-color: var(--semantic-color-on-background-sub);
+  --header-background-color: var(--semantic-color-surface-card-default);
+  
+  --button-primary-text-color: var(--semantic-color-on-background-main);
+  --button-primary-bg-color: var(--semantic-color-surface-button-default);
+  --button-primary-border-color: var(--semantic-color-stroke-main);
+}
+
+/* Usage in component */
+.header {
+  background-color: var(--component-header-background-color);
+}
+
+.header__title {
+  color: var(--component-header-label-main-color);
+}
+
+.header__subtitle {
+  color: var(--component-header-label-sub-color);
+}
+```
+
+**JSON Component Token Example:**
+```json
+{
+  "component": {
+    "header": {
+      "label": {
+        "main": {
+          "color": {
+            "$ref": "webos-tokens/json/color-semantic-dark.json#/semantic/color/on/background/main"
+          }
+        },
+        "sub": {
+          "color": {
+            "$ref": "webos-tokens/json/color-semantic-dark.json#/semantic/color/on/background/sub"
+          }
+        }
+      },
+      "background": {
+        "color": {
+          "$ref": "webos-tokens/json/color-semantic-dark.json#/semantic/color/surface/card/default"
+        }
+      }
+    },
+    "button": {
+      "primary": {
+        "text": {
+          "color": {
+            "$ref": "webos-tokens/json/color-semantic-dark.json#/semantic/color/on/background/main"
+          }
+        },
+        "background": {
+          "color": {
+            "$ref": "webos-tokens/json/color-semantic-dark.json#/semantic/color/surface/button/default"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+**Dart Component Token Example:**
+```dart
+import 'package:design_tokens/design_tokens.dart';
+import 'package:flutter/material.dart';
+
+class HeaderTokens {
+  HeaderTokens._();
+  
+  static HeaderTokens? _instance;
+  static HeaderTokens get instance => _instance ??= HeaderTokens._();
+  
+  // Reference semantic tokens, not primitive
+  final semanticColors = ColorSemanticDark.instance;
+  
+  // Component tokens
+  late final Color labelMainColor = semanticColors.onBackground.main;
+  late final Color labelSubColor = semanticColors.onBackground.sub;
+  late final Color backgroundColor = semanticColors.surface.card.defaultColor;
+}
+
+class ButtonTokens {
+  ButtonTokens._();
+  
+  static ButtonTokens? _instance;
+  static ButtonTokens get instance => _instance ??= ButtonTokens._();
+  
+  final semanticColors = ColorSemanticDark.instance;
+  
+  // Primary button tokens
+  late final Color primaryTextColor = semanticColors.onBackground.main;
+  late final Color primaryBgColor = semanticColors.surface.button.defaultColor;
+  late final Color primaryBorderColor = semanticColors.stroke.main;
+}
+
+// Usage in components
+class MyHeader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final tokens = HeaderTokens.instance;
+    
+    return Container(
+      color: tokens.backgroundColor,
+      child: Column(
+        children: [
+          Text(
+            'Main Title',
+            style: TextStyle(color: tokens.labelMainColor),
+          ),
+          Text(
+            'Subtitle',
+            style: TextStyle(color: tokens.labelSubColor),
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
+
+#### Best Practices
+
+1. **Always use the token hierarchy correctly:**
+   - Component tokens → Semantic tokens → Primitive tokens
+   - Never reference primitive tokens directly in components
+
+2. **Choose the right token level:**
+   - Use component tokens in your UI components
+   - Use semantic tokens when component tokens don't exist yet
+   - Only reference primitive tokens when defining semantic tokens
+
+3. **Theme-aware development:**
+   - Use semantic tokens to ensure your components work across different themes
+   - Test your components with different theme variants (light, dark, high-contrast)
 
 ### Automated Screenshot Testing
 
