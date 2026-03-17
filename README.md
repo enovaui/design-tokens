@@ -51,7 +51,7 @@ Our design tokens are available in three formats to support different developmen
 
 #### 1. JSON Format (C++ Applications)
 
-JSON tokens can be parsed and used in C++ applications, typically in webOS native apps.
+JSON tokens can be parsed and used in C++ applications.
 
 **Installation:**
 
@@ -329,6 +329,43 @@ Component tokens should always reference semantic tokens, never primitive tokens
 ```
 
 **Note:** Component token `$ref` paths should use the same format as semantic tokens. Adjust paths based on your file structure if using a git submodule or copied files.
+
+```cpp
+/* Usage example */
+#include <nlohmann/json.hpp>
+#include <fstream>
+#include <string>
+
+// Helper function to resolve $ref paths
+nlohmann::json resolveRef(const std::string& refPath) {
+  // Parse the reference path (e.g., "webos-tokens/json/color-semantic-dark.json#/semantic/color/on/background/main")
+  size_t hashPos = refPath.find('#');
+  std::string filePath = refPath.substr(0, hashPos);
+  std::string jsonPath = refPath.substr(hashPos + 1);
+
+  // Load the referenced file
+  std::ifstream file("third_party/design-tokens/packages/" + filePath);
+  nlohmann::json refJson;
+  file >> refJson;
+
+  // Navigate to the specific value using json pointer
+  return refJson[nlohmann::json::json_pointer(jsonPath)];
+}
+
+// Load component tokens
+std::ifstream componentFile("my-app/tokens/component-tokens.json");
+nlohmann::json componentTokens;
+componentFile >> componentTokens;
+
+// Access component tokens and resolve references
+auto headerLabelMainRef = componentTokens["component"]["header"]["label"]["main"]["color"]["$ref"];
+nlohmann::json headerLabelMainColor = resolveRef(headerLabelMainRef);
+// Use the resolved color value
+
+auto buttonPrimaryBgRef = componentTokens["component"]["button"]["primary"]["background"]["color"]["$ref"];
+nlohmann::json buttonPrimaryBgColor = resolveRef(buttonPrimaryBgRef);
+// Use the resolved color value
+```
 
 **Dart Component Token Example:**
 ```dart
