@@ -86,7 +86,7 @@ std::string fontSize32 = primitiveTokens["primitive"]["font-size-32"];
 **Example - Loading Semantic Tokens:**
 ```cpp
 // Load semantic tokens for dark theme
-std::ifstream semanticFile("node_modules/@enovaui/webos-tokens/json/color-semantic-dark.json");
+std::ifstream semanticFile("third_party/design-tokens/packages/webos-tokens/json/color-semantic-dark.json");
 nlohmann::json semanticTokens;
 semanticFile >> semanticTokens;
 
@@ -132,15 +132,35 @@ npm install @enovaui/core-tokens @enovaui/webos-tokens
 ```
 
 **Example - Theme Switching:**
+```html
+<!-- Load theme stylesheet dynamically -->
+<link id="theme-stylesheet" rel="stylesheet" href="@enovaui/webos-tokens/css/color-semantic-dark.css">
+
+<script>
+  // Switch theme by updating the stylesheet href
+  function setTheme(theme) {
+    const stylesheet = document.getElementById('theme-stylesheet');
+    stylesheet.href = `@enovaui/webos-tokens/css/color-semantic-${theme}.css`;
+  }
+
+  // Usage: setTheme('light') or setTheme('dark')
+</script>
+```
+
+Or use separate stylesheets with scoped selectors:
 ```css
-/* Light theme */
+/* light-theme.css */
 [data-theme="light"] {
-  @import "@enovaui/webos-tokens/css/color-semantic-light.css";
+  --semantic-color-on-background-main: var(--primitive-color-black);
+  --semantic-color-background-full-default: var(--primitive-color-white);
+  /* ... other light theme tokens */
 }
 
-/* Dark theme */
+/* dark-theme.css */
 [data-theme="dark"] {
-  @import "@enovaui/webos-tokens/css/color-semantic-dark.css";
+  --semantic-color-on-background-main: var(--primitive-color-white);
+  --semantic-color-background-full-default: var(--primitive-color-black);
+  /* ... other dark theme tokens */
 }
 ```
 
@@ -214,24 +234,24 @@ Component tokens should always reference semantic tokens, never primitive tokens
   /* Component tokens reference semantic tokens */
   --header-label-main-color: var(--semantic-color-on-background-main);
   --header-label-sub-color: var(--semantic-color-on-background-sub);
-  --header-background-color: var(--semantic-color-surface-card-default);
+  --header-background-color: var(--semantic-color-surface-default);
   
   --button-primary-text-color: var(--semantic-color-on-background-main);
-  --button-primary-bg-color: var(--semantic-color-surface-button-default);
+  --button-primary-bg-color: var(--semantic-color-surface-default);
   --button-primary-border-color: var(--semantic-color-stroke-main);
 }
 
 /* Usage in component */
 .header {
-  background-color: var(--component-header-background-color);
+  background-color: var(--header-background-color);
 }
 
 .header__title {
-  color: var(--component-header-label-main-color);
+  color: var(--header-label-main-color);
 }
 
 .header__subtitle {
-  color: var(--component-header-label-sub-color);
+  color: var(--header-label-sub-color);
 }
 ```
 
@@ -254,7 +274,7 @@ Component tokens should always reference semantic tokens, never primitive tokens
       },
       "background": {
         "color": {
-          "$ref": "webos-tokens/json/color-semantic-dark.json#/semantic/color/surface/card/default"
+          "$ref": "webos-tokens/json/color-semantic-dark.json#/semantic/color/surface/default"
         }
       }
     },
@@ -267,7 +287,7 @@ Component tokens should always reference semantic tokens, never primitive tokens
         },
         "background": {
           "color": {
-            "$ref": "webos-tokens/json/color-semantic-dark.json#/semantic/color/surface/button/default"
+            "$ref": "webos-tokens/json/color-semantic-dark.json#/semantic/color/surface/default"
           }
         }
       }
@@ -293,7 +313,7 @@ class HeaderTokens {
   // Component tokens
   late final Color labelMainColor = semanticColors.onBackground.main;
   late final Color labelSubColor = semanticColors.onBackground.sub;
-  late final Color backgroundColor = semanticColors.surface.card.defaultColor;
+  late final Color backgroundColor = semanticColors.surface.defaultColor;
 }
 
 class ButtonTokens {
@@ -306,7 +326,7 @@ class ButtonTokens {
   
   // Primary button tokens
   late final Color primaryTextColor = semanticColors.onBackground.main;
-  late final Color primaryBgColor = semanticColors.surface.button.defaultColor;
+  late final Color primaryBgColor = semanticColors.surface.defaultColor;
   late final Color primaryBorderColor = semanticColors.stroke.main;
 }
 
