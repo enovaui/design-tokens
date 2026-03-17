@@ -144,18 +144,24 @@ npm install @enovaui/core-tokens @enovaui/web-tokens
 
 **Example - Theme Switching:**
 
-**Option 1: Using a bundler (Vite, Webpack, etc.)**
+**Option 1: Dynamically swap a `<link>` stylesheet**
 ```javascript
-// main.js - dynamically import theme CSS
+// main.js - dynamically set theme CSS via <link>
 function setTheme(theme) {
   // Remove previous theme stylesheet
-  const oldLink = document.getElementById('theme-stylesheet');
-  if (oldLink) oldLink.remove();
+  const THEME_LINK_ID = 'theme-stylesheet';
+  const href = `/node_modules/@enovaui/webos-tokens/css/color-semantic-${theme}.css`;
 
   // Import new theme
-  import(`@enovaui/webos-tokens/css/color-semantic-${theme}.css`).then(() => {
-    console.log(`Theme switched to ${theme}`);
-  });
+  let link = document.getElementById(THEME_LINK_ID);
+  if (!link) {
+    link = document.createElement('link');
+    link.id = THEME_LINK_ID;
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+  }
+  link.href = href;
+  console.log(`Theme switched to ${theme}`);
 }
 
 // Usage: setTheme('light') or setTheme('dark')
@@ -194,12 +200,15 @@ Dart tokens are provided as Flutter Color objects for mobile and Flutter applica
 Add to your `pubspec.yaml`:
 ```yaml
 dependencies:
-  design_tokens:
-    path: ../design-tokens  # Adjust path as needed
+  design_tokens: # package name
+    git:
+      url: https://github.com/enovaui/design-tokens.git # git url
+      ref: 0.15.0 # tag name, Adjust If needed
 ```
 
 **Example - Using Primitive Tokens:**
 ```dart
+import 'package:flutter/material.dart';
 import 'package:design_tokens/design_tokens.dart';
 
 class MyWidget extends StatelessWidget {
@@ -222,6 +231,7 @@ class MyWidget extends StatelessWidget {
 
 **Example - Using Semantic Tokens:**
 ```dart
+import 'package:flutter/material.dart';
 import 'package:design_tokens/design_tokens.dart';
 
 class ThemedWidget extends StatelessWidget {
@@ -285,18 +295,18 @@ Component tokens should always reference semantic tokens, never primitive tokens
       "label": {
         "main": {
           "color": {
-            "$ref": "packages/webos-tokens/json/color-semantic-dark.json#/semantic/color/on/background/main"
+            "$ref": "webos-tokens/json/color-semantic-dark.json#/semantic/color/on/background/main"
           }
         },
         "sub": {
           "color": {
-            "$ref": "packages/webos-tokens/json/color-semantic-dark.json#/semantic/color/on/background/sub"
+            "$ref": "webos-tokens/json/color-semantic-dark.json#/semantic/color/on/background/sub"
           }
         }
       },
       "background": {
         "color": {
-          "$ref": "packages/webos-tokens/json/color-semantic-dark.json#/semantic/color/surface/default"
+          "$ref": "webos-tokens/json/color-semantic-dark.json#/semantic/color/surface/default"
         }
       }
     },
@@ -304,12 +314,12 @@ Component tokens should always reference semantic tokens, never primitive tokens
       "primary": {
         "text": {
           "color": {
-            "$ref": "packages/webos-tokens/json/color-semantic-dark.json#/semantic/color/on/background/main"
+            "$ref": "webos-tokens/json/color-semantic-dark.json#/semantic/color/on/background/main"
           }
         },
         "background": {
           "color": {
-            "$ref": "packages/webos-tokens/json/color-semantic-dark.json#/semantic/color/surface/default"
+            "$ref": "webos-tokens/json/color-semantic-dark.json#/semantic/color/surface/default"
           }
         }
       }
@@ -318,12 +328,12 @@ Component tokens should always reference semantic tokens, never primitive tokens
 }
 ```
 
-**Note:** Component token `$ref` paths should use the same format as semantic tokens (starting with `packages/`). Adjust paths based on your file structure if using a git submodule or copied files.
+**Note:** Component token `$ref` paths should use the same format as semantic tokens. Adjust paths based on your file structure if using a git submodule or copied files.
 
 **Dart Component Token Example:**
 ```dart
-import 'package:design_tokens/design_tokens.dart';
 import 'package:flutter/material.dart';
+import 'package:design_tokens/design_tokens.dart';
 
 class HeaderTokens {
   HeaderTokens._();
