@@ -95,16 +95,27 @@ auto onBackgroundMain = semanticTokens["semantic"]["color"]["on"]["background"][
 // References: "core-tokens/json/color-primitive.json#/primitive/color/white"
 ```
 
-**Note:** JSON tokens use `$ref` to reference primitive tokens. You'll need to implement reference resolution in your C++ code.
+**Note:** JSON tokens use `$ref` to reference primitive tokens. The `$ref` paths are relative to the repository root (e.g., `core-tokens/json/...` resolves to `packages/core-tokens/json/...`). When implementing a resolver:
+- If using git submodule: resolve `core-tokens/json/...` as `third_party/design-tokens/packages/core-tokens/json/...`
+- If copying files: maintain the `packages/` directory structure or adjust your resolver to prepend `packages/` to the $ref paths
 
 #### 2. CSS Format (Web Applications)
 
 CSS tokens are provided as CSS custom properties (variables) for web-based projects.
 
 **Installation:**
+
+For webOS web applications:
 ```bash
 npm install @enovaui/core-tokens @enovaui/webos-tokens
 ```
+
+For general web applications:
+```bash
+npm install @enovaui/core-tokens @enovaui/web-tokens
+```
+
+**Note:** The examples below use `@enovaui/webos-tokens` for webOS platforms. For general web applications, replace with `@enovaui/web-tokens` (e.g., `color-semantic-web.css`, `color-semantic-lg-brand.css`, etc.).
 
 **Example - Using Primitive Tokens:**
 ```css
@@ -132,37 +143,48 @@ npm install @enovaui/core-tokens @enovaui/webos-tokens
 ```
 
 **Example - Theme Switching:**
-```html
-<!-- Load theme stylesheet dynamically -->
-<link id="theme-stylesheet" rel="stylesheet" href="@enovaui/webos-tokens/css/color-semantic-dark.css">
 
-<script>
-  // Switch theme by updating the stylesheet href
-  function setTheme(theme) {
-    const stylesheet = document.getElementById('theme-stylesheet');
-    stylesheet.href = `@enovaui/webos-tokens/css/color-semantic-${theme}.css`;
-  }
+**Option 1: Using a bundler (Vite, Webpack, etc.)**
+```javascript
+// main.js - dynamically import theme CSS
+function setTheme(theme) {
+  // Remove previous theme stylesheet
+  const oldLink = document.getElementById('theme-stylesheet');
+  if (oldLink) oldLink.remove();
 
-  // Usage: setTheme('light') or setTheme('dark')
-</script>
+  // Import new theme
+  import(`@enovaui/webos-tokens/css/color-semantic-${theme}.css`).then(() => {
+    console.log(`Theme switched to ${theme}`);
+  });
+}
+
+// Usage: setTheme('light') or setTheme('dark')
 ```
 
-Or use separate stylesheets with scoped selectors:
+**Option 2: Pre-load both themes with scoped selectors**
 ```css
-/* light-theme.css */
-[data-theme="light"] {
+/* Import both themes in your main CSS */
+@import "@enovaui/webos-tokens/css/color-semantic-light.css" (prefers-color-scheme: light);
+@import "@enovaui/webos-tokens/css/color-semantic-dark.css" (prefers-color-scheme: dark);
+```
+
+Or define theme-scoped custom properties:
+```css
+/* theme-tokens.css */
+:root[data-theme="light"] {
   --semantic-color-on-background-main: var(--primitive-color-black);
   --semantic-color-background-full-default: var(--primitive-color-white);
   /* ... other light theme tokens */
 }
 
-/* dark-theme.css */
-[data-theme="dark"] {
+:root[data-theme="dark"] {
   --semantic-color-on-background-main: var(--primitive-color-white);
   --semantic-color-background-full-default: var(--primitive-color-black);
   /* ... other dark theme tokens */
 }
 ```
+
+**Note:** Bare package specifiers like `@enovaui/webos-tokens` require a bundler (Vite, Webpack, etc.) or import maps to resolve. For runtime loading without a bundler, serve the CSS files and use absolute/relative URLs.
 
 #### 3. Dart Format (Flutter Applications)
 
@@ -263,18 +285,18 @@ Component tokens should always reference semantic tokens, never primitive tokens
       "label": {
         "main": {
           "color": {
-            "$ref": "webos-tokens/json/color-semantic-dark.json#/semantic/color/on/background/main"
+            "$ref": "packages/webos-tokens/json/color-semantic-dark.json#/semantic/color/on/background/main"
           }
         },
         "sub": {
           "color": {
-            "$ref": "webos-tokens/json/color-semantic-dark.json#/semantic/color/on/background/sub"
+            "$ref": "packages/webos-tokens/json/color-semantic-dark.json#/semantic/color/on/background/sub"
           }
         }
       },
       "background": {
         "color": {
-          "$ref": "webos-tokens/json/color-semantic-dark.json#/semantic/color/surface/default"
+          "$ref": "packages/webos-tokens/json/color-semantic-dark.json#/semantic/color/surface/default"
         }
       }
     },
@@ -282,12 +304,12 @@ Component tokens should always reference semantic tokens, never primitive tokens
       "primary": {
         "text": {
           "color": {
-            "$ref": "webos-tokens/json/color-semantic-dark.json#/semantic/color/on/background/main"
+            "$ref": "packages/webos-tokens/json/color-semantic-dark.json#/semantic/color/on/background/main"
           }
         },
         "background": {
           "color": {
-            "$ref": "webos-tokens/json/color-semantic-dark.json#/semantic/color/surface/default"
+            "$ref": "packages/webos-tokens/json/color-semantic-dark.json#/semantic/color/surface/default"
           }
         }
       }
@@ -295,6 +317,8 @@ Component tokens should always reference semantic tokens, never primitive tokens
   }
 }
 ```
+
+**Note:** Component token `$ref` paths should use the same format as semantic tokens (starting with `packages/`). Adjust paths based on your file structure if using a git submodule or copied files.
 
 **Dart Component Token Example:**
 ```dart
