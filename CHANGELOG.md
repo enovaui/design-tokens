@@ -2,6 +2,24 @@
 
 The following is a curated list of changes in the design tokens module, newest changes on the top.
 
+## [0.15.1] - 2026-03-19
+
+### core-tokens
+
+- No significant changes
+
+### mobile-tokens
+
+- No significant changes
+
+### web-tokens
+
+- No significant changes
+
+### webos-tokens
+
+- No significant changes
+
 ## [0.15.0] - 2026-01-28
 
 ### core-tokens
