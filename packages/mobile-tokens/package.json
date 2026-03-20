@@ -10,6 +10,6 @@
     "mobile"
   ],
   "dependencies": {
-    "@enovaui/core-tokens": "workspace:*"
+    "@enovaui/core-tokens": "^0.15.1"
   }
 }
