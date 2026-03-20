@@ -21,7 +21,7 @@ Semantic tokens translate primitive values into purpose-driven design tokens. Th
 To install the package, use your preferred package manager:
 
 ```bash
-npm install @enovaui/web-tokens
+pnpm install @enovaui/web-tokens
 ```
 
 or

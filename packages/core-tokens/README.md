@@ -21,7 +21,7 @@ Primitive tokens represent the most basic visual values in our design system:
 To install the package, use your preferred package manager:
 
 ```bash
-npm install @enovaui/core-tokens
+pnpm install @enovaui/core-tokens
 ```
 
 or
