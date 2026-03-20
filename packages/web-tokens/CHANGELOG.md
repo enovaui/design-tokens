@@ -2,6 +2,10 @@
 
 The following is a curated list of changes in the web tokens module, newest changes on the top.
 
+## [0.15.1] - 2026-03-19
+
+- No significant changes
+
 ## [0.15.0] - 2026-01-28
 
 ### Fixed
