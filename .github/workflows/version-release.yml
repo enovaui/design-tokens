@@ -48,9 +48,6 @@ jobs:
       - name: Run changeset version
         run: pnpm run version
 
-      - name: Install dependencies after version update
-        run: pnpm install
-
       - name: Get current version
         id: get-version
         run: |
