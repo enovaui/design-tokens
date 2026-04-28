@@ -2,6 +2,15 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Added
+
+- `primitive_radius_108`
+- `primitive_font_family_lg_smart_ui_3_text`
+- `primitive_font_family_lg_smart_ui_3_title`
+- `primitive_font_family_lg_smart_ui_3_number`
+
 ## [0.15.2] - 2026-04-06
 
 - No significant changes
