@@ -1,5 +1,19 @@
 {
     "primitive": {
+        "font-family": {
+            "ios": "Apple SD Gothic Neo",
+            "android": "Noto Sans CJK KR",
+            "lg-smart-ui": {
+                "default": "LG Smart UI",
+                "condensed": "LG Smart UI Condensed",
+                "dingbat": "LG Smart UI Dingbat",
+                "number": "LG Smart UI Number"
+            },
+            "lg-ei": {
+                "text": "LGEI Text",
+                "headline": "LGEI Headline"
+            }
+        },
         "font-size-10": "10px",
         "font-size-11": "11px",
         "font-size-12": "12px",
@@ -57,19 +71,8 @@
             "extrabold": "800",
             "black": "900"
         },
-        "font-family": {
-            "ios": "Apple SD Gothic Neo",
-            "android": "Noto Sans CJK KR",
-            "lg-smart-ui": {
-                "default": "LG Smart UI",
-                "condensed": "LG Smart UI Condensed",
-                "dingbat": "LG Smart UI Dingbat",
-                "number": "LG Smart UI Number"
-            },
-            "lg-ei": {
-                "text": "LGEI Text",
-                "headline": "LGEI Headline"
-            }
-        }
+        "fontfamily-number": "LGSmart UI 3.0 Number",
+        "fontfamily-text": "LGSmart UI 3.0 Text",
+        "fontfamily-title": "LGSmart UI 3.0 Title"
     }
 }
