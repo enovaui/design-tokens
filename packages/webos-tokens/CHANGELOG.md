@@ -2,6 +2,10 @@
 
 The following is a curated list of changes in the webos tokens module, newest changes on the top.
 
+## [1.0.0] - 2026-04-29
+
+- No significant changes
+
 ## [0.15.2] - 2026-04-06
 
 - No significant changes

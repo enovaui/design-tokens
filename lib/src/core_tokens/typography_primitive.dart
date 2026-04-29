@@ -48,11 +48,14 @@ class FontSizePrimitive {
   late final double size80 = 80;
   late final double size82 = 82;
   late final double size84 = 84;
+  late final double size86 = 86;
   late final double size90 = 90;
+  late final double size94 = 94;
   late final double size96 = 96;
   late final double size100 = 100;
   late final double size102 = 102;
   late final double size108 = 108;
+  late final double size116 = 116;
   late final double size120 = 120;
   late final double size140 = 140;
   late final double size156 = 156;
@@ -88,6 +91,9 @@ class FontFamilyPrimitive {
   late final String lgSmartUiCondensed = 'LG Smart UI Condensed';
   late final String lgSmartUiDingbat = 'LG Smart UI Dingbat';
   late final String lgSmartUiNumber = 'LG Smart UI Number';
+  late final String lgSmartUi3Text = 'LGSmart UI 3.0 Text';
+  late final String lgSmartUi3Title = 'LGSmart UI 3.0 Title';
+  late final String lgSmartUi3Number = 'LGSmart UI 3.0 Number';
   late final String lgEiText = 'LGEI Text';
   late final String lgEiHeadline = 'LGEI Headline';
 }
