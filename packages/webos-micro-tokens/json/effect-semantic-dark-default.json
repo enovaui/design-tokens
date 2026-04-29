@@ -1,16 +1,16 @@
 {
     "semantic": {
         "effect": {
-            "default-backgroundblur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-40"},
-            "default-dropshadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-40"},
-            "default-dropshadow-spread": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
-            "default-dropshadow-x": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
-            "default-dropshadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-10"},
-            "default-innershadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-8"},
-            "default-innershadow-spread": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
-            "default-innershadow-x": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
-            "default-innershadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-2"},
-            "statusbar-backgroundblur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-60"}
+            "default-background-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-40"},
+            "default-drop-shadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-40"},
+            "default-drop-shadow-spread": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
+            "default-drop-shadow-x": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
+            "default-drop-shadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-10"},
+            "default-inner-shadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-8"},
+            "default-inner-shadow-spread": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
+            "default-inner-shadow-x": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
+            "default-inner-shadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-2"},
+            "status-bar-background-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-60"}
         }
     }
 }

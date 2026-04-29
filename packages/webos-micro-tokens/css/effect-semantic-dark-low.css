@@ -12,14 +12,14 @@ Semantic Effect Tokens
 :root {
 
 	/* Effect */
-	--semantic-effect-default-backgroundblur: var(--primitive-effect-0);
-	--semantic-effect-default-dropshadow-blur: var(--primitive-effect-40);
-	--semantic-effect-default-dropshadow-spread: var(--primitive-effect-0);
-	--semantic-effect-default-dropshadow-x: var(--primitive-effect-0);
-	--semantic-effect-default-dropshadow-y: var(--primitive-effect-10);
-	--semantic-effect-default-innershadow-blur: var(--primitive-effect-0);
-	--semantic-effect-default-innershadow-spread: var(--primitive-effect-0);
-	--semantic-effect-default-innershadow-x: var(--primitive-effect-0);
-	--semantic-effect-default-innershadow-y: var(--primitive-effect-0);
-	--semantic-effect-statusbar-backgroundblur: var(--primitive-effect-0);
+	--semantic-effect-default-background-blur: var(--primitive-effect-0);
+	--semantic-effect-default-drop-shadow-blur: var(--primitive-effect-40);
+	--semantic-effect-default-drop-shadow-spread: var(--primitive-effect-0);
+	--semantic-effect-default-drop-shadow-x: var(--primitive-effect-0);
+	--semantic-effect-default-drop-shadow-y: var(--primitive-effect-10);
+	--semantic-effect-default-inner-shadow-blur: var(--primitive-effect-0);
+	--semantic-effect-default-inner-shadow-spread: var(--primitive-effect-0);
+	--semantic-effect-default-inner-shadow-x: var(--primitive-effect-0);
+	--semantic-effect-default-inner-shadow-y: var(--primitive-effect-0);
+	--semantic-effect-status-bar-background-blur: var(--primitive-effect-0);
 }
