@@ -19,7 +19,9 @@ Primitive Typography Tokens
 	--primitive-font-size-14: 14px;
 	--primitive-font-size-15: 15px;
 	--primitive-font-size-16: 16px;
+	--primitive-font-size-17: 17px;
 	--primitive-font-size-18: 18px;
+	--primitive-font-size-19: 19px;
 	--primitive-font-size-20: 20px;
 	--primitive-font-size-22: 22px;
 	--primitive-font-size-24: 24px;
@@ -41,10 +43,13 @@ Primitive Typography Tokens
 	--primitive-font-size-56: 56px;
 	--primitive-font-size-58: 58px;
 	--primitive-font-size-60: 60px;
+	--primitive-font-size-62: 62px;
 	--primitive-font-size-64: 64px;
 	--primitive-font-size-66: 66px;
 	--primitive-font-size-68: 68px;
 	--primitive-font-size-72: 72px;
+	--primitive-font-size-74: 74px;
+	--primitive-font-size-76: 76px;
 	--primitive-font-size-78: 78px;
 	--primitive-font-size-80: 80px;
 	--primitive-font-size-82: 82px;
@@ -55,11 +60,15 @@ Primitive Typography Tokens
 	--primitive-font-size-96: 96px;
 	--primitive-font-size-100: 100px;
 	--primitive-font-size-102: 102px;
+	--primitive-font-size-104: 104px;
 	--primitive-font-size-108: 108px;
+	--primitive-font-size-112: 112px;
+	--primitive-font-size-114: 114px;
 	--primitive-font-size-116: 116px;
 	--primitive-font-size-120: 120px;
 	--primitive-font-size-140: 140px;
 	--primitive-font-size-156: 156px;
+	--primitive-font-size-160: 160px;
 	--primitive-font-size-180: 180px;
 
 	/* Font Weights */
@@ -76,6 +85,7 @@ Primitive Typography Tokens
 	/* Font Families */
 	--primitive-font-family-ios: "Apple SD Gothic Neo";
 	--primitive-font-family-android: "Noto Sans CJK KR";
+	--primitive-font-family-windows: "Malgun Gothic";
 	--primitive-font-family-lg-smart-ui-default: "LG Smart UI";
 	--primitive-font-family-lg-smart-ui-condensed: "LG Smart UI Condensed";
 	--primitive-font-family-lg-smart-ui-dingbat: "LG Smart UI Dingbat";
