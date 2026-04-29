@@ -2,6 +2,14 @@
 
 The following is a curated list of changes in the core tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Added
+
+- `primitive-radius-108`
+- `primitive-font-family-lg-smart-ui-3-text`, `primitive-font-family-lg-smart-ui-3-title`, `primitive-font-family-lg-smart-ui-3-number`
+- `primitive-font-size-86`, `primitive-font-size-94`, `primitive-font-size-116`
+
 ## [0.15.2] - 2026-04-06
 
 - No significant changes

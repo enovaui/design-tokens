@@ -1,5 +1,24 @@
 {
     "primitive": {
+        "font-family": {
+            "ios": "Apple SD Gothic Neo",
+            "android": "Noto Sans CJK KR",
+            "lg-smart-ui": {
+                "default": "LG Smart UI",
+                "condensed": "LG Smart UI Condensed",
+                "dingbat": "LG Smart UI Dingbat",
+                "number": "LG Smart UI Number"
+            },
+            "lg-smart-ui-3": {
+                "text": "LGSmart UI 3.0 Text",
+                "title": "LGSmart UI 3.0 Title",
+                "number": "LGSmart UI 3.0 Number"
+            },
+            "lg-ei": {
+                "text": "LGEI Text",
+                "headline": "LGEI Headline"
+            }
+        },
         "font-size-10": "10px",
         "font-size-11": "11px",
         "font-size-12": "12px",
@@ -37,11 +56,14 @@
         "font-size-80": "80px",
         "font-size-82": "82px",
         "font-size-84": "84px",
+        "font-size-86": "86px",
         "font-size-90": "90px",
+        "font-size-94": "94px",
         "font-size-96": "96px",
         "font-size-100": "100px",
         "font-size-102": "102px",
         "font-size-108": "108px",
+        "font-size-116": "116px",
         "font-size-120": "120px",
         "font-size-140": "140px",
         "font-size-156": "156px",
@@ -56,20 +78,6 @@
             "bold": "700",
             "extrabold": "800",
             "black": "900"
-        },
-        "font-family": {
-            "ios": "Apple SD Gothic Neo",
-            "android": "Noto Sans CJK KR",
-            "lg-smart-ui": {
-                "default": "LG Smart UI",
-                "condensed": "LG Smart UI Condensed",
-                "dingbat": "LG Smart UI Dingbat",
-                "number": "LG Smart UI Number"
-            },
-            "lg-ei": {
-                "text": "LGEI Text",
-                "headline": "LGEI Headline"
-            }
         }
     }
 }
