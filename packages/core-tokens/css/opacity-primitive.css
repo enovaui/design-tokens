@@ -1,0 +1,23 @@
+/*
+ * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/* opacity-primitive.css */
+
+/* ----------------------------------------
+Primitive Opacity Tokens
+------------------------------------------- */
+
+:root {
+	--primitive-opacity-a0: 0;
+	--primitive-opacity-a10: 0.1;
+	--primitive-opacity-a20: 0.2;
+	--primitive-opacity-a30: 0.3;
+	--primitive-opacity-a40: 0.4;
+	--primitive-opacity-a50: 0.5;
+	--primitive-opacity-a60: 0.6;
+	--primitive-opacity-a70: 0.7;
+	--primitive-opacity-a80: 0.8;
+	--primitive-opacity-a90: 0.9;
+}

@@ -1,0 +1,24 @@
+{
+    "primitive": {
+        "effect-0": "0px",
+        "effect-1": "1px",
+        "effect-10": "10px",
+        "effect-100": "100px",
+        "effect-12": "12px",
+        "effect-14": "14px",
+        "effect-16": "16px",
+        "effect-18": "18px",
+        "effect-2": "2px",
+        "effect-20": "20px",
+        "effect-3": "3px",
+        "effect-4": "4px",
+        "effect-40": "40px",
+        "effect-5": "5px",
+        "effect-6": "6px",
+        "effect-60": "60px",
+        "effect-7": "7px",
+        "effect-8": "8px",
+        "effect-80": "80px",
+        "effect-9": "9px"
+    }
+}
