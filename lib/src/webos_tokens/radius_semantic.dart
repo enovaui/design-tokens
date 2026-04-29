@@ -11,8 +11,8 @@ class RadiusSemantic {
   const RadiusSemantic();
 
   Radius get full => RadiusPrimitive.instance.radius999;
-  Radius get button => RadiusPrimitive.instance.radius24;
-  Radius get container => RadiusPrimitive.instance.radius36;
-  Radius get overlay => RadiusPrimitive.instance.radius60;
-  Radius get popup => RadiusPrimitive.instance.radius60;
+  Radius get button => RadiusPrimitive.instance.radius36;
+  Radius get container => RadiusPrimitive.instance.radius60;
+  Radius get overlay => RadiusPrimitive.instance.radius108;
+  Radius get popup => RadiusPrimitive.instance.radius108;
 }

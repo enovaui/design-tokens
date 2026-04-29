@@ -2,6 +2,15 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Changed
+
+- `semantic_raidus_button` value to `primitive_radius_36`
+- `semantic_radius_container` value to `primitive_radius_60`
+- `semantic_radius_popup` value to `primitive_radius_108`
+- `semantic_radius_overlay` value to `primitive_radius_108`
+
 ## [1.0.0] - 2026-04-29
 
 ### Added
