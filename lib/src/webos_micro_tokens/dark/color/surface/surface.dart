@@ -64,11 +64,11 @@ class Surface extends SurfaceBase {
   @override
   Color get chipDisabled => ColorPrimitive.instance.sandGray30;
   @override
-  Color get homegridIndicatorActive => ColorPrimitive.instance.cobaltBlue45;
+  Color get homeGridIndicatorActive => ColorPrimitive.instance.cobaltBlue45;
   @override
-  Color get homegridIndicatorDark => ColorPrimitive.instance.black;
+  Color get homeGridIndicatorDark => ColorPrimitive.instance.black;
   @override
-  Color get homegridIndicatorLight => ColorPrimitive.instance.white;
+  Color get homeGridIndicatorLight => ColorPrimitive.instance.white;
   @override
   Color get iconGrid => ColorPrimitive.instance.sandGray30;
   @override
@@ -96,7 +96,7 @@ class Surface extends SurfaceBase {
   @override
   Color get pickerDate => ColorPrimitive.instance.cobaltBlue45;
   @override
-  Color get sliderTickmark => ColorPrimitive.instance.sandGray55;
+  Color get sliderTickMark => ColorPrimitive.instance.sandGray55;
   @override
   Color get scrollBarHandle => ColorPrimitive.instance.sandGray55;
   @override
