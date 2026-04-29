@@ -199,18 +199,24 @@ class FigmaAPIClient {
 			const tokenPath = variable.name.toLowerCase().replace(/\s+/g, '-').split('/').map(segment => normalizeTokenName(segment));
 			let current = formattedTokens[collectionName];
 
-			// Create nested object structure
-			tokenPath.slice(0, -1).forEach(segment => {
-			if (!current[segment]) current[segment] = {};
+			// Create nested object structure, but if current[segment] is string, stop (ignore a0~ etc)
+			for (const segment of tokenPath.slice(0, -1)) {
+				if (typeof current[segment] === 'string') {
+				// If already a string, do not overwrite or go deeper
+					return;
+				}
+				if (!current[segment]) current[segment] = {};
 				current = current[segment];
-			});
+			}
 
-			// For semantic color collections with multiple modes, create separate collections for each mode
+			// For semantic color and effect collections, create separate collections for each mode (even if only one mode)
 			if ((collectionName === 'lg.webOS.color.semantic' ||
-				 collectionName === 'lg.web.color.semantic' ||
-				 collectionName === 'lg.mobile.color.semantic') &&
-				collection.modes && collection.modes.length > 1) {
-				// Handle each mode separately
+				collectionName === 'lg.web.color.semantic' ||
+				collectionName === 'lg.mobile.color.semantic' ||
+				collectionName === 'lg.webOSmicro.color.semantic' ||
+				collectionName === 'lg.webOSmicro.effect.semantic') &&
+				collection.modes && collection.modes.length > 0) {
+				// Handle each mode separately (even if only one)
 				collection.modes.forEach(mode => {
 					const modeCollectionName = `${collectionName}.${mode.name.toLowerCase().replace(/\s+/g, '-')}`;
 
@@ -220,11 +226,15 @@ class FigmaAPIClient {
 
 					let modeCurrent = formattedTokens[modeCollectionName];
 
-					// Create nested object structure for this mode
-					tokenPath.slice(0, -1).forEach(segment => {
+					// Create nested object structure for this mode, but if modeCurrent[segment] is string, stop
+					for (const segment of tokenPath.slice(0, -1)) {
+						if (typeof modeCurrent[segment] === 'string') {
+							// If already a string, do not overwrite or go deeper
+							return;
+						}
 						if (!modeCurrent[segment]) modeCurrent[segment] = {};
 						modeCurrent = modeCurrent[segment];
-					});
+					}
 
 					// Set value for this mode if it exists
 					if (variable.valuesByMode[mode.modeId]) {
@@ -384,11 +394,14 @@ function getPackageFromCollection(collectionName) {
 		'web': 'web-tokens',
 		'mobile': 'mobile-tokens',
 		'webOS': 'webos-tokens',
+		'webOSmicro': 'webos-micro-tokens',
 		// Primitive collections use the type as platform indicator
 		'color': 'core-tokens',
 		'spacing': 'core-tokens',
 		'radius': 'core-tokens',
-		'typography': 'core-tokens'
+		'typography': 'core-tokens',
+		'effect': 'core-tokens',
+		'opacity': 'core-tokens'
 	};
 	
 	return platformToPackage[platform] || null;
@@ -412,7 +425,7 @@ function getFileNameFromCollection(collectionName) {
 	const mode = parts[4];
 	
 	// Handle primitive collections
-	if (['color', 'spacing', 'radius', 'typography'].includes(platform)) {
+	if (['color', 'spacing', 'radius', 'typography', 'effect', 'opacity'].includes(platform)) {
 		return `${platform}-${type}`; // e.g., "color-primitive"
 	}
 	
@@ -523,7 +536,18 @@ function analyzeChanges(figmaTokens, localTokens) {
 			if (localSpacingTokens && localSpacingTokens.primitive) {
 				comparePrimitiveTokens(figmaCollection, localSpacingTokens.primitive, collectionName, packageName, changes, 'spacing');
 			}
-		} else if (collectionName.includes('.semantic')) {
+		} else if (collectionName === 'lg.effect.primitive') {
+			const localEffectTokens = localPackage['effect-primitive'];
+			if (localEffectTokens && localEffectTokens.primitive) {
+				comparePrimitiveTokens(figmaCollection, localEffectTokens.primitive, collectionName, packageName, changes, 'effect');
+			}
+		} else if (collectionName === 'lg.opacity.primitive') {
+			const localEffectTokens = localPackage['opacity-primitive'];
+			if (localEffectTokens && localEffectTokens.primitive) {
+				comparePrimitiveTokens(figmaCollection, localEffectTokens.primitive, collectionName, packageName, changes, 'opacity');
+			}
+		} 
+		else if (collectionName.includes('.semantic')) {
 			// Handle all semantic collections uniformly
 			const localSemanticTokens = localPackage[fileName];
 			
@@ -843,11 +867,11 @@ function compareTypographyToken(pathString, localTokenName, localValue, figmaVal
  * Compare primitive tokens (radius, spacing)
  */
 function comparePrimitiveTokens(figmaCollection, localPrimitiveTokens, collectionName, packageName, changes, tokenType) {
-	// Handle radius and spacing tokens
-	// Figma structure: {radius: {2: 2, 4: 4, ...}} or {spacing: {2: 2, 4: 4, ...}}
-	// Local structure: {radius-2: "2px", radius-4: "4px", ...} or {spacing-2: "2px", spacing-4: "4px", ...}
+	// Handle radius, spacing, and effect tokens
+	// Figma structure: {radius: {2: 2, ...}}, {spacing: {2: 2, ...}}, {effect: {0: 0, 10: 10, ...}}
+	// Local structure: {radius-2: "2px", ...}, {spacing-2: "2px", ...}, {effect-0: 0, ...}
 
-	const figmaValues = figmaCollection[tokenType]; // radius or spacing
+	const figmaValues = figmaCollection[tokenType];
 	if (!figmaValues || typeof figmaValues !== 'object') {
 		console.log(`⚠️ No ${tokenType} values found in Figma collection ${collectionName}`);
 		return;
@@ -868,28 +892,52 @@ function comparePrimitiveTokens(figmaCollection, localPrimitiveTokens, collectio
 			};
 			console.log(`Found new ${tokenType} token: ${pathString} = ${figmaValue}`);
 		} else {
-			// Token comparison - handle px units properly
-			const normalizedLocal = String(localValue).replace('px', '');
-			const normalizedFigma = String(figmaValue);
+			// Token comparison - handle px units properly for spacing/radius, direct for effect
+			let normalizedLocal = String(localValue);
+			let normalizedFigma = String(figmaValue);
+			if (tokenType === 'spacing' || tokenType === 'radius' || tokenType === 'effect') {
+				normalizedLocal = normalizedLocal.replace('px', '');
+			}
 
 			if (normalizedLocal !== normalizedFigma) {
 				// Token modified
-				const mappedChange = {
-					filePath: `${packageName}/${tokenType}-primitive`,
-					before: {
-						primitive: {
-							[localTokenName]: localValue
+				let mappedChange;
+				if (tokenType === 'spacing' || tokenType === 'radius' || tokenType === 'effect') {
+					mappedChange = {
+						filePath: `${packageName}/${tokenType}-primitive`,
+						before: {
+							primitive: {
+								[localTokenName]: localValue
+							}
+						},
+						after: {
+							primitive: {
+								[localTokenName]: `${figmaValue}px`
+							}
 						}
-					},
-					after: {
-						primitive: {
-							[localTokenName]: `${figmaValue}px`
+					};
+				} else {
+					mappedChange = {
+						filePath: `${packageName}/${tokenType}-primitive`,
+						before: {
+							primitive: {
+								[localTokenName]: localValue
+							}
+						},
+						after: {
+							primitive: {
+								[localTokenName]: figmaValue
+							}
 						}
-					}
-				};
+					};
+				}
 				changes.modified[`${packageName}/${tokenType}-primitive/${localTokenName}`] = mappedChange;
 				console.log(`Found modified ${tokenType} token: ${pathString}`);
-				console.log(`  Local: ${localValue} → Figma: ${figmaValue}px`);
+				if (tokenType === 'spacing' || tokenType === 'radius' || tokenType === 'effect') {
+					console.log(`  Local: ${localValue} → Figma: ${figmaValue}px`);
+				} else {
+					console.log(`  Local: ${localValue} → Figma: ${figmaValue}`);
+				}
 			} else {
 				// Token unchanged
 				changes.unchanged[pathString] = {
