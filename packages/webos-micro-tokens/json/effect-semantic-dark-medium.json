@@ -1,0 +1,16 @@
+{
+    "semantic": {
+        "effect": {
+            "default-backgroundblur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
+            "default-dropshadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-40"},
+            "default-dropshadow-spread": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
+            "default-dropshadow-x": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
+            "default-dropshadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-10"},
+            "default-innershadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
+            "default-innershadow-spread": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
+            "default-innershadow-x": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
+            "default-innershadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
+            "statusbar-backgroundblur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"}
+        }
+    }
+}
