@@ -166,7 +166,7 @@ class TokenTransformer {
 		const isWebosPackage = filePath.includes('packages/webos-tokens/');
 		const isWebPackage = filePath.includes('packages/web-tokens/');
 		const isMobilePackage = filePath.includes('packages/mobile-tokens/');
-		const isWebosMicroPackage = filePath.includes('packages/webos-micro-tokens/');
+		const isWebosMPackage = filePath.includes('packages/webos-m-tokens/');
 
 		// webos-tokens semantic colors
 		if (isWebosPackage) {
@@ -186,17 +186,17 @@ class TokenTransformer {
 			}
 		}
 
-		// webos-micro-tokens semantic colors
-		if (isWebosMicroPackage) {
-			const microDartOutputDir = path.join(this.baseDir, 'lib/src/webos_micro_tokens');
+		// webos-m-tokens semantic colors
+		if (isWebosMPackage) {
+			const mDartOutputDir = path.join(this.baseDir, 'lib/src/webos_m_tokens');
 			for (const { name, pattern } of this.semanticThemes) {
 				const themePart = pattern.replace('.json', '').replace('color-semantic-', '');
 				const fileName = path.basename(filePath);
 				if (fileName === pattern) {
-					await this.dartGenerator.generateSemanticDartFromJSON(filePath, microDartOutputDir, name);
-					console.log(`✅ Generated WebOS-Micro Semantic Dart files for ${name} theme`);
-					console.log(`   💎 Updated WebOS-Micro Dart files for ${name} theme semantic colors`);
-					const dartFilePath = path.join(microDartOutputDir, `color_semantic_${name}.dart`);
+					await this.dartGenerator.generateSemanticDartFromJSON(filePath, mDartOutputDir, name);
+					console.log(`✅ Generated WebOS-M Semantic Dart files for ${name} theme`);
+					console.log(`   💎 Updated WebOS-M Dart files for ${name} theme semantic colors`);
+					const dartFilePath = path.join(mDartOutputDir, `color_semantic_${name}.dart`);
 					updatedFiles.push(dartFilePath);
 					return;
 				}

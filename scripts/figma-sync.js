@@ -388,13 +388,13 @@ function getPackageFromCollection(collectionName) {
 	}
 	
 	const platform = parts[1]; // web, mobile, webOS, color, spacing, radius, typography
-	
+
 	// Map platform to package
 	const platformToPackage = {
 		'web': 'web-tokens',
 		'mobile': 'mobile-tokens',
 		'webOS': 'webos-tokens',
-		'webOSmicro': 'webos-micro-tokens',
+		'webOSmicro': 'webos-m-tokens',
 		// Primitive collections use the type as platform indicator
 		'color': 'core-tokens',
 		'spacing': 'core-tokens',
