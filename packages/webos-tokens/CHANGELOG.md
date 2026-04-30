@@ -2,6 +2,15 @@
 
 The following is a curated list of changes in the webos tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Changed
+
+- `semantic-raidus-button` value to `primitive-radius-36`
+- `semantic-radius-container` value to `primitive-radius-60`
+- `semantic-radius-popup` value to `primitive-radius-108`
+- `semantic-radius-overlay` value to `primitive-radius-108`
+
 ## [1.0.1] - 2026-04-29
 
 - No significant changes
