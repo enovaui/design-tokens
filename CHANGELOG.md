@@ -2,6 +2,29 @@
 
 The following is a curated list of changes in the design tokens module, newest changes on the top.
 
+## [2.0.0] - 2026-04-30
+
+### core-tokens
+
+- No significant changes
+
+### mobile-tokens
+
+- No significant changes
+
+### web-tokens
+
+- No significant changes
+
+### webos-tokens
+
+#### Changed
+
+- `semantic-raidus-button` value to `primitive-radius-36`
+- `semantic-radius-container` value to `primitive-radius-60`
+- `semantic-radius-popup` value to `primitive-radius-108`
+- `semantic-radius-overlay` value to `primitive-radius-108`
+
 ## [1.0.1] - 2026-04-29
 
 ### core-tokens
