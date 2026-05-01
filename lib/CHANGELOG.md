@@ -4,9 +4,16 @@ The following is a curated list of changes in the flutter tokens module, newest 
 
 ## [unreleased]
 
+- `color_primitive` values to match the latest guide
+- `radius_primitive` values to match the latest guide
+- `spacing_primitive` values to match the latest guide
+- `typography_primitive` values to match the latest guide
+
 ### Added
 
-- `webos-m-tokens`
+- `effect_primitive` values to match the latest guide
+- `opacity_primitive` values to match the latest guide
+- `webos_m_tokens`
 
 ## [2.0.0] - 2026-04-30
 
