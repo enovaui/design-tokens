@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 

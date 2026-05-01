@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -17,6 +17,36 @@ const CSSGenerator = require('./css-generator');
 const DartGenerator = require('./dart-generator');
 
 class TokenTransformer {
+	reloadPrimitiveLookups() {
+		// color
+		try {
+			const primitivePath = path.resolve(__dirname, '../packages/core-tokens/json/color-primitive.json');
+			const primitiveData = require('fs').readFileSync(primitivePath, 'utf-8');
+			const parsed = JSON.parse(primitiveData);
+			this._latestPrimitiveColors = (parsed && parsed.primitive && parsed.primitive.color) ? parsed.primitive.color : {};
+		} catch (e) {
+			this._latestPrimitiveColors = {};
+		}
+		// radius
+		try {
+			const primitivePath = path.resolve(__dirname, '../packages/core-tokens/json/radius-primitive.json');
+			const primitiveData = require('fs').readFileSync(primitivePath, 'utf-8');
+			const parsed = JSON.parse(primitiveData);
+			this._latestPrimitiveRadius = (parsed && parsed.primitive) ? parsed.primitive : {};
+		} catch (e) {
+			this._latestPrimitiveRadius = {};
+		}
+		// typography
+		try {
+			const primitivePath = path.resolve(__dirname, '../packages/core-tokens/json/typography-primitive.json');
+			const primitiveData = require('fs').readFileSync(primitivePath, 'utf-8');
+			const parsed = JSON.parse(primitiveData);
+			this._latestPrimitiveTypography = (parsed && parsed.primitive) ? parsed.primitive : {};
+		} catch (e) {
+			this._latestPrimitiveTypography = {};
+		}
+	}
+
 	constructor(mappingConfig) {
 		this.mappingConfig = mappingConfig;
 		this.cssGenerator = new CSSGenerator();
@@ -55,6 +85,8 @@ class TokenTransformer {
 			{ type: 'radius', dartMethod: 'generateRadiusDartFromJSON' },
 			{ type: 'typography', dartMethod: 'generateTypographyDartFromJSON' },
 			{ type: 'spacing', dartMethod: 'generateSpacingDartFromJSON' },
+			{ type: 'effect', dartMethod: 'generateEffectDartFromJSON' },
+			{ type: 'opacity', dartMethod: 'generateOpacityDartFromJSON' },
 		];
 	}
 
@@ -134,6 +166,7 @@ class TokenTransformer {
 		const isWebosPackage = filePath.includes('packages/webos-tokens/');
 		const isWebPackage = filePath.includes('packages/web-tokens/');
 		const isMobilePackage = filePath.includes('packages/mobile-tokens/');
+		const isWebosMPackage = filePath.includes('packages/webos-m-tokens/');
 
 		// webos-tokens semantic colors
 		if (isWebosPackage) {
@@ -147,6 +180,23 @@ class TokenTransformer {
 					console.log(`✅ Generated WebOS Semantic Dart files for ${name} theme`);
 					console.log(`   💎 Updated WebOS Dart files for ${name} theme semantic colors`);
 					const dartFilePath = path.join(webosDartOutputDir, `color_semantic_${name}.dart`);
+					updatedFiles.push(dartFilePath);
+					return;
+				}
+			}
+		}
+
+		// webos-m-tokens semantic colors
+		if (isWebosMPackage) {
+			const mDartOutputDir = path.join(this.baseDir, 'lib/src/webos_m_tokens');
+			for (const { name, pattern } of this.semanticThemes) {
+				const themePart = pattern.replace('.json', '').replace('color-semantic-', '');
+				const fileName = path.basename(filePath);
+				if (fileName === pattern) {
+					await this.dartGenerator.generateSemanticDartFromJSON(filePath, mDartOutputDir, name);
+					console.log(`✅ Generated WebOS-M Semantic Dart files for ${name} theme`);
+					console.log(`   💎 Updated WebOS-M Dart files for ${name} theme semantic colors`);
+					const dartFilePath = path.join(mDartOutputDir, `color_semantic_${name}.dart`);
 					updatedFiles.push(dartFilePath);
 					return;
 				}
@@ -284,19 +334,10 @@ class TokenTransformer {
 		const isColorSemantic = /color-semantic/.test(filePath);
 		const isRadiusSemantic = /radius-semantic/.test(filePath);
 		const isTypographySemantic = /typography-semantic/.test(filePath);
+		const isEffectSemantic = /effect-semantic/.test(filePath);
 
 		if (isColorSemantic) {
-			// Build primitive color lookup
-			let primitiveColors = {};
-			try {
-				const primitivePath = path.resolve(__dirname, '../packages/core-tokens/json/color-primitive.json');
-				const primitiveData = fs.readJsonSync(primitivePath);
-				if (primitiveData && primitiveData.primitive && primitiveData.primitive.color) {
-					primitiveColors = primitiveData.primitive.color;
-				}
-			} catch (e) {
-				console.warn('Failed to load primitive colors:', e.message);
-			}
+			const primitiveColors = this._latestPrimitiveColors || {};
 			const primitiveColorLookup = this.buildPrimitiveColorLookup(primitiveColors);
 
 			for (const { changeData } of tokens) {
@@ -339,17 +380,7 @@ class TokenTransformer {
 		}
 
 		if (isRadiusSemantic) {
-			// Build primitive radius lookup
-			let primitiveRadius = {};
-			try {
-				const primitivePath = path.resolve(__dirname, '../packages/core-tokens/json/radius-primitive.json');
-				const radiusJson = fs.readJsonSync(primitivePath);
-				if (radiusJson && radiusJson.primitive) {
-					primitiveRadius = radiusJson.primitive;
-				}
-			} catch (e) {
-				console.warn('Failed to load primitive radius:', e.message);
-			}
+			const primitiveRadius = this._latestPrimitiveRadius || {};
 			const primitiveRadiusLookup = this.buildPrimitiveRadiusLookup(primitiveRadius);
 
 			// Initialize fresh semantic radius structure to avoid duplicates
@@ -388,17 +419,7 @@ class TokenTransformer {
 		}
 
 		if (isTypographySemantic) {
-			// Build primitive typography lookup  
-			let primitiveTypography = {};
-			try {
-				const primitivePath = path.resolve(__dirname, '../packages/core-tokens/json/typography-primitive.json');
-				const typographyJson = fs.readJsonSync(primitivePath);
-				if (typographyJson && typographyJson.primitive) {
-					primitiveTypography = typographyJson.primitive;
-				}
-			} catch (e) {
-				console.warn('Failed to load primitive typography:', e.message);
-			}
+			const primitiveTypography = this._latestPrimitiveTypography || {};
 			const primitiveTypographyLookup = this.buildPrimitiveTypographyLookup(primitiveTypography);
 
 			// Initialize fresh semantic structure - directly under semantic, not under typography
@@ -432,12 +453,42 @@ class TokenTransformer {
 			return;
 		}
 
+		if (isEffectSemantic) {
+			if (!existingTokens.semantic) existingTokens.semantic = {};
+			if (!existingTokens.semantic.effect) existingTokens.semantic.effect = {};
+			for (const { changeData } of tokens) {
+				const { path: tokenPathArray, value } = changeData;
+				let target = existingTokens.semantic.effect;
+				const pathToUse = tokenPathArray[0] === 'effect' ? tokenPathArray.slice(1) : tokenPathArray;
+				for (let i = 0; i < pathToUse.length - 1; i++) {
+					if (!target[pathToUse[i]]) target[pathToUse[i]] = {};
+					target = target[pathToUse[i]];
+				}
+				const finalKey = pathToUse[pathToUse.length - 1];
+				target[finalKey] = value;
+			}
+			const sortedTokens = this.sortTokens(existingTokens);
+			await this.saveTokensToFile(filePath, sortedTokens);
+			return;
+		}
+
 		if (!existingTokens.primitive) existingTokens.primitive = {};
+		// Ensure color primitives are always nested under primitive.color
 		for (const { changeData } of tokens) {
 			const { path: tokenPathArray, value } = changeData;
-			
-			// Special handling for nested structures (font-family, font-weight)
-			if ((tokenPathArray[0] === 'font-family' || tokenPathArray[0] === 'font-weight') && tokenPathArray.length > 1) {
+			// Handle color primitives: always nest under primitive.color
+			if (tokenPathArray[0] === 'color') {
+				if (!existingTokens.primitive.color) existingTokens.primitive.color = {};
+				let target = existingTokens.primitive.color;
+				for (let i = 1; i < tokenPathArray.length - 1; i++) {
+					const key = tokenPathArray[i];
+					if (!target[key]) target[key] = {};
+					target = target[key];
+				}
+				const finalKey = tokenPathArray[tokenPathArray.length - 1];
+				target[finalKey] = value;
+				console.log(`     + Added color.${tokenPathArray.slice(1).join('.')}: ${value}`);
+			} else if ((tokenPathArray[0] === 'font-family' || tokenPathArray[0] === 'font-weight') && tokenPathArray.length > 1) {
 				// These tokens have nested structure
 				const rootKey = tokenPathArray[0];
 				if (!existingTokens.primitive[rootKey]) {
@@ -468,6 +519,18 @@ class TokenTransformer {
 				}
 				existingTokens.primitive[tokenKey] = formattedValue;
 				console.log(`     + Added ${tokenKey}: ${formattedValue}`);
+			}
+		}
+		// After all tokens, flatten any accidentally top-level color keys into primitive.color
+		// (for backward compatibility with old data)
+		if (existingTokens.primitive) {
+			const colorKeys = Object.keys(existingTokens.primitive).filter(k => /^magenta-pink|^mid-blue|^sand-gray/.test(k));
+			if (colorKeys.length > 0) {
+				if (!existingTokens.primitive.color) existingTokens.primitive.color = {};
+				for (const k of colorKeys) {
+					existingTokens.primitive.color[k] = existingTokens.primitive[k];
+					delete existingTokens.primitive[k];
+				}
 			}
 		}
 		const sortedTokens = this.sortTokens(existingTokens);
@@ -533,6 +596,10 @@ class TokenTransformer {
 			fileName = 'typography-primitive';
 		} else if (collection && collection.includes('radius')) {
 			fileName = 'radius-primitive';
+		} else if (collection && collection.includes('effect')) {
+			fileName = 'effect-primitive';
+		} else if (collection && collection.includes('opacity')) {
+			fileName = 'opacity-primitive';
 		} else if (changeData.filePath) {
 			// Extract filename from filePath
 			const pathParts = changeData.filePath.split('/');
@@ -554,6 +621,10 @@ class TokenTransformer {
 					fileName = 'typography-primitive';
 				} else if (tokenName.includes('radius')) {
 					fileName = 'radius-primitive';
+				} else if (tokenName.includes('effect')) {
+					fileName = 'effect-primitive';
+				} else if (tokenName.includes('opacity')) {
+					fileName = 'opacity-primitive';
 				} else {
 					fileName = 'tokens'; // generic fallback
 				}
@@ -1174,29 +1245,76 @@ async function main() {
 			normalizedFiles.forEach(file => console.log(`   - ${path.relative(outputDir, file)}`));
 		}
 
-		// Apply changes to token files
+		// Apply changes to token files (primitive → semantic)
 		if (changes && Object.keys(changes).length > 0) {
-			console.log('📝 Applying token changes...');
-
+			console.log('📝 Applying token changes (primitive → semantic)...');
 			console.log('📁 Output directory:', outputDir);
 
-			const updatedFiles = await transformer.applyChanges(changes, outputDir);
+		function isPrimitiveToken(tokenPath, changeData) {
+    		const collection = changeData.collection || '';
+    		const filePath = changeData.filePath || '';
+    		return /primitive/.test(collection) || /primitive/.test(filePath);
+		}
 
-			console.log(`✅ Applied changes to ${updatedFiles.length} files:`);
-			updatedFiles.forEach(file => console.log(`   - ${path.relative(outputDir, file)}`));
+		function isSemanticToken(tokenPath, changeData) {
+    		const collection = changeData.collection || '';
+    		const filePath = changeData.filePath || '';
+    		return /semantic/.test(collection) || /semantic/.test(filePath);
+		}
 
-			// Save updated files list
-			const manifestPath = path.join(__dirname, '..', 'token-update-manifest.json');
-			await fs.writeJson(manifestPath, {
-				timestamp: new Date().toISOString(),
-				updatedFiles: updatedFiles.map(file => path.relative(outputDir, file)),
-				changesApplied: {
-					added: Object.keys(changes.added || {}).length,
-					modified: Object.keys(changes.modified || {}).length,
-					removed: Object.keys(changes.removed || {}).length
+		function filterChangesByType(typeFn) {
+			const filtered = { added: {}, modified: {}, removed: {} };
+			for (const key of ['added', 'modified', 'removed']) {
+				for (const [tokenPath, changeData] of Object.entries(changes[key] || {})) {
+					if (typeFn(tokenPath, changeData)) {
+						filtered[key][tokenPath] = changeData;
+					}
 				}
-			}, { spaces: 4 });
+			}
+			// Remove empty keys
+			for (const key of ['added', 'modified', 'removed']) {
+				if (Object.keys(filtered[key]).length === 0) delete filtered[key];
+			}
+			return filtered;
+		}
 
+		const primitiveChanges = filterChangesByType(isPrimitiveToken);
+		const semanticChanges = filterChangesByType(isSemanticToken);
+
+		let updatedFiles = [];
+		if (Object.keys(primitiveChanges).length > 0 && (Object.keys(primitiveChanges.added||{}).length > 0 || Object.keys(primitiveChanges.modified||{}).length > 0 || Object.keys(primitiveChanges.removed||{}).length > 0)) {
+			console.log('🔹 Step 1: Applying primitive token changes...');
+			const files = await transformer.applyChanges(primitiveChanges, outputDir);
+			updatedFiles = updatedFiles.concat(files);
+		}
+
+		if (typeof transformer.reloadPrimitiveLookups === 'function') {
+			transformer.reloadPrimitiveLookups();
+		}
+
+		if (Object.keys(semanticChanges).length > 0 && (Object.keys(semanticChanges.added||{}).length > 0 || Object.keys(semanticChanges.modified||{}).length > 0 || Object.keys(semanticChanges.removed||{}).length > 0)) {
+			console.log('🔸 Step 2: Applying semantic token changes...');
+			const files = await transformer.applyChanges(semanticChanges, outputDir);
+			updatedFiles = updatedFiles.concat(files);
+		}
+
+		const manifestPath = path.join(__dirname, '..', 'token-update-manifest.json');
+		await fs.writeJson(manifestPath, {
+			timestamp: new Date().toISOString(),
+			updatedFiles: updatedFiles.map(file => path.relative(outputDir, file)),
+			changesApplied: {
+				primitive: {
+					added: Object.keys(primitiveChanges.added || {}).length,
+					modified: Object.keys(primitiveChanges.modified || {}).length,
+					removed: Object.keys(primitiveChanges.removed || {}).length
+				},
+				semantic: {
+					added: Object.keys(semanticChanges.added || {}).length,
+					modified: Object.keys(semanticChanges.modified || {}).length,
+					removed: Object.keys(semanticChanges.removed || {}).length
+				}
+			}
+		}, { spaces: 4 });
 			console.log('📋 Update manifest saved to token-update-manifest.json');
 		} else {
 			console.log('ℹ️  No changes detected in figma-changes.json');

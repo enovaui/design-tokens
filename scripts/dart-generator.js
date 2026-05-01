@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -88,7 +88,7 @@ class DartGenerator {
 
 		// Generate Dart class content
 		let dartContent = `/*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -139,7 +139,7 @@ class ColorPrimitive {
 
 		// Generate Dart class content
 		let dartContent = `/*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -191,7 +191,7 @@ class RadiusPrimitive {
 
 		// Generate Dart class content
 		let dartContent = `/*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -239,7 +239,7 @@ class SpacingPrimitive {
 		const typographyTokens = jsonTokens.primitive;
 
 	let dartContent = `/*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -319,6 +319,87 @@ class FontFamilyPrimitive {
 			dartContent += '\n}\n';
 		}
 
+		await fs.writeFile(dartPath, dartContent);
+		console.log(`✅ Generated Dart file: ${path.basename(dartPath)}`);
+		return true;
+	}
+
+	/**
+	 * Update Effect Dart file from JSON effect tokens
+	 */
+	async generateEffectDartFromJSON(jsonPath, dartPath) {
+		if (!await fs.pathExists(jsonPath)) {
+			console.log(`❌ JSON file not found: ${jsonPath}`);
+			return false;
+		}
+		const jsonTokens = await fs.readJson(jsonPath);
+		if (!jsonTokens.primitive) {
+			console.log(`❌ Invalid effect tokens file: ${jsonPath}`);
+			return false;
+		}
+		const effectTokens = jsonTokens.primitive;
+
+		let dartContent = `/*
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import 'package:flutter/material.dart';
+
+class EffectPrimitive {
+  EffectPrimitive._();
+
+  static EffectPrimitive? _instance;
+  static EffectPrimitive get instance => _instance ??= EffectPrimitive._();
+`;
+		// Add effect properties
+		const effectEntries = Object.entries(effectTokens);
+		effectEntries.forEach(([name, value], idx) => {
+			// Just output as string for now (could be shadow, blur, etc.)
+			const varName = this.toCamelCase(name);
+			dartContent += `\n  late final int ${varName} = ${value};`;
+		});
+		dartContent += '\n}\n';
+		await fs.writeFile(dartPath, dartContent);
+		return true;
+	}
+
+	/**
+	 * Update Opacity Dart file from JSON opacity tokens
+	 */
+	async generateOpacityDartFromJSON(jsonPath, dartPath) {
+		if (!await fs.pathExists(jsonPath)) {
+			console.log(`❌ JSON file not found: ${jsonPath}`);
+			return false;
+		}
+		const jsonTokens = await fs.readJson(jsonPath);
+		if (!jsonTokens.primitive) {
+			console.log(`❌ Invalid opacity tokens file: ${jsonPath}`);
+			return false;
+		}
+		const opacityTokens = jsonTokens.primitive;
+
+		let dartContent = `/*
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import 'package:flutter/material.dart';
+
+class OpacityPrimitive {
+  OpacityPrimitive._();
+
+  static OpacityPrimitive? _instance;
+  static OpacityPrimitive get instance => _instance ??= OpacityPrimitive._();
+`;
+		// Add opacity properties
+		const opacityEntries = Object.entries(opacityTokens);
+		opacityEntries.forEach(([name, value], idx) => {
+			// Output as double (opacity 0~1)
+			const varName = this.toCamelCase(name);
+			dartContent += `\n  late final double ${varName} = ${parseFloat(value)};`;
+		});
+		dartContent += '\n}\n';
 		await fs.writeFile(dartPath, dartContent);
 		console.log(`✅ Generated Dart file: ${path.basename(dartPath)}`);
 		return true;
@@ -438,7 +519,7 @@ class FontFamilyPrimitive {
 
 		// Start building the Dart file content
 		let dartContent = `/*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -502,7 +583,7 @@ class FontFamilyPrimitive {
 
 		// Start building the Dart file content
 		let dartContent = `/*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 

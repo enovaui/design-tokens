@@ -1,7 +1,9 @@
 /*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
+
+import 'package:flutter/material.dart';
 
 class SpacingPrimitive {
   SpacingPrimitive._();
@@ -28,33 +30,47 @@ class SpacingPrimitive {
   late final int spacing42 = 42;
   late final int spacing44 = 44;
   late final int spacing48 = 48;
-  late final int spacing50 = 50;
+  late final int spacing52 = 52;
   late final int spacing54 = 54;
   late final int spacing56 = 56;
   late final int spacing60 = 60;
   late final int spacing64 = 64;
   late final int spacing66 = 66;
+  late final int spacing68 = 68;
   late final int spacing72 = 72;
+  late final int spacing76 = 76;
+  late final int spacing78 = 78;
   late final int spacing80 = 80;
   late final int spacing84 = 84;
+  late final int spacing88 = 88;
   late final int spacing90 = 90;
   late final int spacing92 = 92;
   late final int spacing96 = 96;
   late final int spacing100 = 100;
   late final int spacing102 = 102;
+  late final int spacing104 = 104;
   late final int spacing108 = 108;
+  late final int spacing112 = 112;
+  late final int spacing114 = 114;
+  late final int spacing116 = 116;
   late final int spacing120 = 120;
   late final int spacing132 = 132;
   late final int spacing144 = 144;
   late final int spacing156 = 156;
-  late final int spacing160 = 160;
   late final int spacing168 = 168;
+  late final int spacing178 = 178;
   late final int spacing180 = 180;
+  late final int spacing192 = 192;
+  late final int spacing194 = 194;
+  late final int spacing198 = 198;
   late final int spacing204 = 204;
+  late final int spacing216 = 216;
   late final int spacing228 = 228;
   late final int spacing240 = 240;
   late final int spacing252 = 252;
+  late final int spacing264 = 264;
   late final int spacing276 = 276;
+  late final int spacing288 = 288;
   late final int spacing300 = 300;
   late final int spacing324 = 324;
   late final int spacing348 = 348;
