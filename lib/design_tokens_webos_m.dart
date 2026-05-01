@@ -4,6 +4,8 @@
  */
 
 export 'src/core_tokens/color_primitive.dart';
+export 'src/core_tokens/effect_primitive.dart';
+export 'src/core_tokens/opacity_primitive.dart';
 export 'src/core_tokens/radius_primitive.dart';
 export 'src/core_tokens/spacing_primitive.dart';
 export 'src/core_tokens/typography_primitive.dart';

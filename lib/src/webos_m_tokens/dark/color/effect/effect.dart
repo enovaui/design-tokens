@@ -15,4 +15,8 @@ class Effect extends EffectBase {
   Color get innerShadow => ColorPrimitive.instance.white;
   @override
   Color get dropShadow => ColorPrimitive.instance.black;
+  @override
+  Color get homeGridDropShadow => ColorPrimitive.instance.black;
+  @override
+  Color get pageIndicatorDropShadow => ColorPrimitive.instance.black;
 }

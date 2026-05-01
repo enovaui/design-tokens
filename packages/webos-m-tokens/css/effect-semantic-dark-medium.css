@@ -21,5 +21,11 @@ Semantic Effect Tokens
 	--semantic-effect-default-inner-shadow-spread: var(--primitive-effect-0);
 	--semantic-effect-default-inner-shadow-x: var(--primitive-effect-0);
 	--semantic-effect-default-inner-shadow-y: var(--primitive-effect-0);
+	--semantic-effect-home-grid-drop-shadow-blur: var(--primitive-effect-8);
+	--semantic-effect-home-grid-drop-shadow-y: var(--primitive-effect-1);
+	--semantic-effect-page-indicator-drop-shadow-blur: var(--primitive-effect-8);
+	--semantic-effect-page-indicator-drop-shadow-y: var(--primitive-effect-1);
 	--semantic-effect-status-bar-background-blur: var(--primitive-effect-0);
+	--semantic-effect-widget-drop-shadow-blur: var(--primitive-effect-40);
+	--semantic-effect-widget-drop-shadow-y: var(--primitive-effect-40);
 }

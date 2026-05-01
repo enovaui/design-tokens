@@ -126,7 +126,9 @@
             },
             "effect": {
                 "inner-shadow": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
-                "drop-shadow": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"}
+                "drop-shadow": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
+                "home-grid-drop-shadow": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
+                "page-indicator-drop-shadow": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"}
             }
         }
     }

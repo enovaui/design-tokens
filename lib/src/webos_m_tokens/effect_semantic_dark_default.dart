@@ -19,5 +19,11 @@ class DefaultEffectSemantic {
   int get defaultInnerShadowSpread => EffectPrimitive.instance.effect0;
   int get defaultInnerShadowX => EffectPrimitive.instance.effect0;
   int get defaultInnerShadowY => EffectPrimitive.instance.effect2;
+  int get homeGridDropShadowBlur => EffectPrimitive.instance.effect8;
+  int get homeGridDropShadowY => EffectPrimitive.instance.effect1;
+  int get pageIndicatorDropShadowBlur => EffectPrimitive.instance.effect8;
+  int get pageIndicatorDropShadowY => EffectPrimitive.instance.effect1;
   int get statusBarBackgroundBlur => EffectPrimitive.instance.effect60;
+  int get widgetDropShadowBlur => EffectPrimitive.instance.effect40;
+  int get widgetDropShadowY => EffectPrimitive.instance.effect40;
 }
