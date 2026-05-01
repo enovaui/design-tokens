@@ -7,14 +7,14 @@ The following is a curated list of changes in the core tokens module, newest cha
 ### Changed
 
 - `color-primitive` values to match the latest guide
-- `radius-primitive` values to match the latest guide
-- `spacing-primitive` values to match the latest guide
-- `typography-primitive` values to match the latest guide
 
 ### Added
 
 - `effect-primitive` values to match the latest guide
 - `opacity-primitive` values to match the latest guide
+- `radius-primitive` values to match the latest guide
+- `spacing-primitive` values to match the latest guide
+- `typography-primitive` values to match the latest guide
 
 ## [2.0.0] - 2026-04-30
 
