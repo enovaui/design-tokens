@@ -11,8 +11,8 @@ Semantic Radius Tokens
 
 :root {
 	--semantic-radius-full: var(--primitive-radius-999);
-	--semantic-radius-button: var(--primitive-radius-24);
-	--semantic-radius-container: var(--primitive-radius-36);
-	--semantic-radius-overlay: var(--primitive-radius-60);
-	--semantic-radius-popup: var(--primitive-radius-60);
+	--semantic-radius-button: var(--primitive-radius-36);
+	--semantic-radius-container: var(--primitive-radius-60);
+	--semantic-radius-overlay: var(--primitive-radius-108);
+	--semantic-radius-popup: var(--primitive-radius-108);
 }
