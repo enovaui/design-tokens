@@ -19,7 +19,6 @@ Semantic tokens translate primitive values into purpose-driven design tokens. Th
 
 ## Installation
 
-
 To install the package, use your preferred package manager:
 
 ```bash
@@ -40,7 +39,6 @@ To incorporate these design tokens into your project, follow these simple steps:
 2. Apply the imported tokens to your components and styles.
 
 ### Token Categories
-
 
 * `color-semantic-dark`: Dark theme color tokens optimized for displays, featuring dark backgrounds with white text and cool gray accents
 * `radius-semantic`: Border radius tokens for consistent component shapes

@@ -132,7 +132,7 @@ Semantic Color Tokens
 	/* Scrim */
 	--semantic-color-scrim-default: var(--primitive-color-black);
 
-	/* Other */
+	/* Effect */
 	--semantic-color-effect-inner-shadow: var(--primitive-color-white);
 	--semantic-color-effect-drop-shadow: var(--primitive-color-black);
 	--semantic-color-effect-home-grid-drop-shadow: var(--primitive-color-black);
