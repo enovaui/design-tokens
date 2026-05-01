@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -88,7 +88,7 @@ class DartGenerator {
 
 		// Generate Dart class content
 		let dartContent = `/*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -139,7 +139,7 @@ class ColorPrimitive {
 
 		// Generate Dart class content
 		let dartContent = `/*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -191,7 +191,7 @@ class RadiusPrimitive {
 
 		// Generate Dart class content
 		let dartContent = `/*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -239,7 +239,7 @@ class SpacingPrimitive {
 		const typographyTokens = jsonTokens.primitive;
 
 	let dartContent = `/*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -340,7 +340,7 @@ class FontFamilyPrimitive {
 		const effectTokens = jsonTokens.primitive;
 
 		let dartContent = `/*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -380,7 +380,7 @@ class EffectPrimitive {
 		const opacityTokens = jsonTokens.primitive;
 
 		let dartContent = `/*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -519,7 +519,7 @@ class OpacityPrimitive {
 
 		// Start building the Dart file content
 		let dartContent = `/*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -583,7 +583,7 @@ class OpacityPrimitive {
 
 		// Start building the Dart file content
 		let dartContent = `/*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
