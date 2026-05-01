@@ -2,6 +2,40 @@
 
 The following is a curated list of changes in the design tokens module, newest changes on the top.
 
+## [3.0.0] - 2026-05-02
+
+### core-tokens
+
+#### Changed
+
+- `color-primitive` values to match the latest guide
+
+#### Added
+
+- `effect-primitive` values to match the latest guide
+- `opacity-primitive` values to match the latest guide
+- `radius-primitive` values to match the latest guide
+- `spacing-primitive` values to match the latest guide
+- `typography-primitive` values to match the latest guide
+
+### mobile-tokens
+
+- No significant changes
+
+### web-tokens
+
+- No significant changes
+
+### webos-tokens
+
+- No significant changes
+
+### webos-m-tokens
+
+#### Added
+
+- `color-semantic-dark`, `effect-semantic-dark-default`, `effect-semantic-dark-res-low`, `effect-semantic-dark-res-medium` and `radius-semantic` tokens
+
 ## [2.0.0] - 2026-04-30
 
 ### core-tokens

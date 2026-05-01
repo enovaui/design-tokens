@@ -1,0 +1,22 @@
+{
+    "semantic": {
+        "effect": {
+            "default-background-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-40"},
+            "default-drop-shadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-40"},
+            "default-drop-shadow-spread": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
+            "default-drop-shadow-x": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
+            "default-drop-shadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-10"},
+            "default-inner-shadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-8"},
+            "default-inner-shadow-spread": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
+            "default-inner-shadow-x": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
+            "default-inner-shadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-2"},
+            "home-grid-drop-shadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-8"},
+            "home-grid-drop-shadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-1"},
+            "page-indicator-drop-shadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-8"},
+            "page-indicator-drop-shadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-1"},
+            "status-bar-background-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-60"},
+            "widget-drop-shadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-40"},
+            "widget-drop-shadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-40"}
+        }
+    }
+}

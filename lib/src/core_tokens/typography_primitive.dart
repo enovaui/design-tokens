@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -18,7 +18,9 @@ class FontSizePrimitive {
   late final double size14 = 14;
   late final double size15 = 15;
   late final double size16 = 16;
+  late final double size17 = 17;
   late final double size18 = 18;
+  late final double size19 = 19;
   late final double size20 = 20;
   late final double size22 = 22;
   late final double size24 = 24;
@@ -40,10 +42,13 @@ class FontSizePrimitive {
   late final double size56 = 56;
   late final double size58 = 58;
   late final double size60 = 60;
+  late final double size62 = 62;
   late final double size64 = 64;
   late final double size66 = 66;
   late final double size68 = 68;
   late final double size72 = 72;
+  late final double size74 = 74;
+  late final double size76 = 76;
   late final double size78 = 78;
   late final double size80 = 80;
   late final double size82 = 82;
@@ -54,11 +59,15 @@ class FontSizePrimitive {
   late final double size96 = 96;
   late final double size100 = 100;
   late final double size102 = 102;
+  late final double size104 = 104;
   late final double size108 = 108;
+  late final double size112 = 112;
+  late final double size114 = 114;
   late final double size116 = 116;
   late final double size120 = 120;
   late final double size140 = 140;
   late final double size156 = 156;
+  late final double size160 = 160;
   late final double size180 = 180;
 }
 
@@ -87,6 +96,7 @@ class FontFamilyPrimitive {
 
   late final String ios = 'Apple SD Gothic Neo';
   late final String android = 'Noto Sans CJK KR';
+  late final String windows = 'Malgun Gothic';
   late final String lgSmartUiDefault = 'LG Smart UI';
   late final String lgSmartUiCondensed = 'LG Smart UI Condensed';
   late final String lgSmartUiDingbat = 'LG Smart UI Dingbat';

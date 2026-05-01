@@ -1,0 +1,33 @@
+/*
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/* effect-primitive.css */
+
+/* ----------------------------------------
+Primitive Effect Tokens
+------------------------------------------- */
+
+:root {
+	--primitive-effect-0: 0px;
+	--primitive-effect-1: 1px;
+	--primitive-effect-2: 2px;
+	--primitive-effect-3: 3px;
+	--primitive-effect-4: 4px;
+	--primitive-effect-5: 5px;
+	--primitive-effect-6: 6px;
+	--primitive-effect-7: 7px;
+	--primitive-effect-8: 8px;
+	--primitive-effect-9: 9px;
+	--primitive-effect-10: 10px;
+	--primitive-effect-12: 12px;
+	--primitive-effect-14: 14px;
+	--primitive-effect-16: 16px;
+	--primitive-effect-18: 18px;
+	--primitive-effect-20: 20px;
+	--primitive-effect-40: 40px;
+	--primitive-effect-60: 60px;
+	--primitive-effect-80: 80px;
+	--primitive-effect-100: 100px;
+}

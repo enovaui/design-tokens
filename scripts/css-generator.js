@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -242,7 +242,7 @@ class CSSGenerator {
 
         // Generate CSS header
         let cssContent = `/*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -293,7 +293,7 @@ Primitive Color Tokens
 
         // Generate CSS header
         let cssContent = `/*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -418,7 +418,7 @@ Primitive Typography Tokens
 
         // Generate CSS header
         let cssContent = `/*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -646,7 +646,7 @@ Primitive ${tokenType.charAt(0).toUpperCase() + tokenType.slice(1)} Tokens
         const flatTokens = flattenTokens(semanticTokensRaw, semanticTokensResolved);
 
         // Generate CSS header
-        let cssContent = `/*\n * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.\n * SPDX-License-Identifier: Apache-2.0\n */\n\n@import \"@enovaui/core-tokens/css/color-primitive.css\";\n\n/* ----------------------------------------\nSemantic Color Tokens\n------------------------------------------- */\n\n:root {\n`;
+        let cssContent = `/*\n * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.\n * SPDX-License-Identifier: Apache-2.0\n */\n\n@import \"@enovaui/core-tokens/css/color-primitive.css\";\n\n/* ----------------------------------------\nSemantic Color Tokens\n------------------------------------------- */\n\n:root {\n`;
 
         // Group tokens by category for better organization
         const categories = {
@@ -773,7 +773,7 @@ Primitive ${tokenType.charAt(0).toUpperCase() + tokenType.slice(1)} Tokens
         // Generate CSS header
         const headerType = tokenType.charAt(0).toUpperCase() + tokenType.slice(1);
         let cssContent = `/*
- * SPDX-FileCopyrightText: Copyright 2025 LG Electronics Inc.
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
  * SPDX-License-Identifier: Apache-2.0
  */
 
