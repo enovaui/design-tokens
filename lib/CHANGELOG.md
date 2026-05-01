@@ -2,7 +2,7 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
-## [unreleased]
+## [3.0.0] - 2026-05-02
 
 - `color_primitive` values to match the latest guide
 
