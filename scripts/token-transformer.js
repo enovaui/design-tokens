@@ -45,6 +45,15 @@ class TokenTransformer {
 		} catch (e) {
 			this._latestPrimitiveTypography = {};
 		}
+		// effect
+		try {
+			const primitivePath = path.resolve(__dirname, '../packages/core-tokens/json/effect-primitive.json');
+			const primitiveData = require('fs').readFileSync(primitivePath, 'utf-8');
+			const parsed = JSON.parse(primitiveData);
+			this._latestPrimitiveEffect = (parsed && parsed.primitive) ? parsed.primitive : {};
+		} catch (e) {
+			this._latestPrimitiveEffect = {};
+		}
 	}
 
 	constructor(mappingConfig) {
@@ -160,13 +169,41 @@ class TokenTransformer {
 	 * @param {Array} updatedFiles - Array to store updated file paths
 	 */
 	async updateSemanticDartFileForTheme(filePath, updatedFiles) {
-		if (!filePath.includes('color-semantic')) return;
+		const isColorSemantic = filePath.includes('color-semantic');
+		const isEffectSemantic = filePath.includes('effect-semantic');
+		const isRadiusSemantic = filePath.includes('radius-semantic');
+
+		if (!isColorSemantic && !isEffectSemantic && !isRadiusSemantic) return;
 
 		// Determine which package this file belongs to by checking the full path
 		const isWebosPackage = filePath.includes('packages/webos-tokens/');
 		const isWebPackage = filePath.includes('packages/web-tokens/');
 		const isMobilePackage = filePath.includes('packages/mobile-tokens/');
 		const isWebosMPackage = filePath.includes('packages/webos-m-tokens/');
+
+		// ── Radius Semantic Dart generation ─────────────────────────────────
+		if (isRadiusSemantic && isWebosMPackage) {
+			const dartPath = path.join(this.baseDir, 'lib/src/webos_m_tokens/radius_semantic.dart');
+			await this.dartGenerator.generateRadiusSemanticDartFromJSON(filePath, dartPath);
+			console.log(`   💎 Updated Radius Semantic Dart: radius_semantic.dart`);
+			updatedFiles.push(dartPath);
+			return;
+		}
+
+		// ── Effect Semantic Dart generation ──────────────────────────────────
+		if (isEffectSemantic && isWebosMPackage) {
+			const fileName = path.basename(filePath, '.json'); // e.g. effect-semantic-dark-default
+			// Class prefix = last segment after final '-' → PascalCase
+			const segments = fileName.replace('effect-semantic-', '').split('-');
+			const classPrefix = segments[segments.length - 1]
+				.charAt(0).toUpperCase() + segments[segments.length - 1].slice(1);
+			const dartFileName = `${fileName.replace(/-/g, '_')}.dart`; // effect_semantic_dark_default.dart
+			const dartPath = path.join(this.baseDir, 'lib/src/webos_m_tokens', dartFileName);
+			await this.dartGenerator.generateEffectSemanticDartFromJSON(filePath, dartPath, classPrefix);
+			console.log(`   💎 Updated Effect Semantic Dart: ${dartFileName}`);
+			updatedFiles.push(dartPath);
+			return;
+		}
 
 		// webos-tokens semantic colors
 		if (isWebosPackage) {
@@ -345,12 +382,11 @@ class TokenTransformer {
 				// Process special cases like "onbackground" -> ["on", "background"]
 				const tokenPathArray = [];
 				for (const segment of originalTokenPathArray) {
-					// Special case handling for combined segments
-					if (segment === 'onbackground') {
-						tokenPathArray.push('on');
-						tokenPathArray.push('background');
-					} else if (segment === 'onsurface') {
-						tokenPathArray.push('on');
+				// Special case handling for combined segments (both legacy 'onbackground' and normalized 'on-background')
+				if (segment === 'onbackground' || segment === 'on-background') {
+					tokenPathArray.push('on');
+					tokenPathArray.push('background');
+				} else if (segment === 'onsurface' || segment === 'on-surface') {
 						tokenPathArray.push('surface');
 					} else {
 						tokenPathArray.push(segment);
@@ -383,9 +419,9 @@ class TokenTransformer {
 			const primitiveRadius = this._latestPrimitiveRadius || {};
 			const primitiveRadiusLookup = this.buildPrimitiveRadiusLookup(primitiveRadius);
 
-			// Initialize fresh semantic radius structure to avoid duplicates
+			// Initialize semantic radius structure without resetting existing tokens
 			if (!existingTokens.semantic) existingTokens.semantic = {};
-			existingTokens.semantic.radius = {}; // Reset radius to avoid duplicates
+			if (!existingTokens.semantic.radius) existingTokens.semantic.radius = {};
 
 			for (const { changeData } of tokens) {
 				const { path: tokenPathArray, value } = changeData;
@@ -454,6 +490,9 @@ class TokenTransformer {
 		}
 
 		if (isEffectSemantic) {
+			const primitiveEffect = this._latestPrimitiveEffect || {};
+			const primitiveEffectLookup = this.buildPrimitiveEffectLookup(primitiveEffect);
+
 			if (!existingTokens.semantic) existingTokens.semantic = {};
 			if (!existingTokens.semantic.effect) existingTokens.semantic.effect = {};
 			for (const { changeData } of tokens) {
@@ -467,6 +506,8 @@ class TokenTransformer {
 				const finalKey = pathToUse[pathToUse.length - 1];
 				target[finalKey] = value;
 			}
+			// Convert raw numeric values to $ref
+			existingTokens = this.refSemanticEffectWithPrimitives(existingTokens, primitiveEffectLookup);
 			const sortedTokens = this.sortTokens(existingTokens);
 			await this.saveTokensToFile(filePath, sortedTokens);
 			return;
@@ -588,6 +629,17 @@ class TokenTransformer {
 			}
 		} else if (collection && /typography[.-]semantic/i.test(collection)) {
 			fileName = 'typography-semantic';
+		} else if (collection && /radius[.-]semantic/i.test(collection)) {
+			fileName = 'radius-semantic';
+		} else if (collection && /effect[.-]semantic/i.test(collection)) {
+			// Extract mode for effect semantic: lg.webOSmicro.effect.semantic.dark -> effect-semantic-dark-default
+			const effectMatch = collection.match(/effect[.-]semantic[.-]([\w-]+)$/i);
+			if (effectMatch) {
+				const mode = effectMatch[1];
+				fileName = mode === 'dark' ? 'effect-semantic-dark-default' : `effect-semantic-${mode}`;
+			} else {
+				fileName = 'effect-semantic-dark-default';
+			}
 		} else if (collection && collection.includes('color')) {
 			fileName = 'color-primitive';
 		} else if (collection && collection.includes('spacing')) {
@@ -697,6 +749,19 @@ class TokenTransformer {
 			const primitiveTypographyLookup = this.buildPrimitiveTypographyLookup(primitiveTypography);
 			out = this.refSemanticTypographyWithPrimitives(out, primitiveTypographyLookup);
 		}
+		// effect-semantic: number/px → $ref
+		if (filePath.includes('effect-semantic')) {
+			let primitiveEffect = {};
+			try {
+				const primitivePath = path.resolve(__dirname, '../packages/core-tokens/json/effect-primitive.json');
+				const effectJson = fs.readJsonSync(primitivePath);
+				if (effectJson && effectJson.primitive) {
+					primitiveEffect = effectJson.primitive;
+				}
+			} catch (e) {}
+			const primitiveEffectLookup = this.buildPrimitiveEffectLookup(primitiveEffect);
+			out = this.refSemanticEffectWithPrimitives(out, primitiveEffectLookup);
+		}
 		const sortedTokens = this.sortTokens(out);
 		await this.saveTokensToFile(filePath, sortedTokens);
 	}
@@ -781,9 +846,46 @@ class TokenTransformer {
 		return lookup;
 	}
 
-	// Build a lookup of primitive typography values to their token paths
-	buildPrimitiveTypographyLookup(primitiveTypography) {
+	// Build a lookup of primitive effect values to their token paths
+	buildPrimitiveEffectLookup(primitiveEffect) {
 		const lookup = {};
+		if (!primitiveEffect || typeof primitiveEffect !== 'object') return lookup;
+		Object.entries(primitiveEffect).forEach(([key, value]) => {
+			if (typeof value === 'string' && value.endsWith('px')) {
+				lookup[value] = ['primitive', key];
+			}
+		});
+		return lookup;
+	}
+
+	// Recursively replace numeric/px values in semantic effect tokens with $ref to primitives
+	refSemanticEffectWithPrimitives(tokens, primitiveEffectLookup) {
+		if (Array.isArray(tokens)) {
+			return tokens.map(t => this.refSemanticEffectWithPrimitives(t, primitiveEffectLookup));
+		}
+		if (tokens === null || tokens === undefined) return tokens;
+		// Convert number or numeric string to px for lookup
+		let pxString = null;
+		if (typeof tokens === 'string' && tokens.endsWith('px')) {
+			pxString = tokens;
+		} else if (typeof tokens === 'number' || (typeof tokens === 'string' && /^\d+$/.test(tokens))) {
+			pxString = tokens.toString() + 'px';
+		}
+		if (pxString && primitiveEffectLookup[pxString]) {
+			const refPath = primitiveEffectLookup[pxString].join('/');
+			return { $ref: `core-tokens/json/effect-primitive.json#/${refPath}` };
+		}
+		if (typeof tokens !== 'object') return tokens;
+		if (tokens.$ref) return tokens;
+		const out = {};
+		for (const [k, v] of Object.entries(tokens)) {
+			out[k] = this.refSemanticEffectWithPrimitives(v, primitiveEffectLookup);
+		}
+		return out;
+	}
+
+	// Build a lookup of primitive typography values to their token paths
+	buildPrimitiveTypographyLookup(primitiveTypography) {		const lookup = {};
 		if (!primitiveTypography || typeof primitiveTypography !== 'object') return lookup;
 
 		function walk(obj, path) {
@@ -955,6 +1057,34 @@ class TokenTransformer {
 	convertTokenDataToFormat(changeData) {
 		const { path: tokenPath, value, collection } = changeData;
 
+		// Handle semantic effect tokens
+		if (collection && /effect[.-]semantic/i.test(collection)) {
+			const result = { semantic: { effect: {} } };
+			let current = result.semantic.effect;
+			// path is ['effect', 'token-name'] — skip leading 'effect' if present
+			const pathToUse = tokenPath[0] === 'effect' ? tokenPath.slice(1) : tokenPath;
+			for (let i = 0; i < pathToUse.length - 1; i++) {
+				current[pathToUse[i]] = {};
+				current = current[pathToUse[i]];
+			}
+			current[pathToUse[pathToUse.length - 1]] = value;
+			return result;
+		}
+
+		// Handle semantic radius tokens
+		if (collection && /radius[.-]semantic/i.test(collection)) {
+			const result = { semantic: { radius: {} } };
+			let current = result.semantic.radius;
+			// path is ['radius', 'token-name'] — skip leading 'radius' if present
+			const pathToUse = tokenPath[0] === 'radius' ? tokenPath.slice(1) : tokenPath;
+			for (let i = 0; i < pathToUse.length - 1; i++) {
+				current[pathToUse[i]] = {};
+				current = current[pathToUse[i]];
+			}
+			current[pathToUse[pathToUse.length - 1]] = value;
+			return result;
+		}
+
 		// Handle semantic color tokens differently
 		if (collection && /color[.-]semantic/i.test(collection)) {
 			// For semantic color tokens, create a nested structure
@@ -962,28 +1092,23 @@ class TokenTransformer {
 			const result = { semantic: { color: {} } };
 			let current = result.semantic.color;
 
-			// Handle special case for onsurface (combined token)
-			if (tokenPath[0] === 'onsurface') {
-				// onsurface -> on.surface
+			const firstSegment = tokenPath[0];
+			// Handle special case for on-surface / onsurface (combined token)
+			if (firstSegment === 'onsurface' || firstSegment === 'on-surface') {
 				if (!current.on) current.on = {};
 				current.on.surface = {};
 				current = current.on.surface;
-
-				// Start from index 1 since we've already processed 'onsurface' -> 'on.surface'
 				for (let i = 1; i < tokenPath.length - 1; i++) {
 					current[tokenPath[i]] = {};
 					current = current[tokenPath[i]];
 				}
 				current[tokenPath[tokenPath.length - 1]] = value;
 			}
-			// Handle special case for onbackground (combined token)
-			else if (tokenPath[0] === 'onbackground') {
-				// onbackground -> on.background
+			// Handle special case for on-background / onbackground (combined token)
+			else if (firstSegment === 'onbackground' || firstSegment === 'on-background') {
 				if (!current.on) current.on = {};
 				current.on.background = {};
 				current = current.on.background;
-
-				// Start from index 1 since we've already processed 'onbackground' -> 'on.background'
 				for (let i = 1; i < tokenPath.length - 1; i++) {
 					current[tokenPath[i]] = {};
 					current = current[tokenPath[i]];
@@ -1134,7 +1259,10 @@ class TokenTransformer {
 	 * Save tokens to JSON file, using compact $ref style for color-semantic files
 	 */
 	async saveTokensToFile(filePath, data) {
-		if (filePath.includes('color-semantic') || filePath.includes('radius-semantic')) {
+		const usesRefFormat = filePath.includes('color-semantic') ||
+			filePath.includes('radius-semantic') ||
+			filePath.includes('effect-semantic');
+		if (usesRefFormat) {
 			await this.writeColorSemanticJSON(filePath, data);
 		} else {
 			await fs.writeJson(filePath, data, { spaces: 4 });
