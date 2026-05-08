@@ -196,7 +196,8 @@ class FigmaAPIClient {
 			}
 
 			// Create token path from Variable name with normalized names
-			const tokenPath = variable.name.toLowerCase().replace(/\s+/g, '-').split('/').map(segment => normalizeTokenName(segment));
+			// after camelCase conversion (e.g. homeGrid → home-grid)
+			const tokenPath = variable.name.replace(/\s+/g, '-').split('/').map(segment => normalizeTokenName(segment));
 			let current = formattedTokens[collectionName];
 
 			// Create nested object structure, but if current[segment] is string, stop (ignore a0~ etc)
@@ -986,11 +987,11 @@ function compareSemanticColorTokens(figmaCollection, localSemanticColorTokens, c
 			let mappedPath = [...currentPath];
 
 			// Handle special structure mappings
-			if (key === 'onbackground') {
-				// onbackground → on.background
+			if (key === 'on-background') {
+				// on-background → on.background
 				mappedPath = [...currentPath, 'on', 'background'];
-			} else if (key === 'onsurface') {
-				// onsurface → on.surface
+			} else if (key === 'on-surface') {
+				// on-surface → on.surface
 				mappedPath = [...currentPath, 'on', 'surface'];
 			} else {
 				mappedPath = [...currentPath, mappedKey];
@@ -1004,10 +1005,10 @@ function compareSemanticColorTokens(figmaCollection, localSemanticColorTokens, c
 				let localTarget = localObj;
 
 				// Navigate through mapped path to find the correct local object
-				if (key === 'onbackground' || key === 'onsurface') {
-					// For onbackground/onsurface, navigate to on.background/on.surface
-					if (localObj.on && localObj.on[key === 'onbackground' ? 'background' : 'surface']) {
-						localTarget = localObj.on[key === 'onbackground' ? 'background' : 'surface'];
+				if (key === 'on-background' || key === 'on-surface') {
+					// For on-background/on-surface, navigate to on.background/on.surface
+					if (localObj.on && localObj.on[key === 'on-background' ? 'background' : 'surface']) {
+						localTarget = localObj.on[key === 'on-background' ? 'background' : 'surface'];
 					} else {
 						localTarget = null;
 					}
@@ -1034,9 +1035,9 @@ function compareSemanticColorTokens(figmaCollection, localSemanticColorTokens, c
 				let localValue;
 
 				// Navigate through mapped path to find the correct local value
-				if (key === 'onbackground' || key === 'onsurface') {
-					// For onbackground/onsurface, get value from on.background/on.surface
-					const targetKey = key === 'onbackground' ? 'background' : 'surface';
+				if (key === 'on-background' || key === 'on-surface') {
+					// For on-background/on-surface, get value from on.background/on.surface
+					const targetKey = key === 'on-background' ? 'background' : 'surface';
 					localValue = localObj.on && localObj.on[targetKey] ? localObj.on[targetKey] : undefined;
 				} else {
 					localValue = localObj[mappedKey];
@@ -1442,8 +1443,8 @@ function mapToLocalStructure(collectionName, packageName, figmaPath, beforeValue
 			if (key === 'button_icon-pressed') return 'button-icon-pressed';
 			if (key === 'notificationcard') return 'notification-card';
 			if (key === 'textfield-disabled') return 'text-field-disabled';
-			if (key === 'onbackground') return ['on', 'background'];
-			if (key === 'onsurface') return ['on', 'surface'];
+			if (key === 'on-background') return ['on', 'background'];
+			if (key === 'on-surface') return ['on', 'surface'];
 			return key;
 		}).flat(); // flat() to handle ['on', 'background'] arrays
 
@@ -1551,7 +1552,7 @@ function checkRemovedTokens(localObj, figmaObj, collectionName, packageName, cha
 		if (key === 'on' && typeof localValue === 'object') {
 			// Check 'on.background' and 'on.surface' structures
 			Object.entries(localValue).forEach(([onKey, onValue]) => {
-				const figmaKey = onKey === 'background' ? 'onbackground' : onKey === 'surface' ? 'onsurface' : onKey;
+				const figmaKey = onKey === 'background' ? 'on-background' : onKey === 'surface' ? 'on-surface' : onKey;
 				const fullPath = [...currentPath, key, onKey];
 
 				if (typeof onValue === 'object' && onValue !== null && !Array.isArray(onValue)) {
