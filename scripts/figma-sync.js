@@ -434,6 +434,14 @@ function getFileNameFromCollection(collectionName) {
 	if (type === 'color' && category === 'semantic' && mode) {
 		return getSemanticColorFileName(mode);
 	}
+
+	// Handle effect semantic collections with modes
+	if (type === 'effect' && category === 'semantic' && mode) {
+		// dark → effect-semantic-dark-default
+		// dark-res-medium → effect-semantic-dark-res-medium
+		if (mode === 'dark') return 'effect-semantic-dark-default';
+		return `effect-semantic-${mode}`;
+	}
 	
 	// Handle other semantic collections
 	if (category === 'semantic') {
@@ -553,13 +561,17 @@ function analyzeChanges(figmaTokens, localTokens) {
 			const localSemanticTokens = localPackage[fileName];
 			
 			if (localSemanticTokens && localSemanticTokens.semantic) {
-				// Determine the semantic type (color, radius, etc.)
-				const semanticType = collectionName.includes('radius') ? 'radius' : 'color';
+				// Determine the semantic type (color, radius, effect, etc.)
+				const semanticType = collectionName.includes('radius') ? 'radius'
+					: collectionName.includes('effect') ? 'effect'
+					: 'color';
 				const semanticData = localSemanticTokens.semantic[semanticType];
 				
 				if (semanticData) {
 					if (semanticType === 'radius') {
 						compareSemanticRadiusTokens(figmaCollection, semanticData, collectionName, packageName, changes, localTokens);
+					} else if (semanticType === 'effect') {
+						compareSemanticEffectTokens(figmaCollection, semanticData, collectionName, packageName, changes, localTokens);
 					} else {
 						compareSemanticColorTokens(figmaCollection, semanticData, collectionName, packageName, changes, localTokens);
 					}
@@ -649,7 +661,12 @@ function analyzeChanges(figmaTokens, localTokens) {
 							figmaTokensForCollection = figmaTokensForCollection.radius;
 						}
 					}
-					
+
+					// For effect semantic collections, skip here - compareSemanticEffectTokens handles removed check
+					if (collectionName.includes('effect.semantic')) {
+						return;
+					}
+
 					checkRemovedTokens(localTokens, figmaTokensForCollection, collectionName, packageName, changes);
 				}
 			}
@@ -1105,6 +1122,85 @@ function compareSemanticColorTokens(figmaCollection, localSemanticColorTokens, c
 	}
 
 	compareSemanticRecursively(figmaCollection, localSemanticColorTokens);
+}
+
+/**
+ * Compare semantic effect tokens
+ * Figma: { effect: { "default-background-blur": 40, ... } }
+ * Local: { "default-background-blur": {"$ref": "...#/primitive/effect-40"}, ... }
+ */
+function compareSemanticEffectTokens(figmaCollection, localEffectTokens, collectionName, packageName, changes, localTokens) {
+	// figmaCollection may have an 'effect' wrapper key
+	const figmaEffectTokens = figmaCollection.effect || figmaCollection;
+
+	if (!figmaEffectTokens || typeof figmaEffectTokens !== 'object') return;
+
+	const fileName = getFileNameFromCollection(collectionName) || 'effect-semantic-dark-default';
+
+	Object.entries(figmaEffectTokens).forEach(([tokenName, figmaValue]) => {
+		const pathString = `${collectionName}/effect/${tokenName}`;
+		const localValue = localEffectTokens[tokenName];
+
+		if (localValue === undefined) {
+			changes.added[pathString] = {
+				collection: collectionName,
+				package: packageName,
+				path: ['effect', tokenName],
+				value: figmaValue
+			};
+			console.log(`Found new semantic effect token: ${pathString} = ${figmaValue}`);
+		} else if (typeof localValue === 'object' && localValue.$ref) {
+			// Resolve the $ref and compare numeric value
+			const resolvedValue = resolveReference(localValue.$ref, localTokens);
+			const normalizedLocal = resolvedValue !== null ? String(resolvedValue).replace('px', '') : null;
+			const normalizedFigma = String(figmaValue);
+
+			if (normalizedLocal === null || normalizedLocal !== normalizedFigma) {
+				changes.modified[`${packageName}/${fileName}/${tokenName}`] = {
+					filePath: `${packageName}/${fileName}`,
+					before: { semantic: { effect: { [tokenName]: localValue } } },
+					after: { semantic: { effect: { [tokenName]: figmaValue } } }
+				};
+				console.log(`Found modified semantic effect token: ${pathString} (${resolvedValue} → ${figmaValue})`);
+			} else {
+				changes.unchanged[pathString] = {
+					collection: collectionName,
+					package: packageName,
+					path: ['effect', tokenName],
+					value: figmaValue
+				};
+				console.log(`Semantic effect token unchanged: ${pathString} (${resolvedValue})`);
+			}
+		} else {
+			// Direct value comparison
+			if (String(localValue) !== String(figmaValue)) {
+				changes.modified[`${packageName}/${fileName}/${tokenName}`] = {
+					filePath: `${packageName}/${fileName}`,
+					before: { semantic: { effect: { [tokenName]: localValue } } },
+					after: { semantic: { effect: { [tokenName]: figmaValue } } }
+				};
+			} else {
+				changes.unchanged[pathString] = {
+					collection: collectionName, package: packageName,
+					path: ['effect', tokenName], value: figmaValue
+				};
+			}
+		}
+	});
+
+	// Check for removed tokens
+	Object.entries(localEffectTokens).forEach(([tokenName, localValue]) => {
+		if (figmaEffectTokens[tokenName] === undefined) {
+			const pathString = `${collectionName}/effect/${tokenName}`;
+			changes.removed[pathString] = {
+				collection: collectionName,
+				package: packageName,
+				path: ['effect', tokenName],
+				value: localValue
+			};
+			console.log(`Found removed semantic effect token: ${pathString}`);
+		}
+	});
 }
 
 /**
