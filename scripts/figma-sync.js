@@ -917,6 +917,14 @@ function comparePrimitiveTokens(figmaCollection, localPrimitiveTokens, collectio
 				normalizedLocal = normalizedLocal.replace('px', '');
 			}
 
+			// For opacity, round to 3 decimal places to handle floating point precision issues
+			if (tokenType === 'opacity') {
+				const roundedLocal = Math.round(parseFloat(normalizedLocal) * 1000) / 1000;
+				const roundedFigma = Math.round(parseFloat(normalizedFigma) * 1000) / 1000;
+				normalizedLocal = String(roundedLocal);
+				normalizedFigma = String(roundedFigma);
+			}
+
 			if (normalizedLocal !== normalizedFigma) {
 				// Token modified
 				let mappedChange;
