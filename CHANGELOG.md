@@ -6,6 +6,10 @@ The following is a curated list of changes in the design tokens module, newest c
 
 ### core-tokens
 
+#### Removed
+
+- `primitive-spacing-50` and `primitive-spacing-160` 
+
 #### Changed
 
 - `color-primitive` values to match the latest guide

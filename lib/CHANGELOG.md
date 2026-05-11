@@ -14,6 +14,12 @@ The following is a curated list of changes in the flutter tokens module, newest 
 
 ## [3.0.0] - 2026-05-02
 
+### Removed
+
+- `primitive_spacing_50` and `primitive_spacing_160`
+
+### Changed
+
 - `color_primitive` values to match the latest guide
 
 ### Added
