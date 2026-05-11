@@ -173,6 +173,65 @@ class RadiusPrimitive {
 
 
 	/**
+	 * Generate Radius Semantic Dart file from JSON
+	 * @param {string} jsonPath - Path to JSON file
+	 * @param {string} dartPath - Output dart file path
+	 */
+	async generateRadiusSemanticDartFromJSON(jsonPath, dartPath) {
+		if (!await fs.pathExists(jsonPath)) {
+			console.log(`❌ JSON file not found: ${jsonPath}`);
+			return false;
+		}
+		const jsonTokens = await fs.readJson(jsonPath);
+		if (!jsonTokens.semantic || !jsonTokens.semantic.radius) {
+			console.log(`❌ Invalid radius semantic tokens file (missing semantic.radius): ${jsonPath}`);
+			return false;
+		}
+		const radiusTokens = jsonTokens.semantic.radius;
+
+		// Helper: convert $ref like "...#/primitive/radius-36" -> "RadiusPrimitive.instance.radius36"
+		const refToGetter = (ref) => {
+			const match = ref.match(/\/primitive\/([\w-]+)$/);
+			if (match) {
+				return `RadiusPrimitive.instance.${this.toCamelCase(match[1])}`;
+			}
+			return null;
+		};
+
+		let dartContent = `/*
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import 'package:flutter/material.dart';
+
+import '../core_tokens/radius_primitive.dart';
+
+class RadiusSemantic {
+  const RadiusSemantic();
+
+`;
+		for (const [name, value] of Object.entries(radiusTokens)) {
+			const varName = this.toCamelCase(name);
+			let dartValue;
+			if (value && value.$ref) {
+				dartValue = refToGetter(value.$ref);
+			}
+			if (!dartValue) {
+				// Fallback: raw px value
+				const px = parseFloat(String(value).replace('px', ''));
+				dartValue = `const Radius.circular(${px})`;
+			}
+			dartContent += `  Radius get ${varName} => ${dartValue};\n`;
+		}
+		dartContent += '}\n';
+
+		await fs.writeFile(dartPath, dartContent);
+		console.log(`✅ Generated Radius Semantic Dart: ${path.basename(dartPath)}`);
+		return true;
+	}
+
+	/**
 	 * Update Spacing Dart file from JSON spacing tokens
 	 */
 	async generateSpacingDartFromJSON(jsonPath, dartPath) {
@@ -355,12 +414,73 @@ class EffectPrimitive {
 		// Add effect properties
 		const effectEntries = Object.entries(effectTokens);
 		effectEntries.forEach(([name, value], idx) => {
-			// Just output as string for now (could be shadow, blur, etc.)
 			const varName = this.toCamelCase(name);
-			dartContent += `\n  late final int ${varName} = ${value};`;
+			// Strip 'px' suffix and parse as int
+			const numValue = typeof value === 'string' ? parseInt(value.replace('px', ''), 10) : value;
+			dartContent += `\n  late final int ${varName} = ${numValue};`;
 		});
 		dartContent += '\n}\n';
 		await fs.writeFile(dartPath, dartContent);
+		return true;
+	}
+
+	/**
+	 * Generate Effect Semantic Dart file from JSON
+	 * @param {string} jsonPath - Path to JSON file
+	 * @param {string} dartPath - Output dart file path
+	 * @param {string} className - PascalCase class prefix (e.g. 'Default', 'Low', 'Medium')
+	 */
+	async generateEffectSemanticDartFromJSON(jsonPath, dartPath, className) {
+		if (!await fs.pathExists(jsonPath)) {
+			console.log(`❌ JSON file not found: ${jsonPath}`);
+			return false;
+		}
+		const jsonTokens = await fs.readJson(jsonPath);
+		if (!jsonTokens.semantic || !jsonTokens.semantic.effect) {
+			console.log(`❌ Invalid effect semantic tokens file (missing semantic.effect): ${jsonPath}`);
+			return false;
+		}
+		const effectTokens = jsonTokens.semantic.effect;
+
+		// Helper: convert $ref like "...#/primitive/effect-40" -> "EffectPrimitive.instance.effect40"
+		const refToGetter = (ref) => {
+			const match = ref.match(/\/primitive\/([\w-]+)$/);
+			if (match) {
+				return `EffectPrimitive.instance.${this.toCamelCase(match[1])}`;
+			}
+			return null;
+		};
+
+		let dartContent = `/*
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import 'package:flutter/material.dart';
+
+import '../core_tokens/effect_primitive.dart';
+
+class ${className}EffectSemantic {
+  const ${className}EffectSemantic();
+
+`;
+		for (const [name, value] of Object.entries(effectTokens)) {
+			const varName = this.toCamelCase(name);
+			let dartValue;
+			if (value && value.$ref) {
+				dartValue = refToGetter(value.$ref);
+			}
+			if (!dartValue) {
+				// Fallback: use raw numeric value
+				const numValue = typeof value === 'string' ? parseInt(value.replace('px', ''), 10) : value;
+				dartValue = String(numValue);
+			}
+			dartContent += `  int get ${varName} => ${dartValue};\n`;
+		}
+		dartContent += '}\n';
+
+		await fs.writeFile(dartPath, dartContent);
+		console.log(`✅ Generated Effect Semantic Dart: ${path.basename(dartPath)}`);
 		return true;
 	}
 

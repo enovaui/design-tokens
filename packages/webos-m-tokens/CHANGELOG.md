@@ -2,6 +2,12 @@
 
 The following is a curated list of changes in the webos tokens module, newest changes on the top.
 
+## [3.1.0] - 2026-05-11
+
+### Removed
+
+- `widget-drop-shadow-blur` and `widget-drop-shadow-y`
+
 ## [3.0.0] - 2026-05-02
 
 ### Added

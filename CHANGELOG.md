@@ -2,9 +2,41 @@
 
 The following is a curated list of changes in the design tokens module, newest changes on the top.
 
+## [3.1.0] - 2026-05-11
+
+### core-tokens
+
+- No significant changes
+
+### mobile-tokens
+
+- No significant changes
+
+### web-tokens
+
+- No significant changes
+
+### webos-tokens
+
+- No significant changes
+
+### webos-m-tokens
+
+#### Removed
+
+- `widget-drop-shadow-blur` and `widget-drop-shadow-y`
+
+#### Changed
+
+- `semantic_radius_scrollbar` to `semantic_radius_scrollBar`
+
 ## [3.0.0] - 2026-05-02
 
 ### core-tokens
+
+#### Removed
+
+- `primitive-spacing-50` and `primitive-spacing-160` 
 
 #### Changed
 

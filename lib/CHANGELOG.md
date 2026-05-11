@@ -2,7 +2,23 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
+## [3.1.0] - 2026-05-11
+
+### Removed
+
+- `semantic_effect_widget_drop_shadow_blur` and `semantic_effect_widget_drop_shadow_y`
+
+### Changed
+
+- `semantic_radius_scrollbar` to `semantic_radius_scrollBar`
+
 ## [3.0.0] - 2026-05-02
+
+### Removed
+
+- `primitive_spacing_50` and `primitive_spacing_160`
+
+### Changed
 
 - `color_primitive` values to match the latest guide
 

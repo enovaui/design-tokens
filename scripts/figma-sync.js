@@ -196,7 +196,8 @@ class FigmaAPIClient {
 			}
 
 			// Create token path from Variable name with normalized names
-			const tokenPath = variable.name.toLowerCase().replace(/\s+/g, '-').split('/').map(segment => normalizeTokenName(segment));
+			// after camelCase conversion (e.g. homeGrid → home-grid)
+			const tokenPath = variable.name.replace(/\s+/g, '-').split('/').map(segment => normalizeTokenName(segment));
 			let current = formattedTokens[collectionName];
 
 			// Create nested object structure, but if current[segment] is string, stop (ignore a0~ etc)
@@ -433,6 +434,14 @@ function getFileNameFromCollection(collectionName) {
 	if (type === 'color' && category === 'semantic' && mode) {
 		return getSemanticColorFileName(mode);
 	}
+
+	// Handle effect semantic collections with modes
+	if (type === 'effect' && category === 'semantic' && mode) {
+		// dark → effect-semantic-dark-default
+		// dark-res-medium → effect-semantic-dark-res-medium
+		if (mode === 'dark') return 'effect-semantic-dark-default';
+		return `effect-semantic-${mode}`;
+	}
 	
 	// Handle other semantic collections
 	if (category === 'semantic') {
@@ -552,13 +561,17 @@ function analyzeChanges(figmaTokens, localTokens) {
 			const localSemanticTokens = localPackage[fileName];
 			
 			if (localSemanticTokens && localSemanticTokens.semantic) {
-				// Determine the semantic type (color, radius, etc.)
-				const semanticType = collectionName.includes('radius') ? 'radius' : 'color';
+				// Determine the semantic type (color, radius, effect, etc.)
+				const semanticType = collectionName.includes('radius') ? 'radius'
+					: collectionName.includes('effect') ? 'effect'
+					: 'color';
 				const semanticData = localSemanticTokens.semantic[semanticType];
 				
 				if (semanticData) {
 					if (semanticType === 'radius') {
 						compareSemanticRadiusTokens(figmaCollection, semanticData, collectionName, packageName, changes, localTokens);
+					} else if (semanticType === 'effect') {
+						compareSemanticEffectTokens(figmaCollection, semanticData, collectionName, packageName, changes, localTokens);
 					} else {
 						compareSemanticColorTokens(figmaCollection, semanticData, collectionName, packageName, changes, localTokens);
 					}
@@ -648,7 +661,12 @@ function analyzeChanges(figmaTokens, localTokens) {
 							figmaTokensForCollection = figmaTokensForCollection.radius;
 						}
 					}
-					
+
+					// For effect semantic collections, skip here - compareSemanticEffectTokens handles removed check
+					if (collectionName.includes('effect.semantic')) {
+						return;
+					}
+
 					checkRemovedTokens(localTokens, figmaTokensForCollection, collectionName, packageName, changes);
 				}
 			}
@@ -899,6 +917,14 @@ function comparePrimitiveTokens(figmaCollection, localPrimitiveTokens, collectio
 				normalizedLocal = normalizedLocal.replace('px', '');
 			}
 
+			// For opacity, round to 3 decimal places to handle floating point precision issues
+			if (tokenType === 'opacity') {
+				const roundedLocal = Math.round(parseFloat(normalizedLocal) * 1000) / 1000;
+				const roundedFigma = Math.round(parseFloat(normalizedFigma) * 1000) / 1000;
+				normalizedLocal = String(roundedLocal);
+				normalizedFigma = String(roundedFigma);
+			}
+
 			if (normalizedLocal !== normalizedFigma) {
 				// Token modified
 				let mappedChange;
@@ -986,11 +1012,11 @@ function compareSemanticColorTokens(figmaCollection, localSemanticColorTokens, c
 			let mappedPath = [...currentPath];
 
 			// Handle special structure mappings
-			if (key === 'onbackground') {
-				// onbackground → on.background
+			if (key === 'on-background') {
+				// on-background → on.background
 				mappedPath = [...currentPath, 'on', 'background'];
-			} else if (key === 'onsurface') {
-				// onsurface → on.surface
+			} else if (key === 'on-surface') {
+				// on-surface → on.surface
 				mappedPath = [...currentPath, 'on', 'surface'];
 			} else {
 				mappedPath = [...currentPath, mappedKey];
@@ -1004,10 +1030,10 @@ function compareSemanticColorTokens(figmaCollection, localSemanticColorTokens, c
 				let localTarget = localObj;
 
 				// Navigate through mapped path to find the correct local object
-				if (key === 'onbackground' || key === 'onsurface') {
-					// For onbackground/onsurface, navigate to on.background/on.surface
-					if (localObj.on && localObj.on[key === 'onbackground' ? 'background' : 'surface']) {
-						localTarget = localObj.on[key === 'onbackground' ? 'background' : 'surface'];
+				if (key === 'on-background' || key === 'on-surface') {
+					// For on-background/on-surface, navigate to on.background/on.surface
+					if (localObj.on && localObj.on[key === 'on-background' ? 'background' : 'surface']) {
+						localTarget = localObj.on[key === 'on-background' ? 'background' : 'surface'];
 					} else {
 						localTarget = null;
 					}
@@ -1034,9 +1060,9 @@ function compareSemanticColorTokens(figmaCollection, localSemanticColorTokens, c
 				let localValue;
 
 				// Navigate through mapped path to find the correct local value
-				if (key === 'onbackground' || key === 'onsurface') {
-					// For onbackground/onsurface, get value from on.background/on.surface
-					const targetKey = key === 'onbackground' ? 'background' : 'surface';
+				if (key === 'on-background' || key === 'on-surface') {
+					// For on-background/on-surface, get value from on.background/on.surface
+					const targetKey = key === 'on-background' ? 'background' : 'surface';
 					localValue = localObj.on && localObj.on[targetKey] ? localObj.on[targetKey] : undefined;
 				} else {
 					localValue = localObj[mappedKey];
@@ -1104,6 +1130,85 @@ function compareSemanticColorTokens(figmaCollection, localSemanticColorTokens, c
 	}
 
 	compareSemanticRecursively(figmaCollection, localSemanticColorTokens);
+}
+
+/**
+ * Compare semantic effect tokens
+ * Figma: { effect: { "default-background-blur": 40, ... } }
+ * Local: { "default-background-blur": {"$ref": "...#/primitive/effect-40"}, ... }
+ */
+function compareSemanticEffectTokens(figmaCollection, localEffectTokens, collectionName, packageName, changes, localTokens) {
+	// figmaCollection may have an 'effect' wrapper key
+	const figmaEffectTokens = figmaCollection.effect || figmaCollection;
+
+	if (!figmaEffectTokens || typeof figmaEffectTokens !== 'object') return;
+
+	const fileName = getFileNameFromCollection(collectionName) || 'effect-semantic-dark-default';
+
+	Object.entries(figmaEffectTokens).forEach(([tokenName, figmaValue]) => {
+		const pathString = `${collectionName}/effect/${tokenName}`;
+		const localValue = localEffectTokens[tokenName];
+
+		if (localValue === undefined) {
+			changes.added[pathString] = {
+				collection: collectionName,
+				package: packageName,
+				path: ['effect', tokenName],
+				value: figmaValue
+			};
+			console.log(`Found new semantic effect token: ${pathString} = ${figmaValue}`);
+		} else if (typeof localValue === 'object' && localValue.$ref) {
+			// Resolve the $ref and compare numeric value
+			const resolvedValue = resolveReference(localValue.$ref, localTokens);
+			const normalizedLocal = resolvedValue !== null ? String(resolvedValue).replace('px', '') : null;
+			const normalizedFigma = String(figmaValue);
+
+			if (normalizedLocal === null || normalizedLocal !== normalizedFigma) {
+				changes.modified[`${packageName}/${fileName}/${tokenName}`] = {
+					filePath: `${packageName}/${fileName}`,
+					before: { semantic: { effect: { [tokenName]: localValue } } },
+					after: { semantic: { effect: { [tokenName]: figmaValue } } }
+				};
+				console.log(`Found modified semantic effect token: ${pathString} (${resolvedValue} → ${figmaValue})`);
+			} else {
+				changes.unchanged[pathString] = {
+					collection: collectionName,
+					package: packageName,
+					path: ['effect', tokenName],
+					value: figmaValue
+				};
+				console.log(`Semantic effect token unchanged: ${pathString} (${resolvedValue})`);
+			}
+		} else {
+			// Direct value comparison
+			if (String(localValue) !== String(figmaValue)) {
+				changes.modified[`${packageName}/${fileName}/${tokenName}`] = {
+					filePath: `${packageName}/${fileName}`,
+					before: { semantic: { effect: { [tokenName]: localValue } } },
+					after: { semantic: { effect: { [tokenName]: figmaValue } } }
+				};
+			} else {
+				changes.unchanged[pathString] = {
+					collection: collectionName, package: packageName,
+					path: ['effect', tokenName], value: figmaValue
+				};
+			}
+		}
+	});
+
+	// Check for removed tokens
+	Object.entries(localEffectTokens).forEach(([tokenName, localValue]) => {
+		if (figmaEffectTokens[tokenName] === undefined) {
+			const pathString = `${collectionName}/effect/${tokenName}`;
+			changes.removed[pathString] = {
+				collection: collectionName,
+				package: packageName,
+				path: ['effect', tokenName],
+				value: localValue
+			};
+			console.log(`Found removed semantic effect token: ${pathString}`);
+		}
+	});
 }
 
 /**
@@ -1432,7 +1537,8 @@ function mapToLocalStructure(collectionName, packageName, figmaPath, beforeValue
 		 collectionName === 'lg.webOS.color.semantic.light' ||
 		 collectionName === 'lg.webOS.color.semantic.high-contrast' ||
 		 collectionName.startsWith('lg.web.color.semantic.') ||
-		 collectionName.startsWith('lg.mobile.color.semantic.')) && figmaPath.length >= 1) {
+		 collectionName.startsWith('lg.mobile.color.semantic.') ||
+		 collectionName.startsWith('lg.webOSmicro.color.semantic.')) && figmaPath.length >= 1) {
 
 		// Map Figma path keys to local structure
 		const mappedPath = figmaPath.map((key, index) => {
@@ -1442,8 +1548,8 @@ function mapToLocalStructure(collectionName, packageName, figmaPath, beforeValue
 			if (key === 'button_icon-pressed') return 'button-icon-pressed';
 			if (key === 'notificationcard') return 'notification-card';
 			if (key === 'textfield-disabled') return 'text-field-disabled';
-			if (key === 'onbackground') return ['on', 'background'];
-			if (key === 'onsurface') return ['on', 'surface'];
+			if (key === 'on-background') return ['on', 'background'];
+			if (key === 'on-surface') return ['on', 'surface'];
 			return key;
 		}).flat(); // flat() to handle ['on', 'background'] arrays
 
@@ -1551,7 +1657,7 @@ function checkRemovedTokens(localObj, figmaObj, collectionName, packageName, cha
 		if (key === 'on' && typeof localValue === 'object') {
 			// Check 'on.background' and 'on.surface' structures
 			Object.entries(localValue).forEach(([onKey, onValue]) => {
-				const figmaKey = onKey === 'background' ? 'onbackground' : onKey === 'surface' ? 'onsurface' : onKey;
+				const figmaKey = onKey === 'background' ? 'on-background' : onKey === 'surface' ? 'on-surface' : onKey;
 				const fullPath = [...currentPath, key, onKey];
 
 				if (typeof onValue === 'object' && onValue !== null && !Array.isArray(onValue)) {
@@ -1668,7 +1774,7 @@ async function main() {
 		});
 
 		// Save changes to file if any
-		if (Object.keys(changes.added).length > 0 || Object.keys(changes.modified).length > 0) {
+		if (Object.keys(changes.added).length > 0 || Object.keys(changes.modified).length > 0 || Object.keys(changes.removed).length > 0) {
 			const outputPath = path.join(__dirname, '..', 'figma-changes.json');
 			await fs.writeJson(outputPath, {
 				timestamp: new Date().toISOString(),
