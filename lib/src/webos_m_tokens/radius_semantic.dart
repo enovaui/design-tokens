@@ -42,7 +42,7 @@ class RadiusSemantic {
   Radius get progress => RadiusPrimitive.instance.radius999;
   Radius get quickSettingsFull => RadiusPrimitive.instance.radius999;
   Radius get quickSettingsS => RadiusPrimitive.instance.radius36;
-  Radius get scrollbar => RadiusPrimitive.instance.radius999;
+  Radius get scrollBar => RadiusPrimitive.instance.radius999;
   Radius get search => RadiusPrimitive.instance.radius18;
   Radius get selectionControl => RadiusPrimitive.instance.radius999;
   Radius get sideSheet => RadiusPrimitive.instance.radius48;

@@ -24,6 +24,4 @@ class DefaultEffectSemantic {
   int get pageIndicatorDropShadowBlur => EffectPrimitive.instance.effect8;
   int get pageIndicatorDropShadowY => EffectPrimitive.instance.effect1;
   int get statusBarBackgroundBlur => EffectPrimitive.instance.effect60;
-  int get widgetDropShadowBlur => EffectPrimitive.instance.effect40;
-  int get widgetDropShadowY => EffectPrimitive.instance.effect40;
 }

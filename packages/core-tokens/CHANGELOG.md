@@ -4,6 +4,10 @@ The following is a curated list of changes in the core tokens module, newest cha
 
 ## [3.0.0] - 2026-05-02
 
+### Removed
+
+- `primitive-spacing-50` and `primitive-spacing-160` 
+
 ### Changed
 
 - `color-primitive` values to match the latest guide

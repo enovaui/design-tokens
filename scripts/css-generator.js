@@ -60,7 +60,9 @@ class CSSGenerator {
         let jsonTokens = await fs.readJson(jsonPath);
         // Determine token type from filename
         const fileName = path.basename(jsonPath, '.json');
-        const tokenType = fileName.replace('-primitive', '').replace('-semantic', '');
+        // Remove '-primitive' or '-semantic' and everything after it to get the base type
+        // e.g. 'effect-semantic-dark-default' -> 'effect', 'radius-semantic' -> 'radius'
+        const tokenType = fileName.replace('-primitive', '').replace(/-semantic.*$/, '');
         // Generate CSS content based on token type and structure
         let cssContent = '';
         // Check if this is a semantic token file
@@ -656,6 +658,7 @@ Primitive ${tokenType.charAt(0).toUpperCase() + tokenType.slice(1)} Tokens
             'on-surface': [],
             stroke: [],
             scrim: [],
+            effect: [],
             other: []
         };
         for (const [varName, value] of flatTokens) {
@@ -668,6 +671,8 @@ Primitive ${tokenType.charAt(0).toUpperCase() + tokenType.slice(1)} Tokens
                 category = 'stroke';
             } else if (varName.includes('-scrim-')) {
                 category = 'scrim';
+            } else if (varName.includes('-effect-')) {
+                category = 'effect';
             }
             categories[category].push([varName, value]);
         }
@@ -703,7 +708,7 @@ Primitive ${tokenType.charAt(0).toUpperCase() + tokenType.slice(1)} Tokens
             } else if (tokenType === 'radius') {
                 pattern = /radius-primitive\.json#\/primitive\/([\w-]+)/;
             } else {
-                pattern = new RegExp(`${tokenType}-primitive\\.json#\\/primitive\\/([\w-]+)`);
+                pattern = new RegExp(tokenType + '-primitive\\.json#\\/primitive\\/([\\w-]+)');
             }
             
             const match = ref.match(pattern);
