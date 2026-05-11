@@ -1773,7 +1773,7 @@ async function main() {
 		});
 
 		// Save changes to file if any
-		if (Object.keys(changes.added).length > 0 || Object.keys(changes.modified).length > 0) {
+		if (Object.keys(changes.added).length > 0 || Object.keys(changes.modified).length > 0 || Object.keys(changes.removed).length > 0) {
 			const outputPath = path.join(__dirname, '..', 'figma-changes.json');
 			await fs.writeJson(outputPath, {
 				timestamp: new Date().toISOString(),
