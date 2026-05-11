@@ -382,11 +382,12 @@ class TokenTransformer {
 				// Process special cases like "onbackground" -> ["on", "background"]
 				const tokenPathArray = [];
 				for (const segment of originalTokenPathArray) {
-				// Special case handling for combined segments (both legacy 'onbackground' and normalized 'on-background')
-				if (segment === 'onbackground' || segment === 'on-background') {
-					tokenPathArray.push('on');
-					tokenPathArray.push('background');
-				} else if (segment === 'onsurface' || segment === 'on-surface') {
+					// Special case handling for combined segments (both legacy 'onbackground' and normalized 'on-background')
+					if (segment === 'onbackground' || segment === 'on-background') {
+						tokenPathArray.push('on');
+						tokenPathArray.push('background');
+					} else if (segment === 'onsurface' || segment === 'on-surface') {
+						tokenPathArray.push('on');
 						tokenPathArray.push('surface');
 					} else {
 						tokenPathArray.push(segment);

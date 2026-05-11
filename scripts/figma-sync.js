@@ -1537,7 +1537,8 @@ function mapToLocalStructure(collectionName, packageName, figmaPath, beforeValue
 		 collectionName === 'lg.webOS.color.semantic.light' ||
 		 collectionName === 'lg.webOS.color.semantic.high-contrast' ||
 		 collectionName.startsWith('lg.web.color.semantic.') ||
-		 collectionName.startsWith('lg.mobile.color.semantic.')) && figmaPath.length >= 1) {
+		 collectionName.startsWith('lg.mobile.color.semantic.') ||
+		 collectionName.startsWith('lg.webOSmicro.color.semantic.')) && figmaPath.length >= 1) {
 
 		// Map Figma path keys to local structure
 		const mappedPath = figmaPath.map((key, index) => {
