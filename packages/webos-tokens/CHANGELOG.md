@@ -2,6 +2,12 @@
 
 The following is a curated list of changes in the webos tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Changed
+
+- `semantic-color-surface-default-handle` value to `white`
+
 ## [2.0.0] - 2026-04-30
 
 ### Changed
