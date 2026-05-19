@@ -2,6 +2,12 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Changed
+
+- `semantic_color_surface_default_handle` value to `white`
+
 ## [2.0.0] - 2026-04-30
 
 ### Changed
