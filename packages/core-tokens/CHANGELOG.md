@@ -2,6 +2,10 @@
 
 The following is a curated list of changes in the core tokens module, newest changes on the top.
 
+## [2.0.1] - 2026-05-20
+
+- No significant changes
+
 ## [2.0.0] - 2026-04-30
 
 - No significant changes
