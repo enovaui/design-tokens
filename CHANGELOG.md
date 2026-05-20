@@ -2,6 +2,26 @@
 
 The following is a curated list of changes in the design tokens module, newest changes on the top.
 
+## [2.0.1] - 2026-05-20
+
+### core-tokens
+
+- No significant changes
+
+### mobile-tokens
+
+- No significant changes
+
+### web-tokens
+
+- No significant changes
+
+### webos-tokens
+
+#### Changed
+
+- `semantic-color-surface-default-handle` value to `white`
+
 ## [2.0.0] - 2026-04-30
 
 ### core-tokens
