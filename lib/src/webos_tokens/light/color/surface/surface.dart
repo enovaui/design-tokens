@@ -28,7 +28,7 @@ class Surface extends SurfaceBase {
   @override
   Color get defaultGroup => ColorPrimitive.instance.neutralGray50;
   @override
-  Color get defaultHandle => ColorPrimitive.instance.activeRed70;
+  Color get defaultHandle => ColorPrimitive.instance.white;
   @override
   Color get defaultIndicator => ColorPrimitive.instance.neutralGray10;
   @override
