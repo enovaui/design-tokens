@@ -653,13 +653,9 @@ function analyzeChanges(figmaTokens, localTokens) {
 						localTokens = localTokens.semantic.color;
 					}
 					
-					// For radius semantic collections, navigate to the radius structure
-					if (collectionName.includes('radius.semantic') && localTokens.semantic && localTokens.semantic.radius) {
-						localTokens = localTokens.semantic.radius;
-						// Also navigate Figma tokens to radius structure
-						if (figmaTokensForCollection.radius) {
-							figmaTokensForCollection = figmaTokensForCollection.radius;
-						}
+					// For radius semantic collections, skip here - compareSemanticRadiusTokens handles removed check
+					if (collectionName.includes('radius.semantic')) {
+						return;
 					}
 
 					// For effect semantic collections, skip here - compareSemanticEffectTokens handles removed check
@@ -1248,7 +1244,7 @@ function compareSemanticRadiusTokens(figmaCollection, localSemanticRadiusTokens,
 						// Values are different
 						const mappedChange = mapToLocalStructure(collectionName, packageName, ['radius', tokenName], localValue, figmaValue);
 						if (mappedChange) {
-							changes.modified[`${packageName}/radius-semantic/radius-${tokenName}`] = mappedChange;
+							changes.modified[pathString] = mappedChange;
 							console.log(`Found modified semantic radius token: ${pathString}`);
 							console.log(`  Local $ref resolved: ${resolvedValue} → Figma: ${figmaValue}`);
 						}
@@ -1277,7 +1273,7 @@ function compareSemanticRadiusTokens(figmaCollection, localSemanticRadiusTokens,
 				// Direct value comparison
 				const mappedChange = mapToLocalStructure(collectionName, packageName, ['radius', tokenName], localValue, figmaValue);
 				if (mappedChange) {
-					changes.modified[`${packageName}/radius-semantic/radius-${tokenName}`] = mappedChange;
+					changes.modified[pathString] = mappedChange;
 					console.log(`Found modified semantic radius token: ${pathString}`);
 					console.log(`  Local: ${localValue} → Figma: ${figmaValue}`);
 				}
@@ -1597,10 +1593,14 @@ function mapToLocalStructure(collectionName, packageName, figmaPath, beforeValue
 	}
 
 	// Handle webOS semantic radius tokens
-	if (collectionName === 'lg.webOS.radius.semantic' && figmaPath.length >= 1) {
+	if ((collectionName === 'lg.webOS.radius.semantic' || 
+		 collectionName === 'lg.webOSmicro.radius.semantic') && figmaPath.length >= 1) {
 		// Create nested structure for semantic radius tokens
-		// figmaPath example: ['radius', 'full']
-		// Maps to: semantic.radius.full
+		// figmaPath example: ['radius', 'full'] or ['radius', 'picker-xs']
+		// Maps to: semantic.radius.full or semantic.radius.picker-xs
+		
+		// Skip the first 'radius' element if present, as we already have semantic.radius structure
+		const actualPath = figmaPath[0] === 'radius' ? figmaPath.slice(1) : figmaPath;
 
 		let beforeStructure = { semantic: { radius: {} } };
 		let afterStructure = { semantic: { radius: {} } };
@@ -1609,15 +1609,15 @@ function mapToLocalStructure(collectionName, packageName, figmaPath, beforeValue
 		let beforeCurrent = beforeStructure.semantic.radius;
 		let afterCurrent = afterStructure.semantic.radius;
 
-		for (let i = 0; i < figmaPath.length - 1; i++) {
-			beforeCurrent[figmaPath[i]] = {};
-			afterCurrent[figmaPath[i]] = {};
-			beforeCurrent = beforeCurrent[figmaPath[i]];
-			afterCurrent = afterCurrent[figmaPath[i]];
+		for (let i = 0; i < actualPath.length - 1; i++) {
+			beforeCurrent[actualPath[i]] = {};
+			afterCurrent[actualPath[i]] = {};
+			beforeCurrent = beforeCurrent[actualPath[i]];
+			afterCurrent = afterCurrent[actualPath[i]];
 		}
 
 		// Set the final value
-		const finalKey = figmaPath[figmaPath.length - 1];
+		const finalKey = actualPath[actualPath.length - 1];
 		beforeCurrent[finalKey] = beforeValue;
 		afterCurrent[finalKey] = afterValue;
 
