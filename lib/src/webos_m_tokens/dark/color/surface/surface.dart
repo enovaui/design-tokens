@@ -86,12 +86,6 @@ class Surface extends SurfaceBase {
   @override
   Color get menuSelected => ColorPrimitive.instance.sandGray85;
   @override
-  Color get navigationBar => ColorPrimitive.instance.sandGray50;
-  @override
-  Color get navigationBarAppGradientStart => ColorPrimitive.instance.sandGray10;
-  @override
-  Color get navigationBarAppGradientEnd => ColorPrimitive.instance.sandGray25;
-  @override
   Color get pickerColor => ColorPrimitive.instance.white;
   @override
   Color get pickerDate => ColorPrimitive.instance.cobaltBlue45;
@@ -121,4 +115,12 @@ class Surface extends SurfaceBase {
   Color get toast => ColorPrimitive.instance.sandGray25;
   @override
   Color get tooltip => ColorPrimitive.instance.sandGray25;
+  @override
+  Color get buttonNotification => ColorPrimitive.instance.sandGray35;
+  @override
+  Color get accessBar => ColorPrimitive.instance.sandGray50;
+  @override
+  Color get accessBarAppGradientStart => ColorPrimitive.instance.sandGray10;
+  @override
+  Color get accessBarAppGradientEnd => ColorPrimitive.instance.sandGray25;
 }

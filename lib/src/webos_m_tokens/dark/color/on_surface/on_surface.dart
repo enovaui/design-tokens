@@ -34,10 +34,6 @@ class OnSurface extends OnSurfaceBase {
   @override
   Color get black => ColorPrimitive.instance.black;
   @override
-  Color get navigationBarHandleDark => ColorPrimitive.instance.black;
-  @override
-  Color get navigationBarHandleLight => ColorPrimitive.instance.white;
-  @override
   Color get pageIndicatorDark => ColorPrimitive.instance.black;
   @override
   Color get pageIndicatorLight => ColorPrimitive.instance.white;
@@ -51,4 +47,8 @@ class OnSurface extends OnSurfaceBase {
   Color get selectionCheckmarkActiveDisabled => ColorPrimitive.instance.sandGray55;
   @override
   Color get sliderHandle => ColorPrimitive.instance.cobaltBlue50;
+  @override
+  Color get accessBarHandleDark => ColorPrimitive.instance.black;
+  @override
+  Color get accessBarHandleLight => ColorPrimitive.instance.white;
 }

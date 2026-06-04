@@ -32,15 +32,15 @@
                     "accent-light": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cobalt-blue-65"},
                     "accent-light-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cobalt-blue-65"},
                     "black": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
-                    "navigation-bar-handle-dark": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
-                    "navigation-bar-handle-light": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                     "page-indicator-dark": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
                     "page-indicator-light": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                     "picker-primary": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                     "picker-secondary": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                     "picker-tertiary": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                     "selection-checkmark-active-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-55"},
-                    "slider-handle": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cobalt-blue-50"}
+                    "slider-handle": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cobalt-blue-50"},
+                    "access-bar-handle-dark": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
+                    "access-bar-handle-light": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"}
                 }
             },
             "surface": {
@@ -81,9 +81,6 @@
                 "list-selected": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-85"},
                 "menu": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-25"},
                 "menu-selected": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-85"},
-                "navigation-bar": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-50"},
-                "navigation-bar-app-gradient-start": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-10"},
-                "navigation-bar-app-gradient-end": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-25"},
                 "picker-color": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                 "picker-date": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cobalt-blue-45"},
                 "slider-tick-mark": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-55"},
@@ -98,7 +95,11 @@
                 "selection-checkbox-inactive-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-5"},
                 "tab-active": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-55"},
                 "toast": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-25"},
-                "tooltip": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-25"}
+                "tooltip": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-25"},
+                "button-notification": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-35"},
+                "access-bar": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-50"},
+                "access-bar-app-gradient-start": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-10"},
+                "access-bar-app-gradient-end": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-25"}
             },
             "stroke": {
                 "default-error": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/deep-orange-60"},
@@ -114,12 +115,12 @@
                 "sub-supporting": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-45"},
                 "accent": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cobalt-blue-45"},
                 "accent-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cobalt-blue-45"},
-                "navigation-bar": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
-                "navigation-bar-app": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                 "picker-color": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-55"},
                 "selection-inactive": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-55"},
                 "selection-inactive-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-55"},
-                "tab-active": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-55"}
+                "tab-active": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-55"},
+                "access-bar": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                "access-bar-app": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"}
             },
             "scrim": {
                 "default": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"}

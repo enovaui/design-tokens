@@ -38,10 +38,6 @@ class Stroke extends StrokeBase {
   @override
   Color get accentDisabled => ColorPrimitive.instance.cobaltBlue45;
   @override
-  Color get navigationBar => ColorPrimitive.instance.white;
-  @override
-  Color get navigationBarApp => ColorPrimitive.instance.white;
-  @override
   Color get pickerColor => ColorPrimitive.instance.sandGray55;
   @override
   Color get selectionInactive => ColorPrimitive.instance.sandGray55;
@@ -49,4 +45,8 @@ class Stroke extends StrokeBase {
   Color get selectionInactiveDisabled => ColorPrimitive.instance.sandGray55;
   @override
   Color get tabActive => ColorPrimitive.instance.activeRed55;
+  @override
+  Color get accessBar => ColorPrimitive.instance.white;
+  @override
+  Color get accessBarApp => ColorPrimitive.instance.white;
 }
