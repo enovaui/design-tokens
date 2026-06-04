@@ -1,6 +1,8 @@
 {
     "semantic": {
         "radius": {
+            "access-bar-l": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-48"},
+            "access-bar-s": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-40"},
             "app-icon-l": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-36"},
             "app-icon-s": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-28"},
             "badge": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
@@ -46,9 +48,7 @@
             "thumbnail-xs": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
             "toast": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
             "tooltip": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
-            "home-grid-indicator": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
-            "access-bar-l": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-48"},
-            "access-bar-s": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-40"}
+            "home-grid-indicator": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"}
         }
     }
 }
