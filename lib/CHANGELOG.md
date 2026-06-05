@@ -2,6 +2,27 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
+## [3.2.0] - 2026-06-05
+
+### Removed
+
+- `semantic_radius_navigation_m`
+
+### Changed
+
+- `semantic_color_surface_navigation_bar` to `semantic_color_surface_access_bar`
+- `semantic_color_surface_navigation_bar_app_gradient_start` to `semantic_color_surface_access_bar_app_gradient_start`
+- `semantic_color_surface_navigation_bar_app_gradient_end` to `semantic_color_surface_access_bar_app_gradient_end`
+- `semantic_color_on_surface_navigation_bar_handle_dark` to `semantic_color_on_surface_access_bar_handle_dark` 
+- `semantic_color_on_surface_navigation_bar_handle_light` to `semantic_color_on_surface_access_bar_handle_light`
+- `semantic_color_stroke_navigation_bar` to `semantic_color_stroke_access_bar`
+- `semantic_color_stroke_navigation_bar_app` to `semantic_color_stroke_access_bar_app`
+
+### Added
+
+- `semantic_color_surface_button_notification`
+- `semantic_radius_access_bar_l` and `semantic_radius_access_bar_s`
+
 ## [3.1.0] - 2026-05-11
 
 ### Removed

@@ -12,6 +12,8 @@ Semantic Radius Tokens
 :root {
 
 	/* Radius */
+	--semantic-radius-access-bar-l: var(--primitive-radius-48);
+	--semantic-radius-access-bar-s: var(--primitive-radius-40);
 	--semantic-radius-app-icon-l: var(--primitive-radius-36);
 	--semantic-radius-app-icon-s: var(--primitive-radius-28);
 	--semantic-radius-badge: var(--primitive-radius-999);
@@ -31,7 +33,6 @@ Semantic Radius Tokens
 	--semantic-radius-menu-m: var(--primitive-radius-24);
 	--semantic-radius-menu-s: var(--primitive-radius-18);
 	--semantic-radius-navigation-l: var(--primitive-radius-48);
-	--semantic-radius-navigation-m: var(--primitive-radius-40);
 	--semantic-radius-navigation-s: var(--primitive-radius-36);
 	--semantic-radius-notification-card: var(--primitive-radius-36);
 	--semantic-radius-ongoing-briefing: var(--primitive-radius-30);

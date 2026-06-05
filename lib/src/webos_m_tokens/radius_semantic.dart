@@ -10,6 +10,8 @@ import '../core_tokens/radius_primitive.dart';
 class RadiusSemantic {
   const RadiusSemantic();
 
+  Radius get accessBarL => RadiusPrimitive.instance.radius48;
+  Radius get accessBarS => RadiusPrimitive.instance.radius40;
   Radius get appIconL => RadiusPrimitive.instance.radius36;
   Radius get appIconS => RadiusPrimitive.instance.radius28;
   Radius get badge => RadiusPrimitive.instance.radius999;
@@ -29,7 +31,6 @@ class RadiusSemantic {
   Radius get menuM => RadiusPrimitive.instance.radius24;
   Radius get menuS => RadiusPrimitive.instance.radius18;
   Radius get navigationL => RadiusPrimitive.instance.radius48;
-  Radius get navigationM => RadiusPrimitive.instance.radius40;
   Radius get navigationS => RadiusPrimitive.instance.radius36;
   Radius get notificationCard => RadiusPrimitive.instance.radius36;
   Radius get ongoingBriefing => RadiusPrimitive.instance.radius30;
