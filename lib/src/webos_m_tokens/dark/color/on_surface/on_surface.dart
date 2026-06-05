@@ -34,9 +34,9 @@ class OnSurface extends OnSurfaceBase {
   @override
   Color get black => ColorPrimitive.instance.black;
   @override
-  Color get navigationBarHandleDark => ColorPrimitive.instance.black;
+  Color get accessBarHandleDark => ColorPrimitive.instance.black;
   @override
-  Color get navigationBarHandleLight => ColorPrimitive.instance.white;
+  Color get accessBarHandleLight => ColorPrimitive.instance.white;
   @override
   Color get pageIndicatorDark => ColorPrimitive.instance.black;
   @override

@@ -19,8 +19,8 @@ abstract class OnSurfaceBase {
   Color get accentLight;
   Color get accentLightDisabled;
   Color get black;
-  Color get navigationBarHandleDark;
-  Color get navigationBarHandleLight;
+  Color get accessBarHandleDark;
+  Color get accessBarHandleLight;
   Color get pageIndicatorDark;
   Color get pageIndicatorLight;
   Color get pickerPrimary;
