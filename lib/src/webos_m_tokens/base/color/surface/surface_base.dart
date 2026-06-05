@@ -31,6 +31,7 @@ abstract class SurfaceBase {
   Color get buttonIcon;
   Color get buttonIconSelected;
   Color get buttonIconDisabled;
+  Color get buttonNotification;
   Color get chip;
   Color get chipSelected;
   Color get chipDisabled;
@@ -45,9 +46,9 @@ abstract class SurfaceBase {
   Color get listSelected;
   Color get menu;
   Color get menuSelected;
-  Color get navigationBar;
-  Color get navigationBarAppGradientStart;
-  Color get navigationBarAppGradientEnd;
+  Color get accessBar;
+  Color get accessBarAppGradientStart;
+  Color get accessBarAppGradientEnd;
   Color get pickerColor;
   Color get pickerDate;
   Color get sliderTickMark;
