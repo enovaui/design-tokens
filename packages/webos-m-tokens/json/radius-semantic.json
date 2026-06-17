@@ -13,7 +13,6 @@
             "card": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-36"},
             "chip": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
             "dialog-popup": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-36"},
-            "floating-window": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-48"},
             "handle": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
             "icon-grid": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
             "list-l": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-36"},

@@ -16,7 +16,15 @@ class Effect extends EffectBase {
   @override
   Color get dropShadow => ColorPrimitive.instance.black;
   @override
-  Color get homeGridDropShadow => ColorPrimitive.instance.black;
+  Color get homeGridDropShadowDark => ColorPrimitive.instance.black;
   @override
-  Color get pageIndicatorDropShadow => ColorPrimitive.instance.black;
+  Color get homeGridDropShadowLight => ColorPrimitive.instance.white;
+  @override
+  Color get pageIndicatorDropShadowDark => ColorPrimitive.instance.black;
+  @override
+  Color get pageIndicatorDropShadowLight => ColorPrimitive.instance.white;
+  @override
+  Color get statusBarDropShadowDark => ColorPrimitive.instance.black;
+  @override
+  Color get statusBarDropShadowLight => ColorPrimitive.instance.white;
 }
