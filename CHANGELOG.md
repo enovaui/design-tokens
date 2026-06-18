@@ -2,6 +2,48 @@
 
 The following is a curated list of changes in the design tokens module, newest changes on the top.
 
+## [3.3.0] - 2026-06-18
+
+### core-tokens
+
+- No significant changes
+
+### mobile-tokens
+
+- No significant changes
+
+### web-tokens
+
+- No significant changes
+
+### webos-tokens
+
+- No significant changes
+
+### webos-m-tokens
+
+#### Removed
+
+- `semantic-radius-floating-window`
+
+#### Changed
+
+- `semantic-color-effect-home-grid-drop-shadow` to `semantic-color-effect-home-grid-drop-shadow-dark`
+- `semantic-color-effect-page-indicator-drop-shadow` to `semantic-color-effect-page-indicator-drop-shadow-dark`
+- `semantic-effect-home-grid-drop-shadow-blur` value
+- `semantic-effect-home-grid-drop-shadow-y` value
+- `semantic-effect-page-indicator-drop-shadow-blur` value
+- `semantic-effect-page-indicator-drop-shadow-y` value
+
+#### Added
+
+- `semantic-color-effect-home-grid-drop-shadow-light`
+- `semantic-color-effect-page-indicator-drop-shadow-light`
+- `semantic-color-effect-status-bar-drop-shadow-dark`
+- `semantic-color-effect-status-bar-drop-shadow-light`
+- `semantic-effect-status-bar-drop-shadow-blur`
+- `semantic-effect-status-bar-drop-shadow-y`
+
 ## [3.2.0] - 2026-06-05
 
 ### core-tokens
