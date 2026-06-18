@@ -136,6 +136,10 @@ Semantic Color Tokens
 	/* Effect */
 	--semantic-color-effect-inner-shadow: var(--primitive-color-white);
 	--semantic-color-effect-drop-shadow: var(--primitive-color-black);
-	--semantic-color-effect-home-grid-drop-shadow: var(--primitive-color-black);
-	--semantic-color-effect-page-indicator-drop-shadow: var(--primitive-color-black);
+	--semantic-color-effect-home-grid-drop-shadow-dark: var(--primitive-color-black);
+	--semantic-color-effect-home-grid-drop-shadow-light: var(--primitive-color-white);
+	--semantic-color-effect-page-indicator-drop-shadow-dark: var(--primitive-color-black);
+	--semantic-color-effect-page-indicator-drop-shadow-light: var(--primitive-color-white);
+	--semantic-color-effect-status-bar-drop-shadow-dark: var(--primitive-color-black);
+	--semantic-color-effect-status-bar-drop-shadow-light: var(--primitive-color-white);
 }

@@ -128,8 +128,12 @@
             "effect": {
                 "inner-shadow": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                 "drop-shadow": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
-                "home-grid-drop-shadow": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
-                "page-indicator-drop-shadow": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"}
+                "home-grid-drop-shadow-dark": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
+                "home-grid-drop-shadow-light": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                "page-indicator-drop-shadow-dark": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
+                "page-indicator-drop-shadow-light": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                "status-bar-drop-shadow-dark": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
+                "status-bar-drop-shadow-light": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"}
             }
         }
     }
