@@ -2,6 +2,30 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
+## [3.3.0] - 2026-06-18
+
+### Removed
+
+- `semantic_radius_floating_window`
+
+### Changed
+
+- `semantic_color_effect_home_grid_drop_shadow` to `semantic_color_effect_home_grid_drop_shadow_dark`
+- `semantic_color_effect_page_indicator_drop_shadow` to `semantic_color_effect_page_indicator_drop_shadow_dark`
+- `semantic_effect_home_grid_drop_shadow_blur` value
+- `semantic_effect_home_grid_drop_shadow_y` value
+- `semantic_effect_page_indicator_drop_shadow_blur` value
+- `semantic_effect_page_indicator_drop_shadow_y` value
+
+### Added
+
+- `semantic_color_effect_home_grid_drop_shadow_light`
+- `semantic_color_effect_page_indicator_drop_shadow_light`
+- `semantic_color_effect_status_bar_drop_shadow_dark`
+- `semantic_color_effect_status_bar_drop_shadow_light`
+- `semantic_effect_status_bar_drop_shadow_blur`
+- `semantic_effect_status_bar_drop_shadow_y`
+
 ## [3.2.0] - 2026-06-05
 
 ### Removed

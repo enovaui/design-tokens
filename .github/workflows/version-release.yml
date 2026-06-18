@@ -93,6 +93,10 @@ jobs:
       - name: Publish NPM packages
         run: |
           git checkout ${{ github.event.repository.default_branch }}
-          pnpm exec changeset publish
+          cd packages/core-tokens && npm publish --access public
+          cd ../web-tokens && npm publish --access public
+          cd ../mobile-tokens && npm publish --access public
+          cd ../webos-tokens && npm publish --access public
+          cd ../webos-m-tokens && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

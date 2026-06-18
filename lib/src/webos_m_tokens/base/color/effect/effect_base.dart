@@ -10,6 +10,10 @@ abstract class EffectBase {
 
   Color get innerShadow;
   Color get dropShadow;
-  Color get homeGridDropShadow;
-  Color get pageIndicatorDropShadow;
+  Color get homeGridDropShadowDark;
+  Color get homeGridDropShadowLight;
+  Color get pageIndicatorDropShadowDark;
+  Color get pageIndicatorDropShadowLight;
+  Color get statusBarDropShadowDark;
+  Color get statusBarDropShadowLight;
 }

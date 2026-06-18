@@ -2,6 +2,10 @@
 
 The following is a curated list of changes in the mobile tokens module, newest changes on the top.
 
+## [3.3.0] - 2026-06-18
+
+- No significant changes
+
 ## [3.2.0] - 2026-06-05
 
 - No significant changes
