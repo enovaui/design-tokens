@@ -2,6 +2,19 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Changed
+
+- `semantic_radius_selection_control` to `semantic_radius_selection_control_full`
+
+### Added
+
+- `semantic_color_on_surface_status_bar_floating_orange`
+- `semantic_color_on_surface_status_bar_floating_red`
+- `semantic_radius_floating_window`
+- `semantic_radius_selection_control_s`
+
 ## [3.3.0] - 2026-06-18
 
 ### Removed
