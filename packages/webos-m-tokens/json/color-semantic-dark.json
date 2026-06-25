@@ -40,7 +40,9 @@
                     "picker-secondary": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                     "picker-tertiary": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                     "selection-checkmark-active-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-55"},
-                    "slider-handle": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cobalt-blue-50"}
+                    "slider-handle": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cobalt-blue-50"},
+                    "status-bar-floating-orange": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/deep-orange-40"},
+                    "status-bar-floating-red": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-55"}
                 }
             },
             "surface": {

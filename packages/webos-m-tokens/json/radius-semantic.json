@@ -35,7 +35,6 @@
             "quick-settings-s": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-36"},
             "scroll-bar": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
             "search": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
-            "selection-control": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
             "side-sheet": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-48"},
             "slider": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
             "status-bar": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
@@ -47,7 +46,10 @@
             "thumbnail-xs": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
             "toast": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
             "tooltip": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
-            "home-grid-indicator": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"}
+            "home-grid-indicator": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
+            "floating-window": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-12"},
+            "selection-control-full": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
+            "selection-control-s": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-36"}
         }
     }
 }
