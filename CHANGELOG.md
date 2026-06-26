@@ -2,6 +2,37 @@
 
 The following is a curated list of changes in the design tokens module, newest changes on the top.
 
+## [3.4.0] - 2026-06-26
+
+### core-tokens
+
+- No significant changes
+
+### mobile-tokens
+
+- No significant changes
+
+### web-tokens
+
+- No significant changes
+
+### webos-tokens
+
+- No significant changes
+
+### webos-m-tokens
+
+#### Changed
+
+- `semantic-radius-selection-control` to `semantic-radius-selection-control-full`
+
+#### Added
+
+- `semantic-color-on-surface-status-bar-floating-orange`
+- `semantic-color-on-surface-status-bar-floating-red`
+- `semantic-radius-floating-window`
+- `semantic-radius-selection-control-s`
+
 ## [3.3.0] - 2026-06-18
 
 ### core-tokens
