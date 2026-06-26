@@ -108,6 +108,8 @@ Semantic Color Tokens
 	--semantic-color-on-surface-picker-tertiary: var(--primitive-color-white);
 	--semantic-color-on-surface-selection-checkmark-active-disabled: var(--primitive-color-sand-gray-55);
 	--semantic-color-on-surface-slider-handle: var(--primitive-color-cobalt-blue-50);
+	--semantic-color-on-surface-status-bar-floating-orange: var(--primitive-color-deep-orange-40);
+	--semantic-color-on-surface-status-bar-floating-red: var(--primitive-color-active-red-55);
 
 	/* Stroke */
 	--semantic-color-stroke-default-error: var(--primitive-color-deep-orange-60);

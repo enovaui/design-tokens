@@ -51,4 +51,8 @@ class OnSurface extends OnSurfaceBase {
   Color get selectionCheckmarkActiveDisabled => ColorPrimitive.instance.sandGray55;
   @override
   Color get sliderHandle => ColorPrimitive.instance.cobaltBlue50;
+  @override
+  Color get statusBarFloatingOrange => ColorPrimitive.instance.deepOrange40;
+  @override
+  Color get statusBarFloatingRed => ColorPrimitive.instance.activeRed55;
 }

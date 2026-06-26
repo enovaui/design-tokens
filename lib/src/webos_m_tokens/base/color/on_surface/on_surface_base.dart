@@ -28,4 +28,6 @@ abstract class OnSurfaceBase {
   Color get pickerTertiary;
   Color get selectionCheckmarkActiveDisabled;
   Color get sliderHandle;
+  Color get statusBarFloatingOrange;
+  Color get statusBarFloatingRed;
 }

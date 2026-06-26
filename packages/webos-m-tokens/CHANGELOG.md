@@ -2,6 +2,19 @@
 
 The following is a curated list of changes in the webos tokens module, newest changes on the top.
 
+## [3.4.0] - 2026-06-26
+
+### Changed
+
+- `semantic-radius-selection-control` to `semantic-radius-selection-control-full`
+
+### Added
+
+- `semantic-color-on-surface-status-bar-floating-orange`
+- `semantic-color-on-surface-status-bar-floating-red`
+- `semantic-radius-floating-window`
+- `semantic-radius-selection-control-s`
+
 ## [3.3.0] - 2026-06-18
 
 ### Removed
