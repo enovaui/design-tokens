@@ -86,6 +86,8 @@ Semantic Color Tokens
 	--semantic-color-surface-toast: var(--primitive-color-sand-gray-25);
 	--semantic-color-surface-tooltip: var(--primitive-color-sand-gray-25);
 	--semantic-color-surface-button-notification: var(--primitive-color-sand-gray-35);
+	--semantic-color-surface-button-icon-focused: var(--primitive-color-white);
+	--semantic-color-surface-snackbar: var(--primitive-color-sand-gray-25);
 
 	/* On Surface */
 	--semantic-color-on-surface-default-error: var(--primitive-color-deep-orange-60);
@@ -136,12 +138,12 @@ Semantic Color Tokens
 	--semantic-color-scrim-default: var(--primitive-color-black);
 
 	/* Effect */
-	--semantic-color-effect-inner-shadow: var(--primitive-color-white);
-	--semantic-color-effect-drop-shadow: var(--primitive-color-black);
 	--semantic-color-effect-home-grid-drop-shadow-dark: var(--primitive-color-black);
 	--semantic-color-effect-home-grid-drop-shadow-light: var(--primitive-color-white);
 	--semantic-color-effect-page-indicator-drop-shadow-dark: var(--primitive-color-black);
 	--semantic-color-effect-page-indicator-drop-shadow-light: var(--primitive-color-white);
 	--semantic-color-effect-status-bar-drop-shadow-dark: var(--primitive-color-black);
 	--semantic-color-effect-status-bar-drop-shadow-light: var(--primitive-color-white);
+	--semantic-color-effect-default-drop-shadow: var(--primitive-color-black);
+	--semantic-color-effect-default-inner-shadow: var(--primitive-color-white);
 }

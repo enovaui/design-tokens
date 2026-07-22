@@ -58,8 +58,6 @@ class Surface extends SurfaceBase {
   @override
   Color get buttonIconDisabled => ColorPrimitive.instance.sandGray30;
   @override
-  Color get buttonNotification => ColorPrimitive.instance.sandGray35;
-  @override
   Color get chip => ColorPrimitive.instance.sandGray30;
   @override
   Color get chipSelected => ColorPrimitive.instance.cobaltBlue40;
@@ -123,4 +121,10 @@ class Surface extends SurfaceBase {
   Color get toast => ColorPrimitive.instance.sandGray25;
   @override
   Color get tooltip => ColorPrimitive.instance.sandGray25;
+  @override
+  Color get buttonNotification => ColorPrimitive.instance.sandGray35;
+  @override
+  Color get buttonIconFocused => ColorPrimitive.instance.white;
+  @override
+  Color get snackbar => ColorPrimitive.instance.sandGray25;
 }

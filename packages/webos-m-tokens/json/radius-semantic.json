@@ -49,7 +49,8 @@
             "thumbnail-xs": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
             "toast": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
             "tooltip": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
-            "home-grid-indicator": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"}
+            "home-grid-indicator": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
+            "snackbar": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"}
         }
     }
 }

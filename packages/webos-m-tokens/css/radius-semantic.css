@@ -61,4 +61,5 @@ Semantic Radius Tokens
 	--semantic-radius-toast: var(--primitive-radius-18);
 	--semantic-radius-tooltip: var(--primitive-radius-18);
 	--semantic-radius-home-grid-indicator: var(--primitive-radius-18);
+	--semantic-radius-snackbar: var(--primitive-radius-18);
 }

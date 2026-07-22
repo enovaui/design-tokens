@@ -59,4 +59,5 @@ class RadiusSemantic {
   Radius get toast => RadiusPrimitive.instance.radius18;
   Radius get tooltip => RadiusPrimitive.instance.radius18;
   Radius get homeGridIndicator => RadiusPrimitive.instance.radius18;
+  Radius get snackbar => RadiusPrimitive.instance.radius18;
 }

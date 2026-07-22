@@ -12,10 +12,6 @@ class Effect extends EffectBase {
   const Effect();
 
   @override
-  Color get innerShadow => ColorPrimitive.instance.white;
-  @override
-  Color get dropShadow => ColorPrimitive.instance.black;
-  @override
   Color get homeGridDropShadowDark => ColorPrimitive.instance.black;
   @override
   Color get homeGridDropShadowLight => ColorPrimitive.instance.white;
@@ -27,4 +23,8 @@ class Effect extends EffectBase {
   Color get statusBarDropShadowDark => ColorPrimitive.instance.black;
   @override
   Color get statusBarDropShadowLight => ColorPrimitive.instance.white;
+  @override
+  Color get defaultDropShadow => ColorPrimitive.instance.black;
+  @override
+  Color get defaultInnerShadow => ColorPrimitive.instance.white;
 }
