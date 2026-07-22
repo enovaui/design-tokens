@@ -24,6 +24,7 @@ class RadiusSemantic {
   Radius get dialogPopup => RadiusPrimitive.instance.radius36;
   Radius get floatingWindow => RadiusPrimitive.instance.radius12;
   Radius get handle => RadiusPrimitive.instance.radius999;
+  Radius get homeGridIndicator => RadiusPrimitive.instance.radius18;
   Radius get iconGrid => RadiusPrimitive.instance.radius999;
   Radius get listL => RadiusPrimitive.instance.radius36;
   Radius get listS => RadiusPrimitive.instance.radius24;
@@ -49,6 +50,7 @@ class RadiusSemantic {
   Radius get selectionControlS => RadiusPrimitive.instance.radius36;
   Radius get sideSheet => RadiusPrimitive.instance.radius48;
   Radius get slider => RadiusPrimitive.instance.radius999;
+  Radius get snackbar => RadiusPrimitive.instance.radius18;
   Radius get statusBar => RadiusPrimitive.instance.radius999;
   Radius get textField => RadiusPrimitive.instance.radius18;
   Radius get thumbnailXl => RadiusPrimitive.instance.radius42;
@@ -58,6 +60,4 @@ class RadiusSemantic {
   Radius get thumbnailXs => RadiusPrimitive.instance.radius18;
   Radius get toast => RadiusPrimitive.instance.radius18;
   Radius get tooltip => RadiusPrimitive.instance.radius18;
-  Radius get homeGridIndicator => RadiusPrimitive.instance.radius18;
-  Radius get snackbar => RadiusPrimitive.instance.radius18;
 }

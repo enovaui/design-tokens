@@ -29,6 +29,7 @@ abstract class SurfaceBase {
   Color get buttonTertiaryDisabled;
   Color get buttonTintPressed;
   Color get buttonIcon;
+  Color get buttonIconFocused;
   Color get buttonIconSelected;
   Color get buttonIconDisabled;
   Color get buttonNotification;
@@ -53,6 +54,7 @@ abstract class SurfaceBase {
   Color get pickerDate;
   Color get sliderTickMark;
   Color get scrollBarHandle;
+  Color get snackbar;
   Color get statusBar;
   Color get selectionActive;
   Color get selectionActiveDisabled;

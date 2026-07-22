@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 abstract class EffectBase {
   const EffectBase();
 
-  Color get innerShadow;
-  Color get dropShadow;
+  Color get defaultDropShadow;
+  Color get defaultInnerShadow;
   Color get homeGridDropShadowDark;
   Color get homeGridDropShadowLight;
   Color get pageIndicatorDropShadowDark;
