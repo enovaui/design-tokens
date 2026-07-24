@@ -26,6 +26,7 @@ Semantic Radius Tokens
 	--semantic-radius-dialog-popup: var(--primitive-radius-36);
 	--semantic-radius-floating-window: var(--primitive-radius-12);
 	--semantic-radius-handle: var(--primitive-radius-999);
+	--semantic-radius-home-grid-indicator: var(--primitive-radius-18);
 	--semantic-radius-icon-grid: var(--primitive-radius-999);
 	--semantic-radius-list-l: var(--primitive-radius-36);
 	--semantic-radius-list-s: var(--primitive-radius-24);
@@ -51,6 +52,7 @@ Semantic Radius Tokens
 	--semantic-radius-selection-control-s: var(--primitive-radius-36);
 	--semantic-radius-side-sheet: var(--primitive-radius-48);
 	--semantic-radius-slider: var(--primitive-radius-999);
+	--semantic-radius-snackbar: var(--primitive-radius-18);
 	--semantic-radius-status-bar: var(--primitive-radius-999);
 	--semantic-radius-text-field: var(--primitive-radius-18);
 	--semantic-radius-thumbnail-xl: var(--primitive-radius-42);
@@ -60,5 +62,4 @@ Semantic Radius Tokens
 	--semantic-radius-thumbnail-xs: var(--primitive-radius-18);
 	--semantic-radius-toast: var(--primitive-radius-18);
 	--semantic-radius-tooltip: var(--primitive-radius-18);
-	--semantic-radius-home-grid-indicator: var(--primitive-radius-18);
 }

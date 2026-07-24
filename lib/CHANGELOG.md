@@ -2,6 +2,19 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
+## [3.5.0] - 2026-07-24
+
+### Changed
+
+- `semantic_color_effect_drop_shadow` to `semantic_color_effect_default_drop_shadow`
+- `semantic_color_effect_inner_shadow` to `semantic_color_effect_default_inner_shadow`
+
+### Added
+
+- `semantic_color_surface_button_icon_focused`
+- `semantic_color_surface_snackbar`
+- `semantic_radius_snackbar`
+
 ## [3.4.0] - 2026-06-26
 
 ### Changed
