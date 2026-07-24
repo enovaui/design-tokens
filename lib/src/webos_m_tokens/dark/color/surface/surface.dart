@@ -54,6 +54,8 @@ class Surface extends SurfaceBase {
   @override
   Color get buttonIcon => ColorPrimitive.instance.sandGray30;
   @override
+  Color get buttonIconFocused => ColorPrimitive.instance.white;
+  @override
   Color get buttonIconSelected => ColorPrimitive.instance.cobaltBlue45;
   @override
   Color get buttonIconDisabled => ColorPrimitive.instance.sandGray30;
@@ -101,6 +103,8 @@ class Surface extends SurfaceBase {
   Color get sliderTickMark => ColorPrimitive.instance.sandGray55;
   @override
   Color get scrollBarHandle => ColorPrimitive.instance.sandGray55;
+  @override
+  Color get snackbar => ColorPrimitive.instance.sandGray25;
   @override
   Color get statusBar => ColorPrimitive.instance.sandGray25;
   @override

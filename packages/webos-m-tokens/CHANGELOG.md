@@ -2,6 +2,19 @@
 
 The following is a curated list of changes in the webos tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Changed
+
+- `semantic-color-effect-drop-shadow` to `semantic-color-effect-default-drop-shadow`
+- `semantic-color-effect-inner-shadow` to `semantic-color-effect-default-inner-shadow`
+
+### Added
+
+- `semantic-color-surface-button-icon-focused`
+- `semantic-color-surface-snackbar`
+- `semantic-radius-snackbar`
+
 ## [3.4.0] - 2026-06-26
 
 ### Changed
