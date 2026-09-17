@@ -20,11 +20,11 @@ class OnBackground extends OnBackgroundBase {
   @override
   Color get subDisabled => ColorPrimitive.instance.sandGray65;
   @override
-  Color get accentDark => ColorPrimitive.instance.cobaltBlue45;
+  Color get accentDark => ColorPrimitive.instance.midBlue60;
   @override
-  Color get accentDarkDisabled => ColorPrimitive.instance.cobaltBlue45;
+  Color get accentDarkDisabled => ColorPrimitive.instance.midBlue60;
   @override
-  Color get accentLight => ColorPrimitive.instance.cobaltBlue60;
+  Color get accentLight => ColorPrimitive.instance.midBlue70;
   @override
-  Color get accentLightDisabled => ColorPrimitive.instance.cobaltBlue60;
+  Color get accentLightDisabled => ColorPrimitive.instance.midBlue70;
 }

@@ -24,13 +24,13 @@ class OnSurface extends OnSurfaceBase {
   @override
   Color get subDisabled => ColorPrimitive.instance.sandGray65;
   @override
-  Color get accentDark => ColorPrimitive.instance.cobaltBlue45;
+  Color get accentDark => ColorPrimitive.instance.midBlue60;
   @override
-  Color get accentDarkDisabled => ColorPrimitive.instance.cobaltBlue45;
+  Color get accentDarkDisabled => ColorPrimitive.instance.midBlue60;
   @override
-  Color get accentLight => ColorPrimitive.instance.cobaltBlue65;
+  Color get accentLight => ColorPrimitive.instance.midBlue70;
   @override
-  Color get accentLightDisabled => ColorPrimitive.instance.cobaltBlue65;
+  Color get accentLightDisabled => ColorPrimitive.instance.midBlue70;
   @override
   Color get black => ColorPrimitive.instance.black;
   @override
@@ -50,7 +50,7 @@ class OnSurface extends OnSurfaceBase {
   @override
   Color get selectionCheckmarkActiveDisabled => ColorPrimitive.instance.sandGray55;
   @override
-  Color get sliderHandle => ColorPrimitive.instance.cobaltBlue50;
+  Color get sliderHandle => ColorPrimitive.instance.midBlue60;
   @override
   Color get statusBarFloatingOrange => ColorPrimitive.instance.deepOrange40;
   @override
