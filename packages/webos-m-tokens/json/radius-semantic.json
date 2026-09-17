@@ -8,6 +8,7 @@
             "badge": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
             "banner": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-30"},
             "bottom-sheet": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-36"},
+            "button": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
             "card": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-36"},
             "chip": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
             "dialog-popup": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-36"},
@@ -24,6 +25,7 @@
             "notification-card": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-36"},
             "ongoing-briefing": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-30"},
             "page-indicator": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
+            "peek-view": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
             "picker-full": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
             "picker-l": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-54"},
             "picker-m": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-36"},
@@ -47,9 +49,7 @@
             "thumbnail-s": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-24"},
             "thumbnail-xs": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
             "toast": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
-            "tooltip": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
-            "button": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
-            "peek-view": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"}
+            "tooltip": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"}
         }
     }
 }

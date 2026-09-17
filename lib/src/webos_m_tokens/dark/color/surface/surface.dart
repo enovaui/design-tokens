@@ -34,6 +34,12 @@ class Surface extends SurfaceBase {
   @override
   Color get sub => ColorPrimitive.instance.sandGray5;
   @override
+  Color get accessBar => ColorPrimitive.instance.sandGray50;
+  @override
+  Color get accessBarAppGradientStart => ColorPrimitive.instance.sandGray10;
+  @override
+  Color get accessBarAppGradientEnd => ColorPrimitive.instance.sandGray25;
+  @override
   Color get badgeDark => ColorPrimitive.instance.black;
   @override
   Color get badgeLight => ColorPrimitive.instance.white;
@@ -64,6 +70,8 @@ class Surface extends SurfaceBase {
   @override
   Color get chipDisabled => ColorPrimitive.instance.sandGray30;
   @override
+  Color get dialogPopupPressed => ColorPrimitive.instance.sandGray85;
+  @override
   Color get homeGridIndicatorDark => ColorPrimitive.instance.black;
   @override
   Color get homeGridIndicatorLight => ColorPrimitive.instance.white;
@@ -82,13 +90,11 @@ class Surface extends SurfaceBase {
   @override
   Color get menu => ColorPrimitive.instance.sandGray25;
   @override
+  Color get navigationPressed => ColorPrimitive.instance.sandGray85;
+  @override
   Color get menuSelected => ColorPrimitive.instance.sandGray85;
   @override
-  Color get accessBar => ColorPrimitive.instance.sandGray50;
-  @override
-  Color get accessBarAppGradientStart => ColorPrimitive.instance.sandGray10;
-  @override
-  Color get accessBarAppGradientEnd => ColorPrimitive.instance.sandGray25;
+  Color get peekViewActive => ColorPrimitive.instance.midBlue60;
   @override
   Color get pickerColor => ColorPrimitive.instance.white;
   @override
@@ -121,10 +127,4 @@ class Surface extends SurfaceBase {
   Color get toast => ColorPrimitive.instance.sandGray25;
   @override
   Color get tooltip => ColorPrimitive.instance.sandGray25;
-  @override
-  Color get dialogPopupPressed => ColorPrimitive.instance.sandGray85;
-  @override
-  Color get navigationPressed => ColorPrimitive.instance.sandGray85;
-  @override
-  Color get peekViewActive => ColorPrimitive.instance.midBlue60;
 }

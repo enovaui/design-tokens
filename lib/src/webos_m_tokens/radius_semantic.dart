@@ -17,6 +17,7 @@ class RadiusSemantic {
   Radius get badge => RadiusPrimitive.instance.radius999;
   Radius get banner => RadiusPrimitive.instance.radius30;
   Radius get bottomSheet => RadiusPrimitive.instance.radius36;
+  Radius get button => RadiusPrimitive.instance.radius999;
   Radius get card => RadiusPrimitive.instance.radius36;
   Radius get chip => RadiusPrimitive.instance.radius999;
   Radius get dialogPopup => RadiusPrimitive.instance.radius36;
@@ -33,6 +34,7 @@ class RadiusSemantic {
   Radius get notificationCard => RadiusPrimitive.instance.radius36;
   Radius get ongoingBriefing => RadiusPrimitive.instance.radius30;
   Radius get pageIndicator => RadiusPrimitive.instance.radius999;
+  Radius get peekView => RadiusPrimitive.instance.radius18;
   Radius get pickerFull => RadiusPrimitive.instance.radius999;
   Radius get pickerL => RadiusPrimitive.instance.radius54;
   Radius get pickerM => RadiusPrimitive.instance.radius36;
@@ -57,6 +59,4 @@ class RadiusSemantic {
   Radius get thumbnailXs => RadiusPrimitive.instance.radius18;
   Radius get toast => RadiusPrimitive.instance.radius18;
   Radius get tooltip => RadiusPrimitive.instance.radius18;
-  Radius get button => RadiusPrimitive.instance.radius999;
-  Radius get peekView => RadiusPrimitive.instance.radius18;
 }
