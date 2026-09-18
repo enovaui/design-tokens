@@ -2,6 +2,58 @@
 
 The following is a curated list of changes in the design tokens module, newest changes on the top.
 
+## [3.6.0] - 2026-09-18
+
+### core-tokens
+
+- No significant changes
+
+### mobile-tokens
+
+- No significant changes
+
+### web-tokens
+
+- No significant changes
+
+### webos-tokens
+
+- No significant changes
+
+### webos-m-tokens
+
+#### Changed
+
+- `semantic-color-surface-button-tertiary` to `semantic-color-surface-button-secondary`
+- `semantic-color-surface-button-tertiary-disabled` to `semantic-color-surface-button-secondary-disabled`
+- `semantic-color-on-background-accent-dark`, `semantic-color-on-background-accent-dark-disabled` value
+- `semantic-color-on-background-accent-light`, `semantic-color-on-background-accent-light-disabled` value
+- `semantic-color-surface-default-indicator` value
+- `semantic-color-surface-button-primary`,`semantic-color-surface-button-primary-disabled` value
+- `semantic-color-surface-button-icon-selected` value
+- `semantic-color-surface-chip-selected` value
+- `semantic-color-surface-icon-grid-selected`, `semantic-color-surface-icon-grid-active` value
+- `semantic-color-surface-picker-date` value
+- `semantic-color-surface-selection-active`, `semantic-color-surface-selection-active-disabled` value
+- `semantic-color-on-surface-accent-dark`, `semantic-color-on-surface-accent-dark-disabled` value
+- `semantic-color-on-surface-accent-light`, `semantic-color-on-surface-accent-light-disabled` value
+- `semantic-color-on-surface-slider-handle` value
+- `semantic-color-stroke-accent`, `semantic-color-stroke-accent-disabled` value
+- `semantic-color-stroke-tab-active` value
+- `semantic-radius-button-full` to `semantic-radius-button`
+  
+#### Added
+
+- `semantic-color-surface-dialog-popup-pressed`
+- `semantic-color-surface-navigation-pressed`
+- `semantic-color-surface-peek-view-active`
+
+#### Removed
+
+- `semantic-color-surface-home-grid-indicator-active`
+- `semantic-radius-button-s`
+- `semantic-radius-home-grid-indicator`
+
 ## [3.5.0] - 2026-07-24
 
 ### core-tokens
