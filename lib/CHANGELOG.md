@@ -2,6 +2,40 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Changed
+
+- `semantic_color_surface_button_tertiary` to `semantic_color_surface_button_secondary`
+- `semantic_color_surface_button_tertiary_disabled` to `semantic_color_surface_button_secondary_disabled`
+- `semantic_color_on_background_accent_dark`, `semantic_color_on_background_accent_dark_disabled` value
+- `semantic_color_on_background_accent_light`, `semantic_color_on_background_accent_light_disabled` value
+- `semantic_color_surface_default_indicator` value
+- `semantic_color_surface_button_primary`,`semantic_color_surface_button_primary_disabled` value
+- `semantic_color_surface_button_icon_selected` value
+- `semantic_color_surface_chip_selected` value
+- `semantic_color_surface_icon_grid_selected`, `semantic_color_surface_icon_grid_active` value
+- `semantic_color_surface_picker_date` value
+- `semantic_color_surface_selection_active`, `semantic_color_surface_selection_active_disabled` value
+- `semantic_color_on_surface_accent_dark`, `semantic_color_on_surface_accent_dark_disabled` value
+- `semantic_color_on_surface_accent_light`, `semantic_color_on_surface_accent_light_disabled` value
+- `semantic_color_on_surface_slider_handle` value
+- `semantic_color_stroke_accent`, `semantic_color_stroke_accent_disabled` value
+- `semantic_color_stroke_tab_active` value
+- `semantic_radius_button_full` to `semantic_radius_button`
+
+### Added
+
+- `semantic_color_surface_dialog_popup_pressed`
+- `semantic_color_surface_navigation_pressed`
+- `semantic_color_surface_peek_view_active`
+
+### Removed
+
+- `semantic_color_surface_home_grid_indicator_active`
+- `semantic_radius_button_s`
+- `semantic_radius_home_grid_indicator`
+
 ## [3.5.0] - 2026-07-24
 
 ### Changed
