@@ -16,7 +16,7 @@ class Surface extends SurfaceBase {
   @override
   Color get defaultGradientEnd => ColorPrimitive.instance.white;
   @override
-  Color get defaultIndicator => ColorPrimitive.instance.cobaltBlue50;
+  Color get defaultIndicator => ColorPrimitive.instance.midBlue60;
   @override
   Color get defaultNotification => ColorPrimitive.instance.activeRed55;
   @override
@@ -34,21 +34,23 @@ class Surface extends SurfaceBase {
   @override
   Color get sub => ColorPrimitive.instance.sandGray5;
   @override
+  Color get accessBar => ColorPrimitive.instance.sandGray50;
+  @override
+  Color get accessBarAppGradientStart => ColorPrimitive.instance.sandGray10;
+  @override
+  Color get accessBarAppGradientEnd => ColorPrimitive.instance.sandGray25;
+  @override
   Color get badgeDark => ColorPrimitive.instance.black;
   @override
   Color get badgeLight => ColorPrimitive.instance.white;
   @override
-  Color get buttonPrimary => ColorPrimitive.instance.cobaltBlue40;
+  Color get buttonPrimary => ColorPrimitive.instance.midBlue60;
   @override
-  Color get buttonPrimaryDisabled => ColorPrimitive.instance.cobaltBlue40;
+  Color get buttonPrimaryDisabled => ColorPrimitive.instance.midBlue60;
   @override
-  Color get buttonSecondary => ColorPrimitive.instance.cobaltBlue20;
+  Color get buttonSecondary => ColorPrimitive.instance.sandGray30;
   @override
-  Color get buttonSecondaryDisabled => ColorPrimitive.instance.cobaltBlue20;
-  @override
-  Color get buttonTertiary => ColorPrimitive.instance.sandGray30;
-  @override
-  Color get buttonTertiaryDisabled => ColorPrimitive.instance.sandGray30;
+  Color get buttonSecondaryDisabled => ColorPrimitive.instance.sandGray30;
   @override
   Color get buttonTintPressed => ColorPrimitive.instance.black;
   @override
@@ -56,7 +58,7 @@ class Surface extends SurfaceBase {
   @override
   Color get buttonIconFocused => ColorPrimitive.instance.white;
   @override
-  Color get buttonIconSelected => ColorPrimitive.instance.cobaltBlue45;
+  Color get buttonIconSelected => ColorPrimitive.instance.midBlue60;
   @override
   Color get buttonIconDisabled => ColorPrimitive.instance.sandGray30;
   @override
@@ -64,11 +66,11 @@ class Surface extends SurfaceBase {
   @override
   Color get chip => ColorPrimitive.instance.sandGray30;
   @override
-  Color get chipSelected => ColorPrimitive.instance.cobaltBlue40;
+  Color get chipSelected => ColorPrimitive.instance.midBlue60;
   @override
   Color get chipDisabled => ColorPrimitive.instance.sandGray30;
   @override
-  Color get homeGridIndicatorActive => ColorPrimitive.instance.cobaltBlue45;
+  Color get dialogPopupPressed => ColorPrimitive.instance.sandGray85;
   @override
   Color get homeGridIndicatorDark => ColorPrimitive.instance.black;
   @override
@@ -76,11 +78,11 @@ class Surface extends SurfaceBase {
   @override
   Color get iconGrid => ColorPrimitive.instance.sandGray30;
   @override
-  Color get iconGridSelected => ColorPrimitive.instance.cobaltBlue45;
+  Color get iconGridSelected => ColorPrimitive.instance.midBlue60;
   @override
   Color get iconGridDisabled => ColorPrimitive.instance.sandGray30;
   @override
-  Color get iconGridActive => ColorPrimitive.instance.cobaltBlue50;
+  Color get iconGridActive => ColorPrimitive.instance.midBlue60;
   @override
   Color get iconGridSelectionCheckbox => ColorPrimitive.instance.sandGray5;
   @override
@@ -88,17 +90,15 @@ class Surface extends SurfaceBase {
   @override
   Color get menu => ColorPrimitive.instance.sandGray25;
   @override
+  Color get navigationPressed => ColorPrimitive.instance.sandGray85;
+  @override
   Color get menuSelected => ColorPrimitive.instance.sandGray85;
   @override
-  Color get accessBar => ColorPrimitive.instance.sandGray50;
-  @override
-  Color get accessBarAppGradientStart => ColorPrimitive.instance.sandGray10;
-  @override
-  Color get accessBarAppGradientEnd => ColorPrimitive.instance.sandGray25;
+  Color get peekViewActive => ColorPrimitive.instance.midBlue60;
   @override
   Color get pickerColor => ColorPrimitive.instance.white;
   @override
-  Color get pickerDate => ColorPrimitive.instance.cobaltBlue45;
+  Color get pickerDate => ColorPrimitive.instance.midBlue60;
   @override
   Color get sliderTickMark => ColorPrimitive.instance.sandGray55;
   @override
@@ -108,9 +108,9 @@ class Surface extends SurfaceBase {
   @override
   Color get statusBar => ColorPrimitive.instance.sandGray25;
   @override
-  Color get selectionActive => ColorPrimitive.instance.cobaltBlue45;
+  Color get selectionActive => ColorPrimitive.instance.midBlue60;
   @override
-  Color get selectionActiveDisabled => ColorPrimitive.instance.cobaltBlue45;
+  Color get selectionActiveDisabled => ColorPrimitive.instance.midBlue60;
   @override
   Color get selectionInactive => ColorPrimitive.instance.sandGray55;
   @override
