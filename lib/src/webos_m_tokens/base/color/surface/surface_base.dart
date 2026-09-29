@@ -26,13 +26,16 @@ abstract class SurfaceBase {
   Color get badgeLight;
   Color get buttonPrimary;
   Color get buttonPrimaryDisabled;
+  Color get buttonPrimaryTintPressed;
   Color get buttonSecondary;
   Color get buttonSecondaryDisabled;
-  Color get buttonTintPressed;
+  Color get buttonSecondaryTintPressed;
   Color get buttonIcon;
   Color get buttonIconFocused;
   Color get buttonIconSelected;
   Color get buttonIconDisabled;
+  Color get buttonIconTintPressed;
+  Color get buttonLabelTintPressed;
   Color get buttonNotification;
   Color get chip;
   Color get chipSelected;

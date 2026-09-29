@@ -2,6 +2,24 @@
 
 The following is a curated list of changes in the webos tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Changed
+
+- `semantic-radius-button` to `semantic-radius-button-full`
+
+### Added
+
+- `semantic-color-surface-button-primary-tint-pressed`
+- `semantic-color-surface-button-secondary-tint-pressed`
+- `semantic-color-surface-button-icon-tint-pressed`
+- `semantic-color-surface-button-label-tint-pressed`
+- `semantic-radius-button-s`
+
+### Removed
+
+- `semantic-color-surface-button-tint-pressed`
+
 ## [3.6.0] - 2026-09-18
 
 ### Changed

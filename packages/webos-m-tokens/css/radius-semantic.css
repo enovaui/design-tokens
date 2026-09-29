@@ -19,6 +19,8 @@ Semantic Radius Tokens
 	--semantic-radius-badge: var(--primitive-radius-999);
 	--semantic-radius-banner: var(--primitive-radius-30);
 	--semantic-radius-bottom-sheet: var(--primitive-radius-36);
+	--semantic-radius-button-full: var(--primitive-radius-999);
+	--semantic-radius-button-s: var(--primitive-radius-24);
 	--semantic-radius-card: var(--primitive-radius-36);
 	--semantic-radius-chip: var(--primitive-radius-999);
 	--semantic-radius-dialog-popup: var(--primitive-radius-36);
@@ -60,6 +62,4 @@ Semantic Radius Tokens
 	--semantic-radius-thumbnail-xs: var(--primitive-radius-18);
 	--semantic-radius-toast: var(--primitive-radius-18);
 	--semantic-radius-tooltip: var(--primitive-radius-18);
-	--semantic-radius-button-full: var(--primitive-radius-999);
-	--semantic-radius-button-s: var(--primitive-radius-24);
 }
