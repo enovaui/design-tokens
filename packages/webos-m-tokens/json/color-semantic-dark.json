@@ -66,7 +66,6 @@
                 "button-primary-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mid-blue-60"},
                 "button-secondary": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-30"},
                 "button-secondary-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-30"},
-                "button-tint-pressed": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
                 "button-icon": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-30"},
                 "button-icon-focused": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                 "button-icon-selected": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mid-blue-60"},
@@ -103,7 +102,11 @@
                 "selection-checkbox-inactive-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-5"},
                 "tab-active": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-55"},
                 "toast": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-25"},
-                "tooltip": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-25"}
+                "tooltip": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-25"},
+                "button-primary-tint-pressed": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                "button-secondary-tint-pressed": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-85"},
+                "button-icon-tint-pressed": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                "button-label-tint-pressed": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"}
             },
             "stroke": {
                 "default-error": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/deep-orange-60"},

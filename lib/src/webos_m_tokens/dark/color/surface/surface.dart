@@ -52,8 +52,6 @@ class Surface extends SurfaceBase {
   @override
   Color get buttonSecondaryDisabled => ColorPrimitive.instance.sandGray30;
   @override
-  Color get buttonTintPressed => ColorPrimitive.instance.black;
-  @override
   Color get buttonIcon => ColorPrimitive.instance.sandGray30;
   @override
   Color get buttonIconFocused => ColorPrimitive.instance.white;
@@ -127,4 +125,12 @@ class Surface extends SurfaceBase {
   Color get toast => ColorPrimitive.instance.sandGray25;
   @override
   Color get tooltip => ColorPrimitive.instance.sandGray25;
+  @override
+  Color get buttonPrimaryTintPressed => ColorPrimitive.instance.white;
+  @override
+  Color get buttonSecondaryTintPressed => ColorPrimitive.instance.sandGray85;
+  @override
+  Color get buttonIconTintPressed => ColorPrimitive.instance.white;
+  @override
+  Color get buttonLabelTintPressed => ColorPrimitive.instance.white;
 }
