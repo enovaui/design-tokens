@@ -9,7 +9,7 @@
             "banner": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-30"},
             "bottom-sheet": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-36"},
             "button-full": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
-            "button-s": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-24"},
+            "button-s": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-12"},
             "card": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-36"},
             "chip": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
             "dialog-popup": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-36"},

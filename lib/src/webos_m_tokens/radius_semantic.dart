@@ -18,7 +18,7 @@ class RadiusSemantic {
   Radius get banner => RadiusPrimitive.instance.radius30;
   Radius get bottomSheet => RadiusPrimitive.instance.radius36;
   Radius get buttonFull => RadiusPrimitive.instance.radius999;
-  Radius get buttonS => RadiusPrimitive.instance.radius24;
+  Radius get buttonS => RadiusPrimitive.instance.radius12;
   Radius get card => RadiusPrimitive.instance.radius36;
   Radius get chip => RadiusPrimitive.instance.radius999;
   Radius get dialogPopup => RadiusPrimitive.instance.radius36;
