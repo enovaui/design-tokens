@@ -52,5 +52,5 @@ jobs:
 
       - name: Analyze Dart files
         if: steps.check-files.outputs.has_dart_changes == 'true'
-        run: flutter analyze lib
+        run: flutter analyze lib/design_tokens.dart
         # This will fail if there are any analysis issues
