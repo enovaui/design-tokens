@@ -2,6 +2,10 @@
 
 The following is a curated list of changes in the design tokens module, newest changes on the top.
 
+## [3.7.1] - 2026-10-08
+
+- No significant changes
+
 ## [3.7.0] - 2026-10-08
 
 ### core-tokens
@@ -82,7 +86,7 @@ The following is a curated list of changes in the design tokens module, newest c
 - `semantic-color-stroke-accent`, `semantic-color-stroke-accent-disabled` value
 - `semantic-color-stroke-tab-active` value
 - `semantic-radius-button-full` to `semantic-radius-button`
-  
+
 #### Added
 
 - `semantic-color-surface-dialog-popup-pressed`
@@ -272,7 +276,7 @@ The following is a curated list of changes in the design tokens module, newest c
 
 #### Removed
 
-- `primitive-spacing-50` and `primitive-spacing-160` 
+- `primitive-spacing-50` and `primitive-spacing-160`
 
 #### Changed
 
@@ -554,7 +558,7 @@ The following is a curated list of changes in the design tokens module, newest c
 
 #### Removed
 
-- `semantic-color-background-main` 
+- `semantic-color-background-main`
 - `semantic-color-background-sub`
 
 #### Added

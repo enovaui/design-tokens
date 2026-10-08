@@ -1,2 +1,4 @@
 packages:
   - 'packages/*'
+minimumReleaseAgeExclude:
+  - '@enovaui/core-tokens@3.7.0'
