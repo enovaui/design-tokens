@@ -2,6 +2,47 @@
 
 The following is a curated list of changes in the design tokens module, newest changes on the top.
 
+## [3.7.0] - 2026-10-08
+
+### core-tokens
+
+- No significant changes
+
+### mobile-tokens
+
+- No significant changes
+
+### web-tokens
+
+- No significant changes
+
+### webos-tokens
+
+- No significant changes
+
+### webos-m-tokens
+
+#### Removed
+
+- `semantic-color-surface-button-tint-pressed`
+- `semantic-color-surface-dialog-popup-pressed`
+
+#### Changed
+
+- `semantic-color-surface-button-notification` value
+- `semantic-color-surface-button-secondary`, `semantic-color-surface-button-secondary-disabled` value
+- `semantic-radius-button` to `semantic-radius-button-full`
+
+#### Added
+
+- `semantic-color-on-surface-default-warning`
+- `semantic-color-on-surface-default-warning-disabled`
+- `semantic-color-surface-button-primary-tint-pressed`
+- `semantic-color-surface-button-secondary-tint-pressed`
+- `semantic-color-surface-button-icon-tint-pressed`
+- `semantic-color-surface-button-label-tint-pressed`
+- `semantic-radius-button-s`
+
 ## [3.6.0] - 2026-09-18
 
 ### core-tokens
