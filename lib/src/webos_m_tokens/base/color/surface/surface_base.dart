@@ -40,7 +40,6 @@ abstract class SurfaceBase {
   Color get chip;
   Color get chipSelected;
   Color get chipDisabled;
-  Color get dialogPopupPressed;
   Color get homeGridIndicatorDark;
   Color get homeGridIndicatorLight;
   Color get iconGrid;
