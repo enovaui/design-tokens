@@ -55,4 +55,8 @@ class OnSurface extends OnSurfaceBase {
   Color get statusBarFloatingOrange => ColorPrimitive.instance.deepOrange40;
   @override
   Color get statusBarFloatingRed => ColorPrimitive.instance.activeRed55;
+  @override
+  Color get defaultWarning => ColorPrimitive.instance.activeRed60;
+  @override
+  Color get defaultWarningDisabled => ColorPrimitive.instance.activeRed60;
 }

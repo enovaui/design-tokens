@@ -49,8 +49,8 @@ Semantic Color Tokens
 	--semantic-color-surface-button-primary: var(--primitive-color-mid-blue-60);
 	--semantic-color-surface-button-primary-disabled: var(--primitive-color-mid-blue-60);
 	--semantic-color-surface-button-primary-tint-pressed: var(--primitive-color-white);
-	--semantic-color-surface-button-secondary: var(--primitive-color-sand-gray-30);
-	--semantic-color-surface-button-secondary-disabled: var(--primitive-color-sand-gray-30);
+	--semantic-color-surface-button-secondary: var(--primitive-color-cool-gray-15);
+	--semantic-color-surface-button-secondary-disabled: var(--primitive-color-cool-gray-15);
 	--semantic-color-surface-button-secondary-tint-pressed: var(--primitive-color-sand-gray-85);
 	--semantic-color-surface-button-icon: var(--primitive-color-sand-gray-30);
 	--semantic-color-surface-button-icon-focused: var(--primitive-color-white);
@@ -58,11 +58,10 @@ Semantic Color Tokens
 	--semantic-color-surface-button-icon-disabled: var(--primitive-color-sand-gray-30);
 	--semantic-color-surface-button-icon-tint-pressed: var(--primitive-color-white);
 	--semantic-color-surface-button-label-tint-pressed: var(--primitive-color-white);
-	--semantic-color-surface-button-notification: var(--primitive-color-sand-gray-35);
+	--semantic-color-surface-button-notification: var(--primitive-color-cool-gray-15);
 	--semantic-color-surface-chip: var(--primitive-color-sand-gray-30);
 	--semantic-color-surface-chip-selected: var(--primitive-color-mid-blue-60);
 	--semantic-color-surface-chip-disabled: var(--primitive-color-sand-gray-30);
-	--semantic-color-surface-dialog-popup-pressed: var(--primitive-color-sand-gray-85);
 	--semantic-color-surface-home-grid-indicator-dark: var(--primitive-color-black);
 	--semantic-color-surface-home-grid-indicator-light: var(--primitive-color-white);
 	--semantic-color-surface-icon-grid: var(--primitive-color-sand-gray-30);
@@ -115,6 +114,8 @@ Semantic Color Tokens
 	--semantic-color-on-surface-slider-handle: var(--primitive-color-mid-blue-60);
 	--semantic-color-on-surface-status-bar-floating-orange: var(--primitive-color-deep-orange-40);
 	--semantic-color-on-surface-status-bar-floating-red: var(--primitive-color-active-red-55);
+	--semantic-color-on-surface-default-warning: var(--primitive-color-active-red-60);
+	--semantic-color-on-surface-default-warning-disabled: var(--primitive-color-active-red-60);
 
 	/* Stroke */
 	--semantic-color-stroke-default-error: var(--primitive-color-deep-orange-60);
