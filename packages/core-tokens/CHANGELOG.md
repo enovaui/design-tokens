@@ -2,6 +2,10 @@
 
 The following is a curated list of changes in the core tokens module, newest changes on the top.
 
+## [3.7.1] - 2026-10-08
+
+- No significant changes
+
 ## [3.7.0] - 2026-10-08
 
 - No significant changes
@@ -34,7 +38,7 @@ The following is a curated list of changes in the core tokens module, newest cha
 
 ### Removed
 
-- `primitive-spacing-50` and `primitive-spacing-160` 
+- `primitive-spacing-50` and `primitive-spacing-160`
 
 ### Changed
 

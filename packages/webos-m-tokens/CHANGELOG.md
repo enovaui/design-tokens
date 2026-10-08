@@ -2,6 +2,10 @@
 
 The following is a curated list of changes in the webos tokens module, newest changes on the top.
 
+## [3.7.1] - 2026-10-08
+
+- No significant changes
+
 ## [3.7.0] - 2026-10-08
 
 ### Removed
@@ -46,7 +50,7 @@ The following is a curated list of changes in the webos tokens module, newest ch
 - `semantic-color-stroke-accent`, `semantic-color-stroke-accent-disabled` value
 - `semantic-color-stroke-tab-active` value
 - `semantic-radius-button-full` to `semantic-radius-button`
-  
+
 ### Added
 
 - `semantic-color-surface-dialog-popup-pressed`
