@@ -2,6 +2,12 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
+## [3.7.1] - 2026-10-08
+
+### Fixed
+
+- an error caused by a stale `dialogPopupPressed` declaration in `SurfaceBase`
+
 ## [3.7.0] - 2026-10-08
 
 ### Removed
@@ -120,7 +126,7 @@ The following is a curated list of changes in the flutter tokens module, newest 
 - `semantic_color_surface_navigation_bar` to `semantic_color_surface_access_bar`
 - `semantic_color_surface_navigation_bar_app_gradient_start` to `semantic_color_surface_access_bar_app_gradient_start`
 - `semantic_color_surface_navigation_bar_app_gradient_end` to `semantic_color_surface_access_bar_app_gradient_end`
-- `semantic_color_on_surface_navigation_bar_handle_dark` to `semantic_color_on_surface_access_bar_handle_dark` 
+- `semantic_color_on_surface_navigation_bar_handle_dark` to `semantic_color_on_surface_access_bar_handle_dark`
 - `semantic_color_on_surface_navigation_bar_handle_light` to `semantic_color_on_surface_access_bar_handle_light`
 - `semantic_color_stroke_navigation_bar` to `semantic_color_stroke_access_bar`
 - `semantic_color_stroke_navigation_bar_app` to `semantic_color_stroke_access_bar_app`
