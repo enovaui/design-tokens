@@ -4,6 +4,11 @@ The following is a curated list of changes in the webos tokens module, newest ch
 
 ## [unreleased]
 
+### Removed
+
+- `semantic-color-surface-button-tint-pressed`
+- `semantic-color-surface-dialog-popup-pressed`
+
 ### Changed
 
 - `semantic-color-surface-button-notification` value
@@ -19,11 +24,6 @@ The following is a curated list of changes in the webos tokens module, newest ch
 - `semantic-color-surface-button-icon-tint-pressed`
 - `semantic-color-surface-button-label-tint-pressed`
 - `semantic-radius-button-s`
-
-### Removed
-
-- `semantic-color-surface-button-tint-pressed`
-- `semantic-color-surface-dialog-popup-pressed`
 
 ## [3.6.0] - 2026-09-18
 

@@ -4,6 +4,11 @@ The following is a curated list of changes in the flutter tokens module, newest 
 
 ## [unreleased]
 
+### Removed
+
+- `semantic_color_surface_button_tint_pressed`
+- `semantic_color_surface_dialog_popup_pressed`
+
 ### Changed
 
 - `semantic_color_surface_button_notification` value
@@ -19,11 +24,6 @@ The following is a curated list of changes in the flutter tokens module, newest 
 - `semantic_color_surface_button_icon_tint_pressed`
 - `semantic_color_surface_button_label_tint_pressed`
 - `semantic_radius_button_s`
-
-### Removed
-
-- `semantic_color_surface_button_tint_pressed`
-- `semantic_color_surface_dialog_popup_pressed`
 
 ## [3.6.0] - 2026-09-18
 
