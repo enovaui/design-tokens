@@ -16,9 +16,9 @@ class OnSurface extends OnSurfaceBase {
   @override
   Color get defaultHandle => ColorPrimitive.instance.sandGray40;
   @override
-  Color get defaultWarning => ColorPrimitive.instance.activeRed40;
+  Color get defaultWarning => ColorPrimitive.instance.deepOrange40;
   @override
-  Color get defaultWarningDisabled => ColorPrimitive.instance.activeRed40;
+  Color get defaultWarningDisabled => ColorPrimitive.instance.deepOrange40;
   @override
   Color get main => ColorPrimitive.instance.white;
   @override

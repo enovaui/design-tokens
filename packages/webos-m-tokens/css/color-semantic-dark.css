@@ -94,8 +94,8 @@ Semantic Color Tokens
 	/* On Surface */
 	--semantic-color-on-surface-default-error: var(--primitive-color-deep-orange-60);
 	--semantic-color-on-surface-default-handle: var(--primitive-color-sand-gray-40);
-	--semantic-color-on-surface-default-warning: var(--primitive-color-active-red-40);
-	--semantic-color-on-surface-default-warning-disabled: var(--primitive-color-active-red-40);
+	--semantic-color-on-surface-default-warning: var(--primitive-color-deep-orange-40);
+	--semantic-color-on-surface-default-warning-disabled: var(--primitive-color-deep-orange-40);
 	--semantic-color-on-surface-main: var(--primitive-color-white);
 	--semantic-color-on-surface-main-disabled: var(--primitive-color-white);
 	--semantic-color-on-surface-sub: var(--primitive-color-sand-gray-65);
