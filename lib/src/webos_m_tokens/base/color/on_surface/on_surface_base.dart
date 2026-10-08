@@ -10,6 +10,8 @@ abstract class OnSurfaceBase {
 
   Color get defaultError;
   Color get defaultHandle;
+  Color get defaultWarning;
+  Color get defaultWarningDisabled;
   Color get main;
   Color get mainDisabled;
   Color get sub;
