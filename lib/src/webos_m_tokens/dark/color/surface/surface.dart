@@ -26,9 +26,9 @@ class Surface extends SurfaceBase {
   @override
   Color get defaultTrack => ColorPrimitive.instance.sandGray30;
   @override
-  Color get defaultWarning => ColorPrimitive.instance.deepOrange40;
+  Color get defaultWarning => ColorPrimitive.instance.activeRed60;
   @override
-  Color get defaultWarningDisabled => ColorPrimitive.instance.deepOrange40;
+  Color get defaultWarningDisabled => ColorPrimitive.instance.activeRed60;
   @override
   Color get main => ColorPrimitive.instance.sandGray25;
   @override
@@ -131,4 +131,10 @@ class Surface extends SurfaceBase {
   Color get toast => ColorPrimitive.instance.sandGray25;
   @override
   Color get tooltip => ColorPrimitive.instance.sandGray25;
+  @override
+  Color get mainSupporting => ColorPrimitive.instance.sandGray25;
+  @override
+  Color get subSupporting => ColorPrimitive.instance.coolGray10;
+  @override
+  Color get accent => ColorPrimitive.instance.midBlue60;
 }

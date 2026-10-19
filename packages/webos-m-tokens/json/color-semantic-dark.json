@@ -7,7 +7,8 @@
                 "default-gradient-start": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
                 "default-gradient-stop1": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
                 "default-gradient-stop2": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
-                "default-gradient-end": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"}
+                "default-gradient-end": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"},
+                "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/black"}
             },
             "on": {
                 "background": {
@@ -23,8 +24,8 @@
                 "surface": {
                     "default-error": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/deep-orange-60"},
                     "default-handle": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-40"},
-                    "default-warning": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/deep-orange-40"},
-                    "default-warning-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/deep-orange-40"},
+                    "default-warning": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-60"},
+                    "default-warning-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-60"},
                     "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                     "main-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                     "sub": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-65"},
@@ -44,7 +45,18 @@
                     "selection-checkmark-active-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-55"},
                     "slider-handle": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mid-blue-60"},
                     "status-bar-floating-orange": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/deep-orange-40"},
-                    "status-bar-floating-red": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-55"}
+                    "status-bar-floating-red": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-55"},
+                    "button-primary": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                    "button-primary-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                    "button-secondary": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                    "button-secondary-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                    "button-icon-selected": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                    "chip": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                    "chip-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                    "picker-selected": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                    "selection": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                    "selection-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
+                    "slider": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"}
                 }
             },
             "surface": {
@@ -55,8 +67,8 @@
                 "default-placeholder": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-40"},
                 "default-placeholder-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-40"},
                 "default-track": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-30"},
-                "default-warning": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/deep-orange-40"},
-                "default-warning-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/deep-orange-40"},
+                "default-warning": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-60"},
+                "default-warning-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-60"},
                 "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-25"},
                 "sub": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-5"},
                 "access-bar": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-50"},
@@ -107,7 +119,10 @@
                 "selection-checkbox-inactive-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-5"},
                 "tab-active": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-55"},
                 "toast": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-25"},
-                "tooltip": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-25"}
+                "tooltip": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-25"},
+                "main-supporting": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-25"},
+                "sub-supporting": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cool-gray-10"},
+                "accent": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mid-blue-60"}
             },
             "stroke": {
                 "default-error": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/deep-orange-60"},

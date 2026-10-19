@@ -16,9 +16,9 @@ class OnSurface extends OnSurfaceBase {
   @override
   Color get defaultHandle => ColorPrimitive.instance.sandGray40;
   @override
-  Color get defaultWarning => ColorPrimitive.instance.deepOrange40;
+  Color get defaultWarning => ColorPrimitive.instance.activeRed60;
   @override
-  Color get defaultWarningDisabled => ColorPrimitive.instance.deepOrange40;
+  Color get defaultWarningDisabled => ColorPrimitive.instance.activeRed60;
   @override
   Color get main => ColorPrimitive.instance.white;
   @override
@@ -59,4 +59,26 @@ class OnSurface extends OnSurfaceBase {
   Color get statusBarFloatingOrange => ColorPrimitive.instance.deepOrange40;
   @override
   Color get statusBarFloatingRed => ColorPrimitive.instance.activeRed55;
+  @override
+  Color get buttonPrimary => ColorPrimitive.instance.white;
+  @override
+  Color get buttonPrimaryDisabled => ColorPrimitive.instance.white;
+  @override
+  Color get buttonSecondary => ColorPrimitive.instance.white;
+  @override
+  Color get buttonSecondaryDisabled => ColorPrimitive.instance.white;
+  @override
+  Color get buttonIconSelected => ColorPrimitive.instance.white;
+  @override
+  Color get chip => ColorPrimitive.instance.white;
+  @override
+  Color get chipDisabled => ColorPrimitive.instance.white;
+  @override
+  Color get pickerSelected => ColorPrimitive.instance.white;
+  @override
+  Color get selection => ColorPrimitive.instance.white;
+  @override
+  Color get selectionDisabled => ColorPrimitive.instance.white;
+  @override
+  Color get slider => ColorPrimitive.instance.white;
 }

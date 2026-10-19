@@ -1,7 +1,7 @@
 {
     "semantic": {
         "effect": {
-            "default-background-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-40"},
+            "default-background-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-60"},
             "default-drop-shadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-40"},
             "default-drop-shadow-spread": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
             "default-drop-shadow-x": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
@@ -16,7 +16,8 @@
             "page-indicator-drop-shadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-2"},
             "status-bar-background-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-60"},
             "status-bar-drop-shadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-12"},
-            "status-bar-drop-shadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-2"}
+            "status-bar-drop-shadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-2"},
+            "progress-background-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-10"}
         }
     }
 }
