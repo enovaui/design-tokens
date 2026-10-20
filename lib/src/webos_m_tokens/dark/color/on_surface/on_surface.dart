@@ -42,24 +42,6 @@ class OnSurface extends OnSurfaceBase {
   @override
   Color get accessBarHandleLight => ColorPrimitive.instance.white;
   @override
-  Color get pageIndicatorDark => ColorPrimitive.instance.black;
-  @override
-  Color get pageIndicatorLight => ColorPrimitive.instance.white;
-  @override
-  Color get pickerPrimary => ColorPrimitive.instance.white;
-  @override
-  Color get pickerSecondary => ColorPrimitive.instance.white;
-  @override
-  Color get pickerTertiary => ColorPrimitive.instance.white;
-  @override
-  Color get selectionCheckmarkActiveDisabled => ColorPrimitive.instance.sandGray55;
-  @override
-  Color get sliderHandle => ColorPrimitive.instance.midBlue60;
-  @override
-  Color get statusBarFloatingOrange => ColorPrimitive.instance.deepOrange40;
-  @override
-  Color get statusBarFloatingRed => ColorPrimitive.instance.activeRed55;
-  @override
   Color get buttonPrimary => ColorPrimitive.instance.white;
   @override
   Color get buttonPrimaryDisabled => ColorPrimitive.instance.white;
@@ -74,11 +56,29 @@ class OnSurface extends OnSurfaceBase {
   @override
   Color get chipDisabled => ColorPrimitive.instance.white;
   @override
+  Color get pageIndicatorDark => ColorPrimitive.instance.black;
+  @override
+  Color get pageIndicatorLight => ColorPrimitive.instance.white;
+  @override
   Color get pickerSelected => ColorPrimitive.instance.white;
+  @override
+  Color get pickerPrimary => ColorPrimitive.instance.white;
+  @override
+  Color get pickerSecondary => ColorPrimitive.instance.white;
+  @override
+  Color get pickerTertiary => ColorPrimitive.instance.white;
   @override
   Color get selection => ColorPrimitive.instance.white;
   @override
   Color get selectionDisabled => ColorPrimitive.instance.white;
   @override
+  Color get selectionCheckmarkActiveDisabled => ColorPrimitive.instance.sandGray55;
+  @override
   Color get slider => ColorPrimitive.instance.white;
+  @override
+  Color get sliderHandle => ColorPrimitive.instance.midBlue60;
+  @override
+  Color get statusBarFloatingOrange => ColorPrimitive.instance.deepOrange40;
+  @override
+  Color get statusBarFloatingRed => ColorPrimitive.instance.activeRed55;
 }

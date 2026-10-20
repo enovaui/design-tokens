@@ -72,7 +72,6 @@
                 "main": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-5"},
                 "main-supporting": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-15"},
                 "sub": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-10"},
-                "sub-supporting": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cool-gray-10"},
                 "accent": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/yellow-85"},
                 "access-bar": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/mist-gray-10"},
                 "access-bar-app-gradient-start": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-10"},
@@ -91,7 +90,6 @@
                 "button-icon-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-30"},
                 "button-icon-tint-pressed": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
                 "button-label-tint-pressed": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/white"},
-                "button-notification": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/cool-gray-15"},
                 "chip": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-30"},
                 "chip-selected": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/yellow-85"},
                 "chip-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-30"},
@@ -112,7 +110,6 @@
                 "slider-tick-mark": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-55"},
                 "scroll-bar-handle": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-55"},
                 "snackbar": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-25"},
-                "status-bar": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-25"},
                 "selection-active": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/yellow-85"},
                 "selection-active-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/yellow-85"},
                 "selection-inactive": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-55"},
@@ -120,9 +117,7 @@
                 "selection-checkbox-active-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-55"},
                 "selection-checkbox-inactive": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-5"},
                 "selection-checkbox-inactive-disabled": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-5"},
-                "tab-active": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/active-red-55"},
-                "toast": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-25"},
-                "tooltip": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-25"}
+                "toast": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/sand-gray-25"}
             },
             "stroke": {
                 "default-error": {"$ref": "core-tokens/json/color-primitive.json#/primitive/color/deep-orange-60"},
