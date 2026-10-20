@@ -14,5 +14,4 @@ abstract class BackgroundBase {
   Color get defaultGradientStop1;
   Color get defaultGradientStop2;
   Color get defaultGradientEnd;
-  Color get main;
 }

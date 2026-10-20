@@ -12,8 +12,6 @@ class Background extends BackgroundBase {
   const Background();
 
   @override
-  Color get defaultColor => ColorPrimitive.instance.black;
-  @override
   Color get white => ColorPrimitive.instance.white;
   @override
   Color get defaultGradientStart => ColorPrimitive.instance.black;
