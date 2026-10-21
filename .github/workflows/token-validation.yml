@@ -5,6 +5,7 @@ on:
     paths:
       - 'packages/*/json/*.json'
       - 'packages/*/css/*.css'
+      - 'packages/*/include/**/*.h'
     types: [opened, synchronize, reopened]
 
 jobs:
@@ -69,7 +70,8 @@ jobs:
               'core-tokens': ['color-primitive', 'spacing-primitive', 'radius-primitive', 'typography-primitive'],
               'web-tokens': ['color-semantic-lg-brand', 'color-semantic-mobile', 'color-semantic-mono-black', 'color-semantic-mono-white', 'color-semantic-web'],
               'webos-tokens': ['color-semantic-light', 'color-semantic-dark', 'radius-semantic'],
-              'mobile-tokens': ['color-semantic-lg-brand', 'color-semantic-mobile', 'color-semantic-mono-black', 'color-semantic-mono-white', 'color-semantic-web']
+              'mobile-tokens': ['color-semantic-lg-brand', 'color-semantic-mobile', 'color-semantic-mono-black', 'color-semantic-mono-white', 'color-semantic-web'],
+              'lupa-tokens': ['color-primitive', 'color-semantic-dark-blue', 'color-semantic-dark-orange', 'color-semantic-light-blue', 'color-semantic-light-orange']
             };
 
             let errors = [];
@@ -227,7 +229,7 @@ jobs:
             const mainPackage = JSON.parse(fs.readFileSync('package.json', 'utf8'));
             const mainVersion = mainPackage.version;
 
-            const packages = ['core-tokens', 'web-tokens', 'webos-tokens', 'mobile-tokens'];
+            const packages = ['core-tokens', 'web-tokens', 'webos-tokens', 'mobile-tokens', 'lupa-tokens'];
             let versionMismatches = [];
 
             for (const pkg of packages) {
@@ -248,6 +250,10 @@ jobs:
 
             console.log('✅ All package versions match.');
           "
+
+      - name: Validate LUPA C generator
+        if: hashFiles('packages/lupa-tokens/json/*.json') != ''
+        run: pnpm test:lupa && pnpm run build:lupa -- --check
 
       - name: Generate Validation Report
         if: always()

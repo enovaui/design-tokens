@@ -48,6 +48,9 @@ jobs:
       - name: Run changeset version
         run: pnpm run version
 
+      - name: Generate LUPA headers
+        run: pnpm run build:lupa
+
       - name: Get current version
         id: get-version
         run: |
@@ -98,5 +101,6 @@ jobs:
           cd ../mobile-tokens && npm publish --access public
           cd ../webos-tokens && npm publish --access public
           cd ../webos-m-tokens && npm publish --access public
+          cd ../lupa-tokens && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

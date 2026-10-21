@@ -18,7 +18,10 @@
   ],
   "scripts": {
     "sync:figma": "node scripts/figma-sync.js",
+    "sync:lupa": "node scripts/lupa-sync.js",
     "transform:tokens": "node scripts/token-transformer.js",
+    "build:lupa": "node scripts/c-generator.js",
+    "test:lupa": "node --test tests/lupa/*.test.js",
     "create:pr": "node scripts/pr-generator.js",
     "sync:all": "pnpm sync:figma && pnpm transform:tokens && pnpm create:pr",
     "clean": "rm -rf node_modules packages/*/node_modules tests/result",

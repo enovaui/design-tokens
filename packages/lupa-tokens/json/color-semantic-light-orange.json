@@ -1,0 +1,243 @@
+{
+    "semantic": {
+        "color": {
+            "accent": {
+                "default": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/deep-orange-40"
+                },
+                "default-disabled": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/deep-orange-40-a35"
+                }
+            },
+            "ai": {
+                "default": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/magenta-pink-40"
+                },
+                "default-disabled": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/magenta-pink-40-a35"
+                },
+                "default-variant1": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/active-red-55"
+                },
+                "default-variant2": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/magenta-pink-50"
+                },
+                "default-variant3": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/magenta-pink-45"
+                },
+                "default-variant4": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/purple-50"
+                },
+                "default-variant5": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/violet-45"
+                },
+                "default-variant5-disabled": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/violet-45-a35"
+                },
+                "default-variant6": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/violet-10"
+                },
+                "default-variant6-disabled": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/violet-10-a35"
+                }
+            },
+            "background": {
+                "default": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/white"
+                }
+            },
+            "fill": {
+                "floating": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/white-a60"
+                },
+                "highlight": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black"
+                },
+                "highlight-disabled": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black-a35"
+                },
+                "main": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-cool-gray-80"
+                },
+                "main-disabled": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-cool-gray-80-a35"
+                },
+                "main-translucent": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-cool-gray-80-a80"
+                },
+                "main-variant1": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-neutral-gray-65"
+                },
+                "main-variant1-disabled": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-neutral-gray-65-a35"
+                },
+                "main-variant2": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-neutral-gray-55"
+                },
+                "main-variant3": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/white"
+                },
+                "main-variant4": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-neutral-gray-35-a40"
+                },
+                "main-variant5": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-neutral-gray-60"
+                },
+                "main-variant5-disabled": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-neutral-gray-60-a50"
+                }
+            },
+            "on": {
+                "background": {
+                    "main": {
+                        "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black"
+                    },
+                    "main-disabled": {
+                        "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black-a35"
+                    },
+                    "main-muted": {
+                        "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black-a70"
+                    },
+                    "sub": {
+                        "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-neutral-gray-45"
+                    },
+                    "sub-disabled": {
+                        "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-neutral-gray-45-a35"
+                    }
+                },
+                "surface": {
+                    "main": {
+                        "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black"
+                    },
+                    "main-disabled": {
+                        "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black-a35"
+                    },
+                    "main-opacity20": {
+                        "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black-a20"
+                    },
+                    "main-opacity35": {
+                        "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black-a35"
+                    },
+                    "main-opacity50": {
+                        "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black-a50"
+                    },
+                    "main-opacity70": {
+                        "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black-a70"
+                    },
+                    "main-opacity80": {
+                        "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black-a80"
+                    },
+                    "main-opacity85": {
+                        "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black-a85"
+                    },
+                    "sub": {
+                        "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-neutral-gray-45"
+                    },
+                    "sub-variant1": {
+                        "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-neutral-gray-25"
+                    },
+                    "sub-variant1-disabled": {
+                        "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-neutral-gray-25-a35"
+                    },
+                    "white": {
+                        "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/white"
+                    }
+                }
+            },
+            "on-accent": {
+                "default": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black"
+                },
+                "default-disabled": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black-a35"
+                }
+            },
+            "on-fill": {
+                "highlight": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/white"
+                },
+                "highlight-disabled": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/white-a35"
+                },
+                "main": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black"
+                },
+                "main-disabled": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black-a35"
+                },
+                "main-muted": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black-a30"
+                },
+                "main-variant1": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-neutral-gray-35"
+                }
+            },
+            "scrim": {
+                "backdrop": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black"
+                },
+                "overlay-dim": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/white-a50"
+                },
+                "overlay-highlight": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black-a35"
+                },
+                "overlay-highlight-invert": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-neutral-gray-35-a40"
+                }
+            },
+            "stroke": {
+                "highlight": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black"
+                },
+                "highlight-disabled": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black-a35"
+                },
+                "highlight-muted": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black-a40"
+                },
+                "main": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black-a30"
+                },
+                "main-variant1": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/black-a50"
+                },
+                "main-variant2": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-neutral-gray-65"
+                },
+                "main-variant3": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-neutral-gray-75"
+                }
+            },
+            "surface": {
+                "default": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-cool-gray-85"
+                },
+                "default-translucent": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-cool-gray-85-a80"
+                },
+                "default-variant1": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-cool-gray-80"
+                },
+                "default-variant2": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/white"
+                },
+                "default-variant2-translucent": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/white-a50"
+                },
+                "default-variant3": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-neutral-gray-80"
+                },
+                "default-variant4": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-neutral-gray-85"
+                },
+                "default-variant5": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/hs-neutral-gray-65"
+                },
+                "default-variant6": {
+                    "$ref": "lupa-tokens/json/color-primitive.json#/primitive/color/white-a30"
+                }
+            }
+        }
+    }
+}

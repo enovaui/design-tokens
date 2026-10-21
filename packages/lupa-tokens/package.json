@@ -1,0 +1,21 @@
+{
+  "name": "@enovaui/lupa-tokens",
+  "version": "3.7.1",
+  "description": "LUPA C header design tokens",
+  "license": "Apache-2.0",
+  "keywords": [
+    "design",
+    "tokens",
+    "lupa",
+    "c",
+    "embedded"
+  ],
+  "files": [
+    "include",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

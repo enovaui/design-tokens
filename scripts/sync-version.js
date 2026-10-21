@@ -11,6 +11,7 @@ const corePath = path.resolve(__dirname, '../packages/core-tokens/package.json')
 const mobilePath = path.resolve(__dirname, '../packages/mobile-tokens/package.json');
 const webPath = path.resolve(__dirname, '../packages/web-tokens/package.json');
 const webosPath = path.resolve(__dirname, '../packages/webos-tokens/package.json');
+const lupaPath = path.resolve(__dirname, '../packages/lupa-tokens/package.json');
 const rootPath = path.resolve(__dirname, '../package.json');
 
 // Read package JSONs
@@ -18,10 +19,11 @@ const core = require(corePath);
 const mobile = require(mobilePath);
 const web = require(webPath);
 const webos = require(webosPath);
+const lupa = require(lupaPath);
 const rootPackage = require(rootPath);
 
 // Collect all package versions
-const versions = [core.version, mobile.version, web.version, webos.version];
+const versions = [core.version, mobile.version, web.version, webos.version, lupa.version];
 
 // Check if all versions are the same
 const allVersionsAreEqual = versions.every(v => v === versions[0]);
