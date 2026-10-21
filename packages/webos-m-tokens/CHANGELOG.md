@@ -2,6 +2,34 @@
 
 The following is a curated list of changes in the webos tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Removed
+
+- `semantic-color-surface-button-notification`
+- `semantic-color-surface-status-bar`
+- `semantic-color-surface-tab-active`
+- `semantic-color-surface-tooltip`
+
+### Changed
+
+- `semantic-color-surface-default-warning`, `semantic-color-surface-default-warning-disabled` value
+- `semantic-color-on-surface-default-warning`, `semantic-color-on-surface-default-warning-disabled` value
+- `semantic-effect-default-background-blur` value
+
+### Added
+
+- `color-semantic-high-contrast` tokens
+- `semantic-color-background-main`
+- `semantic-color-surface-main-supporting`
+- `semantic-color-surface-accent`
+- `semantic-color-on-surface-button-primary`, `semantic-color-on-surface-button-primary-disabled`
+- `semantic-color-on-surface-button-secondary`, `semantic-color-on-surface-button-secondary-disabled`
+- `semantic-color-on-surface-chip`, `semantic-color-on-surface-chip-disabled`
+- `semantic-color-on-surface-picker-selected`
+- `semantic-color-on-surface-selection`, `semantic-color-on-surface-selection-disabled`
+- `semantic-color-on-surface-slider`
+
 ## [3.7.1] - 2026-10-08
 
 - No significant changes
