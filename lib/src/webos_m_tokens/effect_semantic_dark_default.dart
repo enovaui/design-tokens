@@ -10,7 +10,7 @@ import '../core_tokens/effect_primitive.dart';
 class DefaultEffectSemantic {
   const DefaultEffectSemantic();
 
-  int get defaultBackgroundBlur => EffectPrimitive.instance.effect40;
+  int get defaultBackgroundBlur => EffectPrimitive.instance.effect60;
   int get defaultDropShadowBlur => EffectPrimitive.instance.effect40;
   int get defaultDropShadowSpread => EffectPrimitive.instance.effect0;
   int get defaultDropShadowX => EffectPrimitive.instance.effect0;

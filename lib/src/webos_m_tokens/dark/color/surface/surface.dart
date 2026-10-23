@@ -26,13 +26,17 @@ class Surface extends SurfaceBase {
   @override
   Color get defaultTrack => ColorPrimitive.instance.sandGray30;
   @override
-  Color get defaultWarning => ColorPrimitive.instance.deepOrange40;
+  Color get defaultWarning => ColorPrimitive.instance.activeRed60;
   @override
-  Color get defaultWarningDisabled => ColorPrimitive.instance.deepOrange40;
+  Color get defaultWarningDisabled => ColorPrimitive.instance.activeRed60;
   @override
   Color get main => ColorPrimitive.instance.sandGray25;
   @override
+  Color get mainSupporting => ColorPrimitive.instance.sandGray25;
+  @override
   Color get sub => ColorPrimitive.instance.sandGray5;
+  @override
+  Color get accent => ColorPrimitive.instance.midBlue60;
   @override
   Color get accessBar => ColorPrimitive.instance.sandGray50;
   @override
@@ -67,8 +71,6 @@ class Surface extends SurfaceBase {
   Color get buttonIconTintPressed => ColorPrimitive.instance.white;
   @override
   Color get buttonLabelTintPressed => ColorPrimitive.instance.white;
-  @override
-  Color get buttonNotification => ColorPrimitive.instance.coolGray15;
   @override
   Color get chip => ColorPrimitive.instance.sandGray30;
   @override
@@ -110,8 +112,6 @@ class Surface extends SurfaceBase {
   @override
   Color get snackbar => ColorPrimitive.instance.sandGray25;
   @override
-  Color get statusBar => ColorPrimitive.instance.sandGray25;
-  @override
   Color get selectionActive => ColorPrimitive.instance.midBlue60;
   @override
   Color get selectionActiveDisabled => ColorPrimitive.instance.midBlue60;
@@ -126,9 +126,5 @@ class Surface extends SurfaceBase {
   @override
   Color get selectionCheckboxInactiveDisabled => ColorPrimitive.instance.sandGray5;
   @override
-  Color get tabActive => ColorPrimitive.instance.activeRed55;
-  @override
   Color get toast => ColorPrimitive.instance.sandGray25;
-  @override
-  Color get tooltip => ColorPrimitive.instance.sandGray25;
 }

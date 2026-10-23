@@ -12,7 +12,7 @@ Semantic Effect Tokens
 :root {
 
 	/* Effect */
-	--semantic-effect-default-background-blur: var(--primitive-effect-40);
+	--semantic-effect-default-background-blur: var(--primitive-effect-60);
 	--semantic-effect-default-drop-shadow-blur: var(--primitive-effect-40);
 	--semantic-effect-default-drop-shadow-spread: var(--primitive-effect-0);
 	--semantic-effect-default-drop-shadow-x: var(--primitive-effect-0);

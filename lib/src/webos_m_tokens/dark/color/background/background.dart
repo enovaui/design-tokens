@@ -23,4 +23,6 @@ class Background extends BackgroundBase {
   Color get defaultGradientStop2 => ColorPrimitive.instance.black;
   @override
   Color get defaultGradientEnd => ColorPrimitive.instance.black;
+  @override
+  Color get main => ColorPrimitive.instance.black;
 }

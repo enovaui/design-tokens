@@ -2,6 +2,34 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Removed
+
+- `semantic_color_surface_button_notification`
+- `semantic_color_surface_status_bar`
+- `semantic_color_surface_tab_active`
+- `semantic_color_surface_tooltip`
+
+### Changed
+
+- `semantic_color_surface_default_warning`, `semantic_color_surface_default_warning_disabled` value
+- `semantic_color_on_surface_default_warning`, `semantic_color_on_surface_default_warning_disabled` value
+- `semantic_effect_default_background_blur` value
+
+### Added
+
+- `color-semantic_high_contrast` tokens
+- `semantic_color_background_main`
+- `semantic_color_surface_main_supporting`
+- `semantic_color_surface_accent`
+- `semantic_color_on_surface_button_primary`, `semantic_color_on_surface_button_primary_disabled`
+- `semantic_color_on_surface_button_secondary`, `semantic_color_on_surface_button_secondary_disabled`
+- `semantic_color_on_surface_chip`, `semantic_color_on_surface_chip_disabled`
+- `semantic_color_on_surface_picker_selected`
+- `semantic_color_on_surface_selection`, `semantic_color_on_surface_selection_disabled`
+- `semantic_color_on_surface_slider`
+
 ## [3.7.1] - 2026-10-08
 
 ### Fixed

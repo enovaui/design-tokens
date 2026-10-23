@@ -1,7 +1,7 @@
 {
     "semantic": {
         "effect": {
-            "default-background-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-40"},
+            "default-background-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-60"},
             "default-drop-shadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-40"},
             "default-drop-shadow-spread": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
             "default-drop-shadow-x": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
