@@ -43,6 +43,7 @@ Semantic Color Tokens
 	--semantic-color-surface-main: var(--primitive-color-cool-gray-5);
 	--semantic-color-surface-main-supporting: var(--primitive-color-cool-gray-5);
 	--semantic-color-surface-sub: var(--primitive-color-cool-gray-15);
+	--semantic-color-surface-sub-supporting: var(--primitive-color-cool-gray-10);
 	--semantic-color-surface-accent: var(--primitive-color-yellow-85);
 	--semantic-color-surface-access-bar: var(--primitive-color-cool-gray-40);
 	--semantic-color-surface-access-bar-app-gradient-start: var(--primitive-color-sand-gray-10);
@@ -83,7 +84,6 @@ Semantic Color Tokens
 	--semantic-color-surface-selection-checkbox-active-disabled: var(--primitive-color-sand-gray-55);
 	--semantic-color-surface-selection-checkbox-inactive: var(--primitive-color-sand-gray-5);
 	--semantic-color-surface-selection-checkbox-inactive-disabled: var(--primitive-color-sand-gray-5);
-	--semantic-color-surface-sub-supporting: var(--primitive-color-cool-gray-10);
 
 	/* On Surface */
 	--semantic-color-on-surface-default-error: var(--primitive-color-deep-orange-60);

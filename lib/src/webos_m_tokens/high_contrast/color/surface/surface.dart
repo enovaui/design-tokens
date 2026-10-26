@@ -36,6 +36,8 @@ class Surface extends SurfaceBase {
   @override
   Color get sub => ColorPrimitive.instance.coolGray15;
   @override
+  Color get subSupporting => ColorPrimitive.instance.coolGray10;
+  @override
   Color get accent => ColorPrimitive.instance.yellow85;
   @override
   Color get accessBar => ColorPrimitive.instance.coolGray40;
@@ -115,6 +117,4 @@ class Surface extends SurfaceBase {
   Color get selectionCheckboxInactive => ColorPrimitive.instance.sandGray5;
   @override
   Color get selectionCheckboxInactiveDisabled => ColorPrimitive.instance.sandGray5;
-  @override
-  Color get subSupporting => ColorPrimitive.instance.coolGray10;
 }
