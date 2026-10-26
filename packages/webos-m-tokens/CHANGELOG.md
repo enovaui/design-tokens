@@ -36,14 +36,14 @@ The following is a curated list of changes in the webos tokens module, newest ch
 
 - `color-semantic-high-contrast` tokens
 - `semantic-color-background-main`
-- `semantic-color-surface-main-supporting`, `semantic-color-surface-sub-supporting`
-- `semantic-color-surface-accent`
 - `semantic-color-on-surface-button-primary`, `semantic-color-on-surface-button-primary-disabled`
 - `semantic-color-on-surface-button-secondary`, `semantic-color-on-surface-button-secondary-disabled`
 - `semantic-color-on-surface-chip`, `semantic-color-on-surface-chip-disabled`
 - `semantic-color-on-surface-picker-selected`
 - `semantic-color-on-surface-selection`, `semantic-color-on-surface-selection-disabled`
 - `semantic-color-on-surface-slider`
+- `semantic-color-surface-main-supporting`, `semantic-color-surface-sub-supporting`
+- `semantic-color-surface-accent`
 - `semantic-effect-progress-background-blur`
 
 ## [3.7.1] - 2026-10-08

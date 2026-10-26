@@ -36,14 +36,14 @@ The following is a curated list of changes in the flutter tokens module, newest 
 
 - `color_semantic_high_contrast` tokens
 - `semantic_color_background_main`
-- `semantic_color_surface_main_supporting`, `semantic_color_surface_sub_supporting`
-- `semantic_color_surface_accent`
 - `semantic_color_on_surface_button_primary`, `semantic_color_on_surface_button_primary_disabled`
 - `semantic_color_on_surface_button_secondary`, `semantic_color_on_surface_button_secondary_disabled`
 - `semantic_color_on_surface_chip`, `semantic_color_on_surface_chip_disabled`
 - `semantic_color_on_surface_picker_selected`
 - `semantic_color_on_surface_selection`, `semantic_color_on_surface_selection_disabled`
 - `semantic_color_on_surface_slider`
+- `semantic_color_surface_main_supporting`, `semantic_color_surface_sub_supporting`
+- `semantic_color_surface_accent`
 - `semantic_effect_progress_background_blur`
 
 ## [3.7.1] - 2026-10-08
