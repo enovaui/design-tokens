@@ -20,7 +20,7 @@ class Stroke extends StrokeBase {
   @override
   Color get defaultGradientEnd => ColorPrimitive.instance.white;
   @override
-  Color get main => ColorPrimitive.instance.sandGray35;
+  Color get main => ColorPrimitive.instance.coolGray15;
   @override
   Color get mainDisabled => ColorPrimitive.instance.sandGray35;
   @override

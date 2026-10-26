@@ -24,9 +24,9 @@ class OnSurface extends OnSurfaceBase {
   @override
   Color get mainDisabled => ColorPrimitive.instance.white;
   @override
-  Color get sub => ColorPrimitive.instance.sandGray65;
+  Color get sub => ColorPrimitive.instance.coolGray65;
   @override
-  Color get subDisabled => ColorPrimitive.instance.sandGray65;
+  Color get subDisabled => ColorPrimitive.instance.coolGray65;
   @override
   Color get accentDark => ColorPrimitive.instance.yellow85;
   @override

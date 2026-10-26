@@ -28,4 +28,5 @@ Semantic Effect Tokens
 	--semantic-effect-status-bar-background-blur: var(--primitive-effect-60);
 	--semantic-effect-status-bar-drop-shadow-blur: var(--primitive-effect-12);
 	--semantic-effect-status-bar-drop-shadow-y: var(--primitive-effect-2);
+	--semantic-effect-progress-background-blur: var(--primitive-effect-10);
 }

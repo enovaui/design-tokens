@@ -23,8 +23,8 @@ Semantic Color Tokens
 	/* On Background */
 	--semantic-color-on-background-main: var(--primitive-color-white);
 	--semantic-color-on-background-main-disabled: var(--primitive-color-white);
-	--semantic-color-on-background-sub: var(--primitive-color-sand-gray-65);
-	--semantic-color-on-background-sub-disabled: var(--primitive-color-sand-gray-65);
+	--semantic-color-on-background-sub: var(--primitive-color-cool-gray-65);
+	--semantic-color-on-background-sub-disabled: var(--primitive-color-cool-gray-65);
 	--semantic-color-on-background-accent-dark: var(--primitive-color-yellow-85);
 	--semantic-color-on-background-accent-dark-disabled: var(--primitive-color-yellow-85);
 	--semantic-color-on-background-accent-light: var(--primitive-color-yellow-95);
@@ -35,16 +35,16 @@ Semantic Color Tokens
 	--semantic-color-surface-default-gradient-end: var(--primitive-color-white);
 	--semantic-color-surface-default-indicator: var(--primitive-color-yellow-85);
 	--semantic-color-surface-default-notification: var(--primitive-color-active-red-55);
-	--semantic-color-surface-default-placeholder: var(--primitive-color-sand-gray-40);
+	--semantic-color-surface-default-placeholder: var(--primitive-color-cool-gray-15);
 	--semantic-color-surface-default-placeholder-disabled: var(--primitive-color-sand-gray-40);
-	--semantic-color-surface-default-track: var(--primitive-color-sand-gray-30);
+	--semantic-color-surface-default-track: var(--primitive-color-cool-gray-15);
 	--semantic-color-surface-default-warning: var(--primitive-color-active-red-60);
 	--semantic-color-surface-default-warning-disabled: var(--primitive-color-active-red-60);
-	--semantic-color-surface-main: var(--primitive-color-mist-gray-5);
-	--semantic-color-surface-main-supporting: var(--primitive-color-mist-gray-15);
-	--semantic-color-surface-sub: var(--primitive-color-mist-gray-10);
+	--semantic-color-surface-main: var(--primitive-color-cool-gray-5);
+	--semantic-color-surface-main-supporting: var(--primitive-color-cool-gray-5);
+	--semantic-color-surface-sub: var(--primitive-color-cool-gray-15);
 	--semantic-color-surface-accent: var(--primitive-color-yellow-85);
-	--semantic-color-surface-access-bar: var(--primitive-color-mist-gray-10);
+	--semantic-color-surface-access-bar: var(--primitive-color-cool-gray-40);
 	--semantic-color-surface-access-bar-app-gradient-start: var(--primitive-color-sand-gray-10);
 	--semantic-color-surface-access-bar-app-gradient-end: var(--primitive-color-sand-gray-25);
 	--semantic-color-surface-badge-dark: var(--primitive-color-black);
@@ -55,18 +55,14 @@ Semantic Color Tokens
 	--semantic-color-surface-button-secondary: var(--primitive-color-cool-gray-15);
 	--semantic-color-surface-button-secondary-disabled: var(--primitive-color-cool-gray-15);
 	--semantic-color-surface-button-secondary-tint-pressed: var(--primitive-color-sand-gray-85);
-	--semantic-color-surface-button-icon: var(--primitive-color-sand-gray-30);
 	--semantic-color-surface-button-icon-focused: var(--primitive-color-white);
-	--semantic-color-surface-button-icon-selected: var(--primitive-color-yellow-85);
 	--semantic-color-surface-button-icon-disabled: var(--primitive-color-sand-gray-30);
 	--semantic-color-surface-button-icon-tint-pressed: var(--primitive-color-white);
 	--semantic-color-surface-button-label-tint-pressed: var(--primitive-color-white);
-	--semantic-color-surface-chip: var(--primitive-color-sand-gray-30);
-	--semantic-color-surface-chip-selected: var(--primitive-color-yellow-85);
-	--semantic-color-surface-chip-disabled: var(--primitive-color-sand-gray-30);
+	--semantic-color-surface-chip: var(--primitive-color-cool-gray-15);
+	--semantic-color-surface-chip-disabled: var(--primitive-color-cool-gray-15);
 	--semantic-color-surface-home-grid-indicator-dark: var(--primitive-color-black);
 	--semantic-color-surface-home-grid-indicator-light: var(--primitive-color-white);
-	--semantic-color-surface-icon-grid: var(--primitive-color-sand-gray-30);
 	--semantic-color-surface-icon-grid-selected: var(--primitive-color-yellow-85);
 	--semantic-color-surface-icon-grid-disabled: var(--primitive-color-sand-gray-30);
 	--semantic-color-surface-icon-grid-active: var(--primitive-color-yellow-85);
@@ -79,8 +75,7 @@ Semantic Color Tokens
 	--semantic-color-surface-picker-color: var(--primitive-color-white);
 	--semantic-color-surface-picker-date: var(--primitive-color-yellow-85);
 	--semantic-color-surface-slider-tick-mark: var(--primitive-color-sand-gray-55);
-	--semantic-color-surface-scroll-bar-handle: var(--primitive-color-sand-gray-55);
-	--semantic-color-surface-snackbar: var(--primitive-color-sand-gray-25);
+	--semantic-color-surface-scroll-bar-handle: var(--primitive-color-cool-gray-50);
 	--semantic-color-surface-selection-active: var(--primitive-color-yellow-85);
 	--semantic-color-surface-selection-active-disabled: var(--primitive-color-yellow-85);
 	--semantic-color-surface-selection-inactive: var(--primitive-color-sand-gray-55);
@@ -88,7 +83,7 @@ Semantic Color Tokens
 	--semantic-color-surface-selection-checkbox-active-disabled: var(--primitive-color-sand-gray-55);
 	--semantic-color-surface-selection-checkbox-inactive: var(--primitive-color-sand-gray-5);
 	--semantic-color-surface-selection-checkbox-inactive-disabled: var(--primitive-color-sand-gray-5);
-	--semantic-color-surface-toast: var(--primitive-color-sand-gray-25);
+	--semantic-color-surface-sub-supporting: var(--primitive-color-cool-gray-10);
 
 	/* On Surface */
 	--semantic-color-on-surface-default-error: var(--primitive-color-deep-orange-60);
@@ -97,8 +92,8 @@ Semantic Color Tokens
 	--semantic-color-on-surface-default-warning-disabled: var(--primitive-color-active-red-60);
 	--semantic-color-on-surface-main: var(--primitive-color-white);
 	--semantic-color-on-surface-main-disabled: var(--primitive-color-white);
-	--semantic-color-on-surface-sub: var(--primitive-color-sand-gray-65);
-	--semantic-color-on-surface-sub-disabled: var(--primitive-color-sand-gray-65);
+	--semantic-color-on-surface-sub: var(--primitive-color-cool-gray-65);
+	--semantic-color-on-surface-sub-disabled: var(--primitive-color-cool-gray-65);
 	--semantic-color-on-surface-accent-dark: var(--primitive-color-yellow-85);
 	--semantic-color-on-surface-accent-dark-disabled: var(--primitive-color-yellow-85);
 	--semantic-color-on-surface-accent-light: var(--primitive-color-yellow-95);
@@ -132,7 +127,7 @@ Semantic Color Tokens
 	--semantic-color-stroke-default-gradient-start: var(--primitive-color-white);
 	--semantic-color-stroke-default-gradient-stop: var(--primitive-color-white);
 	--semantic-color-stroke-default-gradient-end: var(--primitive-color-white);
-	--semantic-color-stroke-main: var(--primitive-color-sand-gray-35);
+	--semantic-color-stroke-main: var(--primitive-color-cool-gray-15);
 	--semantic-color-stroke-main-disabled: var(--primitive-color-sand-gray-35);
 	--semantic-color-stroke-main-supporting: var(--primitive-color-sand-gray-20);
 	--semantic-color-stroke-main-supporting-disabled: var(--primitive-color-sand-gray-20);
