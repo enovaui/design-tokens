@@ -6,8 +6,8 @@ The following is a curated list of changes in the webos tokens module, newest ch
 
 ### Removed
 
-- `semantic-color-surface-button-notification`
 - `semantic-color-surface-button-icon`, `semantic-color-surface-button-icon-selected`
+- `semantic-color-surface-button-notification`
 - `semantic-color-surface-chip-selected`
 - `semantic-color-surface-icon-grid`
 - `semantic-color-surface-snackbar`
