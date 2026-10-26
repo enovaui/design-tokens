@@ -178,6 +178,12 @@ class FigmaAPIClient {
 				return;
 			}
 
+			// Skip variables deleted in Figma but still returned because they are referenced
+			if (variable.deletedButReferenced === true) {
+				console.log(`⏭️ Skipping deleted variable: ${variable.name} in ${collectionName}`);
+				return;
+			}
+
 			// Skip invalid tokens with "--" names (Figma data artifacts)
 			if (variable.name === '--' || variable.name.includes('/--')) {
 				console.log(`⏭️ Skipping invalid token name: ${variable.name} in ${collectionName}`);
