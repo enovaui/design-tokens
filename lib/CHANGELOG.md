@@ -7,21 +7,36 @@ The following is a curated list of changes in the flutter tokens module, newest 
 ### Removed
 
 - `semantic_color_surface_button_notification`
+- `semantic_color_surface_button_icon`, `semantic_color_surface_button_icon_selected`
+- `semantic_color_surface_chip_selected`
+- `semantic_color_surface_icon_grid`
+- `semantic_color_surface_snackbar`
 - `semantic_color_surface_status_bar`
 - `semantic_color_surface_tab_active`
+- `semantic_color_surface_toast`
 - `semantic_color_surface_tooltip`
 
 ### Changed
 
-- `semantic_color_surface_default_warning`, `semantic_color_surface_default_warning_disabled` value
+- `semantic_color_on_background_sub`, `semantic_color_on_background_sub_disabled` value
 - `semantic_color_on_surface_default_warning`, `semantic_color_on_surface_default_warning_disabled` value
+- `semantic_color_on_surface_sub`, `semantic_color_on_surface_sub_disabled` value
+- `semantic_color_stroke_main` value
+- `semantic_color_surface_default_placeholder` value
+- `semantic_color_surface_default_track` value
+- `semantic_color_surface_default_warning`, `semantic_color_surface_default_warning_disabled` value
+- `semantic_color_surface_main`, `semantic_color_surface_main_supporting` value
+- `semantic_color_surface_sub` value
+- `semantic_color_surface_access_bar` value
+- `semantic_color_surface_chip`, `semantic_color_surface_chip_disabled` value
+- `semantic_color_surface_scroll_bar_handle` value
 - `semantic_effect_default_background_blur` value
 
 ### Added
 
-- `color-semantic_high_contrast` tokens
+- `color_semantic_high_contrast` tokens
 - `semantic_color_background_main`
-- `semantic_color_surface_main_supporting`
+- `semantic_color_surface_main_supporting`, `semantic_color_surface_sub_supporting`
 - `semantic_color_surface_accent`
 - `semantic_color_on_surface_button_primary`, `semantic_color_on_surface_button_primary_disabled`
 - `semantic_color_on_surface_button_secondary`, `semantic_color_on_surface_button_secondary_disabled`
@@ -29,6 +44,7 @@ The following is a curated list of changes in the flutter tokens module, newest 
 - `semantic_color_on_surface_picker_selected`
 - `semantic_color_on_surface_selection`, `semantic_color_on_surface_selection_disabled`
 - `semantic_color_on_surface_slider`
+- `semantic_effect_progress_background_blur`
 
 ## [3.7.1] - 2026-10-08
 
