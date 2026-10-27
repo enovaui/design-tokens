@@ -2,6 +2,68 @@
 
 The following is a curated list of changes in the design tokens module, newest changes on the top.
 
+## [3.8.0] - 2026-10-27
+
+### core-tokens
+
+- No significant changes
+
+### mobile-tokens
+
+- No significant changes
+
+### web-tokens
+
+- No significant changes
+
+### webos-tokens
+
+- No significant changes
+
+### webos-m-tokens
+
+#### Removed
+
+- `semantic-color-surface-button-icon`, `semantic-color-surface-button-icon-selected`
+- `semantic-color-surface-button-notification`
+- `semantic-color-surface-chip-selected`
+- `semantic-color-surface-icon-grid`
+- `semantic-color-surface-snackbar`
+- `semantic-color-surface-status-bar`
+- `semantic-color-surface-tab-active`
+- `semantic-color-surface-toast`
+- `semantic-color-surface-tooltip`
+
+#### Changed
+
+- `semantic-color-on-background-sub`, `semantic-color-on-background-sub-disabled` value
+- `semantic-color-on-surface-default-warning`, `semantic-color-on-surface-default-warning-disabled` value
+- `semantic-color-on-surface-sub`, `semantic-color-on-surface-sub-disabled` value
+- `semantic-color-stroke-main` value
+- `semantic-color-surface-default-placeholder` value
+- `semantic-color-surface-default-track` value
+- `semantic-color-surface-default-warning`, `semantic-color-surface-default-warning-disabled` value
+- `semantic-color-surface-main`, `semantic-color-surface-main-supporting` value
+- `semantic-color-surface-sub` value
+- `semantic-color-surface-access-bar` value
+- `semantic-color-surface-chip`, `semantic-color-surface-chip-disabled` value
+- `semantic-color-surface-scroll-bar-handle` value
+- `semantic-effect-default-background-blur` value
+
+#### Added
+
+- `color-semantic-high-contrast` tokens
+- `semantic-color-background-main`
+- `semantic-color-on-surface-button-primary`, `semantic-color-on-surface-button-primary-disabled`
+- `semantic-color-on-surface-button-secondary`, `semantic-color-on-surface-button-secondary-disabled`
+- `semantic-color-on-surface-chip`, `semantic-color-on-surface-chip-disabled`
+- `semantic-color-on-surface-picker-selected`
+- `semantic-color-on-surface-selection`, `semantic-color-on-surface-selection-disabled`
+- `semantic-color-on-surface-slider`
+- `semantic-color-surface-main-supporting`, `semantic-color-surface-sub-supporting`
+- `semantic-color-surface-accent`
+- `semantic-effect-progress-background-blur`
+
 ## [3.7.1] - 2026-10-08
 
 - No significant changes

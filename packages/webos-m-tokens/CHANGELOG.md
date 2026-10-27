@@ -2,7 +2,7 @@
 
 The following is a curated list of changes in the webos tokens module, newest changes on the top.
 
-## [unreleased]
+## [3.8.0] - 2026-10-27
 
 ### Removed
 
