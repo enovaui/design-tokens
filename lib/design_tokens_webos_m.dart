@@ -14,4 +14,5 @@ export 'src/webos_m_tokens/dark/color/color_semantic_dark.dart';
 export 'src/webos_m_tokens/effect_semantic_dark_default.dart';
 export 'src/webos_m_tokens/effect_semantic_dark_res_low.dart';
 export 'src/webos_m_tokens/effect_semantic_dark_res_medium.dart';
+export 'src/webos_m_tokens/high_contrast/color/color_semantic_high_contrast.dart';
 export 'src/webos_m_tokens/radius_semantic.dart';

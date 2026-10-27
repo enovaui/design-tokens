@@ -18,7 +18,10 @@ abstract class SurfaceBase {
   Color get defaultWarning;
   Color get defaultWarningDisabled;
   Color get main;
+  Color get mainSupporting;
   Color get sub;
+  Color get subSupporting;
+  Color get accent;
   Color get accessBar;
   Color get accessBarAppGradientStart;
   Color get accessBarAppGradientEnd;
@@ -30,19 +33,14 @@ abstract class SurfaceBase {
   Color get buttonSecondary;
   Color get buttonSecondaryDisabled;
   Color get buttonSecondaryTintPressed;
-  Color get buttonIcon;
   Color get buttonIconFocused;
-  Color get buttonIconSelected;
   Color get buttonIconDisabled;
   Color get buttonIconTintPressed;
   Color get buttonLabelTintPressed;
-  Color get buttonNotification;
   Color get chip;
-  Color get chipSelected;
   Color get chipDisabled;
   Color get homeGridIndicatorDark;
   Color get homeGridIndicatorLight;
-  Color get iconGrid;
   Color get iconGridSelected;
   Color get iconGridDisabled;
   Color get iconGridActive;
@@ -56,8 +54,6 @@ abstract class SurfaceBase {
   Color get pickerDate;
   Color get sliderTickMark;
   Color get scrollBarHandle;
-  Color get snackbar;
-  Color get statusBar;
   Color get selectionActive;
   Color get selectionActiveDisabled;
   Color get selectionInactive;
@@ -65,7 +61,4 @@ abstract class SurfaceBase {
   Color get selectionCheckboxActiveDisabled;
   Color get selectionCheckboxInactive;
   Color get selectionCheckboxInactiveDisabled;
-  Color get tabActive;
-  Color get toast;
-  Color get tooltip;
 }

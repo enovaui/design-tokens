@@ -178,6 +178,12 @@ class FigmaAPIClient {
 				return;
 			}
 
+			// Skip variables deleted in Figma but still returned because they are referenced
+			if (variable.deletedButReferenced === true) {
+				console.log(`⏭️ Skipping deleted variable: ${variable.name} in ${collectionName}`);
+				return;
+			}
+
 			// Skip invalid tokens with "--" names (Figma data artifacts)
 			if (variable.name === '--' || variable.name.includes('/--')) {
 				console.log(`⏭️ Skipping invalid token name: ${variable.name} in ${collectionName}`);
@@ -210,12 +216,11 @@ class FigmaAPIClient {
 				current = current[segment];
 			}
 
-			// For semantic color and effect collections, create separate collections for each mode (even if only one mode)
+			// For semantic color collections, create separate collections for each mode (even if only one mode)
 			if ((collectionName === 'lg.webOS.color.semantic' ||
 				collectionName === 'lg.web.color.semantic' ||
 				collectionName === 'lg.mobile.color.semantic' ||
-				collectionName === 'lg.webOSmicro.color.semantic' ||
-				collectionName === 'lg.webOSmicro.effect.semantic') &&
+				collectionName === 'lg.webOSmicro.color.semantic') &&
 				collection.modes && collection.modes.length > 0) {
 				// Handle each mode separately (even if only one)
 				collection.modes.forEach(mode => {
@@ -435,12 +440,9 @@ function getFileNameFromCollection(collectionName) {
 		return getSemanticColorFileName(mode);
 	}
 
-	// Handle effect semantic collections with modes
-	if (type === 'effect' && category === 'semantic' && mode) {
-		// dark → effect-semantic-dark-default
-		// dark-res-medium → effect-semantic-dark-res-medium
-		if (mode === 'dark') return 'effect-semantic-dark-default';
-		return `effect-semantic-${mode}`;
+	// Effect semantic is a single-mode collection, stored in the dark-default file
+	if (type === 'effect' && category === 'semantic') {
+		return 'effect-semantic-dark-default';
 	}
 	
 	// Handle other semantic collections

@@ -23,6 +23,7 @@ class LowEffectSemantic {
   int get homeGridDropShadowY => EffectPrimitive.instance.effect2;
   int get pageIndicatorDropShadowBlur => EffectPrimitive.instance.effect12;
   int get pageIndicatorDropShadowY => EffectPrimitive.instance.effect2;
+  int get progressBackgroundBlur => EffectPrimitive.instance.effect0;
   int get statusBarBackgroundBlur => EffectPrimitive.instance.effect0;
   int get statusBarDropShadowBlur => EffectPrimitive.instance.effect12;
   int get statusBarDropShadowY => EffectPrimitive.instance.effect2;
