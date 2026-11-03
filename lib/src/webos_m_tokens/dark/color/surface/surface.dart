@@ -36,6 +36,8 @@ class Surface extends SurfaceBase {
   @override
   Color get sub => ColorPrimitive.instance.coolGray15;
   @override
+  Color get subDisabled => ColorPrimitive.instance.coolGray15;
+  @override
   Color get subSupporting => ColorPrimitive.instance.coolGray10;
   @override
   Color get accent => ColorPrimitive.instance.midBlue60;
@@ -76,11 +78,15 @@ class Surface extends SurfaceBase {
   @override
   Color get homeGridIndicatorLight => ColorPrimitive.instance.white;
   @override
+  Color get iconGridTintSelected => ColorPrimitive.instance.midBlue60;
+  @override
   Color get listSelected => ColorPrimitive.instance.coolGray85;
+  @override
+  Color get menuSelected => ColorPrimitive.instance.coolGray85;
   @override
   Color get navigationPressed => ColorPrimitive.instance.coolGray85;
   @override
-  Color get menuSelected => ColorPrimitive.instance.coolGray85;
+  Color get peekViewTintActive => ColorPrimitive.instance.midBlue60;
   @override
   Color get pickerColor => ColorPrimitive.instance.white;
   @override
@@ -103,10 +109,4 @@ class Surface extends SurfaceBase {
   Color get selectionCheckboxInactive => ColorPrimitive.instance.coolGray20;
   @override
   Color get selectionCheckboxInactiveDisabled => ColorPrimitive.instance.coolGray20;
-  @override
-  Color get subDisabled => ColorPrimitive.instance.coolGray15;
-  @override
-  Color get iconGridTintSelected => ColorPrimitive.instance.midBlue60;
-  @override
-  Color get peekViewTintActive => ColorPrimitive.instance.midBlue60;
 }

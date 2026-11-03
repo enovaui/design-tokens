@@ -5,6 +5,8 @@
             "access-bar-s": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-40"},
             "app-icon-l": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-36"},
             "app-icon-s": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-28"},
+            "badge-full": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
+            "badge-s": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
             "banner": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-48"},
             "bottom-sheet": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-48"},
             "button-full": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
@@ -30,6 +32,7 @@
             "picker-m": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-40"},
             "picker-s": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
             "picker-xs": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-8"},
+            "picker-xxs": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-2"},
             "progress": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
             "quick-settings-full": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
             "quick-settings-s": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-36"},
@@ -42,17 +45,14 @@
             "snackbar": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-20"},
             "status-bar": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
             "text-field": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-48"},
+            "thumbnail-xxl": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-60"},
             "thumbnail-xl": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-48"},
             "thumbnail-l": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-44"},
             "thumbnail-m": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-30"},
             "thumbnail-s": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-24"},
             "thumbnail-xs": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
             "toast": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-20"},
-            "tooltip": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
-            "badge-full": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-999"},
-            "badge-s": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"},
-            "picker-xxs": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-2"},
-            "thumbnail-xxl": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-60"}
+            "tooltip": {"$ref": "core-tokens/json/radius-primitive.json#/primitive/radius-18"}
         }
     }
 }

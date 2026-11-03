@@ -10,18 +10,18 @@
             "default-inner-shadow-spread": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
             "default-inner-shadow-x": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
             "default-inner-shadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-2"},
+            "badge-inner-shadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
+            "badge-inner-shadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-2"},
             "home-grid-drop-shadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-12"},
             "home-grid-drop-shadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-2"},
+            "menu-drop-shadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
+            "menu-drop-shadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-20"},
             "page-indicator-drop-shadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-12"},
             "page-indicator-drop-shadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-2"},
             "progress-background-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-10"},
             "status-bar-background-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-60"},
             "status-bar-drop-shadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-12"},
-            "status-bar-drop-shadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-2"},
-            "badge-inner-shadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
-            "badge-inner-shadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-2"},
-            "menu-drop-shadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-0"},
-            "menu-drop-shadow-blur": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-20"}
+            "status-bar-drop-shadow-y": {"$ref": "core-tokens/json/effect-primitive.json#/primitive/effect-2"}
         }
     }
 }

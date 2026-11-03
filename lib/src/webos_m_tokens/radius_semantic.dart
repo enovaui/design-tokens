@@ -14,6 +14,8 @@ class RadiusSemantic {
   Radius get accessBarS => RadiusPrimitive.instance.radius40;
   Radius get appIconL => RadiusPrimitive.instance.radius36;
   Radius get appIconS => RadiusPrimitive.instance.radius28;
+  Radius get badgeFull => RadiusPrimitive.instance.radius999;
+  Radius get badgeS => RadiusPrimitive.instance.radius18;
   Radius get banner => RadiusPrimitive.instance.radius48;
   Radius get bottomSheet => RadiusPrimitive.instance.radius48;
   Radius get buttonFull => RadiusPrimitive.instance.radius999;
@@ -39,6 +41,7 @@ class RadiusSemantic {
   Radius get pickerM => RadiusPrimitive.instance.radius40;
   Radius get pickerS => RadiusPrimitive.instance.radius18;
   Radius get pickerXs => RadiusPrimitive.instance.radius8;
+  Radius get pickerXxs => RadiusPrimitive.instance.radius2;
   Radius get progress => RadiusPrimitive.instance.radius999;
   Radius get quickSettingsFull => RadiusPrimitive.instance.radius999;
   Radius get quickSettingsS => RadiusPrimitive.instance.radius36;
@@ -51,6 +54,7 @@ class RadiusSemantic {
   Radius get snackbar => RadiusPrimitive.instance.radius20;
   Radius get statusBar => RadiusPrimitive.instance.radius999;
   Radius get textField => RadiusPrimitive.instance.radius48;
+  Radius get thumbnailXxl => RadiusPrimitive.instance.radius60;
   Radius get thumbnailXl => RadiusPrimitive.instance.radius48;
   Radius get thumbnailL => RadiusPrimitive.instance.radius44;
   Radius get thumbnailM => RadiusPrimitive.instance.radius30;
@@ -58,8 +62,4 @@ class RadiusSemantic {
   Radius get thumbnailXs => RadiusPrimitive.instance.radius18;
   Radius get toast => RadiusPrimitive.instance.radius20;
   Radius get tooltip => RadiusPrimitive.instance.radius18;
-  Radius get badgeFull => RadiusPrimitive.instance.radius999;
-  Radius get badgeS => RadiusPrimitive.instance.radius18;
-  Radius get pickerXxs => RadiusPrimitive.instance.radius2;
-  Radius get thumbnailXxl => RadiusPrimitive.instance.radius60;
 }

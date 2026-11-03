@@ -56,6 +56,8 @@ class OnSurface extends OnSurfaceBase {
   @override
   Color get chipDisabled => ColorPrimitive.instance.black;
   @override
+  Color get iconGrid => ColorPrimitive.instance.black;
+  @override
   Color get pageIndicatorDark => ColorPrimitive.instance.black;
   @override
   Color get pageIndicatorLight => ColorPrimitive.instance.white;
@@ -79,6 +81,4 @@ class OnSurface extends OnSurfaceBase {
   Color get statusBarFloatingOrange => ColorPrimitive.instance.deepOrange40;
   @override
   Color get statusBarFloatingRed => ColorPrimitive.instance.activeRed55;
-  @override
-  Color get iconGrid => ColorPrimitive.instance.black;
 }

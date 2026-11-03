@@ -34,6 +34,8 @@ class Stroke extends StrokeBase {
   @override
   Color get subSupporting => ColorPrimitive.instance.coolGray50;
   @override
+  Color get subSupportingDisabled => ColorPrimitive.instance.coolGray50;
+  @override
   Color get accent => ColorPrimitive.instance.midBlue60;
   @override
   Color get accentDisabled => ColorPrimitive.instance.midBlue60;
@@ -41,6 +43,4 @@ class Stroke extends StrokeBase {
   Color get accessBar => ColorPrimitive.instance.white;
   @override
   Color get accessBarApp => ColorPrimitive.instance.white;
-  @override
-  Color get subSupportingDisabled => ColorPrimitive.instance.coolGray50;
 }
