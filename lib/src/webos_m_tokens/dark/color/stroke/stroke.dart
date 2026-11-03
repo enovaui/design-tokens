@@ -22,17 +22,17 @@ class Stroke extends StrokeBase {
   @override
   Color get main => ColorPrimitive.instance.coolGray15;
   @override
-  Color get mainDisabled => ColorPrimitive.instance.sandGray35;
+  Color get mainDisabled => ColorPrimitive.instance.coolGray15;
   @override
-  Color get mainSupporting => ColorPrimitive.instance.sandGray20;
+  Color get mainSupporting => ColorPrimitive.instance.coolGray10;
   @override
-  Color get mainSupportingDisabled => ColorPrimitive.instance.sandGray20;
+  Color get mainSupportingDisabled => ColorPrimitive.instance.coolGray10;
   @override
-  Color get sub => ColorPrimitive.instance.sandGray40;
+  Color get sub => ColorPrimitive.instance.coolGray30;
   @override
-  Color get subDisabled => ColorPrimitive.instance.sandGray40;
+  Color get subDisabled => ColorPrimitive.instance.coolGray30;
   @override
-  Color get subSupporting => ColorPrimitive.instance.sandGray45;
+  Color get subSupporting => ColorPrimitive.instance.coolGray50;
   @override
   Color get accent => ColorPrimitive.instance.midBlue60;
   @override
@@ -42,11 +42,5 @@ class Stroke extends StrokeBase {
   @override
   Color get accessBarApp => ColorPrimitive.instance.white;
   @override
-  Color get pickerColor => ColorPrimitive.instance.sandGray55;
-  @override
-  Color get selectionInactive => ColorPrimitive.instance.sandGray55;
-  @override
-  Color get selectionInactiveDisabled => ColorPrimitive.instance.sandGray55;
-  @override
-  Color get tabActive => ColorPrimitive.instance.midBlue60;
+  Color get subSupportingDisabled => ColorPrimitive.instance.coolGray50;
 }

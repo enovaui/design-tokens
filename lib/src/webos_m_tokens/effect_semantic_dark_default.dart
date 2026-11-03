@@ -27,4 +27,8 @@ class DefaultEffectSemantic {
   int get statusBarBackgroundBlur => EffectPrimitive.instance.effect60;
   int get statusBarDropShadowBlur => EffectPrimitive.instance.effect12;
   int get statusBarDropShadowY => EffectPrimitive.instance.effect2;
+  int get badgeInnerShadowY => EffectPrimitive.instance.effect0;
+  int get badgeInnerShadowBlur => EffectPrimitive.instance.effect2;
+  int get menuDropShadowY => EffectPrimitive.instance.effect0;
+  int get menuDropShadowBlur => EffectPrimitive.instance.effect20;
 }

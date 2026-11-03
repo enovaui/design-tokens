@@ -27,4 +27,8 @@ class Effect extends EffectBase {
   Color get statusBarDropShadowDark => ColorPrimitive.instance.black;
   @override
   Color get statusBarDropShadowLight => ColorPrimitive.instance.white;
+  @override
+  Color get black => ColorPrimitive.instance.black;
+  @override
+  Color get badgeInnerShadow => ColorPrimitive.instance.black;
 }
