@@ -30,6 +30,7 @@ abstract class OnSurfaceBase {
   Color get buttonIconSelected;
   Color get chip;
   Color get chipDisabled;
+  Color get iconGrid;
   Color get pageIndicatorDark;
   Color get pageIndicatorLight;
   Color get pickerSelected;
@@ -38,7 +39,6 @@ abstract class OnSurfaceBase {
   Color get pickerTertiary;
   Color get selection;
   Color get selectionDisabled;
-  Color get selectionCheckmarkActiveDisabled;
   Color get slider;
   Color get sliderHandle;
   Color get statusBarFloatingOrange;
