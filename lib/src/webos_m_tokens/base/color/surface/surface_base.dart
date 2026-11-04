@@ -45,7 +45,7 @@ abstract class SurfaceBase {
   Color get listSelected;
   Color get menuSelected;
   Color get navigationPressed;
-  Color get peekViewActive;
+  Color get peekViewTintActive;
   Color get pickerColor;
   Color get pickerDate;
   Color get sliderTickMark;
