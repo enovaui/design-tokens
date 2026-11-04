@@ -16,6 +16,10 @@ class Effect extends EffectBase {
   @override
   Color get defaultInnerShadow => ColorPrimitive.instance.white;
   @override
+  Color get black => ColorPrimitive.instance.black;
+  @override
+  Color get badgeInnerShadow => ColorPrimitive.instance.black;
+  @override
   Color get homeGridDropShadowDark => ColorPrimitive.instance.black;
   @override
   Color get homeGridDropShadowLight => ColorPrimitive.instance.white;

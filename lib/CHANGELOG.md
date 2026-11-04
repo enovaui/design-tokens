@@ -2,6 +2,69 @@
 
 The following is a curated list of changes in the flutter tokens module, newest changes on the top.
 
+## [unreleased]
+
+### Removed
+
+- `semantic_color_on_surface_selection_checkmark_active_disabled`
+- `semantic_color_surface_button_icon_disabled`
+- `semantic_color_surface_icon_grid_disabled`
+- `semantic_color_surface_icon_grid_active`
+- `semantic_color_surface_icon_grid_selection_checkbox`
+- `semantic_color_surface_menu`
+- `semantic_color_stroke_picker_color`
+- `semantic_color_stroke_selection_inactive`
+- `semantic_color_stroke_selection_inactive_disabled`
+- `semantic_color_stroke_tab_active`
+- `semantic_radius_menu_m`
+
+### Changed
+
+- `semantic_color_on_background_sub`, `semantic_color_on_background_sub_disabled` value
+- `semantic_color_surface_default_placeholder_disabled` value
+- `semantic_color_surface_access_bar_app_gradient_start`, `semantic_color_surface_access_bar_app_gradient_end` value
+- `semantic_color_surface_button_secondary_tint_pressed` value
+- `semantic_color_surface_list_selected` value
+- `semantic_color_surface_menu_selected` value
+- `semantic_color_surface_navigation_pressed` value
+- `semantic_color_surface_slider_tick_mark` value
+- `semantic_color_surface_selection_inactive`, `semantic_color_surface_selection_inactive_disabled` value
+- `semantic_color_surface_selection_checkbox_active_disabled` value
+- `semantic_color_surface_selection_checkbox_inactive`, `semantic_color_surface_selection_checkbox_inactive_disabled` value
+- `semantic_color_on_surface_default_handle` value
+- `semantic_color_on_surface_sub`, `semantic_color_on_surface_sub_disabled` value
+- `semantic_color_stroke_main_disabled` value
+- `semantic_color_stroke_main_supporting`, `semantic_color_stroke_main_supporting_disabled` value
+- `semantic_color_stroke_sub`, `semantic_color_stroke_sub_disabled`, `semantic_color_stroke_sub_supporting` value
+- `semantic_color_surface_icon_grid_selected` to `semantic_color_surface_icon_grid_tint_selected`
+- `semantic_color_surface_peek_view_active` to `semantic_color_surface_peek_view_tint_active`
+- `semantic_radius_banner` value
+- `semantic_radius_bottom_sheet` value
+- `semantic_radius_card` value
+- `semantic_radius_dialog_popup` value
+- `semantic_radius_list_l`, `semantic_radius_list_s` value
+- `semantic_radius_menu_l`, `semantic_radius_menu_s` value
+- `semantic_radius_notification_card` value
+- `semantic_radius_picker_l`, `semantic_radius_picker_m` value
+- `semantic_radius_snackbar` value
+- `semantic_radius_text_field` value
+- `semantic_radius_thumbnail_xl`, `semantic_radius_thumbnail_l` value
+- `semantic_radius_toast` value
+- `semantic_radius_badge` to `semantic_radius_badge_full`
+
+### Added
+
+- `semantic_color_effect_badge_inner_shadow`
+- `semantic_color_effect_black`
+- `semantic_color_on_surface_icon_grid`
+- `semantic_color_surface_sub_disabled`
+- `semantic_color_stroke_sub_supporting_disabled`
+- `semantic_effect_badge_inner_shadow_y`, `semantic_effect_badge_inner_shadow_blur`
+- `semantic_effect_menu_drop_shadow_y`, `semantic_effect_menu_drop_shadow_blur`
+- `semantic_radius_badge_s`
+- `semantic_radius_picker_xxs`
+- `semantic_radius_thumbnail_xxl`
+
 ## [3.8.0] - 2026-10-27
 
 ### Removed
