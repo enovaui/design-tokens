@@ -19,12 +19,9 @@ abstract class StrokeBase {
   Color get sub;
   Color get subDisabled;
   Color get subSupporting;
+  Color get subSupportingDisabled;
   Color get accent;
   Color get accentDisabled;
   Color get accessBar;
   Color get accessBarApp;
-  Color get pickerColor;
-  Color get selectionInactive;
-  Color get selectionInactiveDisabled;
-  Color get tabActive;
 }

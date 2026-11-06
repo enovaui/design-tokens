@@ -2,6 +2,69 @@
 
 The following is a curated list of changes in the webos tokens module, newest changes on the top.
 
+## [3.9.0] - 2026-11-06
+
+### Removed
+
+- `semantic-color-on-surface-selection-checkmark-active-disabled`
+- `semantic-color-surface-button-icon-disabled`
+- `semantic-color-surface-icon-grid-disabled`
+- `semantic-color-surface-icon-grid-active`
+- `semantic-color-surface-icon-grid-selection-checkbox`
+- `semantic-color-surface-menu`
+- `semantic-color-stroke-picker-color`
+- `semantic-color-stroke-selection-inactive`
+- `semantic-color-stroke-selection-inactive-disabled`
+- `semantic-color-stroke-tab-active`
+- `semantic-radius-menu-m`
+
+### Changed
+
+- `semantic-color-on-background-sub`, `semantic-color-on-background-sub-disabled` value
+- `semantic-color-surface-default-placeholder-disabled` value
+- `semantic-color-surface-access-bar-app-gradient-start`, `semantic-color-surface-access-bar-app-gradient-end` value
+- `semantic-color-surface-button-secondary-tint-pressed` value
+- `semantic-color-surface-list-selected` value
+- `semantic-color-surface-menu-selected` value
+- `semantic-color-surface-navigation-pressed` value
+- `semantic-color-surface-slider-tick-mark` value
+- `semantic-color-surface-selection-inactive`, `semantic-color-surface-selection-inactive-disabled` value
+- `semantic-color-surface-selection-checkbox-active-disabled` value
+- `semantic-color-surface-selection-checkbox-inactive`, `semantic-color-surface-selection-checkbox-inactive-disabled` value
+- `semantic-color-on-surface-default-handle` value
+- `semantic-color-on-surface-sub`, `semantic-color-on-surface-sub-disabled` value
+- `semantic-color-stroke-main-disabled` value
+- `semantic-color-stroke-main-supporting`, `semantic-color-stroke-main-supporting-disabled` value
+- `semantic-color-stroke-sub`, `semantic-color-stroke-sub-disabled`, `semantic-color-stroke-sub-supporting` value
+- `semantic-color-surface-icon-grid-selected` to `semantic-color-surface-icon-grid-tint-selected`
+- `semantic-color-surface-peek-view-active` to `semantic-color-surface-peek-view-tint-active`
+- `semantic-radius-banner` value
+- `semantic-radius-bottom-sheet` value
+- `semantic-radius-card` value
+- `semantic-radius-dialog-popup` value
+- `semantic-radius-list-l`, `semantic-radius-list-s` value
+- `semantic-radius-menu-l`, `semantic-radius-menu-s` value
+- `semantic-radius-notification-card` value
+- `semantic-radius-picker-l`, `semantic-radius-picker-m` value
+- `semantic-radius-snackbar` value
+- `semantic-radius-text-field` value
+- `semantic-radius-thumbnail-xl`, `semantic-radius-thumbnail-l` value
+- `semantic-radius-toast` value
+- `semantic-radius-badge` to `semantic-radius-badge-full`
+
+### Added
+
+- `semantic-color-effect-badge-inner-shadow`
+- `semantic-color-effect-black`
+- `semantic-color-on-surface-icon-grid`
+- `semantic-color-surface-sub-disabled`
+- `semantic-color-stroke-sub-supporting-disabled`
+- `semantic-effect-badge-inner-shadow-y`, `semantic-effect-badge-inner-shadow-blur`
+- `semantic-effect-menu-drop-shadow-y`, `semantic-effect-menu-drop-shadow-blur`
+- `semantic-radius-badge-s`
+- `semantic-radius-picker-xxs`
+- `semantic-radius-thumbnail-xxl`
+
 ## [3.8.0] - 2026-10-27
 
 ### Removed
