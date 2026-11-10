@@ -5,7 +5,7 @@
 
   Enova design guide: a starting point that opens with no build step.
   Open this file in a browser and it works (tokens from CDN, version pinned).
-  If a network policy blocks unpkg, change only TOKEN_BASE.
+  If a network policy blocks unpkg, change TOKEN_BASE and the static <link>s below.
 -->
 <html lang="en">
 <head>
@@ -37,6 +37,12 @@
 		return mq && mq.matches ? 'dark' : 'light';
 	}
 	var pending = null;
+	function probe() {
+		var cs = getComputedStyle(document.documentElement);
+		return ['surface-main', 'on-surface-main', 'background-main'].map(function (n) {
+			return cs.getPropertyValue('--semantic-color-' + n).trim();
+		}).join('|');
+	}
 	function stamp(mode) {
 		/* Always the loaded mode, 'system' included: left unset, the OS media query
 		   would flip layer 3 before layer 2's file arrives. */
@@ -57,17 +63,16 @@
 		/* Load the new file beside the old one and drop the old one when it is
 		   ready. Swapping href in place leaves every color undefined meanwhile,
 		   which showed as five transparent frames per toggle. */
+		/* Link events cannot tell a good mode file from a 404: both fire error,
+		   because the good file's @imports fail too. So the colors decide: if
+		   they did not move, the new file failed, and the old mode stays. */
 		pending = next;
-		function swap() {
+		var before = probe();
+		next.onload = next.onerror = function () {
 			if (pending !== next) return;
-			cur.parentNode.removeChild(cur); next.id = 'enova-mode-tokens'; pending = null; stamp(mode);
-		}
-		next.onload = swap;
-		/* A failed @import inside the file fires error although the file itself
-		   applied, so only a link with no sheet at all counts as a failure. */
-		next.onerror = function () {
-			if (next.sheet) return swap();
-			if (pending === next) { next.parentNode.removeChild(next); pending = null; }
+			pending = null;
+			if (probe() === before) { next.parentNode.removeChild(next); return; }
+			cur.parentNode.removeChild(cur); next.id = 'enova-mode-tokens'; stamp(mode);
 		};
 		cur.parentNode.insertBefore(next, cur.nextSibling);
 		return mode;
@@ -177,12 +182,12 @@
 		<div class="app-card app-stat">
 			<p class="app-caption app-ink-sub">Successful builds</p>
 			<p class="app-display app-stat__value">1,284</p>
-			<p class="app-stat__delta app-caption" data-trend="up"><span aria-hidden="true">▲</span> 4.2% vs last week</p>
+			<p class="app-stat__delta app-caption" data-trend="up"><span role="img" aria-label="Up">▲</span> 4.2% vs last week</p>
 		</div>
 		<div class="app-card app-stat">
 			<p class="app-caption app-ink-sub">Failed builds</p>
 			<p class="app-display app-stat__value">37</p>
-			<p class="app-stat__delta app-caption" data-trend="down"><span aria-hidden="true">▼</span> 1.1% vs last week</p>
+			<p class="app-stat__delta app-caption" data-trend="up"><span role="img" aria-label="Down">▼</span> 1.1% vs last week</p>
 		</div>
 		<div class="app-card app-stat">
 			<p class="app-caption app-ink-sub">Average duration</p>
@@ -229,7 +234,7 @@
 	</section>
 
 	<!-- Table -->
-	<section class="app-card" style="padding: 0; overflow: hidden">
+	<section class="app-card" style="padding: 0; overflow-x: auto">
 		<table class="app-table">
 			<caption class="app-caption app-ink-sub" style="text-align: start; padding: var(--app-space-4) var(--app-space-5) var(--app-space-2)">
 				Recent builds

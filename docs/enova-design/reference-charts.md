@@ -87,7 +87,7 @@ vs surface 2.01 (light) / 2.25 (dark) PASS · single hue (spread 8° / 7°) PASS
 ## 4. Diverging (polarity)
 
 Two hues plus a **neutral gray midpoint**.
-`--app-chart-div-neg-2 / -neg-1 / -mid / -pos-1 / -pos-2`.
+`--app-chart-div-neg-2 / -neg-1 / -pos-1 / -pos-2`, with the midpoint as `--app-chart-div-mid-color`.
 
 | | −2 | −1 | mid | +1 | +2 |
 |---|---|---|---|---|---|

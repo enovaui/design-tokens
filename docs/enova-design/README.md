@@ -141,8 +141,9 @@ Then change one line in `index.html`: `href="../enova-app-tokens.css"` becomes
 side by side, the `../` points nowhere and the page loses the whole app layer.
 
 Open `index.html` in a browser and it works. Change the content from there.
-If your network blocks unpkg, change **only the one line** `TOKEN_BASE` in `index.html` to your
-internal host.
+If your network blocks unpkg, point every token URL in `index.html` at your internal host: the
+`TOKEN_BASE` line, which loads the color mode file, and the static `<link>`s above it, which load
+the primitives and the non-color semantic files.
 
 ### 3.2 A project with a bundler (Vite, Next, webpack)
 
@@ -286,7 +287,9 @@ So copy this folder into the project and point at it from that file.
 **Step 1.** Copy the folder.
 
 ```bash
-cp -r <design-tokens>/docs/enova-design ./docs/
+# mkdir first: without an existing docs/, cp -r would put the files in docs/ itself
+mkdir -p docs
+cp -r <design-tokens>/docs/enova-design docs/
 ```
 
 **Step 2.** Create `.github/copilot-instructions.md` from this folder's

@@ -62,6 +62,31 @@ export function getTheme() {
 
 let pending = null;
 
+/* Whether a mode file took effect is read from the colors themselves. The link
+ * events cannot say: a good mode file fires `error` (its bare-specifier
+ * @imports fail, design.md 3B), a 404 fires the same `error`, and both leave a
+ * `sheet` whose rules a cross-origin page cannot read. Measured on unpkg. */
+const PROBES = ['--semantic-color-surface-main', '--semantic-color-on-surface-main', '--semantic-color-background-main'];
+const probe = () => {
+	const cs = getComputedStyle(document.documentElement);
+	return PROBES.map((p) => cs.getPropertyValue(p).trim()).join('|');
+};
+const NO_MODE = PROBES.map(() => '').join('|');
+
+/* Calls done() once `link`, the only mode file, is in effect. A link that has
+ * already loaded calls done() at once, since its events will not fire again. */
+function whenLoaded(link, done) {
+	if (probe() !== NO_MODE) return done();
+	const settle = () => {
+		link.removeEventListener('load', settle);
+		link.removeEventListener('error', settle);
+		// A link replaced while it loaded must not stamp its stale mode.
+		if (link.isConnected && probe() !== NO_MODE) done();
+	};
+	link.addEventListener('load', settle);
+	link.addEventListener('error', settle);
+}
+
 /* Calls done() once the mode file for `mode` is the one applied, so the
  * data-theme attribute never changes ahead of the colors it goes with. */
 function applyLink(mode, done) {
@@ -73,7 +98,7 @@ function applyLink(mode, done) {
 		pending.remove();
 		pending = null;
 	}
-	if (current && current.getAttribute('href') === href) return done();
+	if (current && current.getAttribute('href') === href) return whenLoaded(current, done);
 
 	const next = document.createElement('link');
 	next.rel = 'stylesheet';
@@ -84,7 +109,7 @@ function applyLink(mode, done) {
 		// never redefines.
 		next.id = LINK_ID;
 		document.head.appendChild(next);
-		return done();
+		return whenLoaded(next, done);
 	}
 
 	// Swapping href in place unloads the old file before the new one arrives,
@@ -94,21 +119,19 @@ function applyLink(mode, done) {
 	// ready. Until it loads the new file applies nothing, so only one mode is
 	// ever in effect.
 	pending = next;
-	next.onload = () => {
+	const before = probe();
+	// load or error alike: the colors say whether the new file took effect.
+	// If they did not move, the new file failed; drop it and keep the old mode.
+	next.onload = next.onerror = () => {
 		if (pending !== next) return;
+		pending = null;
+		if (probe() === before) {
+			next.remove();
+			return;
+		}
 		current.remove();
 		next.id = LINK_ID;
-		pending = null;
 		done();
-	};
-	// A failed @import inside the mode file fires error although the file
-	// itself applied (the bare specifiers, design.md 3B), so only a link with
-	// no sheet at all counts as a failure.
-	next.onerror = () => {
-		if (next.sheet) return next.onload();
-		if (pending !== next) return;
-		next.remove();
-		pending = null;
 	};
 	current.after(next);
 }
@@ -194,6 +217,12 @@ export function toggleTheme() {
  *     return mq && mq.matches ? 'dark' : 'light';
  *   }
  *   var pending = null;
+ *   function probe() {
+ *     var cs = getComputedStyle(document.documentElement);
+ *     return ['surface-main', 'on-surface-main', 'background-main'].map(function (n) {
+ *       return cs.getPropertyValue('--semantic-color-' + n).trim();
+ *     }).join('|');
+ *   }
  *   function stamp(mode) {
  *     // Always the loaded mode, 'system' included, so layer 3 waits for layer 2.
  *     document.documentElement.setAttribute('data-theme', mode);
@@ -210,16 +239,15 @@ export function toggleTheme() {
  *     if (!cur) { next.id = 'enova-mode-tokens'; document.head.appendChild(next); stamp(mode); return; }
  *     // Load the new file beside the old one and drop the old one when it is
  *     // ready. Swapping href in place leaves every color undefined meanwhile.
+ *     // Link events cannot tell a good mode file from a 404 (both fire error),
+ *     // so the colors decide: if they did not move, keep the old mode.
  *     pending = next;
- *     function swap() {
+ *     var before = probe();
+ *     next.onload = next.onerror = function () {
  *       if (pending !== next) return;
- *       cur.parentNode.removeChild(cur); next.id = 'enova-mode-tokens'; pending = null; stamp(mode);
- *     }
- *     next.onload = swap;
- *     // A failed @import inside the file fires error although the file applied.
- *     next.onerror = function () {
- *       if (next.sheet) return swap();
- *       if (pending === next) { next.parentNode.removeChild(next); pending = null; }
+ *       pending = null;
+ *       if (probe() === before) { next.parentNode.removeChild(next); return; }
+ *       cur.parentNode.removeChild(cur); next.id = 'enova-mode-tokens'; stamp(mode);
  *     };
  *     cur.parentNode.insertBefore(next, cur.nextSibling);
  *   }

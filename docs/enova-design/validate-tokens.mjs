@@ -152,10 +152,14 @@ function walk(dir, onFile) {
 }
 
 /** Every custom property declared in a chunk of source. */
-function declaredIn(text) {
+function declaredIn(raw) {
+	/* A definition inside a comment defines nothing in the browser, so it must
+	 * not satisfy a reference either. */
+	const text = blankComments(raw);
 	const out = new Set();
-	// `--name:` in CSS, including inline style attributes
-	for (const m of text.matchAll(/(--[\w-]+)\s*:/g)) out.add(m[1]);
+	// `--name:` in CSS, including inline style attributes, and the quoted key of
+	// a JS style object: {'--name': ...} in JSX or CSS-in-JS
+	for (const m of text.matchAll(/(--[\w-]+)['"`]?\s*:/g)) out.add(m[1]);
 	// element.style.setProperty('--name', ...)
 	for (const m of text.matchAll(/setProperty\(\s*['"`](--[\w-]+)['"`]/g)) out.add(m[1]);
 	return out;
@@ -393,7 +397,12 @@ walk(scanDir, (file) => {
 		 * as a hard-coded color. Found on an adopted page that had reached
 		 * zero real ones, where the only way to clear the count would have been
 		 * to damage correct code. */
-		const HEX_RE = /(?<![\w&-])#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})(?![\w-])|%23(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})(?![0-9a-fA-F])|rgba?\(\s*\d/g;
+		/* Alpha forms count too: #rrggbbaa always, and #rgba only when it has a
+		 * letter, because four digits alone are far more often an issue or build
+		 * number ("Build #2814") than a color. */
+		const HEX4 = '(?=[0-9]*[a-fA-F])[0-9a-fA-F]{4}';
+		const HEX_BODY = `(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|${HEX4}|[0-9a-fA-F]{3})`;
+		const HEX_RE = new RegExp(`(?<![\\w&-])#${HEX_BODY}(?![\\w-])|%23${HEX_BODY}(?![0-9a-fA-F])|rgba?\\(\\s*\\d`, 'g');
 		for (const m of code.matchAll(HEX_RE)) {
 			hexHits.push({file: rel, line: lineOf(m.index), text: m[0]});
 		}

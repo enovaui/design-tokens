@@ -154,7 +154,7 @@ When there is one number to show, the answer is a tile, not a chart.
   <p class="app-caption app-ink-sub">Successful builds</p>
   <p class="app-display app-stat__value">1,284</p>
   <p class="app-stat__delta app-caption" data-trend="up">
-    <span aria-hidden="true">▲</span> 4.2% vs last week
+    <span role="img" aria-label="Up">▲</span> 4.2% vs last week
   </p>
 </div>
 ```
@@ -262,7 +262,7 @@ dashboard filled 36 of them with a brand-red token and the page read as an alarm
 	color: var(--app-btn-tertiary-label-color);
 }
 
-.app-btn--tertiary:hover {
+.app-btn--tertiary:hover:not(:disabled) {
 	background-color: var(--app-btn-tertiary-container-hover-color);
 }
 
@@ -375,7 +375,7 @@ dashboard filled 36 of them with a brand-red token and the page read as an alarm
 ## Table
 
 ```html
-<div class="app-card" style="padding: 0; overflow: hidden">
+<div class="app-card" style="padding: 0; overflow-x: auto">
   <table class="app-table">
     <caption class="app-caption app-ink-sub">Last 20 builds</caption>
     <thead>
