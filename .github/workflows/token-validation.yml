@@ -5,6 +5,7 @@ on:
     paths:
       - 'packages/*/json/*.json'
       - 'packages/*/css/*.css'
+      - 'docs/enova-design/**'
     types: [opened, synchronize, reopened]
 
 jobs:
@@ -248,6 +249,35 @@ jobs:
 
             console.log('✅ All package versions match.');
           "
+
+      # The design guide quotes token values. Semantic names are stable and their
+      # values are not, so a sync that changes a value leaves the guide asserting
+      # something that is no longer true, and a stale contrast ratio that claims
+      # a pairing is *safe* is worse than no ratio at all. The token owner owns
+      # the guide, so this blocks rather than warns.
+      - name: Validate Design Guide Against Tokens
+        run: |
+          echo "🎨 Regenerating the color reference from the tokens..."
+          node docs/enova-design/generate-color-reference.mjs
+
+          if ! git diff --quiet -- docs/enova-design/reference-color.md; then
+            echo "::error file=docs/enova-design/reference-color.md::reference-color.md is out of date. Run 'node docs/enova-design/generate-color-reference.mjs' and commit the result."
+            git --no-pager diff --stat -- docs/enova-design/reference-color.md
+            git --no-pager diff -- docs/enova-design/reference-color.md | head -60
+            exit 1
+          fi
+          echo "✅ reference-color.md matches the tokens."
+
+          echo "🔍 Checking the guide's hand-written claims..."
+          node docs/enova-design/verify-guide-claims.mjs
+
+          # The two steps above check values. Neither notices a token that was
+          # removed or renamed: the reference regenerates without it and every
+          # remaining claim still matches, while enova-app-tokens.css and the
+          # recipes keep naming it, and every adopting page loses that color
+          # with no error. The validator's dead-reference check is what sees it.
+          echo "🔗 Checking every token the guide names still exists..."
+          node docs/enova-design/validate-tokens.mjs docs/enova-design --tokens packages --strict-layer
 
       - name: Generate Validation Report
         if: always()
