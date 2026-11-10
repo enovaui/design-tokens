@@ -38,8 +38,13 @@ const media = () =>
 		? window.matchMedia('(prefers-color-scheme: dark)')
 		: null;
 
-/** The user's stored preference: 'light' | 'dark' | 'system'. */
+/* The preference set on this page. Held in memory as well as in storage, so a
+ * choice survives where localStorage throws or refuses the write. */
+let memoryPref = null;
+
+/** The user's preference: 'light' | 'dark' | 'system'. */
 export function getPreference() {
+	if (memoryPref) return memoryPref;
 	try {
 		const v = localStorage.getItem(STORAGE_KEY);
 		return v === 'light' || v === 'dark' ? v : 'system';
@@ -108,20 +113,19 @@ function applyLink(mode, done) {
 	current.after(next);
 }
 
-function applyAttribute(mode, pref) {
+function applyAttribute(mode) {
 	if (typeof document === 'undefined') return;
-	const root = document.documentElement;
-	// 'system' leaves data-theme off so the prefers-color-scheme block in
-	// enova-app-tokens.css takes over; an explicit choice stamps it and wins.
-	if (pref === 'system') root.removeAttribute('data-theme');
-	else root.setAttribute('data-theme', mode);
+	// Always the mode of the file that is loaded, 'system' included. Left unset,
+	// the prefers-color-scheme block in enova-app-tokens.css would flip layer 3
+	// the moment the OS changes, while layer 2 still waits for its file.
+	document.documentElement.setAttribute('data-theme', mode);
 }
 
 function apply() {
 	const pref = getPreference();
 	const mode = getTheme();
 	applyLink(mode, () => {
-		applyAttribute(mode, pref);
+		applyAttribute(mode);
 		config.onChange?.(mode, pref);
 	});
 	return mode;
@@ -149,7 +153,9 @@ export function initTheme(opts = {}) {
 	// Keep other tabs in step.
 	if (typeof window !== 'undefined') {
 		window.addEventListener('storage', (e) => {
-			if (e.key === STORAGE_KEY) apply();
+			if (e.key !== STORAGE_KEY) return;
+			memoryPref = null; // another tab chose; storage is the source again
+			apply();
 		});
 	}
 	return mode;
@@ -157,6 +163,7 @@ export function initTheme(opts = {}) {
 
 /** @param {'light'|'dark'|'system'} pref */
 export function setTheme(pref) {
+	memoryPref = pref;
 	try {
 		if (pref === 'system') localStorage.removeItem(STORAGE_KEY);
 		else localStorage.setItem(STORAGE_KEY, pref);
@@ -188,8 +195,8 @@ export function toggleTheme() {
  *   }
  *   var pending = null;
  *   function stamp(mode) {
- *     if (pref === 'light' || pref === 'dark') document.documentElement.setAttribute('data-theme', mode);
- *     else document.documentElement.removeAttribute('data-theme');
+ *     // Always the loaded mode, 'system' included, so layer 3 waits for layer 2.
+ *     document.documentElement.setAttribute('data-theme', mode);
  *   }
  *   function apply() {
  *     var mode = resolve();

@@ -136,6 +136,10 @@ cp <design-tokens>/docs/enova-design/starter/index.html   ./
 cp <design-tokens>/docs/enova-design/enova-app-tokens.css ./
 ```
 
+Then change one line in `index.html`: `href="../enova-app-tokens.css"` becomes
+`href="enova-app-tokens.css"`. In the guide folder the starter sits one level below the CSS;
+side by side, the `../` points nowhere and the page loses the whole app layer.
+
 Open `index.html` in a browser and it works. Change the content from there.
 If your network blocks unpkg, change **only the one line** `TOKEN_BASE` in `index.html` to your
 internal host.

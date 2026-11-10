@@ -156,7 +156,8 @@ for (const rel of FILES) {
 		 * sentence naming one token often quotes the hex of a different one. */
 		const adjacent = [
 			...prose.matchAll(
-				/`?(--(?:semantic|primitive|app)-[a-z0-9-]+|(?:on-)?(?:surface|background|stroke)-[a-z0-9-]+)`?\s*(?:is|=|:|->)?\s*`?(#[0-9a-fA-F]{6})`?/gi
+				// the last separator is the CSS annotation: a primitive var() with its hex in a comment after it
+				/`?(--(?:semantic|primitive|app)-[a-z0-9-]+|(?:on-)?(?:surface|background|stroke)-[a-z0-9-]+)`?\s*(?:is|=|:|->|\)\s*;?\s*\/\*)?\s*`?(#[0-9a-fA-F]{6})`?/gi
 			)
 		];
 		const pairedHexes = new Set();

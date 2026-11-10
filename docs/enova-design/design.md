@@ -659,8 +659,10 @@ setTheme('dark');     // 'light' | 'dark' | 'system'
 toggleTheme();
 ```
 
-- The default is `system`: `data-theme` stays unset so the `prefers-color-scheme`
-  block applies.
+- The default is `system`, which follows the OS. The script stamps `data-theme`
+  with whichever mode file it has loaded, in `system` too, so layer 3 changes
+  only once layer 2 has. The `prefers-color-scheme` block in
+  `enova-app-tokens.css` is the fallback for a page with no script.
 - An explicit choice is stored in `localStorage` and beats the OS setting.
 - On a page with no build step, inline the IIFE at the bottom of `enova-theme.js`
   into `<head>` to avoid a flash of the wrong mode.

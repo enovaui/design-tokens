@@ -599,9 +599,9 @@ there (design.md section 8.8). Put the panel on `surface-main`, the same surface
 a card, which is what the status colors were validated against.
 
 ```html
-<dialog class="app-dialog" id="detail">
+<dialog class="app-dialog" id="detail" aria-labelledby="detail-title">
   <div class="app-dialog__head">
-    <h2 class="app-title-sm">Build #2814</h2>
+    <h2 class="app-title-sm" id="detail-title">Build #2814</h2>
     <span class="app-badge app-badge--good"><span aria-hidden="true">&#9679;</span> PASSED</span>
   </div>
   <div class="app-dialog__body app-body-sm">

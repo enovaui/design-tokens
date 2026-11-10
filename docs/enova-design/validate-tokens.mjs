@@ -98,6 +98,18 @@ const VALUE_FLAGS = new Set(['--tokens', '--define']);
 const scanDir = path.resolve(
 	args.find((a, i) => !a.startsWith('--') && !VALUE_FLAGS.has(args[i - 1])) ?? '.'
 );
+/* A misspelled source path would otherwise scan nothing and report a clean run. */
+let scanDirOk = false;
+try {
+	scanDirOk = fs.statSync(scanDir).isDirectory();
+	fs.readdirSync(scanDir);
+} catch {
+	scanDirOk = false;
+}
+if (!scanDirOk) {
+	console.error(`Source directory not found or not readable: ${scanDir}`);
+	process.exit(2);
+}
 const allowHex = has('--allow-hex');
 const allowAlias = has('--allow-alias');
 const showAliases = has('--show-aliases');

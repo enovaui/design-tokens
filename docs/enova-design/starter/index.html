@@ -7,7 +7,7 @@
   Open this file in a browser and it works (tokens from CDN, version pinned).
   If a network policy blocks unpkg, change only TOKEN_BASE.
 -->
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,8 +38,9 @@
 	}
 	var pending = null;
 	function stamp(mode) {
-		if (pref === 'light' || pref === 'dark') document.documentElement.setAttribute('data-theme', mode);
-		else document.documentElement.removeAttribute('data-theme');
+		/* Always the loaded mode, 'system' included: left unset, the OS media query
+		   would flip layer 3 before layer 2's file arrives. */
+		document.documentElement.setAttribute('data-theme', mode);
 		var btn = document.querySelector('[data-theme-toggle]');
 		if (btn) btn.textContent = mode === 'dark' ? 'Light mode' : 'Dark mode';
 	}
@@ -193,7 +194,8 @@
 	<!-- Chart -->
 	<section class="app-card" style="margin-block-end: var(--app-space-6)">
 		<h2 class="app-title-sm" style="margin-block-end: var(--app-space-4)">Builds per branch</h2>
-		<svg class="chart" viewBox="0 0 480 180" role="img" aria-label="Bar chart of successful and failed builds per branch">
+		<!-- The label carries the data the bars show. Keep it in step with them. -->
+		<svg class="chart" viewBox="0 0 480 180" role="img" aria-label="Builds per branch. release-1: 264 passed, 54 failed. release-2: 192 passed, 30 failed. release-3: 138 passed, 18 failed.">
 			<g class="chart__grid">
 				<line x1="40" y1="150" x2="470" y2="150"></line>
 				<line x1="40" y1="100" x2="470" y2="100"></line>

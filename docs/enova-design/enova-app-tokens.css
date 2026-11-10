@@ -418,7 +418,8 @@
 	 * 2.91 on the card, under both the 4.5 text floor and the 3:1 border floor.
 	 * See design.md 8.4. The focus border is overridden in the dark blocks. */
 	--app-field-error-label-color: var(--app-status-critical-color);
-	--app-field-help-label-color: var(--semantic-color-on-surface-text-field-assistive);
+	/* on-surface-text-field-assistive is #878580 in light, 3.69 on the card. */
+	--app-field-help-label-color: var(--semantic-color-on-surface-sub);
 	--app-field-input-border-color: var(--semantic-color-stroke-text-field);
 	--app-field-input-border-disabled-color: var(--semantic-color-stroke-text-field-disabled);
 	--app-field-input-border-focus-color: var(--semantic-color-stroke-text-field-focused);
@@ -452,9 +453,10 @@
 
 /* ---------------------------------------------------------------------------
  * Dark mode.
- * Declared under both scopes: the media query covers the OS setting, the
- * [data-theme] scope covers an explicit in-page toggle, and the toggle wins
- * both ways. Whichever block applies, the matching color-semantic-mono-black.css
+ * Declared under both scopes. The theme script (enova-theme.js) stamps
+ * [data-theme] with the mode file it has loaded, so on a page running it the
+ * attribute decides, both ways. The media query is the fallback for a page with
+ * no script. Whichever block applies, the matching color-semantic-mono-black.css
  * must also be the loaded semantic file.
  * ------------------------------------------------------------------------- */
 @media (prefers-color-scheme: dark) {
