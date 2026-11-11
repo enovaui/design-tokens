@@ -53,11 +53,22 @@ export function getPreference() {
 	}
 }
 
-/** The mode actually on screen: 'light' | 'dark'. */
-export function getTheme() {
+/* The mode whose file is in effect. Set only once a mode file has applied, so a
+ * pending or failed switch does not change what getTheme() reports. */
+let appliedMode = null;
+
+/* The mode the preference asks for, which is not yet the one on screen while
+ * its file loads, and never is if it fails. */
+function requestedMode() {
 	const pref = getPreference();
 	if (pref !== 'system') return pref;
 	return media()?.matches ? 'dark' : 'light';
+}
+
+/** The mode actually on screen: 'light' | 'dark'. Before any mode file has
+ * applied, the mode that is being loaded. */
+export function getTheme() {
+	return appliedMode ?? requestedMode();
 }
 
 let pending = null;
@@ -72,6 +83,23 @@ const probe = () => {
 	return PROBES.map((p) => cs.getPropertyValue(p).trim()).join('|');
 };
 const NO_MODE = PROBES.map(() => '').join('|');
+
+/* Links this module created, and the ones among them whose load has finished,
+ * one way or the other. A link it did not create counts as settled. */
+const tracked = new WeakSet();
+const settled = new WeakSet();
+let seq = 0;
+function track(link) {
+	tracked.add(link);
+	const mark = () => {
+		link.removeEventListener('load', mark);
+		link.removeEventListener('error', mark);
+		settled.add(link);
+	};
+	link.addEventListener('load', mark);
+	link.addEventListener('error', mark);
+	return link;
+}
 
 /* Calls done() once `link`, the only mode file, is in effect. A link that has
  * already loaded calls done() at once, since its events will not fire again. */
@@ -91,6 +119,7 @@ function whenLoaded(link, done) {
  * data-theme attribute never changes ahead of the colors it goes with. */
 function applyLink(mode, done) {
 	if (typeof document === 'undefined') return done();
+	const my = ++seq; // a later call supersedes one still waiting below
 	const href = config.base + MODE_FILE[mode];
 	const current = document.getElementById(LINK_ID);
 
@@ -100,13 +129,35 @@ function applyLink(mode, done) {
 	}
 	if (current && current.getAttribute('href') === href) return whenLoaded(current, done);
 
-	const next = document.createElement('link');
+	const next = track(document.createElement('link'));
 	next.rel = 'stylesheet';
 	next.href = href;
 	if (!current) {
 		// Order against enova-app-tokens.css does not matter: the mode file
 		// defines only --semantic-color-* names, which the app layer reads and
 		// never redefines.
+		next.id = LINK_ID;
+		document.head.appendChild(next);
+		return whenLoaded(next, done);
+	}
+
+	// No mode is on screen yet. If the current file is still loading, let it
+	// settle first and switch from there: loading the two side by side would
+	// let its late arrival pass for the new file, and a failed switch would
+	// then drop the file that worked. If it already failed, there is nothing
+	// to keep, so replace it.
+	if (probe() === NO_MODE) {
+		if (tracked.has(current) && !settled.has(current)) {
+			const resume = () => {
+				current.removeEventListener('load', resume);
+				current.removeEventListener('error', resume);
+				if (my === seq) applyLink(mode, done);
+			};
+			current.addEventListener('load', resume);
+			current.addEventListener('error', resume);
+			return;
+		}
+		current.remove();
 		next.id = LINK_ID;
 		document.head.appendChild(next);
 		return whenLoaded(next, done);
@@ -146,8 +197,9 @@ function applyAttribute(mode) {
 
 function apply() {
 	const pref = getPreference();
-	const mode = getTheme();
+	const mode = requestedMode();
 	applyLink(mode, () => {
+		appliedMode = mode;
 		applyAttribute(mode);
 		config.onChange?.(mode, pref);
 	});
@@ -236,7 +288,23 @@ export function toggleTheme() {
  *     var next = document.createElement('link');
  *     next.rel = 'stylesheet';
  *     next.href = href;
- *     if (!cur) { next.id = 'enova-mode-tokens'; document.head.appendChild(next); stamp(mode); return; }
+ *     if (!cur) {
+ *       next.id = 'enova-mode-tokens';
+ *       next.settled = false;
+ *       next.addEventListener('load', function () { next.settled = true; });
+ *       next.addEventListener('error', function () { next.settled = true; });
+ *       document.head.appendChild(next); stamp(mode); return;
+ *     }
+ *     // Nothing on screen yet. If the first file is still loading, wait for it
+ *     // and switch from there; if it failed, there is nothing to keep.
+ *     if (probe() === '||') {
+ *       if (cur.settled === false) {
+ *         var resume = function () { cur.removeEventListener('load', resume); cur.removeEventListener('error', resume); apply(); };
+ *         cur.addEventListener('load', resume); cur.addEventListener('error', resume);
+ *         return;
+ *       }
+ *       cur.parentNode.removeChild(cur); next.id = 'enova-mode-tokens'; document.head.appendChild(next); stamp(mode); return;
+ *     }
  *     // Load the new file beside the old one and drop the old one when it is
  *     // ready. Swapping href in place leaves every color undefined meanwhile.
  *     // Link events cannot tell a good mode file from a 404 (both fire error),

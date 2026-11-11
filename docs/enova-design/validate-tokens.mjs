@@ -237,6 +237,17 @@ const blankComments = (text) =>
  * keeps selectors and at-rule conditions out. */
 const DECL_RE = /(-{0,2}[a-zA-Z][\w-]*)\s*:\s*([^;{}]*)/g;
 
+/* Each HTML style attribute is a declaration block of its own, but its closing
+ * quote is neither `;` nor a brace, so DECL_RE ran on into the next attribute:
+ * an element styled with a label color, followed on the same line by one
+ * styled with a container fill, read as one color declaration whose value
+ * named the fill, and check 6 failed a correct page. The closing
+ * quote becomes `;`, which keeps every offset, so line numbers stay right. */
+const endStyleAttrs = (text) =>
+	text.replace(/(\bstyle\s*=\s*)(?:"([^"]*)"|'([^']*)')/g, (m, lead, dq, sq) =>
+		dq !== undefined ? `${lead}"${dq};` : `${lead}'${sq};`
+	);
+
 /* How a document says "this line is the mistake". Only these two spellings, and
  * only at the start of a CSS comment, so an ordinary comment that happens to use
  * the word is not silently exempted. Both spellings are already in use: the
@@ -268,7 +279,7 @@ const layerRefs = []; // {file, line, prop, names} for check 9
 
 /** Record `--name: value` so rolesOf() can follow the project's own indirection. */
 function collectLocalValues(text) {
-	for (const [, prop, value] of blankComments(text).matchAll(DECL_RE)) {
+	for (const [, prop, value] of endStyleAttrs(blankComments(text)).matchAll(DECL_RE)) {
 		if (!prop.startsWith('--')) continue;
 		if (!localValue.has(prop)) localValue.set(prop, []);
 		localValue.get(prop).push(value);
@@ -408,7 +419,7 @@ walk(scanDir, (file) => {
 		}
 	}
 
-	for (const m of code.matchAll(DECL_RE)) {
+	for (const m of endStyleAttrs(code).matchAll(DECL_RE)) {
 		const [, prop, value] = m;
 		const refs = varsIn(value);
 		if (!refs.length) continue;

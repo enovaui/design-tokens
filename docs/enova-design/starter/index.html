@@ -59,7 +59,25 @@
 		var next = document.createElement('link');
 		next.rel = 'stylesheet';
 		next.href = href;
-		if (!cur) { next.id = 'enova-mode-tokens'; document.head.appendChild(next); stamp(mode); return mode; }
+		if (!cur) {
+			next.id = 'enova-mode-tokens';
+			next.settled = false;
+			next.addEventListener('load', function () { next.settled = true; });
+			next.addEventListener('error', function () { next.settled = true; });
+			document.head.appendChild(next); stamp(mode); return mode;
+		}
+		/* Nothing on screen yet. If the first file is still loading, wait for it
+		   and switch from there, so its late arrival cannot pass for the new file
+		   and a failed switch cannot drop the file that worked. If it failed,
+		   there is nothing to keep: replace it. */
+		if (probe() === '||') {
+			if (cur.settled === false) {
+				var resume = function () { cur.removeEventListener('load', resume); cur.removeEventListener('error', resume); apply(); };
+				cur.addEventListener('load', resume); cur.addEventListener('error', resume);
+				return mode;
+			}
+			cur.parentNode.removeChild(cur); next.id = 'enova-mode-tokens'; document.head.appendChild(next); stamp(mode); return mode;
+		}
 		/* Load the new file beside the old one and drop the old one when it is
 		   ready. Swapping href in place leaves every color undefined meanwhile,
 		   which showed as five transparent frames per toggle. */
