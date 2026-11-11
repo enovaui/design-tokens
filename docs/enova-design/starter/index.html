@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<!--
+  SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
+  SPDX-License-Identifier: Apache-2.0
+
+  Enova design guide: a starting point that opens with no build step.
+  Open this file in a browser and it works (tokens from CDN, version pinned).
+  If a network policy blocks unpkg, change TOKEN_BASE and the static <link>s below.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enova Starter: dashboard</title>
+
+<!-- 1) Primitives plus the mode-independent semantics. Pinning the version is required. -->
+<link rel="stylesheet" href="https://unpkg.com/@enovaui/core-tokens@3.9.0/css/color-primitive.css">
+<link rel="stylesheet" href="https://unpkg.com/@enovaui/core-tokens@3.9.0/css/typography-primitive.css">
+<link rel="stylesheet" href="https://unpkg.com/@enovaui/core-tokens@3.9.0/css/spacing-primitive.css">
+<link rel="stylesheet" href="https://unpkg.com/@enovaui/core-tokens@3.9.0/css/radius-primitive.css">
+<link rel="stylesheet" href="https://unpkg.com/@enovaui/core-tokens@3.9.0/css/opacity-primitive.css">
+<link rel="stylesheet" href="https://unpkg.com/@enovaui/web-tokens@3.9.0/css/typography-semantic.css">
+<link rel="stylesheet" href="https://unpkg.com/@enovaui/web-tokens@3.9.0/css/radius-semantic.css">
+
+<!-- 2) Per-mode colors. The script owns the <link> so exactly one is ever loaded.
+        It runs synchronously in <head>, so the wrong mode never flashes. -->
+<script>
+(function () {
+	var TOKEN_BASE = 'https://unpkg.com/@enovaui/web-tokens@3.9.0/css/';
+	var FILES = {light: 'color-semantic-lg-brand.css', dark: 'color-semantic-mono-black.css'};
+	var pref = null;
+	try { pref = localStorage.getItem('enova-theme'); } catch (e) {}
+	var mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+
+	function resolve() {
+		if (pref === 'light' || pref === 'dark') return pref;
+		return mq && mq.matches ? 'dark' : 'light';
+	}
+	var pending = null;
+	function probe() {
+		var cs = getComputedStyle(document.documentElement);
+		return ['surface-main', 'on-surface-main', 'background-main'].map(function (n) {
+			return cs.getPropertyValue('--semantic-color-' + n).trim();
+		}).join('|');
+	}
+	function stamp(mode) {
+		/* Always the loaded mode, 'system' included: left unset, the OS media query
+		   would flip layer 3 before layer 2's file arrives. */
+		document.documentElement.setAttribute('data-theme', mode);
+		var btn = document.querySelector('[data-theme-toggle]');
+		if (btn) btn.textContent = mode === 'dark' ? 'Light mode' : 'Dark mode';
+	}
+	function apply() {
+		var mode = resolve();
+		var href = TOKEN_BASE + FILES[mode];
+		var cur = document.getElementById('enova-mode-tokens');
+		if (pending) { pending.parentNode.removeChild(pending); pending = null; }
+		if (cur && cur.getAttribute('href') === href) { stamp(mode); return mode; }
+		var next = document.createElement('link');
+		next.rel = 'stylesheet';
+		next.href = href;
+		if (!cur) {
+			next.id = 'enova-mode-tokens';
+			next.settled = false;
+			next.addEventListener('load', function () { next.settled = true; });
+			next.addEventListener('error', function () { next.settled = true; });
+			document.head.appendChild(next); stamp(mode); return mode;
+		}
+		/* Nothing on screen yet. If the first file is still loading, wait for it
+		   and switch from there, so its late arrival cannot pass for the new file
+		   and a failed switch cannot drop the file that worked. If it failed,
+		   there is nothing to keep: replace it. */
+		if (probe() === '||') {
+			if (cur.settled === false) {
+				var resume = function () { cur.removeEventListener('load', resume); cur.removeEventListener('error', resume); apply(); };
+				cur.addEventListener('load', resume); cur.addEventListener('error', resume);
+				return mode;
+			}
+			cur.parentNode.removeChild(cur); next.id = 'enova-mode-tokens'; document.head.appendChild(next); stamp(mode); return mode;
+		}
+		/* Load the new file beside the old one and drop the old one when it is
+		   ready. Swapping href in place leaves every color undefined meanwhile,
+		   which showed as five transparent frames per toggle. */
+		/* Link events cannot tell a good mode file from a 404: both fire error,
+		   because the good file's @imports fail too. So the colors decide: if
+		   they did not move, the new file failed, and the old mode stays. */
+		pending = next;
+		var before = probe();
+		next.onload = next.onerror = function () {
+			if (pending !== next) return;
+			pending = null;
+			if (probe() === before) { next.parentNode.removeChild(next); return; }
+			cur.parentNode.removeChild(cur); next.id = 'enova-mode-tokens'; stamp(mode);
+		};
+		cur.parentNode.insertBefore(next, cur.nextSibling);
+		return mode;
+	}
+	apply();
+	if (mq) mq.addEventListener('change', function () { if (pref !== 'light' && pref !== 'dark') apply(); });
+
+	window.enovaToggleTheme = function () {
+		pref = resolve() === 'dark' ? 'light' : 'dark';
+		try { localStorage.setItem('enova-theme', pref); } catch (e) {}
+		apply();
+	};
+	document.addEventListener('DOMContentLoaded', function () {
+		apply();
+		var btn = document.querySelector('[data-theme-toggle]');
+		if (btn) btn.addEventListener('click', window.enovaToggleTheme);
+	});
+})();
+</script>
+
+<!-- 3) App layer -->
+<link rel="stylesheet" href="../enova-app-tokens.css">
+
+<style>
+/* Patterns used only by this page, lifted from reference-patterns.md. */
+.app-header {
+	position: sticky; top: 0; z-index: var(--app-z-header);
+	height: var(--app-header-height);
+	background-color: var(--app-header-container-color);
+	border-bottom: 1px solid var(--app-header-border-color);
+}
+.app-header__inner { display: flex; align-items: center; gap: var(--app-space-5); height: 100%; }
+.app-header__brand { color: var(--app-header-brand-label-color); text-decoration: none; margin-inline-end: auto; }
+
+.app-btn {
+	display: inline-flex; align-items: center; justify-content: center; gap: var(--app-space-2);
+	min-height: 40px; padding-inline: var(--app-space-4);
+	border: 1px solid transparent; border-radius: var(--app-radius-md);
+	font-family: inherit; font-size: var(--app-text-body-sm-size);
+	font-weight: var(--app-btn-weight); line-height: 1; cursor: pointer;
+	transition: background-color var(--app-duration-fast) var(--app-ease-standard),
+	            border-color var(--app-duration-fast) var(--app-ease-standard);
+}
+/* The three -border and -weight tokens are inert in light and carry the
+   hierarchy in dark, where all three button surfaces are the same gray. One
+   rule each: the mode lives in the token, not in a duplicated block. */
+.app-btn--primary { background-color: var(--app-btn-primary-container-color); color: var(--app-btn-primary-label-color); border-color: var(--app-btn-primary-border-color); font-weight: var(--app-btn-primary-weight); }
+.app-btn--secondary { background-color: var(--app-btn-secondary-container-color); color: var(--app-btn-secondary-label-color); border-color: var(--app-btn-secondary-border-color); }
+.app-btn--tertiary { background-color: transparent; color: var(--app-btn-tertiary-label-color); }
+
+.app-stat { display: flex; flex-direction: column; gap: var(--app-space-1); }
+.app-stat__value { color: var(--app-stat-value-label-color); font-variant-numeric: tabular-nums; }
+.app-stat__delta[data-trend="up"] { color: var(--app-status-good-color); }
+.app-stat__delta[data-trend="down"] { color: var(--app-status-critical-color); }
+.app-stat__delta[data-trend="flat"] { color: var(--app-stat-delta-label-flat-color); }
+
+.app-badge {
+	display: inline-flex; align-items: center; gap: var(--app-space-1);
+	padding: 2px var(--app-space-2);
+	border: 1px solid currentColor; border-radius: var(--app-radius-full);
+	font-size: var(--app-text-caption-size); font-weight: var(--app-badge-weight); white-space: nowrap;
+}
+.app-badge--good { color: var(--app-status-good-color); }
+.app-badge--warning { color: var(--app-status-warning-color); }
+.app-badge--critical { color: var(--app-status-critical-color); }
+
+.app-table { width: 100%; border-collapse: collapse; font-size: var(--app-text-body-sm-size); line-height: var(--app-text-body-sm-leading); }
+.app-table th, .app-table td { padding: var(--app-space-3) var(--app-space-5); text-align: start; border-bottom: 1px solid var(--app-table-border-color); }
+.app-table thead th {
+	background-color: var(--app-table-head-container-color); color: var(--app-table-head-label-color);
+	font-size: var(--app-text-caption-size); font-weight: var(--app-table-head-weight);
+	text-transform: uppercase; letter-spacing: .04em;
+}
+.app-table tbody tr:last-child td { border-bottom: 0; }
+.app-table th.app-table__num, .app-table td.app-table__num { text-align: end; font-variant-numeric: tabular-nums; }
+
+/* Chart: plain SVG. Series colors run from --app-chart-1 in order. */
+.chart { display: block; width: 100%; height: auto; background-color: var(--app-chart-surface-color); border-radius: var(--app-radius-md); }
+.chart__grid { stroke: var(--app-chart-grid-color); stroke-width: 1; }
+.chart__axis-text { fill: var(--app-chart-axis-color); font-size: 11px; }
+.chart__bar-1 { fill: var(--app-chart-1); }
+.chart__bar-2 { fill: var(--app-chart-2); }
+.chart__value { fill: var(--app-chart-ink-color); font-size: 11px; font-variant-numeric: tabular-nums; }
+.legend { display: flex; gap: var(--app-space-4); list-style: none; padding: 0; margin: var(--app-space-3) 0 0; }
+.legend li { display: flex; align-items: center; gap: var(--app-space-2); font-size: var(--app-text-caption-size); color: var(--app-chart-legend-label-color); }
+.legend span { inline-size: 10px; block-size: 10px; border-radius: 2px; }
+</style>
+</head>
+
+<body>
+<header class="app-header">
+	<div class="app-container app-header__inner">
+		<a class="app-header__brand app-title-sm" href="#">Enova Starter</a>
+		<button class="app-btn app-btn--tertiary" type="button" data-theme-toggle>Dark mode</button>
+	</div>
+</header>
+
+<main class="app-container" style="padding-block: var(--app-space-6)">
+	<h1 class="app-title-xl">Build dashboard</h1>
+	<p class="app-body app-ink-sub" style="margin-block: var(--app-space-2) var(--app-space-6)">
+		Every color, space and type size on this page comes from <code class="app-code">@enovaui</code>
+		tokens. There are no hard-coded values.
+	</p>
+
+	<!-- KPI tiles -->
+	<div class="app-grid" style="margin-block-end: var(--app-space-6)">
+		<div class="app-card app-stat">
+			<p class="app-caption app-ink-sub">Successful builds</p>
+			<p class="app-display app-stat__value">1,284</p>
+			<p class="app-stat__delta app-caption" data-trend="up"><span role="img" aria-label="Up">▲</span> 4.2% vs last week</p>
+		</div>
+		<div class="app-card app-stat">
+			<p class="app-caption app-ink-sub">Failed builds</p>
+			<p class="app-display app-stat__value">37</p>
+			<p class="app-stat__delta app-caption" data-trend="up"><span role="img" aria-label="Down">▼</span> 1.1% vs last week</p>
+		</div>
+		<div class="app-card app-stat">
+			<p class="app-caption app-ink-sub">Average duration</p>
+			<p class="app-display app-stat__value">12:04</p>
+			<p class="app-stat__delta app-caption" data-trend="flat">no change</p>
+		</div>
+	</div>
+
+	<!-- Chart -->
+	<section class="app-card" style="margin-block-end: var(--app-space-6)">
+		<h2 class="app-title-sm" style="margin-block-end: var(--app-space-4)">Builds per branch</h2>
+		<!-- The label carries the data the bars show. Keep it in step with them. -->
+		<svg class="chart" viewBox="0 0 480 180" role="img" aria-label="Builds per branch. release-1: 264 passed, 54 failed. release-2: 192 passed, 30 failed. release-3: 138 passed, 18 failed.">
+			<g class="chart__grid">
+				<line x1="40" y1="150" x2="470" y2="150"></line>
+				<line x1="40" y1="100" x2="470" y2="100"></line>
+				<line x1="40" y1="50" x2="470" y2="50"></line>
+			</g>
+			<g class="chart__axis-text">
+				<text x="34" y="154" text-anchor="end">0</text>
+				<text x="34" y="104" text-anchor="end">150</text>
+				<text x="34" y="54" text-anchor="end">300</text>
+			</g>
+			<!-- 2px gap between fills, 4px rounded data ends -->
+			<g>
+				<rect class="chart__bar-1" x="70"  y="62"  width="34" height="88" rx="4"></rect>
+				<rect class="chart__bar-2" x="106" y="132" width="34" height="18" rx="4"></rect>
+				<rect class="chart__bar-1" x="190" y="86"  width="34" height="64" rx="4"></rect>
+				<rect class="chart__bar-2" x="226" y="140" width="34" height="10" rx="4"></rect>
+				<rect class="chart__bar-1" x="310" y="104" width="34" height="46" rx="4"></rect>
+				<rect class="chart__bar-2" x="346" y="144" width="34" height="6"  rx="4"></rect>
+			</g>
+			<g class="chart__axis-text">
+				<text x="105" y="168" text-anchor="middle">release-1</text>
+				<text x="225" y="168" text-anchor="middle">release-2</text>
+				<text x="345" y="168" text-anchor="middle">release-3</text>
+			</g>
+		</svg>
+		<!-- Two or more series always get a legend -->
+		<ul class="legend">
+			<li><span style="background: var(--app-chart-1)"></span>Passed</li>
+			<li><span style="background: var(--app-chart-2)"></span>Failed</li>
+		</ul>
+	</section>
+
+	<!-- Table -->
+	<section class="app-card" style="padding: 0; overflow-x: auto">
+		<table class="app-table">
+			<caption class="app-caption app-ink-sub" style="text-align: start; padding: var(--app-space-4) var(--app-space-5) var(--app-space-2)">
+				Recent builds
+			</caption>
+			<thead>
+				<tr><th scope="col">Branch</th><th scope="col">Status</th><th scope="col" class="app-table__num">Duration</th></tr>
+			</thead>
+			<tbody>
+				<tr><td>release-1</td><td><span class="app-badge app-badge--good"><span aria-hidden="true">●</span> PASSED</span></td><td class="app-table__num">12m 04s</td></tr>
+				<tr><td>release-2</td><td><span class="app-badge app-badge--warning"><span aria-hidden="true">▲</span> UNSTABLE</span></td><td class="app-table__num">14m 51s</td></tr>
+				<tr><td>release-3</td><td><span class="app-badge app-badge--critical"><span aria-hidden="true">■</span> FAILED</span></td><td class="app-table__num">03m 12s</td></tr>
+			</tbody>
+		</table>
+	</section>
+
+	<div style="display: flex; gap: var(--app-space-3); margin-block-start: var(--app-space-6)">
+		<button class="app-btn app-btn--primary" type="button">Run build</button>
+		<button class="app-btn app-btn--secondary" type="button">Settings</button>
+		<button class="app-btn app-btn--tertiary" type="button">Cancel</button>
+	</div>
+</main>
+</body>
+</html>
