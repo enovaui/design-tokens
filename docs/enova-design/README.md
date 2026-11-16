@@ -30,6 +30,43 @@ PrimeVue or MUI (section 3.5).
 
 ---
 
+## What this folder is
+
+A self-contained guide bundle, not an npm package. It lives in this repository next to the
+token packages, is versioned with them through the repository's release tags, and CI checks it
+against the tokens in every pull request that touches either.
+
+It adds one layer on top of the two token packages and tells you how to use all three:
+
+```mermaid
+flowchart LR
+  P["@enovaui/core-tokens<br/>primitives"] --> S["@enovaui/web-tokens<br/>semantic: exactly one<br/>color mode file loaded"]
+  S --> A["enova-app-tokens.css<br/>layer 3: component and<br/>app tokens (--app-*)"]
+  A --> R["your rules"]
+  T["enova-theme.js"] -. "swaps the mode file,<br/>sets data-theme" .-> S
+```
+
+- **The token packages** are unchanged and installed or loaded as usual.
+- **`enova-app-tokens.css` is the official layer 3 of this guide**, not a sample. Its `--app-*`
+  names are what your page depends on, and an upgrade replaces the file whole (section 1); the
+  validator's check 3 names anything an upgrade removed. For now it is versioned by the release
+  tag rather than published as a package. Packaging it, and splitting the `--app-*` tokens from
+  the `.app-*` recipe classes it also carries, is planned.
+- **Everything else** is either documentation you read, a starting page you copy, or tooling
+  for whoever maintains the folder. Section 2 says which file is which.
+
+**Choose your setup:**
+
+| Your situation | Start at |
+|---|---|
+| A static page, no build step | [3.1](#31-a-static-page-with-no-build-tool-the-fastest-way) |
+| A project with a bundler (Vite, Next, webpack) | [3.2](#32-a-project-with-a-bundler-vite-next-webpack) |
+| Components from a framework (PrimeVue, MUI, Vuetify) | [3.5](#35-on-a-component-framework-primevue-mui-vuetify-shadcn) |
+| A page that already uses the tokens | [design.md, "Migrating an existing page"](./design.md#migrating-an-existing-page) |
+| An AI tool writes the code | [section 4](#4-building-with-an-ai-tool-most-of-you) |
+
+---
+
 ## 1. Getting the guide, and keeping it current
 
 There is no package to install for the guide. The token packages are installed or loaded from
@@ -88,7 +125,7 @@ diff ./css/enova-app-tokens.css <design-tokens>/docs/enova-design/enova-app-toke
 | `enova-app-tokens.css` | **always** | The CSS you actually use: type ramp, spacing, elevation, chart colors, status inks and the component tokens |
 | `enova-theme.js` | if the page switches between light and dark | Keeps the one loaded `color-semantic-*.css` and the `data-theme` attribute in step. See below |
 | `copilot-instructions.md` | **if you build with an AI tool** | Becomes `.github/copilot-instructions.md`, `AGENTS.md` or your tool's rules file (section 4.2) |
-| `starter/index.html` | to start from | A finished page that opens in a browser with no build step |
+| `starter/index.html` | to start from | A complete example dashboard that opens with no build step. Keep its token setup, replace its content (3.1) |
 
 **Read, do not copy:**
 
@@ -140,7 +177,14 @@ Then change one line in `index.html`: `href="../enova-app-tokens.css"` becomes
 `href="enova-app-tokens.css"`. In the guide folder the starter sits one level below the CSS;
 side by side, the `../` points nowhere and the page loses the whole app layer.
 
-Open `index.html` in a browser and it works. Change the content from there.
+Open `index.html` in a browser and it works. It is a complete example dashboard, so treat it
+in two parts:
+
+| Keep | Replace |
+|---|---|
+| everything in `<head>` down to the `enova-app-tokens.css` link: the pinned token links, the theme script, the app layer | the `<style>` block, as you go: it holds the recipe classes this demo uses, lifted from reference-patterns.md. Keep the ones your page uses and add your own component tokens and rules |
+| the `data-theme-toggle` button, if the page switches modes | everything in `<body>` apart from that button: the header, KPI tiles, chart and table are sample content |
+
 If your network blocks unpkg, point every token URL in `index.html` at your internal host: the
 `TOKEN_BASE` line, which loads the color mode file, and the static `<link>`s above it, which load
 the primitives and the non-color semantic files.
