@@ -1332,9 +1332,10 @@ that had passed every check, so walk them by hand:
 | [generate-color-reference.mjs](./generate-color-reference.mjs) | Maintainers only. Writes `reference-color.md` from the token files |
 | [verify-guide-claims.mjs](./verify-guide-claims.mjs) | Maintainers only. Checks every hex and contrast ratio the guide quotes against the tokens |
 | [token-values.mjs](./token-values.mjs) | Maintainers only. Shared by the two above, so they cannot disagree about a value |
+| [sync-guide-version.mjs](./sync-guide-version.mjs) | Maintainers only. Keeps the version pins in step with the packages; run by the release step |
 
 `reference-color.md` is generated from the token files. Regenerate it rather than
-editing by hand. The last three files run in this repository's CI on every pull
+editing by hand. The last four files run in this repository's CI on every pull
 request that touches the token files or this folder, so a token sync that moves
 a quoted value fails until the guide is updated. An adopting project does not need them.
 

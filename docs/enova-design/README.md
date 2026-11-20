@@ -143,6 +143,7 @@ diff ./css/enova-app-tokens.css <design-tokens>/docs/enova-design/enova-app-toke
 | `generate-color-reference.mjs` | Writes `reference-color.md` from the token files |
 | `verify-guide-claims.mjs` | Checks every hex value and contrast ratio the guide quotes against the tokens |
 | `token-values.mjs` | Shared by the two above, so they cannot disagree about a value |
+| `sync-guide-version.mjs` | Rewrites the token versions the guide pins; run by the release step, and with `--check` in CI |
 
 **In practice the file you copy is `enova-app-tokens.css`.** The rest explains how to use it.
 
@@ -494,7 +495,7 @@ color: var(--my-experiment, #123456);
 Written against `@enovaui/core-tokens` and `@enovaui/web-tokens` **3.9.0**.
 
 **The guide checks itself in CI.** On every pull request that touches the token files or this
-folder, `.github/workflows/token-validation.yml` does three things:
+folder, `.github/workflows/token-validation.yml` does four things:
 
 1. Runs `generate-color-reference.mjs` and fails if `reference-color.md` changes, which means the
    token values moved and the reference was not regenerated.
@@ -504,20 +505,25 @@ folder, `.github/workflows/token-validation.yml` does three things:
 3. Runs `validate-tokens.mjs` on this folder, which fails if a token the guide names no longer
    exists. Steps 1 and 2 cannot see a removal: the reference regenerates without the token and
    every remaining claim still matches, while `enova-app-tokens.css` keeps naming it.
+4. Runs `sync-guide-version.mjs --check`, which fails if a version the guide pins differs from
+   the token packages.
 
 So a Figma sync that moves or removes a token the guide depends on cannot merge until the guide
 is updated. The sync bot does not update the guide itself: whoever reviews the sync pull request
 runs the commands below and fixes the lines they name. What this does not cover: a value the guide describes in words without quoting it, and
 any judgment the guide makes on top of a number. Read the failing section, not just the number.
 
-When you move the token version:
+**A release updates the version pins itself.** `pnpm run version`, which the release workflow
+runs, now also runs `sync-guide-version.mjs` and `generate-color-reference.mjs`, so the CDN
+links, the "written against" lines and the reference header move with the packages and are
+committed with the version bump. Nobody edits them by hand.
+
+When token values change (a Figma sync):
 
 - Regenerate the reference with `node docs/enova-design/generate-color-reference.mjs`. It is
   generated from the token CSS and must not be edited by hand.
 - Run `node docs/enova-design/verify-guide-claims.mjs` locally before pushing, and fix each line
   it names.
-- Update the version in the CDN links and in the "written against" lines (`design.md`,
-  `SKILL.md`, `starter/index.html`, `enova-theme.js`, this page).
 
 **Spelling.** The documents use American spelling, to match the CSS property names they sit next
 to (`color`, `gray`).

@@ -279,6 +279,11 @@ jobs:
           echo "🔗 Checking every token the guide names still exists..."
           node docs/enova-design/validate-tokens.mjs docs/enova-design --tokens packages --strict-layer
 
+          # The release step (`pnpm run version`) rewrites the guide's version
+          # pins; this catches a version moved any other way.
+          echo "📌 Checking the guide's version pins match the packages..."
+          node docs/enova-design/sync-guide-version.mjs --check
+
       - name: Generate Validation Report
         if: always()
         run: |
