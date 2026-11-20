@@ -1,0 +1,745 @@
+/*
+ * SPDX-FileCopyrightText: Copyright 2026 LG Electronics Inc.
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Enova app token layer (layer 3), for web pages and dashboards.
+ *
+ * WHAT THIS IS
+ *   @enovaui/core-tokens  = layer 1, primitives  (--primitive-*)
+ *   @enovaui/web-tokens   = layer 2, semantics   (--semantic-*)
+ *   THIS FILE             = layer 3, app tokens  (--app-*)
+ *
+ * YOUR CSS READS LAYER 3, NOT LAYER 2. A rule that names --semantic-color-*
+ * directly cannot be changed on its own: the only way to move it is to override
+ * the semantic token, and that moves every other component sharing it. Reach for
+ * layer 2 only in the value of an --app-* declaration here. See design.md rule 2.
+ *
+ * LAYER 3 HOLDS TWO KINDS OF TOKEN, told apart by the first word of the name.
+ *
+ *   role        --app-status-good-color, --app-space-4, --app-elevation-2, --app-ink-sub-color
+ *               An axis or a value layer 2 has no word for. One definition, so a
+ *               figure that was measured stays measured in exactly one place.
+ *
+ *   component   --app-chip-container-color, --app-card-border-color, --app-link-label-color
+ *               <component>-<variant>-<part>-<state>. This is the override
+ *               point: redeclare one and exactly one component moves.
+ *
+ * What does not belong here is a third thing: a name that only renames a layer 2
+ * role, such as --app-surface-default for surface-main. It adds no meaning and
+ * gives you nothing to override, since everything on surface-main still moves
+ * together. A hand-written layer of those is how an early adopter ended up with
+ * 14 silently-dead variables.
+ *
+ * LOAD ORDER (required)
+ *   1. @enovaui/core-tokens/css/color-primitive.css
+ *      @enovaui/core-tokens/css/typography-primitive.css
+ *      @enovaui/core-tokens/css/spacing-primitive.css
+ *      @enovaui/core-tokens/css/radius-primitive.css
+ *      @enovaui/core-tokens/css/opacity-primitive.css
+ *   2. @enovaui/web-tokens/css/typography-semantic.css
+ *      @enovaui/web-tokens/css/radius-semantic.css
+ *      @enovaui/web-tokens/css/color-semantic-lg-brand.css   <- light
+ *        or  color-semantic-mono-black.css                   <- dark
+ *      (exactly ONE color-semantic-*.css: they all target :root and the last
+ *       one loaded wins)
+ *   3. this file
+ *
+ * The dark block below must be kept in sync with which color-semantic file is
+ * loaded. enova-theme.js does that; see design.md section 5, "Mode switching".
+ */
+
+:root {
+	color-scheme: light;
+
+	/* ---------------------------------------------------------------- fonts */
+	/* LG Smart UI is the brand face (--primitive-font-family-lg-smart-ui-default).
+	 * It is not on a public CDN; if your page cannot load it, the stack falls
+	 * through to Noto Sans KR and then the platform UI face. */
+	--app-font-sans: var(--primitive-font-family-lg-smart-ui-default), "Noto Sans KR", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+	--app-font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Roboto Mono", monospace;
+
+	/* ------------------------------------------------------------ type ramp */
+	/* web-tokens ships no type scale. typography-semantic.css is only 9
+	 * font-weight aliases. Sizes come from core-tokens; weights from web-tokens.
+	 *
+	 * Ten roles. The middle eight are the subset the Enova UI Kit already leans
+	 * on, so app text stays in tune with anything else on the same design system.
+	 * hero and body-lg were added afterwards: that subset came from component CSS,
+	 * which has no landing-page headline in it, so the ramp topped out at 36px and
+	 * a marketing hero came out 40% smaller than the page it replaced. */
+
+	/* hero: a landing-page headline. Responsive on purpose, because a fixed 56px
+	 * is wrong on a phone and the ramp had no responsive story at all. The ends
+	 * are tokens; only the interpolation is geometry. Do not use it for a
+	 * dashboard title, which is title-xl. */
+	--app-text-hero-size: clamp(var(--primitive-font-size-32), 5vw, var(--primitive-font-size-56));
+	--app-text-hero-weight: var(--semantic-font-weight-700);
+	--app-text-hero-leading: 1.15;
+
+	/* display: a KPI figure. Not a page headline, see hero above. */
+	--app-text-display-size: var(--primitive-font-size-36);
+	--app-text-display-weight: var(--semantic-font-weight-700);
+	--app-text-display-leading: 1.2;
+
+	/* title-xl: the one title at the top of an app or dashboard page.
+	 *
+	 * The ramp used to go 36 (display, a KPI figure) straight to 24 (title-lg),
+	 * and a dashboard's page title falls in that gap. Told to use title-lg, an
+	 * adopted page dropped its title from the browser default 32/700 to 24/600 and
+	 * it stopped reading as the title of anything. 32/700 is the size that was
+	 * already there and works, so the ramp now has it. */
+	--app-text-title-xl-size: var(--primitive-font-size-32);
+	--app-text-title-xl-weight: var(--semantic-font-weight-700);
+	--app-text-title-xl-leading: 1.25;
+
+	/* title-lg: a section heading inside the page. Not the page title, see above. */
+	--app-text-title-lg-size: var(--primitive-font-size-24);
+	--app-text-title-lg-weight: var(--semantic-font-weight-600);
+	--app-text-title-lg-leading: 1.3;
+
+	/* title-md: section heading */
+	--app-text-title-md-size: var(--primitive-font-size-20);
+	--app-text-title-md-weight: var(--semantic-font-weight-600);
+	--app-text-title-md-leading: 1.35;
+
+	/* title-sm: card heading, table header */
+	--app-text-title-sm-size: var(--primitive-font-size-16);
+	--app-text-title-sm-weight: var(--semantic-font-weight-600);
+	--app-text-title-sm-leading: 1.4;
+
+	/* body: default running text */
+	--app-text-body-size: var(--primitive-font-size-16);
+	--app-text-body-weight: var(--semantic-font-weight-400);
+	--app-text-body-leading: 1.6;
+
+	/* body-lg: running text on a landing page, one step up from body */
+	--app-text-body-lg-size: var(--primitive-font-size-18);
+	--app-text-body-lg-weight: var(--semantic-font-weight-400);
+	--app-text-body-lg-leading: 1.6;
+
+	/* body-sm: dense text such as table cells and dashboard rows */
+	--app-text-body-sm-size: var(--primitive-font-size-14);
+	--app-text-body-sm-weight: var(--semantic-font-weight-400);
+	--app-text-body-sm-leading: 1.55;
+
+	/* caption: labels, axis ticks, helper text */
+	--app-text-caption-size: var(--primitive-font-size-12);
+	--app-text-caption-weight: var(--semantic-font-weight-400);
+	--app-text-caption-leading: 1.45;
+
+	/* code */
+	--app-text-code-size: var(--primitive-font-size-14);
+	--app-text-code-weight: var(--semantic-font-weight-400);
+	--app-text-code-leading: 1.5;
+
+	/* -------------------------------------------------------------- spacing */
+	/* The 8 steps the Enova UI Kit leans on, smallest first. */
+	--app-space-1: var(--primitive-spacing-4);
+	--app-space-2: var(--primitive-spacing-8);
+	--app-space-3: var(--primitive-spacing-12);
+	--app-space-4: var(--primitive-spacing-16);
+	--app-space-5: var(--primitive-spacing-24);
+	--app-space-6: var(--primitive-spacing-32);
+	--app-space-7: var(--primitive-spacing-40);
+	--app-space-8: var(--primitive-spacing-64);
+
+	/* --------------------------------------------------------------- radius */
+	/* Routed through the semantic radius layer, not raw primitives. */
+	--app-radius-sm: var(--semantic-radius-card-xs);
+	--app-radius-md: var(--semantic-radius-card-s);
+	--app-radius-lg: var(--semantic-radius-card-m);
+	--app-radius-xl: var(--semantic-radius-card-l);
+	--app-radius-full: var(--semantic-radius-card-full);
+
+	/* ------------------------------------------------------------ elevation */
+	/* No web elevation tokens exist (only webos-m ships effect-semantic-*).
+	 * Derived from the scrim token so it tracks the active mode.
+	 *
+	 * **The geometry is identical in both modes and only the scrim alpha changes.**
+	 * That is deliberate and it is the second fix here: dark was rewritten on its
+	 * own once, which left light at 8/10/12% over 2/4/8px against dark's 35/45/55%
+	 * over 3/8/16px. The two stopped being the same scale, and elevation-1's blur
+	 * was too tight at both ends for anything as large as a table. The page that
+	 * found it had a shadow you could not see in light and barely see in dark,
+	 * where its own earlier CSS used 0 2px 8px and read fine.
+	 *
+	 * elevation-1 is sized for a card or a table, which is what it is used for.
+	 *
+	 * elevation-2 is a hover lift: a row that rises, a select, a tooltip. It was
+	 * widened along with elevation-1 and should not have been. At 0 4px 12px the
+	 * halo of a hovered table row bled a visible smudge into the rows above and
+	 * below it. Only elevation-1 needed the extra width, so the step from 1 to 2
+	 * is carried by the alpha rather than by the blur, and only elevation-3,
+	 * which lifts a whole surface clear of the page, gets a wide one. */
+	--app-elevation-0: none;
+	--app-elevation-1: 0 2px 6px color-mix(in srgb, var(--semantic-color-scrim-default) 10%, transparent);
+	--app-elevation-2: 0 2px 8px color-mix(in srgb, var(--semantic-color-scrim-default) 14%, transparent);
+	--app-elevation-3: 0 8px 24px color-mix(in srgb, var(--semantic-color-scrim-default) 18%, transparent);
+
+	/* -------------------------------------------------------- link and rows */
+	/* Three roles the semantic layer does not have at all, each found the hard way
+	 * on a real page. See design.md 8.10.
+	 *
+	 * A link is its own role, not an accent. There is no link color in the token
+	 * set and there cannot be one in mono-black, which is achromatic by design:
+	 * accent resolves to a near-white gray there, so an accent link is the same
+	 * color as the text around it. Layer 3 carries it.
+	 * 5.56 on a #ffffff card, 4.72 on the #f0ece4 page. Steps chosen clear of
+	 * --app-chart-1 (sky-blue-50) so a link never collides with a series color. */
+	--app-link-label-color: var(--primitive-color-sky-blue-45);        /* #006dab */
+	--app-link-label-hover-color: var(--primitive-color-sky-blue-35);  /* #00538b */
+
+	/* Row striping and row hover, as a scrim step off whatever surface they sit
+	 * on. Both **darken**, in both modes, and hover is always one step past the
+	 * stripe. That is the whole point: surface-sub and surface-main-hover are
+	 * semantic names that step the wrong way in mono-black, which is what put an
+	 * audited table at 1.06 on hover. Darkening moves away from the ink in dark
+	 * and stays close enough to the card in light, so **no ink has to change on
+	 * hover**. Measured, every ink clears 4.5 on all six grounds:
+	 *
+	 *          light card / alt / hover      dark card / alt / hover
+	 *   ink       21.00 / 19.26 / 17.62         8.70 / 10.83 / 12.34
+	 *   app-link   5.56 /  5.10 /  4.67         4.60 /  5.72 /  6.52 */
+	--app-table-row-container-alt-color: color-mix(in srgb, var(--semantic-color-scrim-default) 4%, transparent);
+	--app-table-row-container-hover-color: color-mix(in srgb, var(--semantic-color-scrim-default) 8%, transparent);
+	--app-btn-secondary-container-hover-color: color-mix(in srgb, var(--semantic-color-scrim-default) 8%, transparent);
+
+	/* A neutral filled chip: a file type, a tag, or a set of equal-weight action
+	 * buttons. **The semantic layer cannot express this.** Every surface in
+	 * lg-brand is light, so a solid dark chip would mean using an on-* ink as a
+	 * fill, which is the role reversal check 6 exists to catch. The three button
+	 * fills are the brand red, white, and transparent, and `surface-selection-active`
+	 * is the brand red as well (8.11), so an adopted page filled 36 chips with it
+	 * and got 36 red chips.
+	 *
+	 * Solid and inverted between modes, which is what the page looked like before
+	 * it adopted the guide and what its owner preferred. Measured, the label and
+	 * the chip clear their floors on every ground the chip can sit on:
+	 *
+	 *          label on rest / hover     chip vs card / stripe / hover row
+	 *   light      13.77 / 19.91            13.77 / 12.63 / 11.55
+	 *   dark       14.58 / 18.41             7.14 /  8.88 / 10.12
+	 *
+	 * The hover step is only about 1.2, so pair it with the lift and shadow the
+	 * button recipe already uses. Never let one channel carry a state (8.6). */
+	--app-chip-container-color: var(--primitive-color-mist-gray-20);        /* #2d2d2d */
+	--app-chip-container-hover-color: var(--primitive-color-mist-gray-5);   /* #090909 */
+	--app-chip-label-color: var(--semantic-color-on-surface-white); /* #ffffff */
+
+	/* ------------------------------------------------------- data-URI icons */
+	/* A color inside a `url("data:image/svg+xml,...")` cannot be a var(): the
+	 * SVG is a separate document and never sees this file. `currentColor` does
+	 * not rescue it either. It parses, so it looks like the fix, and it resolves
+	 * against the SVG's own initial color, which is **black**. Measured on an
+	 * adopted select whose own color was #f7f8fa: the rendered arrow pixel came
+	 * back rgba(0,0,0,255).
+	 *
+	 * So the whole url() is the token, and the hex is inlined per mode. The value
+	 * is on-surface-sub in each mode, which is what the eye expects for a control
+	 * affordance: 5.92 on a white select here, 4.57 on the dark one.
+	 *
+	 * Use `background-image: var(--app-select-arrow)` with appearance: none. */
+	--app-select-arrow: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23646464' viewBox='0 0 16 16'%3e%3cpath d='M8 11.5a1 1 0 0 1-.707-.293L2.5 6.414a1 1 0 1 1 1.414-1.414L8 9.086l4.086-4.086a1 1 0 1 1 1.414 1.414l-4.793 4.793A1 1 0 0 1 8 11.5z'/%3e%3c/svg%3e");
+
+	/* ---------------------------------------------------------------- motion */
+	--app-duration-fast: 120ms;
+	--app-duration-normal: 200ms;
+	--app-duration-slow: 320ms;
+	--app-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+	--app-ease-decelerate: cubic-bezier(0, 0, 0, 1);
+
+	/* ------------------------------------------------------------ focus ring */
+	--app-focus-ring-border-color: var(--semantic-color-stroke-main-focused);
+	--app-focus-ring-width: 2px;
+	--app-focus-ring-offset: 2px;
+
+	/* -------------------------------------------------------------- z-index */
+	--app-z-base: 0;
+	--app-z-sticky: 100;
+	--app-z-header: 200;
+	--app-z-dropdown: 300;
+	--app-z-dialog: 400;
+	--app-z-toast: 500;
+
+	/* --------------------------------------------------------------- layout */
+	--app-container-max: 1280px;
+	--app-gutter: var(--app-space-5);
+	/* 64px suits a dashboard and caps the brand mark at about 40px. A landing
+	 * page with a taller logo should raise this; 72px fits a 48px mark. */
+	--app-header-height: 64px;
+
+	/* ---------------------------------------------------- chart: categorical */
+	/* Fixed slot order, never cycled. Validated with the data-viz six checks
+	 * against surface #ffffff (light) / #000000 (dark): lightness band, chroma
+	 * floor, adjacent-pair CVD ΔE, normal-vision ΔE, contrast. All PASS in
+	 * both modes. Worst adjacent CVD ΔE 8.1, worst normal ΔE 16.5 (light) /
+	 * 17.8 (dark). See reference-charts.md before changing ANY of these. */
+	--app-chart-1: var(--primitive-color-sky-blue-50);      /* #007cc3 */
+	--app-chart-2: var(--primitive-color-mint-green-40);    /* #309876 */
+	--app-chart-3: var(--primitive-color-orange-55);        /* #d66c00 */
+	--app-chart-4: var(--primitive-color-teal-green-55);    /* #01918c */
+	--app-chart-5: var(--primitive-color-yellow-55);        /* #a87f00 */
+	--app-chart-6: var(--primitive-color-heritage-red-55);  /* #f03d72 */
+	--app-chart-7: var(--primitive-color-violet-65);        /* #957aff */
+	--app-chart-8: var(--primitive-color-red-brown-55);     /* #cb685a */
+
+	/* ----------------------------------------------------- chart: sequential */
+	/* One hue, light to dark. sky-blue 75/60/50/40/25. */
+	--app-chart-seq-1: var(--primitive-color-sky-blue-75);  /* #5cc0ff */
+	--app-chart-seq-2: var(--primitive-color-sky-blue-60);  /* #0397e9 */
+	--app-chart-seq-3: var(--primitive-color-sky-blue-50);  /* #007cc3 */
+	--app-chart-seq-4: var(--primitive-color-sky-blue-40);  /* #005d95 */
+	--app-chart-seq-5: var(--primitive-color-sky-blue-25);  /* #02406b */
+
+	/* ------------------------------------------------------ chart: diverging */
+	/* Two hues + a NEUTRAL GRAY midpoint. Never a hue at the midpoint. */
+	--app-chart-div-neg-2: var(--primitive-color-orange-45);    /* #a55401 */
+	--app-chart-div-neg-1: var(--primitive-color-orange-75);    /* #ff9d4c */
+	--app-chart-div-mid-color:   var(--primitive-color-warm-gray-80); /* #e6e1d6 */
+	--app-chart-div-pos-1: var(--primitive-color-sky-blue-75);  /* #5cc0ff */
+	--app-chart-div-pos-2: var(--primitive-color-sky-blue-40);  /* #005d95 */
+
+	/* --------------------------------------------------------------- status */
+	/* Reserved. Never reused as a series color, and always shipped with an icon
+	 * + text label, never color alone.
+	 *
+	 * These do NOT ride the semantic status tokens, because those are tuned for
+	 * the page surface and fail on a card. Measured on the card:
+	 *   on-surface-main-success   light 5.22 OK  · dark 3.98 FAIL
+	 *   surface-default-warning   light 1.88 FAIL · dark 6.04 OK
+	 *   on-surface-main-error     light 4.52 OK  · dark 2.91 FAIL
+	 * No single step clears 4.5:1 on both a white card and a #44484a card, so
+	 * the set is chosen per mode. Both modes clear 4.5:1 as text on the card and
+	 * 3:1 as a mark on the plot surface. */
+	--app-status-good-color: var(--primitive-color-yellow-green-40);  /* #287d00 · card 5.22 */
+	--app-status-warning-color: var(--primitive-color-yellow-45);     /* #866500 · card 5.42 */
+	--app-status-critical-color: var(--primitive-color-active-red-50); /* #ea1917 · card 4.52 */
+
+	/* --------------------------------------------------------- chart: canvas */
+	/* Light mode plots on the card (#ffffff). Dark mode plots on the page black
+	 * (#000000) as an inset well, because mono-black's surface-main is
+	 * mist-gray-30 (#44484a), too light to hold a validated palette. */
+	--app-chart-surface-color: var(--semantic-color-surface-main);
+	--app-chart-grid-color: var(--semantic-color-stroke-main);
+	--app-chart-axis-color: var(--semantic-color-on-surface-sub);
+	--app-chart-ink-color: var(--semantic-color-on-surface-main);
+	--app-chart-legend-label-color: var(--semantic-color-on-surface-sub);
+
+	/* ------------------------------------------------- ink, page and card */
+	/* The tokens the classes at the bottom of this file read, so that none of
+	 * them names a semantic color in a rule. Every one points at a semantic
+	 * token, which is what keeps the mode switch one layer down: redeclaring any
+	 * of these moves one thing and needs no dark counterpart. */
+
+	/* Roles. Ink by rank, shared by anything that wants it. */
+	--app-ink-color: var(--semantic-color-on-surface-main);
+	--app-ink-sub-color: var(--semantic-color-on-surface-sub);
+	--app-ink-accent-color: var(--semantic-color-on-surface-accent);
+
+	/* The page itself is a component, and body is where it is drawn. */
+	--app-page-container-color: var(--semantic-color-background-main);
+	--app-page-label-color: var(--semantic-color-on-background-main);
+
+	/* Card. The border is transparent by default rather than absent, so adding
+	 * --outlined changes a color and never the layout. */
+	--app-card-container-color: var(--semantic-color-surface-main);
+	--app-card-label-color: var(--semantic-color-on-surface-main);
+	--app-card-border-color: transparent;
+	--app-card-outlined-border-color: var(--semantic-color-stroke-main-supporting);
+	--app-card-interactive-border-hover-color: transparent;
+	--app-btn-primary-border-color: transparent;
+	--app-btn-primary-weight: var(--semantic-font-weight-600);
+	--app-btn-primary-container-hover-color: color-mix(in srgb, var(--semantic-color-surface-button-primary) 88%, var(--semantic-color-scrim-default));
+
+	/* The components whose CSS lives in reference-patterns.md. The recipe is
+	 * copied into your stylesheet; these tokens are not, because they ship here.
+	 * So a copied recipe reads values you already have, and overriding one of
+	 * them reaches that component and nothing else. */
+	/* header */
+	--app-header-border-color: var(--semantic-color-stroke-main);
+	--app-header-brand-label-color: var(--semantic-color-on-surface-main);
+	--app-header-container-color: var(--semantic-color-surface-main);
+	--app-header-link-current-border-color: var(--semantic-color-stroke-accent);
+	--app-header-link-current-label-color: var(--semantic-color-on-surface-main);
+	--app-header-link-label-color: var(--semantic-color-on-surface-sub);
+	--app-header-link-label-hover-color: var(--semantic-color-on-surface-main);
+
+	/* stat */
+	--app-stat-delta-label-flat-color: var(--semantic-color-on-surface-sub);
+	--app-stat-value-label-color: var(--semantic-color-on-surface-main);
+
+	/* btn */
+	--app-btn-container-disabled-color: var(--semantic-color-surface-main-disabled);
+
+	/* Non-color component tokens. The same rule applies on every axis: a
+	 * recipe reads layer 3, not layer 2. */
+	--app-badge-weight: var(--semantic-font-weight-600);
+	--app-btn-weight: var(--semantic-font-weight-600);
+	--app-dialog-radius: var(--semantic-radius-dialog-popup-l);
+	--app-field-checkbox-radius: var(--semantic-radius-checkbox, var(--primitive-radius-4));
+	--app-field-input-radius: var(--semantic-radius-text-field);
+	--app-field-label-weight: var(--semantic-font-weight-500);
+	--app-header-link-current-weight: var(--semantic-font-weight-600);
+	--app-table-head-weight: var(--semantic-font-weight-600);
+	--app-toast-radius: var(--semantic-radius-toast);
+	--app-btn-label-disabled-color: var(--semantic-color-on-surface-button-label-disabled);
+	--app-btn-primary-container-color: var(--semantic-color-surface-button-primary);
+	--app-btn-primary-label-color: var(--semantic-color-on-surface-button-primary);
+	--app-btn-secondary-border-color: var(--semantic-color-stroke-button);
+	--app-btn-secondary-border-hover-color: var(--semantic-color-stroke-main-focused);
+	--app-btn-secondary-container-color: var(--semantic-color-surface-button-secondary);
+	--app-btn-secondary-label-color: var(--semantic-color-on-surface-button-secondary);
+	--app-btn-tertiary-container-hover-color: var(--semantic-color-surface-button-tertiary-pressed);
+	--app-btn-tertiary-label-color: var(--semantic-color-on-surface-button-tertiary);
+
+	/* chip */
+	--app-chip-border-disabled-color: var(--semantic-color-stroke-sub);
+	--app-chip-label-disabled-color: var(--semantic-color-on-surface-sub);
+
+	/* badge */
+	--app-badge-neutral-label-color: var(--semantic-color-on-surface-sub);
+
+	/* table */
+	--app-table-border-color: var(--semantic-color-stroke-main);
+	--app-table-head-container-color: var(--semantic-color-surface-sub);
+	--app-table-head-label-color: var(--semantic-color-on-surface-main);
+	/* Only for a row whose hover ground is surface-main-hover, which is
+	 * near-white in both modes. --app-table-row-container-hover-color needs no ink
+	 * change and is the better default. See design.md 8.5. */
+	--app-table-row-label-hover-color: var(--semantic-color-on-surface-black);
+
+	/* tile: a KPI or status square where the glyph carries the meaning and the
+	 * fill is the same on every one of them. See reference-charts.md. */
+	--app-tile-container-color: var(--semantic-color-surface-sub);
+	--app-tile-label-color: var(--semantic-color-on-surface-accent);
+
+	/* field. Error ink and the invalid border read the status role, not
+	 * on-surface-main-error / stroke-default-error: those are #ff5449 in dark,
+	 * 2.91 on the card, under both the 4.5 text floor and the 3:1 border floor.
+	 * See design.md 8.4. The focus border is overridden in the dark blocks. */
+	--app-field-error-label-color: var(--app-status-critical-color);
+	/* on-surface-text-field-assistive is #878580 in light, 3.69 on the card. */
+	--app-field-help-label-color: var(--semantic-color-on-surface-sub);
+	--app-field-input-border-color: var(--semantic-color-stroke-text-field);
+	--app-field-input-border-disabled-color: var(--semantic-color-stroke-text-field-disabled);
+	--app-field-input-border-focus-color: var(--semantic-color-stroke-text-field-focused);
+	--app-field-input-border-invalid-color: var(--app-status-critical-color);
+	--app-field-input-container-color: var(--semantic-color-surface-main);
+	--app-field-input-container-disabled-color: var(--semantic-color-surface-text-field-disabled);
+	--app-field-input-label-color: var(--semantic-color-on-surface-main);
+	--app-field-input-label-disabled-color: var(--semantic-color-on-surface-default-disabled);
+	--app-field-label-color: var(--semantic-color-on-surface-main);
+
+	/* alert */
+	--app-alert-container-color: var(--semantic-color-surface-main);
+	--app-alert-label-color: var(--semantic-color-on-surface-main);
+
+	/* toast */
+	--app-toast-container-color: var(--semantic-color-surface-toast);
+	--app-toast-label-color: var(--semantic-color-on-surface-white);
+
+	/* dialog */
+	--app-dialog-backdrop-container-color: var(--semantic-color-scrim-default);
+	--app-dialog-border-color: var(--semantic-color-stroke-main);
+	--app-dialog-container-color: var(--semantic-color-surface-main);
+	--app-dialog-foot-border-color: var(--semantic-color-stroke-main);
+	--app-dialog-head-border-color: var(--semantic-color-stroke-main);
+	--app-dialog-label-color: var(--semantic-color-on-surface-main);
+
+	/* footer */
+	--app-footer-container-color: var(--semantic-color-surface-footer);
+	--app-footer-text-label-color: var(--semantic-color-on-surface-white);
+}
+
+/* ---------------------------------------------------------------------------
+ * Dark mode.
+ * Declared under both scopes. The theme script (enova-theme.js) stamps
+ * [data-theme] with the mode file it has loaded, so on a page running it the
+ * attribute decides, both ways. The media query is the fallback for a page with
+ * no script. Whichever block applies, the matching color-semantic-mono-black.css
+ * must also be the loaded semantic file.
+ * ------------------------------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+	:root:where(:not([data-theme="light"])) {
+		color-scheme: dark;
+
+		--app-chart-1: var(--primitive-color-sky-blue-60);      /* #0397e9 */
+		--app-chart-2: var(--primitive-color-mint-green-45);    /* #37ac85 */
+		--app-chart-3: var(--primitive-color-orange-55);        /* #d66c00 */
+		--app-chart-4: var(--primitive-color-teal-green-60);    /* #01a298 */
+		--app-chart-5: var(--primitive-color-yellow-55);        /* #a87f00 */
+		--app-chart-6: var(--primitive-color-heritage-red-55);  /* #f03d72 */
+		--app-chart-7: var(--primitive-color-violet-65);        /* #957aff */
+		--app-chart-8: var(--primitive-color-red-brown-60);     /* #d97167 */
+
+		--app-chart-seq-1: var(--primitive-color-sky-blue-30);  /* #004a77 */
+		--app-chart-seq-2: var(--primitive-color-sky-blue-45);  /* #006dab */
+		--app-chart-seq-3: var(--primitive-color-sky-blue-55);  /* #018bd6 */
+		--app-chart-seq-4: var(--primitive-color-sky-blue-70);  /* #25b6ff */
+		--app-chart-seq-5: var(--primitive-color-sky-blue-85);  /* #b2dfff */
+
+		--app-chart-div-neg-2: var(--primitive-color-orange-80);    /* #ffb77f */
+		--app-chart-div-neg-1: var(--primitive-color-orange-55);    /* #d66c00 */
+		--app-chart-div-mid-color:   var(--primitive-color-mist-gray-40); /* #5b6062 */
+		--app-chart-div-pos-1: var(--primitive-color-sky-blue-55);  /* #018bd6 */
+		--app-chart-div-pos-2: var(--primitive-color-sky-blue-80);  /* #80d0ff */
+
+		--app-status-good-color: var(--primitive-color-green-80);          /* #5cd59b · card 5.04 */
+		--app-status-warning-color: var(--primitive-color-yellow-80);      /* #ffca28 · card 6.04 */
+		--app-status-critical-color: var(--primitive-color-active-red-80); /* #ffb2ab · card 5.37 */
+
+		--app-chart-surface-color: var(--semantic-color-background-main);
+
+		/* Component tokens whose value differs by mode. Everything else in
+		 * layer 3 rides the semantic switch and needs none of this. */
+		--app-card-interactive-border-hover-color: var(--semantic-color-stroke-main-supporting);
+		--app-btn-primary-border-color: var(--semantic-color-stroke-button);
+		--app-btn-primary-weight: var(--semantic-font-weight-700);
+		--app-btn-secondary-container-color: transparent;
+		--app-btn-tertiary-label-color: var(--semantic-color-on-surface-sub);
+		--app-toast-label-color: var(--semantic-color-on-surface-black);
+		/* stroke-text-field-focused is #4e5355 in dark, 1.19 on the card against
+		 * 7.14 at rest, so focusing a field made its border vanish. */
+		--app-field-input-border-focus-color: var(--semantic-color-stroke-main-focused);
+
+		/* Dark elevation is a real shadow, just a heavier scrim than light.
+		 *
+		 * This went through two wrong answers. It was `none`, on the reasoning that
+		 * a black shadow cannot read against the #000000 page ground, and an
+		 * adopted card with no border then had no edge at all. It was then a
+		 * hairline ring, which doubled up with the border that same table already
+		 * had and still gave no sense of depth.
+		 *
+		 * Both were the wrong reading of what the shadow is for. Measured on the
+		 * page that prompted it, the table and the card under it are the *same*
+		 * value (#44484a, ratio 1.00), and that is the pair the shadow separates.
+		 * A dark shadow on a mid-gray surface reads fine. Card against the page
+		 * ground is 2.25 and needs no help. So: shadow, and do not try to make the
+		 * token carry an edge as well. */
+		/* Same geometry as light, heavier scrim. Only the alpha differs. */
+		--app-elevation-1: 0 2px 6px color-mix(in srgb, var(--semantic-color-scrim-default) 35%, transparent);
+		--app-elevation-2: 0 2px 8px color-mix(in srgb, var(--semantic-color-scrim-default) 45%, transparent);
+		--app-elevation-3: 0 8px 24px color-mix(in srgb, var(--semantic-color-scrim-default) 55%, transparent);
+
+		/* Same direction as light, further along it, because the card is mid-gray
+		 * rather than white and a 4% step would not read. surface-sub is #5b6062
+		 * here, *lighter* than the #44484a card, which is what made an audited
+		 * table look washed out: half the rows lifted toward mid gray. */
+		--app-table-row-container-alt-color: color-mix(in srgb, var(--semantic-color-scrim-default) 20%, transparent);
+		--app-table-row-container-hover-color: color-mix(in srgb, var(--semantic-color-scrim-default) 32%, transparent);
+		--app-btn-secondary-container-hover-color: color-mix(in srgb, var(--semantic-color-scrim-default) 32%, transparent);
+
+		/* 4.60 on a #44484a card, 10.44 on the black page. Clear of every chart
+		 * slot in this mode (sky-blue 60, 70, 80, 85 are taken). */
+		--app-link-label-color: var(--primitive-color-sky-blue-75);        /* #5cc0ff */
+		--app-link-label-hover-color: var(--primitive-color-sky-blue-85);  /* #b2dfff */
+
+		/* The chip inverts: a light block with dark type on the dark card. */
+		--app-chip-container-color: var(--primitive-color-mist-gray-90);         /* #e1e2e5 */
+		--app-chip-container-hover-color: var(--primitive-color-cool-gray-99);   /* #fcfcfc */
+		--app-chip-label-color: var(--semantic-color-on-surface-black);  /* #111111 */
+
+		/* on-surface-sub for this mode, #b3b7b8, 4.57 on the dark select. The
+		 * light value #646464 would be 1.61 here, which is why this is per mode
+		 * rather than one url() for both. */
+		--app-select-arrow: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23b3b7b8' viewBox='0 0 16 16'%3e%3cpath d='M8 11.5a1 1 0 0 1-.707-.293L2.5 6.414a1 1 0 1 1 1.414-1.414L8 9.086l4.086-4.086a1 1 0 1 1 1.414 1.414l-4.793 4.793A1 1 0 0 1 8 11.5z'/%3e%3c/svg%3e");
+	}
+}
+
+:root[data-theme="dark"] {
+	color-scheme: dark;
+
+	--app-chart-1: var(--primitive-color-sky-blue-60);      /* #0397e9 */
+	--app-chart-2: var(--primitive-color-mint-green-45);    /* #37ac85 */
+	--app-chart-3: var(--primitive-color-orange-55);        /* #d66c00 */
+	--app-chart-4: var(--primitive-color-teal-green-60);    /* #01a298 */
+	--app-chart-5: var(--primitive-color-yellow-55);        /* #a87f00 */
+	--app-chart-6: var(--primitive-color-heritage-red-55);  /* #f03d72 */
+	--app-chart-7: var(--primitive-color-violet-65);        /* #957aff */
+	--app-chart-8: var(--primitive-color-red-brown-60);     /* #d97167 */
+
+	--app-chart-seq-1: var(--primitive-color-sky-blue-30);  /* #004a77 */
+	--app-chart-seq-2: var(--primitive-color-sky-blue-45);  /* #006dab */
+	--app-chart-seq-3: var(--primitive-color-sky-blue-55);  /* #018bd6 */
+	--app-chart-seq-4: var(--primitive-color-sky-blue-70);  /* #25b6ff */
+	--app-chart-seq-5: var(--primitive-color-sky-blue-85);  /* #b2dfff */
+
+	--app-chart-div-neg-2: var(--primitive-color-orange-80);    /* #ffb77f */
+	--app-chart-div-neg-1: var(--primitive-color-orange-55);    /* #d66c00 */
+	--app-chart-div-mid-color:   var(--primitive-color-mist-gray-40); /* #5b6062 */
+	--app-chart-div-pos-1: var(--primitive-color-sky-blue-55);  /* #018bd6 */
+	--app-chart-div-pos-2: var(--primitive-color-sky-blue-80);  /* #80d0ff */
+
+	--app-status-good-color: var(--primitive-color-green-80);          /* #5cd59b · card 5.04 */
+	--app-status-warning-color: var(--primitive-color-yellow-80);      /* #ffca28 · card 6.04 */
+	--app-status-critical-color: var(--primitive-color-active-red-80); /* #ffb2ab · card 5.37 */
+
+	--app-chart-surface-color: var(--semantic-color-background-main);
+
+	/* Component tokens whose value differs by mode. Everything else in
+	 * layer 3 rides the semantic switch and needs none of this. */
+	--app-card-interactive-border-hover-color: var(--semantic-color-stroke-main-supporting);
+	--app-btn-primary-border-color: var(--semantic-color-stroke-button);
+	--app-btn-primary-weight: var(--semantic-font-weight-700);
+	--app-btn-secondary-container-color: transparent;
+	--app-btn-tertiary-label-color: var(--semantic-color-on-surface-sub);
+	--app-toast-label-color: var(--semantic-color-on-surface-black);
+	--app-field-input-border-focus-color: var(--semantic-color-stroke-main-focused);
+
+	/* Same reasoning as the dark media block above. Keep the two in step. */
+	--app-elevation-1: 0 2px 6px color-mix(in srgb, var(--semantic-color-scrim-default) 35%, transparent);
+	--app-elevation-2: 0 2px 8px color-mix(in srgb, var(--semantic-color-scrim-default) 45%, transparent);
+	--app-elevation-3: 0 8px 24px color-mix(in srgb, var(--semantic-color-scrim-default) 55%, transparent);
+
+	--app-table-row-container-alt-color: color-mix(in srgb, var(--semantic-color-scrim-default) 20%, transparent);
+	--app-table-row-container-hover-color: color-mix(in srgb, var(--semantic-color-scrim-default) 32%, transparent);
+	--app-btn-secondary-container-hover-color: color-mix(in srgb, var(--semantic-color-scrim-default) 32%, transparent);
+
+	--app-link-label-color: var(--primitive-color-sky-blue-75);        /* #5cc0ff */
+	--app-link-label-hover-color: var(--primitive-color-sky-blue-85);  /* #b2dfff */
+
+	--app-select-arrow: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23b3b7b8' viewBox='0 0 16 16'%3e%3cpath d='M8 11.5a1 1 0 0 1-.707-.293L2.5 6.414a1 1 0 1 1 1.414-1.414L8 9.086l4.086-4.086a1 1 0 1 1 1.414 1.414l-4.793 4.793A1 1 0 0 1 8 11.5z'/%3e%3c/svg%3e");
+
+	--app-chip-container-color: var(--primitive-color-mist-gray-90);         /* #e1e2e5 */
+	--app-chip-container-hover-color: var(--primitive-color-cool-gray-99);   /* #fcfcfc */
+	--app-chip-label-color: var(--semantic-color-on-surface-black);  /* #111111 */
+}
+
+/* ---------------------------------------------------------------------------
+ * Base + utilities. Small on purpose: these are the things nearly every page
+ * needs, written against the layers above.
+ * ------------------------------------------------------------------------- */
+
+html {
+	box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+
+/* `margin: 0` removes the 8px every browser gives body by default. That is the
+ * right baseline, but it is a change to any page that was relying on it: loading
+ * this file alone moved an adopted dashboard flush against the viewport edge.
+ * Whatever holds your content needs its own gutter. Use .app-page for a plain
+ * full-width page, or .app-container for a centerd one.
+ *
+ * The background-color and color here are for a page that owns its whole
+ * viewport. A page rendered inside an iframe should override background-color to
+ * `transparent` so the parent's ground shows through.
+ *
+ * It still needs its own inset. An earlier version of this comment said an
+ * iframe page does not, "since the parent already positions the frame", and that
+ * was simply not true of the page it was written for: the parent renders the
+ * frame full-bleed with no padding of its own, and the inset the design relied on
+ * came from the 8px this rule removes. Go and measure the parent before assuming
+ * it supplies one. */
+body {
+	margin: 0;
+	font-family: var(--app-font-sans);
+	font-size: var(--app-text-body-size);
+	font-weight: var(--app-text-body-weight);
+	line-height: var(--app-text-body-leading);
+	background-color: var(--app-page-container-color);
+	color: var(--app-page-label-color);
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Type roles */
+.app-hero,
+.app-display,
+.app-title-xl,
+.app-title-lg,
+.app-title-md,
+.app-title-sm,
+.app-body,
+.app-body-lg,
+.app-body-sm,
+.app-caption,
+.app-code {
+	margin: 0;
+}
+
+.app-hero      { font-size: var(--app-text-hero-size);      font-weight: var(--app-text-hero-weight);      line-height: var(--app-text-hero-leading); }
+.app-display   { font-size: var(--app-text-display-size);   font-weight: var(--app-text-display-weight);   line-height: var(--app-text-display-leading); }
+.app-title-xl  { font-size: var(--app-text-title-xl-size);  font-weight: var(--app-text-title-xl-weight);  line-height: var(--app-text-title-xl-leading); }
+.app-title-lg  { font-size: var(--app-text-title-lg-size);  font-weight: var(--app-text-title-lg-weight);  line-height: var(--app-text-title-lg-leading); }
+.app-title-md  { font-size: var(--app-text-title-md-size);  font-weight: var(--app-text-title-md-weight);  line-height: var(--app-text-title-md-leading); }
+.app-title-sm  { font-size: var(--app-text-title-sm-size);  font-weight: var(--app-text-title-sm-weight);  line-height: var(--app-text-title-sm-leading); }
+.app-body      { font-size: var(--app-text-body-size);      font-weight: var(--app-text-body-weight);      line-height: var(--app-text-body-leading); }
+.app-body-lg   { font-size: var(--app-text-body-lg-size);   font-weight: var(--app-text-body-lg-weight);   line-height: var(--app-text-body-lg-leading); }
+.app-body-sm   { font-size: var(--app-text-body-sm-size);   font-weight: var(--app-text-body-sm-weight);   line-height: var(--app-text-body-sm-leading); }
+.app-caption   { font-size: var(--app-text-caption-size);   font-weight: var(--app-text-caption-weight);   line-height: var(--app-text-caption-leading); }
+.app-code      { font-size: var(--app-text-code-size);      font-weight: var(--app-text-code-weight);      line-height: var(--app-text-code-leading); font-family: var(--app-font-mono); }
+
+/* Ink roles: text color by rank, not by hue */
+.app-ink        { color: var(--app-ink-color); }
+.app-ink-sub    { color: var(--app-ink-sub-color); }
+.app-ink-accent { color: var(--app-ink-accent-color); }
+
+/* Focus: one visible ring everywhere, keyboard only */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+	outline: var(--app-focus-ring-width) solid var(--app-focus-ring-border-color);
+	outline-offset: var(--app-focus-ring-offset);
+	border-radius: var(--app-radius-sm);
+}
+
+/* Layout */
+
+/* The page gutter body no longer supplies. Put this on whatever wraps the page
+ * content when the layout is full width and does not need centring. */
+.app-page {
+	padding: var(--app-gutter);
+}
+
+.app-container {
+	max-width: var(--app-container-max);
+	margin-inline: auto;
+	padding-inline: var(--app-gutter);
+}
+
+.app-grid {
+	display: grid;
+	gap: var(--app-space-4);
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+/* Card: the dashboard workhorse.
+ *
+ * No border by default. Measured, the surface reads against the page on its own:
+ * light 1.18 with elevation-1 on top, dark 2.27. Drawing a stroke as well made
+ * every card look heavy, and in light it doubled up with the shadow. The border
+ * box is kept transparent so adding --outlined does not shift layout.
+ *
+ * In dark, elevation-1 is a heavier shadow than in light (35% scrim), which is
+ * what separates a card from a table of the same #44484a fill. A card you
+ * hand-roll does not get that unless it also uses --app-elevation-*. */
+.app-card {
+	background-color: var(--app-card-container-color);
+	color: var(--app-card-label-color);
+	border: 1px solid var(--app-card-border-color);
+	border-radius: var(--app-radius-xl);
+	padding: var(--app-space-5);
+	box-shadow: var(--app-elevation-1);
+}
+
+/* Only where a card sits on a surface of its own color, so the surface cannot
+ * separate them: a card inside a card, or a white panel on white. Uses the
+ * lightest usable stroke (1.30 on a light card) rather than stroke-main (1.67),
+ * which reads as a hard rule. */
+.app-card--outlined {
+	border-color: var(--app-card-outlined-border-color);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
